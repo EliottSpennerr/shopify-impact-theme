@@ -44,7 +44,7 @@
         "logo_max_width": 120,
         "logo_mobile_max_width": 100,
         "menu": "main-menu",
-        "sidebar_menu": "",
+        "sidebar_menu": "main-menu",
         "secondary_menu": "",
         "menu_open_trigger": "click",
         "opening_from": "bottom",
@@ -55,6 +55,7 @@
         "show_country_flag": true,
         "show_country_name": false,
         "transparent_header_text_color": "#ffffff",
+        "transparent_logo": "shopify://shop_images/Finsklakrits-Vit.svg",
         "reduce_padding": false,
         "background_opacity": 100,
         "background_blur_radius": 0
