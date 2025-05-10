@@ -166,7 +166,7 @@
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Coop_white.png",
-            "logo_width": 120,
+            "logo_width": 80,
             "link": ""
           }
         },
@@ -174,7 +174,7 @@
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Ica.png",
-            "logo_width": 100,
+            "logo_width": 70,
             "link": ""
           }
         },
@@ -190,7 +190,7 @@
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Eko.png",
-            "logo_width": 120,
+            "logo_width": 90,
             "link": ""
           }
         },
@@ -206,7 +206,7 @@
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Tempo.png",
-            "logo_width": 120,
+            "logo_width": 90,
             "link": ""
           }
         }
