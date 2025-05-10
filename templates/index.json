@@ -123,7 +123,7 @@
         "1664424230c4756b0e-0": {
           "type": "subheading",
           "settings": {
-            "text": "om oss"
+            "text": ""
           }
         },
         "1664424230c4756b0e-1": {
@@ -157,6 +157,83 @@
         "text_color": "#ffffff",
         "overlay_color": "#000000",
         "overlay_opacity": 30
+      }
+    },
+    "logo_list_CMeLpz": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_kcnKU6": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Coop_white.png",
+            "logo_width": 120,
+            "link": ""
+          }
+        },
+        "logo_RQRFPy": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Ica.png",
+            "logo_width": 100,
+            "link": ""
+          }
+        },
+        "logo_gaPiBM": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Hemkop_logo_copy.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_fNgirw": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Eko.png",
+            "logo_width": 120,
+            "link": ""
+          }
+        },
+        "logo_XN4zFn": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/City_gross_logo_copy.png",
+            "logo_width": 130,
+            "link": ""
+          }
+        },
+        "logo_UJ83tN": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Tempo.png",
+            "logo_width": 120,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_kcnKU6",
+        "logo_RQRFPy",
+        "logo_gaPiBM",
+        "logo_fNgirw",
+        "logo_XN4zFn",
+        "logo_UJ83tN"
+      ],
+      "name": "Logo list",
+      "settings": {
+        "full_width": true,
+        "stack_mobile": true,
+        "title": "",
+        "content": "<p>I butik nära dig</p>",
+        "text_alignment": "center",
+        "items_per_row": 3,
+        "background": "#0962fa",
+        "background_gradient": "",
+        "text_color": "#ffffff",
+        "heading_color": "",
+        "heading_gradient": "",
+        "logo_item_background": "",
+        "logo_item_border": ""
       }
     },
     "media-grid": {
@@ -319,6 +396,7 @@
     "slideshow",
     "collection-list",
     "image-with-text-overlay",
+    "logo_list_CMeLpz",
     "media-grid",
     "faq"
   ]
