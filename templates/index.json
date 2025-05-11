@@ -223,8 +223,8 @@
       "settings": {
         "full_width": true,
         "stack_mobile": true,
-        "title": "",
-        "content": "<p>I butik nära dig</p>",
+        "title": "I butik nära dig",
+        "content": "",
         "text_alignment": "center",
         "items_per_row": 3,
         "background": "#0962fa",
