@@ -343,7 +343,7 @@
             "icon_background": "",
             "icon_color": "",
             "title": "Producerat i finland",
-            "content": "<p>Free worldwide shipping and returns - customs and duties taxes included</p>"
+            "content": "<p>Gjort på riktigt. Enligt tradition. På finsk mark.</p>"
           }
         },
         "item_93Gtb3": {
@@ -357,20 +357,21 @@
             "icon_background": "",
             "icon_color": "",
             "title": "Färsk & Mjuk",
-            "content": "<p>We are available from monday to friday to answer your questions.</p>"
+            "content": "<p>Förvaras kallt. Levereras färsk. Smakar som ny.</p>"
           }
         },
         "item_bzAFw7": {
           "type": "item",
           "settings": {
             "icon": "picto-coupon",
-            "mobile_icon_width": 24,
-            "icon_width": 32,
-            "icon_background_type": "circle",
+            "custom_icon": "shopify://shop_images/Bag.png",
+            "mobile_icon_width": 112,
+            "icon_width": 112,
+            "icon_background_type": "none",
             "icon_background": "",
             "icon_color": "",
-            "title": "Secure payment",
-            "content": "<p>Your payment information is processed securely.</p>"
+            "title": "Oslagbar Kvalitet",
+            "content": "<p>Inga genvägar. Inga konstigheter. Bara j*vligt god lakrits.</p>"
           }
         }
       },
