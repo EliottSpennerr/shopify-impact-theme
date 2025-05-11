@@ -175,9 +175,9 @@
         "full_width": true,
         "stack_on_mobile": true,
         "title": "",
-        "heading_tag": "h5",
+        "heading_tag": "h4",
         "text_alignment": "center",
-        "icon_spacing": "medium",
+        "icon_spacing": "small",
         "background": "",
         "background_gradient": "",
         "text_color": "#0b61fa"
