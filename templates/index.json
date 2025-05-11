@@ -55,9 +55,9 @@
         "collection-1": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "frontpage",
             "subheading": "",
-            "title": "",
+            "title": "Söt",
             "url": "",
             "heading_tag": "h2",
             "text_position": "place-self-center text-center",
@@ -69,9 +69,10 @@
         "collection-2": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "frontpage",
+            "image": "shopify://shop_images/mix-1536x2048_2.png",
             "subheading": "",
-            "title": "",
+            "title": "Salt",
             "url": "",
             "heading_tag": "h2",
             "text_position": "place-self-center text-center",
@@ -83,9 +84,9 @@
         "collection-3": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "frontpage",
             "subheading": "",
-            "title": "",
+            "title": "Mjuk",
             "url": "",
             "heading_tag": "h2",
             "text_position": "place-self-center text-center",
@@ -106,7 +107,7 @@
         "collections_per_row": 3,
         "show_progress_bar": false,
         "subheading": "",
-        "title": "Collection list",
+        "title": "Vårt sortiment",
         "content": "",
         "link_url": "",
         "link_text": "View all",
