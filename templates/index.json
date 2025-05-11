@@ -295,6 +295,8 @@
         "image_gNxLg3": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/Table_d429ae42-ca4d-46fa-aefb-08c960909317.jpg",
+            "mobile_image": "shopify://shop_images/Table.jpg",
             "content_max_width": 780,
             "mobile_text_position": "place-self-center-end text-end",
             "desktop_text_position": "sm:place-self-center-end sm:text-end",
