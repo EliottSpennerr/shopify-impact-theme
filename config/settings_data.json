@@ -37,6 +37,8 @@
     "show_product_rating": false,
     "product_color_display": "swatch",
     "product_info_alignment": "start",
+    "social_facebook": "https://www.facebook.com/Finsklakrits/",
+    "social_instagram": "https://www.instagram.com/finsklakrits/",
     "checkout_accent_color": "#f0c417",
     "checkout_button_color": "#1a1a1a",
     "content_for_index": []
