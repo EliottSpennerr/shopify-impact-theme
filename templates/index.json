@@ -296,7 +296,7 @@
         "logo_UJ83tN"
       ],
       "custom_css": [
-        ".prose>:last-child, .prose>:last-child :last-child {font-family: balloon; font-weight: 100;}"
+        ".h2 {font-family: balloon; font-weight: 100;}"
       ],
       "name": "Logo list",
       "settings": {
