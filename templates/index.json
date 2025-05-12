@@ -59,7 +59,7 @@
         "collection-1": {
           "type": "collection",
           "settings": {
-            "collection": "frontpage",
+            "collection": "sotlakrits",
             "image": "shopify://shop_images/Sotlakrits.jpg",
             "subheading": "",
             "title": "Söt",
@@ -74,7 +74,7 @@
         "collection-2": {
           "type": "collection",
           "settings": {
-            "collection": "frontpage",
+            "collection": "saltlakrits",
             "image": "shopify://shop_images/SaltLakrits.jpg",
             "subheading": "",
             "title": "Salt",
