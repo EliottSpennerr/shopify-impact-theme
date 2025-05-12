@@ -345,6 +345,9 @@
         "item_JBrjtm",
         "item_WCV9mY"
       ],
+      "custom_css": [
+        ".h2 {font-family: balloon; font-weight: 100;}"
+      ],
       "name": "FAQ",
       "settings": {
         "full_width": true,
@@ -396,6 +399,9 @@
       },
       "block_order": [
         "image_gNxLg3"
+      ],
+      "custom_css": [
+        ".h0 {font-family: balloon; font-weight: 100;}"
       ],
       "name": "Slideshow",
       "settings": {
