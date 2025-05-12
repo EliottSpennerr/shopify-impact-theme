@@ -53,6 +53,17 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
     {{ content_for_header }}
 
     {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
+
+    <style>
+  @font-face {
+    font-family: 'balloon';
+    src: url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Balloon.woff2?v=1747028937') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+
   </head>
 
   <body class="{% if settings.show_page_transition %}page-transition{% endif %} {% if settings.zoom_image_on_hover %}zoom-image--enabled{% endif %}">
