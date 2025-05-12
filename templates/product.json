@@ -12,10 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "vendor",
-          "settings": {}
-        },
         "title": {
           "type": "title",
           "settings": {
@@ -86,7 +82,6 @@
         }
       },
       "block_order": [
-        "vendor",
         "title",
         "badges",
         "price",
@@ -121,7 +116,9 @@
       "type": "related-products",
       "settings": {
         "recommendations_count": 6,
-        "products": [],
+        "products": [
+          "sotlakrits-lakritsmix"
+        ],
         "full_width": true,
         "stack_products": true,
         "show_progress_bar": false,
