@@ -39,7 +39,7 @@
         "slide-1"
       ],
       "custom_css": [
-        ".h0 {font-family: balloon!important; font-weight: 100;}"
+        ".h0 {font-family: balloon !important; font-weight: 100;}"
       ],
       "settings": {
         "full_width": true,
@@ -60,7 +60,7 @@
           "type": "collection",
           "settings": {
             "collection": "frontpage",
-            "image": "shopify://shop_images/ChatGPT_Image_11_maj_2025_21_01_37.png",
+            "image": "shopify://shop_images/ChatGPT_Image_12_maj_2025_14_46_21.png",
             "subheading": "",
             "title": "Söt",
             "url": "",

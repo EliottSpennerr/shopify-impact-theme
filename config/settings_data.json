@@ -41,14 +41,7 @@
     "social_instagram": "https://www.instagram.com/finsklakrits/",
     "checkout_accent_color": "#f0c417",
     "checkout_button_color": "#1a1a1a",
-    "content_for_index": [],
-    "blocks": {
-      "10746902591489815047": {
-        "type": "shopify://apps/rt-google-fonts-custom-fonts/blocks/app-embed/2caf2c68-0038-455e-b0b9-066a7c2ad923",
-        "disabled": false,
-        "settings": {}
-      }
-    }
+    "content_for_index": []
   },
   "presets": {
     "Sound": {
