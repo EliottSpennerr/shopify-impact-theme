@@ -218,6 +218,9 @@
         "1664424230c4756b0e-1",
         "1664424230c4756b0e-2"
       ],
+      "custom_css": [
+        ".h1 {font-family: balloon; font-weight: 100;}"
+      ],
       "settings": {
         "full_width": true,
         "allow_transparent_header": false,
