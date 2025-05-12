@@ -60,7 +60,7 @@
           "type": "collection",
           "settings": {
             "collection": "frontpage",
-            "image": "shopify://shop_images/ChatGPT_Image_12_maj_2025_14_46_21.png",
+            "image": "shopify://shop_images/SaltLakrits.jpg",
             "subheading": "",
             "title": "Söt",
             "url": "",
@@ -75,7 +75,7 @@
           "type": "collection",
           "settings": {
             "collection": "frontpage",
-            "image": "shopify://shop_images/mix-1536x2048_2.png",
+            "image": "shopify://shop_images/Annat.jpg",
             "subheading": "",
             "title": "Salt",
             "url": "",
@@ -90,6 +90,7 @@
           "type": "collection",
           "settings": {
             "collection": "frontpage",
+            "image": "shopify://shop_images/Annat.jpg",
             "subheading": "",
             "title": "Mjuk",
             "url": "",
