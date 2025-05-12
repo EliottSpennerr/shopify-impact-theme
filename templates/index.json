@@ -60,7 +60,7 @@
           "type": "collection",
           "settings": {
             "collection": "frontpage",
-            "image": "shopify://shop_images/SaltLakrits.jpg",
+            "image": "shopify://shop_images/Sotlakrits.jpg",
             "subheading": "",
             "title": "Söt",
             "url": "",
@@ -75,7 +75,7 @@
           "type": "collection",
           "settings": {
             "collection": "frontpage",
-            "image": "shopify://shop_images/Annat.jpg",
+            "image": "shopify://shop_images/SaltLakrits.jpg",
             "subheading": "",
             "title": "Salt",
             "url": "",
