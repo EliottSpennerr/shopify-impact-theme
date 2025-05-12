@@ -39,7 +39,7 @@
         "slide-1"
       ],
       "custom_css": [
-        ".h0 {font-family: balloon; font-weight: 100;}"
+        ".h0 {font-family: balloon!important; font-weight: 100;}"
       ],
       "settings": {
         "full_width": true,
