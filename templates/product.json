@@ -52,7 +52,7 @@
           "type": "collapsible_text",
           "settings": {
             "title": "Innehåll",
-            "content": "<p>Socker, vetemjöl, glukossirap, melass, vegetabiliskt fett(shea,kokos), gelatin,lakritsextrakt, stabiliseringsmedel(E422), salt, aromer, surhetsreglerandemedel(E330), färgämnen(E120. E131, E150c, E153, E160a). fettreducerat kakaopulver, vegetabilisk olja(raps, solros), ytbehandlingsmedel (E901, E903)</p><p>Näringsvärden: Per 100 g<br/>ENERGI/KJ 1494<br/>ENERGI/KCAL 352<br/>FETT 2,3<br/>VARAV MÄTTADE 1,0<br/>KOLHYDRATER 79,3<br/>VARAV SOCKERARTER 59,7<br/>PROTEIN 3,4<br/>SALT 0,59</p><p>Vikt: 215g</p>"
+            "content": "<p>{{ product.metafields.custom.inneh_ll | metafield_tag }}</p>"
           }
         },
         "variant_picker": {
