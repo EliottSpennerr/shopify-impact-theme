@@ -52,6 +52,13 @@
             "collapse_content": false
           }
         },
+        "collapsible_text_iGT7aB": {
+          "type": "collapsible_text",
+          "settings": {
+            "title": "Innehåll",
+            "content": "<p>Socker, vetemjöl, glukossirap, melass, vegetabiliskt fett(shea,kokos), gelatin,lakritsextrakt, stabiliseringsmedel(E422), salt, aromer, surhetsreglerandemedel(E330), färgämnen(E120. E131, E150c, E153, E160a). fettreducerat kakaopulver, vegetabilisk olja(raps, solros), ytbehandlingsmedel (E901, E903)</p><p>Näringsvärden: Per 100 g<br/>ENERGI/KJ 1494<br/>ENERGI/KCAL 352<br/>FETT 2,3<br/>VARAV MÄTTADE 1,0<br/>KOLHYDRATER 79,3<br/>VARAV SOCKERARTER 59,7<br/>PROTEIN 3,4<br/>SALT 0,59</p><p>Vikt: 215g</p>"
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -87,6 +94,7 @@
         "payment_terms",
         "separator",
         "description",
+        "collapsible_text_iGT7aB",
         "variant_picker",
         "quantity_selector",
         "buy_buttons"
@@ -130,128 +138,10 @@
         "product_card_background": "",
         "product_card_text_color": ""
       }
-    },
-    "feature_chart_UxERje": {
-      "type": "feature-chart",
-      "blocks": {
-        "headings_JUwJxc": {
-          "type": "headings",
-          "settings": {
-            "heading_1": "Heading 1",
-            "heading_2": "Heading 2",
-            "heading_3": "Heading 3",
-            "heading_4": "Heading 4",
-            "heading_5": "",
-            "heading_6": "",
-            "heading_7": "",
-            "heading_8": "",
-            "heading_9": "",
-            "heading_10": "",
-            "heading_11": "",
-            "heading_12": "",
-            "heading_13": "",
-            "heading_14": "",
-            "heading_15": "",
-            "heading_16": "",
-            "heading_17": "",
-            "heading_18": "",
-            "heading_19": "",
-            "heading_20": ""
-          }
-        },
-        "values_tMznbJ": {
-          "type": "values",
-          "settings": {
-            "product": "",
-            "value_1": "<p>Yes</p>",
-            "value_2": "<p>Yes</p>",
-            "value_3": "<p>No</p>",
-            "value_4": "<p>No</p>",
-            "value_5": "",
-            "value_6": "",
-            "value_7": "",
-            "value_8": "",
-            "value_9": "",
-            "value_10": "",
-            "value_11": "",
-            "value_12": "",
-            "value_13": "",
-            "value_14": "",
-            "value_15": "",
-            "value_16": "",
-            "value_17": "",
-            "value_18": "",
-            "value_19": "",
-            "value_20": "",
-            "view_button_background": "",
-            "view_button_text_color": ""
-          }
-        },
-        "values_K9RCW6": {
-          "type": "values",
-          "settings": {
-            "product": "",
-            "value_1": "<p>No</p>",
-            "value_2": "<p>Yes</p>",
-            "value_3": "<p>Yes</p>",
-            "value_4": "<p>No</p>",
-            "value_5": "",
-            "value_6": "",
-            "value_7": "",
-            "value_8": "",
-            "value_9": "",
-            "value_10": "",
-            "value_11": "",
-            "value_12": "",
-            "value_13": "",
-            "value_14": "",
-            "value_15": "",
-            "value_16": "",
-            "value_17": "",
-            "value_18": "",
-            "value_19": "",
-            "value_20": "",
-            "view_button_background": "",
-            "view_button_text_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "headings_JUwJxc",
-        "values_tMznbJ",
-        "values_K9RCW6"
-      ],
-      "name": "Feature chart",
-      "settings": {
-        "full_width": true,
-        "subheading": "",
-        "title": "Product specification",
-        "content": "<p>Give your customers useful information about your products and showcase differences between them.</p>",
-        "button_text": "",
-        "button_url": "",
-        "text_position": "start",
-        "max_rows": 5,
-        "view_all_text": "View all",
-        "view_less_text": "View less",
-        "view_product": "View",
-        "viewing_product": "",
-        "show_product_swatch": true,
-        "background": "",
-        "background_gradient": "",
-        "text_color": "",
-        "heading_color": "",
-        "heading_gradient": "",
-        "button_background": "",
-        "button_text_color": "",
-        "chart_background": "",
-        "chart_text_color": "",
-        "chart_true_false_color": ""
-      }
     }
   },
   "order": [
     "main",
-    "related-products",
-    "feature_chart_UxERje"
+    "related-products"
   ]
 }
