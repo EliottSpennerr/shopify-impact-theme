@@ -322,29 +322,61 @@
         "item_LVqJTf": {
           "type": "item",
           "settings": {
-            "title": "Do you ship overseas?",
-            "content": "<p>Yes, we ship all over the world. Shipping costs will apply, and will be added at checkout. We run discounts and promotions all year, so stay tuned for exclusive deals.</p>"
+            "title": "Vad är Finsk Lakrits, egentligen?",
+            "content": "<p>Det är premiumlakrits till ett överkomligt pris. Vi gör färsk, kompromisslös lakrits för människor med god smak, utan att det behöver kosta en förmögenhet.</p>"
           }
         },
         "item_JBrjtm": {
           "type": "item",
           "settings": {
-            "title": "How long will it take to get my orders?",
-            "content": "<p>It depends on where you are. Orders processed here will take 5-7 business days to arrive. Overseas deliveries can take anywhere from 7-16 days. Delivery details will be provided in your confirmation email.</p>"
+            "title": "Är det verkligen färsk lakrits?",
+            "content": "<p>Ja. Vi tillverkar vår lakrits i små satser, packar ofta och levererar snabbt – så du får den när den smakar som bäst: mjuk, fyllig och nygjord.</p>"
           }
         },
         "item_WCV9mY": {
           "type": "item",
           "settings": {
-            "title": "Any question?",
-            "content": "<p>You can contact us through our contact page! We will be happy to assist you.</p>"
+            "title": "Varför är era förpackningar så… enkla?",
+            "content": "<p>För att smaken ska tala. Vi lägger pengarna där det räknas – i ingredienserna. Vår lakrits smakar bättre än den ser ut. Med flit.</p>"
+          }
+        },
+        "item_LWJ4mH": {
+          "type": "item",
+          "settings": {
+            "title": "Innehåller er lakrits gelatin?",
+            "content": "<p>Ja, vår lakrits innehåller gelatin. Vi har valt det för att ge rätt tugg och konsistens, men vi jobbar på att utveckla fler varianter framöver.</p>"
+          }
+        },
+        "item_fKVhQM": {
+          "type": "item",
+          "settings": {
+            "title": "Hur lång är hållbarheten?",
+            "content": "<p>12 månader från tillverkningsdatum. Men vi vågar säga att den är som godast färsk, så öppna, njut och dela innan dess.</p>"
+          }
+        },
+        "item_mcMBrg": {
+          "type": "item",
+          "settings": {
+            "title": "Var kan jag köpa er lakrits?",
+            "content": "<p>Just nu hittar du oss i vår egen webbshop eller i din närmsta dagligvarubutik. Och finns vi inte där? Be dem ta in oss! Annars kan du scrolla ner för att hitta din närmaste återförsäljare.</p>"
+          }
+        },
+        "item_PHnCna": {
+          "type": "item",
+          "settings": {
+            "title": "Vad gör er lakrits bättre än andra?",
+            "content": "<p>Vi har valt bort genvägar och tillsatser och fokuserat på smak, känsla och kvalitet. Resultatet? Lakrits du kommer att minnas.</p>"
           }
         }
       },
       "block_order": [
         "item_LVqJTf",
         "item_JBrjtm",
-        "item_WCV9mY"
+        "item_WCV9mY",
+        "item_LWJ4mH",
+        "item_fKVhQM",
+        "item_mcMBrg",
+        "item_PHnCna"
       ],
       "custom_css": [
         ".h2 {font-family: balloon; font-weight: 100;}"
@@ -353,8 +385,8 @@
       "settings": {
         "full_width": true,
         "subheading": "",
-        "title": "FAQ",
-        "content": "<p>Use this text to share information about your product or shipping policies.</p>",
+        "title": "Vanliga frågor (och lika vanliga svar)",
+        "content": "<p>För dig som undrar lite, och vet att det är helt rimligt att göra det.</p>",
         "team_avatar_width": 160,
         "support_hours": "",
         "answer_time": "",
