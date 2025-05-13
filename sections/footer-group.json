@@ -19,8 +19,8 @@
           "settings": {
             "image_width": 150,
             "heading_size": "h3",
-            "title": "Sign up for new stories and personal offers",
-            "content": ""
+            "title": "Gillar lakrits?",
+            "content": "<p>Få nya smaker och erbjudanden direkt i mejlen.</p>"
           }
         },
         "links": {
@@ -34,7 +34,7 @@
           "type": "text",
           "settings": {
             "title": "About",
-            "content": "<p>Use this text area to tell your customers about your brand and vision. You can change it in the theme editor.</p>",
+            "content": "<p>Finsk Lakrits gör färsk lakrits med stor smak och noll trams. Bra nog för helgen, billig nog för vardagen.</p>",
             "enable_follow_on_shop": true
           }
         }
