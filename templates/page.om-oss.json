@@ -46,7 +46,7 @@
         "image_tg9iKy"
       ],
       "custom_css": [
-        "h2{font-family: balloon!important; }"
+        "p.h2 {font-family: balloon !important; font-weight: 100;}"
       ],
       "name": "Media with text",
       "settings": {
