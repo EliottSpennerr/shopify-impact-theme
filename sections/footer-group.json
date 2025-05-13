@@ -33,8 +33,16 @@
         "text": {
           "type": "text",
           "settings": {
-            "title": "About",
+            "title": "Om oss",
             "content": "<p>Vi gör färsk lakrits för folk med smak. Inget tjafs. Bara riktigt bra godis – gjort med stolthet, sälta och finsk envishet.</p>",
+            "enable_follow_on_shop": true
+          }
+        },
+        "text_qX9MJa": {
+          "type": "text",
+          "settings": {
+            "title": "Bolagsinfo",
+            "content": "<p>Finsk Lakrits i Sverige AB</p><p>556846-3151</p><p>Gudbyvägen 49, 194 92</p><p>Upplands Väsby</p>",
             "enable_follow_on_shop": true
           }
         }
@@ -42,7 +50,8 @@
       "block_order": [
         "newsletter",
         "links",
-        "text"
+        "text",
+        "text_qX9MJa"
       ],
       "settings": {
         "show_social_media": true,
