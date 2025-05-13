@@ -22,7 +22,7 @@
         "heading_CDE8Kg": {
           "type": "heading",
           "settings": {
-            "text": "Färsk lakrits nära dig.",
+            "text": "Lakrits nära dig.",
             "heading_tag": "h1",
             "text_color": "",
             "gradient": ""
@@ -41,7 +41,7 @@
       ],
       "custom_css": [
         ".h1 {font-family: balloon; font-weight: 100;}",
-        ".section-full{padding-bottom: 5px;}"
+        ".section-full {padding-bottom: 5px;}"
       ],
       "name": "Rich text",
       "settings": {
