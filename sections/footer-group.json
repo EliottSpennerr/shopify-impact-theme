@@ -14,20 +14,17 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "newsletter": {
-          "type": "newsletter",
-          "settings": {
-            "image": "shopify://shop_images/Finsklakrits-Bla.svg",
-            "image_width": 150,
-            "heading_size": "h3",
-            "title": "Gillar lakrits?",
-            "content": "<p>Få nya smaker och erbjudanden direkt i mejlen.</p>"
-          }
-        },
         "links": {
           "type": "links",
           "settings": {
             "menu": "main-menu",
+            "show_menu_title": true
+          }
+        },
+        "links_iahDqc": {
+          "type": "links",
+          "settings": {
+            "menu": "footer",
             "show_menu_title": true
           }
         },
@@ -46,13 +43,24 @@
             "content": "<p>Finsk Lakrits i Sverige AB</p><p>556846-3151</p><p>Gudbyvägen 49, 194 92</p><p>Upplands Väsby</p>",
             "enable_follow_on_shop": true
           }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "image": "shopify://shop_images/Finsklakrits-Bla.svg",
+            "image_width": 150,
+            "heading_size": "h3",
+            "title": "",
+            "content": "<p>Gillar lakrits? Få nya smaker och erbjudanden direkt i mejlen.</p>"
+          }
         }
       },
       "block_order": [
-        "newsletter",
         "links",
+        "links_iahDqc",
         "text",
-        "text_qX9MJa"
+        "text_qX9MJa",
+        "newsletter"
       ],
       "custom_css": [
         ".h3 {font-family: balloon; font-weight: 100;}"
