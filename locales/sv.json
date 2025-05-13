@@ -425,13 +425,8 @@
     }
   },
   "shopify": {
-    "checkout": {
-      "general": {
-        "autocomplete_powered_by_google": "Drivs av Goodish"
-      }
-    },
     "links": {
-      "powered_by_shopify": "Goodish"
+      "powered_by_shopify": "Finsk lakrits i sverige AB"
     }
   }
 }
