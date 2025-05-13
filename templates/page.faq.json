@@ -1,1 +1,109 @@
-{"sections":{"main":{"type":"main-page","settings":{}}},"order":["main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "faq_66eHq3": {
+      "type": "faq",
+      "blocks": {
+        "item_RQah4C": {
+          "type": "item",
+          "settings": {
+            "title": "Vad är Finsk Lakrits, egentligen?",
+            "content": "<p>Det är premiumlakrits till ett överkomligt pris. Vi gör färsk, kompromisslös lakrits för människor med god smak, utan att det behöver kosta en förmögenhet.</p>"
+          }
+        },
+        "item_cV7ki8": {
+          "type": "item",
+          "settings": {
+            "title": "Är det verkligen färsk lakrits?",
+            "content": "<p>Ja. Vi tillverkar vår lakrits i små satser, packar ofta och levererar snabbt – så du får den när den smakar som bäst: mjuk, fyllig och nygjord.</p>"
+          }
+        },
+        "item_g76yeY": {
+          "type": "item",
+          "settings": {
+            "title": "Varför är era förpackningar så… enkla?",
+            "content": "<p>För att smaken ska tala. Vi lägger pengarna där det räknas – i ingredienserna. Vår lakrits smakar bättre än den ser ut. Med flit.</p>"
+          }
+        },
+        "item_mCPYXL": {
+          "type": "item",
+          "settings": {
+            "title": "Innehåller er lakrits gelatin?",
+            "content": "<p>Ja, vår lakrits innehåller gelatin. Vi har valt det för att ge rätt tugg och konsistens, men vi jobbar på att utveckla fler varianter framöver.</p>"
+          }
+        },
+        "item_DHzrnH": {
+          "type": "item",
+          "settings": {
+            "title": "Hur lång är hållbarheten?",
+            "content": "<p>12 månader från tillverkningsdatum. Men vi vågar säga att den är som godast färsk, så öppna, njut och dela innan dess.</p>"
+          }
+        },
+        "item_PW3DfW": {
+          "type": "item",
+          "settings": {
+            "title": "Var kan jag köpa er lakrits?",
+            "content": "<p>Just nu hittar du oss i vår egen webbshop eller i din närmsta dagligvarubutik. Och finns vi inte där? Be dem ta in oss! Annars kan du scrolla ner för att hitta din närmaste återförsäljare.</p>"
+          }
+        },
+        "item_bJCgCX": {
+          "type": "item",
+          "settings": {
+            "title": "Vad gör er lakrits bättre än andra?",
+            "content": "<p>Vi har valt bort genvägar och tillsatser och fokuserat på smak, känsla och kvalitet. Resultatet? Lakrits du kommer att minnas.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_RQah4C",
+        "item_cV7ki8",
+        "item_g76yeY",
+        "item_mCPYXL",
+        "item_DHzrnH",
+        "item_PW3DfW",
+        "item_bJCgCX"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "full_width": true,
+        "subheading": "",
+        "title": "Vanliga frågor (och lika vanliga svar)",
+        "content": "<p>För dig som undrar lite, och vet att det är helt rimligt att göra det.</p>",
+        "team_avatar_width": 160,
+        "support_hours": "",
+        "answer_time": "",
+        "button_text": "",
+        "button_url": "",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "#0962fa",
+        "heading_color": "",
+        "heading_gradient": "",
+        "button_background": "",
+        "button_text_color": "",
+        "accordion_background": "",
+        "accordion_text_color": "#0962fa"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "faq_66eHq3"
+  ]
+}
