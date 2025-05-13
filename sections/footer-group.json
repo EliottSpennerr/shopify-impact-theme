@@ -17,6 +17,7 @@
         "newsletter": {
           "type": "newsletter",
           "settings": {
+            "image": "shopify://shop_images/Finsklakrits-Bla.svg",
             "image_width": 150,
             "heading_size": "h3",
             "title": "Gillar lakrits?",
@@ -54,7 +55,7 @@
         "text_qX9MJa"
       ],
       "custom_css": [
-        ".h3{font-family: balloon; font-weight: 100;}"
+        ".h3 {font-family: balloon; font-weight: 100;}"
       ],
       "settings": {
         "show_social_media": true,
