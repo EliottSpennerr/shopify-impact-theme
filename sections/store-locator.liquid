@@ -1,6 +1,89 @@
-{% schema %}
-  {
-    "name": "Section name",
-    "settings": []
+{% stylesheet %}
+  #map {
+    height: 600px;
+    width: 100%;
+    z-index: 0;
   }
+
+  .search-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  .search-box input {
+    width: 250px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+{% endstylesheet %}
+
+<section style="padding: 2rem 0;">
+  <div id="map-container" style="position: relative;">
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Sök butik eller ort..." />
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <script src="https://cdn.shopify.com/s/files/1/0917/5928/0512/files/stores.js?v=1747131977"></script>
+
+  <script>
+    const map = L.map('map').setView([59.3293, 18.0686], 5);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    const customMarker = L.divIcon({
+      className: '',
+      html: '<div style="width: 12px; height: 12px; background-color: #0B61FA; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.2);"></div>',
+      iconSize: [12, 12],
+      iconAnchor: [6, 6]
+    });
+
+    let allMarkers = [];
+
+    function renderMarkers(filteredStores) {
+      allMarkers.forEach(marker => map.removeLayer(marker));
+      allMarkers = [];
+
+      filteredStores.forEach(store => {
+        const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${store.lat},${store.lng}`;
+        const m = L.marker([store.lat, store.lng], { icon: customMarker })
+          .addTo(map)
+          .bindPopup(`<b>${store.name}</b><br>${store.address}<br><a href="${gmapsUrl}" target="_blank">Hitta hit →</a>`);
+        allMarkers.push(m);
+      });
+    }
+
+    renderMarkers(stores);
+
+    document.getElementById('search').addEventListener('input', function (e) {
+      const query = e.target.value.toLowerCase();
+      const filtered = stores.filter(store =>
+        store.name.toLowerCase().includes(query) || store.address.toLowerCase().includes(query)
+      );
+      renderMarkers(filtered);
+    });
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Store Locator",
+  "settings": []
+}
 {% endschema %}
