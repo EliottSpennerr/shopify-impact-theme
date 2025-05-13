@@ -53,6 +53,9 @@
         "text",
         "text_qX9MJa"
       ],
+      "custom_css": [
+        ".h3{font-family: balloon; font-weight: 100;}"
+      ],
       "settings": {
         "show_social_media": true,
         "show_payment_icons": true,
