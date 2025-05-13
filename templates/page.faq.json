@@ -78,6 +78,9 @@
         "item_PW3DfW",
         "item_bJCgCX"
       ],
+      "custom_css": [
+        "h2{font-family: balloon;font-weight: 100;}"
+      ],
       "name": "FAQ",
       "settings": {
         "full_width": true,
