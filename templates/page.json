@@ -22,7 +22,7 @@
         "heading_CDE8Kg": {
           "type": "heading",
           "settings": {
-            "text": "Hitta butik nära dig",
+            "text": "Färsk lakrits nära dig.",
             "heading_tag": "h1",
             "text_color": "",
             "gradient": ""
@@ -31,7 +31,7 @@
         "richtext_iRXjri": {
           "type": "richtext",
           "settings": {
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+            "content": "<p>Använd kartan nedan för att hitta din närmaste återförsäljare av Finsk Lakrits.<br/>Vill du komma i kontakt med någon av våra butiker eller partners? Du hittar kontaktuppgifter direkt i kartan!</p>"
           }
         }
       },
@@ -67,13 +67,16 @@
     },
     "contact_V4eXUb": {
       "type": "contact",
+      "custom_css": [
+        ".h2{font-family: balloon; font-weight: 100;}"
+      ],
       "name": "Contact form",
       "settings": {
         "full_width": true,
-        "subheading": "Contact Us",
-        "title": "Do you have any question?",
-        "content": "",
-        "text_position": "start",
+        "subheading": "",
+        "title": "Bli återförsäljare",
+        "content": "<p>Vill du sälja Finsk Lakrits i din butik? Kul! </p><p>Vi samarbetar gärna med butiker som gillar godis med karaktär. Fyll i formuläret nedan så hör vi av oss så snart vi kan.</p>",
+        "text_position": "center",
         "contact_form_size": "large",
         "background": "",
         "background_gradient": "",
