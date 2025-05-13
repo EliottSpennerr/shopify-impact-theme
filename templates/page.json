@@ -68,14 +68,14 @@
     "contact_V4eXUb": {
       "type": "contact",
       "custom_css": [
-        ".h2{font-family: balloon; font-weight: 100;}"
+        ".h2 {font-family: balloon; font-weight: 100;}"
       ],
       "name": "Contact form",
       "settings": {
         "full_width": true,
         "subheading": "",
         "title": "Bli återförsäljare",
-        "content": "<p>Vill du sälja Finsk Lakrits i din butik? Kul! </p><p>Vi samarbetar gärna med butiker som gillar godis med karaktär. Fyll i formuläret nedan så hör vi av oss så snart vi kan.</p>",
+        "content": "<p>Vill du sälja Finsk Lakrits i din butik? Kul! </p><p>Vi samarbetar gärna med butiker som gillar godis med karaktär.  Fyll i formuläret nedan så hör vi av oss så snart vi kan.</p>",
         "text_position": "center",
         "contact_form_size": "large",
         "background": "",
