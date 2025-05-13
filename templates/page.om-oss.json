@@ -11,10 +11,49 @@
   "sections": {
     "main": {
       "type": "main-page",
-      "settings": {}
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "media_with_text_QPANfB": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_tg9iKy": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Candy-Hand.jpg",
+            "media_width": 40,
+            "media_position": "start",
+            "text_position": "place-self-center text-center",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "title": "Om oss",
+            "content": "<p><strong>Vi startade Finsk Lakrits av en enkel anledning: Vi älskar riktigt god lakrits.</strong><br/>Färsk, smakrik och kompromisslös. Det är fortfarande vårt fokus – men visionen slutar inte där.</p><p>Finsk Lakrits vill göra mer än att sälja godis. Vi vill lyfta hela upplevelsen. Vår ambition är att skapa marknadens bästa lakrits – och längre fram även annat godis – där kreativiteten (inte traditionen) sätter gränserna. När smaken är i centrum och färskheten får styra, händer det spännande saker.</p><p><strong>Du hittar våra produkter i över 1100 butiker – och siffran växer varje månad.</strong><br/>Idag finns vi på ICA, Coop, Hemköp, City Gross, Eko Stormarknad, Tempo – och hos flera mindre, godissmarta aktörer runt om i landet.</p><p><strong>Vi är ett ungt, nyfiket företag med höga ambitioner och ett öra mot godishylla och kund.</strong><br/>Men du behöver inte komma ihåg allt det där.<br/>Det enda du egentligen behöver veta är:</p><p><strong>Om det står FINSK LAKRITS på påsen, då är det garanterat gott.</strong></p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "rgba(0,0,0,0)",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_tg9iKy"
+      ],
+      "name": "Media with text",
+      "settings": {
+        "full_width": false,
+        "spacing": "medium"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "media_with_text_QPANfB"
   ]
 }
