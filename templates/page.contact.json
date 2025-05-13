@@ -19,13 +19,13 @@
     "contact": {
       "type": "contact",
       "custom_css": [
-        "h2{font-family: balloon; font-weight: 100;}"
+        "h2 {font-family: balloon; font-weight: 100;}"
       ],
       "settings": {
         "full_width": true,
         "subheading": "",
         "title": "Kontakta oss",
-        "content": "<p>Har du frågor, feedback eller bara vill snacka lakrits? Hör av dig!<br/><br/>Innan du mejlar – kika gärna på vår <a href=\"#\">FAQ</a> där vi samlat de vanligaste frågorna om produkter, frakt, ingredienser och annat smått och gott.</p>",
+        "content": "<p>Har du frågor, feedback eller bara vill snacka lakrits? Hör av dig!<br/><br/>Innan du mejlar – kika gärna på vår <a href=\"/pages/faq\" title=\"Faq\">FAQ</a> där vi samlat de vanligaste frågorna om produkter, frakt, ingredienser och annat smått och gott.</p>",
         "text_position": "start",
         "contact_form_size": "large",
         "background": "",
