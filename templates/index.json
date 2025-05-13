@@ -419,7 +419,7 @@
             "title": "Återförsäljare",
             "heading_tag": "h0",
             "button_text": "Hitta butik nära dig",
-            "button_link": "shopify://pages/retailers",
+            "button_link": "shopify://pages/hittabutik",
             "text_color": "#ffffff",
             "button_background": "#ffffff",
             "button_text_color": "#000000",
