@@ -32,7 +32,7 @@
           "type": "text",
           "settings": {
             "title": "Om oss",
-            "content": "<p>Vi gör färsk lakrits för folk med smak. Inget tjafs. Bara riktigt bra godis – gjort med stolthet, sälta och finsk envishet.</p>",
+            "content": "<p>Vi gör färsk lakrits för folk med smak. Inget tjafs. Bara riktigt bra godis, gjort med stolthet, sälta och finsk envishet.</p>",
             "enable_follow_on_shop": true
           }
         },
