@@ -22,7 +22,7 @@
         "heading_CDE8Kg": {
           "type": "heading",
           "settings": {
-            "text": "Lakrits nära dig.",
+            "text": "Reklamation & Garanti",
             "heading_tag": "h1",
             "text_color": "",
             "gradient": ""
@@ -31,7 +31,7 @@
         "richtext_iRXjri": {
           "type": "richtext",
           "settings": {
-            "content": "<p>Använd kartan nedan för att hitta din närmaste återförsäljare av Finsk Lakrits.<br/>Vill du komma i kontakt med någon av våra butiker eller partners? Du hittar kontaktuppgifter direkt i kartan!</p>"
+            "content": "<h3>Skadat gods vid leverans</h3><p>Vi vill att din upplevelse med Finsk Lakrits ska vara lika god som vår lakrits – från beställning till sista tuggan. Om ditt paket skulle skadas under frakt hanterar vi det snabbt och smidigt:<br/><br/>Anmäl detta direkt på utlämningsstället. Be gärna ombudet upprätta en skadeanmälan innan du tar emot paketet.<br/><br/>Kontakta oss direkt på info@finsklakrits.se</p><h3>Reklamation</h3><p>Om något inte stämmer med din beställning – fel vara, kvalitetsproblem eller något annat som inte känns rätt – så är det viktigt för oss att få veta det.</p><p>Skicka ett mejl till <a title=\"mailto:info@finsklakrits.se\">info@finsklakrits.se</a> med följande uppgifter:</p><p>Vi återkommer så fort vi kan. Vid behov skickar vi ny vara eller återbetalar dig – beroende på vad som är lämpligast i just ditt fall.<br/><br/>Vid eventuell tvist följer vi alltid rekommendation från <strong>Allmänna Reklamationsnämnden (ARN)</strong> – <a href=\"https://www.arn.se\">www.arn.se</a></p><h3>Garanti</h3><p>Eftersom våra produkter är livsmedel omfattas de inte av traditionell garanti. Däremot står vi alltid bakom kvaliteten på våra varor och behandlar reklamationer med fullt ansvar.</p><h3>Ångerrätt</h3><p>Enligt distansavtalslagen gäller <strong>ingen ångerrätt för livsmedel</strong>. Detta för att vi inte kan garantera produktsäkerheten efter leverans. Vi hoppas på din förståelse – och att du älskar din lakrits så mycket att du inte vill skicka tillbaka den ändå.</p>"
           }
         }
       },
