@@ -53,6 +53,9 @@
         "heading_6EArBJ",
         "richtext_iNBJGQ"
       ],
+      "custom_css": [
+        ".section-blends {padding-bottom: 0px; padding-top: 40px;}"
+      ],
       "name": "Rich text",
       "settings": {
         "full_width": true,
