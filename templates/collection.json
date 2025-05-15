@@ -45,7 +45,7 @@
         "richtext_iNBJGQ": {
           "type": "richtext",
           "settings": {
-            "content": "<p>Använd kartan nedan för att hitta din närmaste återförsäljare av Finsk Lakrits.<br/>Vill du komma i kontakt med någon av våra butiker eller partners? Du hittar kontaktuppgifter direkt i kartan!</p>"
+            "content": "<p>Vår sötlakrits är mjuk, balanserad och full av smak. En modern klassiker för dig som gillar lakrits med rund sötma och lite mindre kant. Passar lika bra till fredagsmyset som till en kopp kaffe.</p>"
           }
         }
       },
@@ -54,7 +54,8 @@
         "richtext_iNBJGQ"
       ],
       "custom_css": [
-        ".section-blends {padding-bottom: 0px; padding-top: 40px;}"
+        ".section-blends {padding-bottom: 0px; padding-top: 40px;}",
+        ".h1 {font-family: balloon; font-weight: 100;}"
       ],
       "name": "Rich text",
       "settings": {
