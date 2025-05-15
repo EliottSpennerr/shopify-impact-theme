@@ -36,7 +36,7 @@
         "heading_6EArBJ": {
           "type": "heading",
           "settings": {
-            "text": "Sötlakrits",
+            "text": "Blandat",
             "heading_tag": "h1",
             "text_color": "",
             "gradient": ""
@@ -45,7 +45,7 @@
         "richtext_iNBJGQ": {
           "type": "richtext",
           "settings": {
-            "content": "<p>Vår sötlakrits är mjuk, balanserad och full av smak. En modern klassiker för dig som gillar lakrits med rund sötma och lite mindre kant. Passar lika bra till fredagsmyset som till en kopp kaffe.</p>"
+            "content": "<p>Lakrits är inte bara lakrits. I vår blandade kollektion finns allt från sockriga marmeladkulor till klassiska godisbitar med lakritssmak.</p>"
           }
         }
       },
