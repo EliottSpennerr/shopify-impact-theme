@@ -173,86 +173,6 @@
         "product_card_text_color": ""
       }
     },
-    "faq_3agKkA": {
-      "type": "faq",
-      "blocks": {
-        "item_qYwrJy": {
-          "type": "item",
-          "settings": {
-            "title": "Vad är Finsk Lakrits, egentligen?",
-            "content": "<p>Det är premiumlakrits till ett överkomligt pris. Vi gör färsk, kompromisslös lakrits för människor med god smak, utan att det behöver kosta en förmögenhet.</p>"
-          }
-        },
-        "item_Xe8tRd": {
-          "type": "item",
-          "settings": {
-            "title": "Är det verkligen färsk lakrits?",
-            "content": "<p>Ja. Vi tillverkar vår lakrits i små satser, packar ofta och levererar snabbt – så du får den när den smakar som bäst: mjuk, fyllig och nygjord.</p>"
-          }
-        },
-        "item_pTN8HL": {
-          "type": "item",
-          "settings": {
-            "title": "Varför är era förpackningar så… enkla?",
-            "content": "<p>För att smaken ska tala. Vi lägger pengarna där det räknas – i ingredienserna. Vår lakrits smakar bättre än den ser ut. Med flit.</p>"
-          }
-        },
-        "item_4VPrFC": {
-          "type": "item",
-          "settings": {
-            "title": "Innehåller er lakrits gelatin?",
-            "content": "<p>Ja, vår lakrits innehåller gelatin. Vi har valt det för att ge rätt tugg och konsistens, men vi jobbar på att utveckla fler varianter framöver.</p>"
-          }
-        },
-        "item_JVqQ6J": {
-          "type": "item",
-          "settings": {
-            "title": "Hur lång är hållbarheten?",
-            "content": "<p>12 månader från tillverkningsdatum. Men vi vågar säga att den är som godast färsk, så öppna, njut och dela innan dess.</p>"
-          }
-        },
-        "item_78eQDB": {
-          "type": "item",
-          "settings": {
-            "title": "Vad gör er lakrits bättre än andra?",
-            "content": "<p>Vi har valt bort genvägar och tillsatser och fokuserat på smak, känsla och kvalitet. Resultatet? Lakrits du kommer att minnas.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "item_qYwrJy",
-        "item_Xe8tRd",
-        "item_pTN8HL",
-        "item_4VPrFC",
-        "item_JVqQ6J",
-        "item_78eQDB"
-      ],
-      "custom_css": [
-        ".h2 {font-family: balloon; font-weight: 100;}"
-      ],
-      "name": "FAQ",
-      "settings": {
-        "full_width": true,
-        "subheading": "",
-        "title": "Vanliga frågor (och lika vanliga svar)",
-        "content": "<p>För dig som undrar lite, och vet att det är helt rimligt att göra det.</p>",
-        "team_avatar_width": 160,
-        "support_hours": "",
-        "answer_time": "",
-        "button_text": "",
-        "button_url": "",
-        "text_position": "center",
-        "background": "",
-        "background_gradient": "",
-        "text_color": "",
-        "heading_color": "",
-        "heading_gradient": "",
-        "button_background": "",
-        "button_text_color": "",
-        "accordion_background": "",
-        "accordion_text_color": ""
-      }
-    },
     "faq_FKepMM": {
       "type": "faq",
       "blocks": {
@@ -315,6 +235,9 @@
         "item_rRqJWT",
         "item_jBkqxi"
       ],
+      "custom_css": [
+        ".h2 {font-family: balloon; font-weight: 100;}"
+      ],
       "name": "FAQ",
       "settings": {
         "full_width": true,
@@ -343,7 +266,6 @@
     "main",
     "image_with_text_overlay_L9xAkw",
     "related-products",
-    "faq_3agKkA",
     "faq_FKepMM"
   ]
 }
