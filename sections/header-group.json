@@ -37,13 +37,11 @@
     },
     "header": {
       "type": "header",
-      "custom_css": [
-        ".count-bubble {background: #1a1a1a!important;}"
-      ],
+      "custom_css": [],
       "settings": {
         "enable_sticky": true,
         "hide_on_scroll": false,
-        "logo": "shopify://shop_images/Finsklakrits-Vit.svg",
+        "logo": "shopify://shop_images/Finsklakrits-Bla.svg",
         "logo_max_width": 120,
         "logo_mobile_max_width": 100,
         "menu": "main-menu",
