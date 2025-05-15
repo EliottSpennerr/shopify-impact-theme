@@ -155,16 +155,14 @@
       "type": "related-products",
       "settings": {
         "recommendations_count": 6,
-        "products": [
-          "sotlakrits-lakritsmix"
-        ],
+        "products": [],
         "full_width": true,
         "stack_products": true,
         "show_progress_bar": false,
         "products_per_row_mobile": "1",
         "products_per_row_desktop": 3,
         "subheading": "",
-        "title": "You may also like",
+        "title": "Fler favoriter",
         "content": "",
         "background": "",
         "background_gradient": "",
