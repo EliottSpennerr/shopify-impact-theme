@@ -30,6 +30,39 @@
         "overlay_opacity": 30
       }
     },
+    "rich_text_B6iWg7": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_6EArBJ": {
+          "type": "heading",
+          "settings": {
+            "text": "Sötlakrits",
+            "heading_tag": "h1",
+            "text_color": "",
+            "gradient": ""
+          }
+        },
+        "richtext_iNBJGQ": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Använd kartan nedan för att hitta din närmaste återförsäljare av Finsk Lakrits.<br/>Vill du komma i kontakt med någon av våra butiker eller partners? Du hittar kontaktuppgifter direkt i kartan!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_6EArBJ",
+        "richtext_iNBJGQ"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "start",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
     "main": {
       "type": "main-collection",
       "settings": {
@@ -49,6 +82,7 @@
   },
   "order": [
     "banner",
+    "rich_text_B6iWg7",
     "main"
   ]
 }
