@@ -36,7 +36,7 @@
         "heading_6EArBJ": {
           "type": "heading",
           "settings": {
-            "text": "Sötlakrits",
+            "text": "Alla produkter",
             "heading_tag": "h1",
             "text_color": "",
             "gradient": ""
@@ -45,7 +45,7 @@
         "richtext_iNBJGQ": {
           "type": "richtext",
           "settings": {
-            "content": "<p>Vår sötlakrits är mjuk, balanserad och full av smak. En modern klassiker för dig som gillar lakrits med rund sötma och lite mindre kant. Passar lika bra till fredagsmyset som till en kopp kaffe.</p>"
+            "content": "<p>Här finns hela vårt sortiment samlat. Sötlakrits, saltlakrits, blandat godis och fudge – noga utvalt för att smaka mer än det ser ut. Välj dina favoriter och hitta något nytt.</p>"
           }
         }
       },
