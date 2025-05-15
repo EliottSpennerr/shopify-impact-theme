@@ -112,6 +112,45 @@
         "input_text_color": ""
       }
     },
+    "image_with_text_overlay_L9xAkw": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_QLWAeP": {
+          "type": "heading",
+          "settings": {
+            "text": "Vi gör lakrits som smakar.",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_iEH44w": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_QLWAeP",
+        "richtext_iEH44w"
+      ],
+      "custom_css": [
+        ".h1 {font-family: balloon; font-weight: 100;}"
+      ],
+      "name": "Image with text overlay",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/WallLicorice.jpg",
+        "mobile_image": "shopify://shop_images/Wallicoricemobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -139,6 +178,7 @@
   },
   "order": [
     "main",
+    "image_with_text_overlay_L9xAkw",
     "related-products"
   ]
 }
