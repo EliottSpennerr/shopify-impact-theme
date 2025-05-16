@@ -26,6 +26,77 @@
   </div>
 </privacy-bar>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const privacyBar = document.querySelector("privacy-bar");
+
+    if (!privacyBar || typeof window.Shopify === 'undefined') return;
+
+    window.Shopify.loadFeatures(
+      [
+        {
+          name: "consent-tracking-api",
+          version: "0.1",
+        },
+      ],
+      (error) => {
+        if (error) {
+          console.error("Error loading Customer Privacy API", error);
+          return;
+        }
+
+        const customerPrivacy = window.Shopify.customerPrivacy;
+
+        const hasGivenConsent =
+          customerPrivacy.preferencesProcessingAllowed() ||
+          customerPrivacy.analyticsProcessingAllowed() ||
+          customerPrivacy.marketingAllowed();
+
+        if (!hasGivenConsent) {
+          privacyBar.hidden = false;
+        }
+
+        privacyBar.querySelector('[data-action="accept"]')?.addEventListener("click", () => {
+          customerPrivacy.setTrackingConsent(
+            {
+              analytics: true,
+              marketing: true,
+              preferences: true,
+            },
+            () => {
+              console.log("Consent accepted");
+              privacyBar.hidden = true;
+            }
+          );
+        });
+
+        privacyBar.querySelector('[data-action="decline"]')?.addEventListener("click", () => {
+          customerPrivacy.setTrackingConsent(
+            {
+              analytics: false,
+              marketing: false,
+              preferences: false,
+            },
+            () => {
+              console.log("Consent declined");
+              privacyBar.hidden = true;
+            }
+          );
+        });
+
+        privacyBar.querySelector('[data-action="close"]')?.addEventListener("click", () => {
+          privacyBar.hidden = true;
+        });
+
+        document.addEventListener("visitorConsentCollected", (event) => {
+          console.log("Consent updated:", event.detail);
+          privacyBar.hidden = true;
+        });
+      }
+    );
+  });
+</script>
+
 {% schema %}
 {
   "name": "Privacy banner",
