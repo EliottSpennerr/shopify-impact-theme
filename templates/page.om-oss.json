@@ -53,10 +53,46 @@
         "full_width": false,
         "spacing": "medium"
       }
+    },
+    "blog_posts_WDyxtP": {
+      "type": "blog-posts",
+      "blocks": {
+        "blog_NgzAiz": {
+          "type": "blog",
+          "settings": {
+            "blog": "",
+            "posts_count": 3,
+            "stack_items": false
+          }
+        }
+      },
+      "block_order": [
+        "blog_NgzAiz"
+      ],
+      "name": "Blog posts",
+      "settings": {
+        "full_width": true,
+        "show_excerpt": true,
+        "show_date": false,
+        "show_author": false,
+        "show_comments_count": false,
+        "show_category": true,
+        "subheading": "",
+        "title": "Blogginlägg",
+        "content": "",
+        "link_url": "shopify://blogs/nyheter",
+        "link_text": "Visa alla",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": ""
+      }
     }
   },
   "order": [
     "main",
-    "media_with_text_QPANfB"
+    "media_with_text_QPANfB",
+    "blog_posts_WDyxtP"
   ]
 }
