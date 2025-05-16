@@ -1,74 +1,52 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const privacyBar = document.querySelector("privacy-bar");
+<privacy-bar class="privacy-bar" hidden>
+  <div class="privacy-bar__inner">
+    <button type="button" class="privacy-bar__close" data-action="close">
+      <span class="sr-only">{{ 'general.accessibility.close' | t }}</span>
+      {%- render 'icon' with 'delete' -%}
+    </button>
 
-  if (!privacyBar) return;
+    <div class="v-stack gap-4">
+      <div class="v-stack gap-2">
+        {%- if section.settings.privacy_bar_title != blank -%}
+          <p class="bold">{{ section.settings.privacy_bar_title | escape }}</p>
+        {%- endif -%}
 
-  // Ladda Shopify Customer Privacy API
-  window.Shopify.loadFeatures(
-    [
-      {
-        name: "consent-tracking-api",
-        version: "0.1",
-      },
-    ],
-    (error) => {
-      if (error) {
-        console.error("Error loading Customer Privacy API", error);
-        return;
-      }
+        {%- if section.settings.privacy_bar_content != blank -%}
+          <div class="prose text-xs">
+            {{- section.settings.privacy_bar_content -}}
+          </div>
+        {%- endif -%}
+      </div>
 
-      const customerPrivacy = window.Shopify.customerPrivacy;
+      <div class="h-stack gap-2">
+        <button type="button" class="button button--sm" data-action="accept">{{ 'general.privacy_bar.accept' | t }}</button>
+        <button type="button" class="button button--sm button--subdued" data-action="decline">{{ 'general.privacy_bar.decline' | t }}</button>
+      </div>
+    </div>
+  </div>
+</privacy-bar>
 
-      // Kontrollera om något samtycke redan finns
-      const hasGivenConsent =
-        customerPrivacy.preferencesProcessingAllowed() ||
-        customerPrivacy.analyticsProcessingAllowed() ||
-        customerPrivacy.marketingAllowed();
-
-      if (!hasGivenConsent) {
-        privacyBar.hidden = false;
-      }
-
-      // "Acceptera"-knappen
-      privacyBar.querySelector('[data-action="accept"]')?.addEventListener("click", () => {
-        customerPrivacy.setTrackingConsent(
-          {
-            analytics: true,
-            marketing: true,
-            preferences: true,
-          },
-          () => {
-            console.log("Consent accepted");
-            privacyBar.hidden = true;
-          }
-        );
-      });
-
-      // "Avböj"-knappen
-      privacyBar.querySelector('[data-action="decline"]')?.addEventListener("click", () => {
-        customerPrivacy.setTrackingConsent(
-          {
-            analytics: false,
-            marketing: false,
-            preferences: false,
-          },
-          () => {
-            console.log("Consent declined");
-            privacyBar.hidden = true;
-          }
-        );
-      });
-
-      // "Stäng"-knappen (göm utan att spara val)
-      privacyBar.querySelector('[data-action="close"]')?.addEventListener("click", () => {
-        privacyBar.hidden = true;
-      });
-
-      // Om samtycke ändras på annat håll
-      document.addEventListener("visitorConsentCollected", (event) => {
-        console.log("Consent event fired:", event.detail);
-        privacyBar.hidden = true;
-      });
+{% schema %}
+{
+  "name": "Privacy banner",
+  "class": "shopify-section--privacy-banner",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Privacy bar will only be visible if it fulfills the conditions of the [Shopify Customer Privacy API](https://shopify.dev/docs/themes/consent-tracking-api) or inside the theme editor to ease editing."
+    },
+    {
+      "type": "text",
+      "id": "privacy_bar_title",
+      "label": "Title",
+      "default": "Cookie policy"
+    },
+    {
+      "type": "richtext",
+      "id": "privacy_bar_content",
+      "label": "Content",
+      "default": "<p>We use cookies and similar technologies to provide the best experience on our website. Refer to our Privacy Policy for more information.</p>"
     }
-  );
-});
+  ]
+}
+{% endschema %}
