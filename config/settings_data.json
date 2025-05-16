@@ -146,9 +146,9 @@
   },
   "platform_customizations": {
     "custom_css": [
-      ".shopify-pc__banner__dialog {border-top-right-radius: 0; border-top-left-radius: 0; border-radius: 20px;}",
+      ".shopify-pc__banner__dialog {border-top-right-radius: 0; border-top-left-radius: 0; border-radius: 20px; margin-bottom: 20px;}",
       ".shopify-pc__banner__dialog button.shopify-pc__banner__btn-accept {border-radius: 20px;}",
-      ".shopify-pc__banner__dialog button.shopify-pc__banner__btn-decline {border-radius: 20px; background-color:#1A2533;}"
+      ".shopify-pc__banner__dialog button.shopify-pc__banner__btn-decline {border-radius: 20px; background-color: #1a2533;}"
     ]
   }
 }
