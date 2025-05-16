@@ -25,7 +25,6 @@
     },
     "privacy-banner": {
       "type": "privacy-banner",
-      "disabled": true,
       "settings": {
         "privacy_bar_title": "Vi använder kakor (inte den goda sorten, tyvärr)",
         "privacy_bar_content": "<p>För att ge dig den bästa upplevelsen på vår sajt använder vi cookies och liknande tekniker. Läs vår integritetspolicy om du vill veta mer.</p>"
