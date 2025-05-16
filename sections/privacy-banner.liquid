@@ -1,4 +1,4 @@
-<privacy-bar class="privacy-bar" hidden>
+<privacy-bar class="privacy-bar" id="privacyBar">
   <div class="privacy-bar__inner">
     <button type="button" class="privacy-bar__close" data-action="close">
       <span class="sr-only">{{ 'general.accessibility.close' | t }}</span>
@@ -25,6 +25,37 @@
     </div>
   </div>
 </privacy-bar>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const bar = document.getElementById('privacyBar');
+    const acceptBtn = bar.querySelector('[data-action="accept"]');
+    const declineBtn = bar.querySelector('[data-action="decline"]');
+    const closeBtn = bar.querySelector('[data-action="close"]');
+
+    const hideBanner = () => {
+      bar.style.display = 'none';
+    };
+
+    acceptBtn.addEventListener('click', function () {
+      // Du kan lägga till logik för att spara val här, t.ex. via cookies
+      hideBanner();
+    });
+
+    declineBtn.addEventListener('click', function () {
+      // Du kan lägga till logik för att spara val här, t.ex. via cookies
+      hideBanner();
+    });
+
+    closeBtn.addEventListener('click', function () {
+      hideBanner();
+    });
+
+    // Visa bannern endast om den inte redan har hanterats
+    // Här kan du lägga till logik om du vill spara val i localStorage/cookies
+    bar.style.display = 'block';
+  });
+</script>
 
 {% schema %}
 {
