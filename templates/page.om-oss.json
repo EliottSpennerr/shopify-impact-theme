@@ -60,7 +60,7 @@
         "blog_NgzAiz": {
           "type": "blog",
           "settings": {
-            "blog": "",
+            "blog": "nyheter",
             "posts_count": 3,
             "stack_items": false
           }
