@@ -56,7 +56,13 @@
           privacyBar.hidden = false;
         }
 
+        const hideBar = () => {
+          privacyBar.setAttribute("hidden", "true");
+          console.log("Banner hidden");
+        };
+
         privacyBar.querySelector('[data-action="accept"]')?.addEventListener("click", () => {
+          console.log("Accept button clicked");
           customerPrivacy.setTrackingConsent(
             {
               analytics: true,
@@ -65,12 +71,13 @@
             },
             () => {
               console.log("Consent accepted");
-              privacyBar.hidden = true;
+              hideBar();
             }
           );
         });
 
         privacyBar.querySelector('[data-action="decline"]')?.addEventListener("click", () => {
+          console.log("Decline button clicked");
           customerPrivacy.setTrackingConsent(
             {
               analytics: false,
@@ -79,23 +86,25 @@
             },
             () => {
               console.log("Consent declined");
-              privacyBar.hidden = true;
+              hideBar();
             }
           );
         });
 
         privacyBar.querySelector('[data-action="close"]')?.addEventListener("click", () => {
-          privacyBar.hidden = true;
+          console.log("Close button clicked");
+          hideBar();
         });
 
         document.addEventListener("visitorConsentCollected", (event) => {
-          console.log("Consent updated:", event.detail);
-          privacyBar.hidden = true;
+          console.log("Consent event fired:", event.detail);
+          hideBar();
         });
       }
     );
   });
 </script>
+
 
 {% schema %}
 {
