@@ -18,8 +18,8 @@
             "content_max_width": 1200,
             "mobile_text_position": "place-self-center text-center",
             "desktop_text_position": "sm:place-self-center sm:text-center",
-            "subheading": "Tävling i samarbete med Bast.",
-            "title": "Vinn en bastu!",
+            "subheading": "Tävla med Färsk Finsk Lakrits – och vinn en lyxig fristående bastu värd över 40 000 kr",
+            "title": "VINN EN PREMIUM-BASTU FRÅN BAST",
             "heading_tag": "h0",
             "button_text": "",
             "button_link": "",
@@ -56,54 +56,35 @@
         "content_width": "80ch"
       }
     },
-    "images_with_text_scrolling_XaHLpQ": {
-      "type": "images-with-text-scrolling",
+    "rich_text_NcRj8L": {
+      "type": "rich-text",
       "blocks": {
-        "item_mRGUci": {
-          "type": "item",
+        "subheading_KR9Ua8": {
+          "type": "subheading",
+          "disabled": true,
           "settings": {
-            "icon": "none",
-            "icon_width": 48,
-            "title": "Heading 1",
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+            "text": "Subheading"
           }
         },
-        "item_gRktXz": {
-          "type": "item",
+        "richtext_kjJYk4": {
+          "type": "richtext",
           "settings": {
-            "icon": "none",
-            "icon_width": 48,
-            "title": "Heading 2",
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
-          }
-        },
-        "item_8wRnp4": {
-          "type": "item",
-          "settings": {
-            "icon": "none",
-            "icon_width": 48,
-            "title": "Heading 2",
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+            "content": "<h3>HUR DU TÄVLAR</h3><ul><li>Gå till en butik som säljer Färsk Finsk Lakrits. <a href=\"/pages/hittabutik\" title=\"Hitta butik\">Hitta din närmsta butik</a><br/></li><li>Spara kvittot – det är din biljett in i tävlingen.<br/></li><li>Bilden ska visa datum, tid och produkt – tydligt och läsbart.<br/></li><li>Du är nu med i utlottningen av en <strong>NAVER Premium Bastu från Bast</strong> (värde ca 44 000 kr).<br/></li></ul><p>‎ </p><h3>TÄVLINGSPERIOD</h3><p>Tävlingen pågår <strong>1 juni – 30 september 2025</strong>.<br/><br/>Vinnaren kontaktas via e-post senast <strong>10 oktober 2025</strong>.</p><p>‎ </p><h3>VEM KAN DELTA?</h3><p>Tävlingen är öppen för alla över 18 år med folkbokföringsadress i Sverige.</p><h3>TÄVLINGSREGLER</h3><ul><li>Ett tävlingsbidrag per köp gäller</li></ul><p></p><ul><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Vinnaren utses slumpmässigt bland giltiga bidrag<br/></li><li>Vi kontrollerar samtliga kvitton manuellt Fusk diskas<br/>Tävlingen arrangeras av Finsk Lakrits AB i samarbete med Bast Sauna<br/></li><li>Bastun levereras till folkbokförd adress inom Sverige<br/>Vi hanterar dina uppgifter enligt vår [integritetspolicy]</li></ul><p>‎ </p><h3>‎FRÅGOR?</h3><p>Maila oss på <a><strong>tavling@finsklakrits.se</strong></a> – vi svarar snabbt.</p>"
           }
         }
       },
       "block_order": [
-        "item_mRGUci",
-        "item_gRktXz",
-        "item_8wRnp4"
+        "subheading_KR9Ua8",
+        "richtext_kjJYk4"
       ],
-      "name": "Images and text scrolling",
+      "name": "Rich text",
       "settings": {
         "full_width": true,
-        "stack_on_mobile": false,
-        "show_counter": true,
-        "desktop_image_effect": "reveal",
-        "image_position": "end",
+        "content_width": "small",
+        "text_position": "center",
         "background": "",
         "background_gradient": "",
-        "text_color": "",
-        "heading_color": "",
-        "heading_gradient": ""
+        "text_color": ""
       }
     },
     "custom_liquid_8B8jnY": {
@@ -124,7 +105,7 @@
   "order": [
     "slideshow_xQEEGR",
     "main",
-    "images_with_text_scrolling_XaHLpQ",
+    "rich_text_NcRj8L",
     "custom_liquid_8B8jnY"
   ]
 }
