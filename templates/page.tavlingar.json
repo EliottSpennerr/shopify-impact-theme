@@ -69,13 +69,53 @@
         "richtext_kjJYk4": {
           "type": "richtext",
           "settings": {
-            "content": "<h3>HUR DU TÄVLAR</h3><ul><li>Gå till en butik som säljer Färsk Finsk Lakrits. <a href=\"/pages/hittabutik\" title=\"Hitta butik\">Hitta din närmsta butik</a><br/></li><li>Spara kvittot – det är din biljett in i tävlingen.<br/></li><li>Bilden ska visa datum, tid och produkt – tydligt och läsbart.<br/></li><li>Du är nu med i utlottningen av en <strong>NAVER Premium Bastu från Bast</strong> (värde ca 44 000 kr).<br/></li></ul><p>‎ </p><h3>TÄVLINGSPERIOD</h3><p>Tävlingen pågår <strong>1 juni – 30 september 2025</strong>.<br/><br/>Vinnaren kontaktas via e-post senast <strong>10 oktober 2025</strong>.</p><p>‎ </p><h3>VEM KAN DELTA?</h3><p>Tävlingen är öppen för alla över 18 år med folkbokföringsadress i Sverige.</p><h3>TÄVLINGSREGLER</h3><ul><li>Ett tävlingsbidrag per köp gäller</li></ul><p></p><ul><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Vinnaren utses slumpmässigt bland giltiga bidrag<br/></li><li>Vi kontrollerar samtliga kvitton manuellt Fusk diskas<br/>Tävlingen arrangeras av Finsk Lakrits AB i samarbete med Bast Sauna<br/></li><li>Bastun levereras till folkbokförd adress inom Sverige<br/>Vi hanterar dina uppgifter enligt vår [integritetspolicy]</li></ul><p>‎ </p><h3>‎FRÅGOR?</h3><p>Maila oss på <a><strong>tavling@finsklakrits.se</strong></a> – vi svarar snabbt.</p>"
+            "content": "<h3>HUR DU TÄVLAR</h3><ul><li>Gå till en butik som säljer Färsk Finsk Lakrits. <a href=\"/pages/hittabutik\" title=\"Hitta butik\">Hitta din närmsta butik</a><br/></li><li>Spara kvittot – det är din biljett in i tävlingen.<br/></li><li>Bilden ska visa datum, tid och produkt – tydligt och läsbart.<br/></li><li>Du är nu med i utlottningen av en <strong>NAVER Premium Bastu från Bast</strong> (värde ca 44 000 kr).<br/></li></ul><p>‎ </p><h3>TÄVLINGSPERIOD</h3><p>Tävlingen pågår <strong>1 juni – 30 september 2025</strong>.<br/><br/>Vinnaren kontaktas via e-post senast <strong>10 oktober 2025</strong>.</p><p>‎ </p><h3>VEM KAN DELTA?</h3><p>Tävlingen är öppen för alla över 18 år med folkbokföringsadress i Sverige.</p><p>‎ </p><h3>TÄVLINGSREGLER</h3><ul><li>Ett tävlingsbidrag per köp gäller</li></ul><p></p><ul><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Vinnaren utses slumpmässigt bland giltiga bidrag<br/></li><li>Vi kontrollerar samtliga kvitton manuellt Fusk diskas<br/>Tävlingen arrangeras av Finsk Lakrits AB i samarbete med Bast Sauna<br/></li><li>Bastun levereras till folkbokförd adress inom Sverige<br/>Vi hanterar dina uppgifter enligt vår [integritetspolicy]</li></ul><p>‎ </p><h3>‎FRÅGOR?</h3><p>Maila oss på <a href=\"mailto:info@finsklakrits.se\" title=\"mailto:info@finsklakrits.se\"><strong>info@finsklakrits.se</strong></a> – vi svarar snabbt.</p>"
           }
         }
       },
       "block_order": [
         "subheading_KR9Ua8",
         "richtext_kjJYk4"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "rich_text_ybbC46": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_NmNJ8F": {
+          "type": "heading",
+          "settings": {
+            "text": "Tävla nu!",
+            "heading_tag": "h1",
+            "text_color": "",
+            "gradient": ""
+          }
+        },
+        "subheading_D3RQUM": {
+          "type": "subheading",
+          "settings": {
+            "text": "Fyll i formuläret och bifoga ditt kvitto"
+          }
+        },
+        "richtext_fHQJF6": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_NmNJ8F",
+        "subheading_D3RQUM",
+        "richtext_fHQJF6"
       ],
       "name": "Rich text",
       "settings": {
@@ -106,6 +146,7 @@
     "slideshow_xQEEGR",
     "main",
     "rich_text_NcRj8L",
+    "rich_text_ybbC46",
     "custom_liquid_8B8jnY"
   ]
 }
