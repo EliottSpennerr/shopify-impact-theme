@@ -59,7 +59,7 @@
     "custom_liquid_8B8jnY": {
       "type": "custom-liquid",
       "custom_css": [
-        ".hulk-powered-wrapper {display: none;}"
+        ".hulk-powered-wrapper.text-right {display: none!important;}"
       ],
       "name": "Custom Liquid",
       "settings": {
