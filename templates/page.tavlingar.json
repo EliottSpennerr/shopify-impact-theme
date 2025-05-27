@@ -56,6 +56,56 @@
         "content_width": "80ch"
       }
     },
+    "images_with_text_scrolling_XaHLpQ": {
+      "type": "images-with-text-scrolling",
+      "blocks": {
+        "item_mRGUci": {
+          "type": "item",
+          "settings": {
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Heading 1",
+            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "item_gRktXz": {
+          "type": "item",
+          "settings": {
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Heading 2",
+            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "item_8wRnp4": {
+          "type": "item",
+          "settings": {
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Heading 2",
+            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_mRGUci",
+        "item_gRktXz",
+        "item_8wRnp4"
+      ],
+      "name": "Images and text scrolling",
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "show_counter": true,
+        "desktop_image_effect": "reveal",
+        "image_position": "end",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": ""
+      }
+    },
     "custom_liquid_8B8jnY": {
       "type": "custom-liquid",
       "custom_css": [],
@@ -74,6 +124,7 @@
   "order": [
     "slideshow_xQEEGR",
     "main",
+    "images_with_text_scrolling_XaHLpQ",
     "custom_liquid_8B8jnY"
   ]
 }
