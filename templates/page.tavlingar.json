@@ -59,14 +59,14 @@
     "custom_liquid_8B8jnY": {
       "type": "custom-liquid",
       "custom_css": [
-        ".hulk-powered-wrapper.text-right {display: none!important;}"
+        ".hulk-powered-wrapper.text-right {display: none !important;}"
       ],
       "name": "Custom Liquid",
       "settings": {
         "full_width": true,
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false,
-        "liquid": "<div style=\"margin:0 auto;\" class=\"pxFormGenerator\" id=\"gdC7y1JZhg1iC1cIaKs5Xw\"></div>",
+        "liquid": "<style>\n  .pxFormGenerator {\n    position: relative;\n  }\n\n  .pxFormGenerator iframe {\n    position: relative;\n    display: block;\n  }\n\n  /* Overlay the bottom part of the iframe where the branding is */\n  .pxFormGenerator::after {\n    content: \"\";\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    width: 100%;\n    height: 30px; /* Adjust depending on how tall the banner is */\n    background-color: white; /* Or match your site's background */\n    z-index: 999;\n    pointer-events: none;\n  }\n</style>\n\n<div style=\"margin:0 auto;\" class=\"pxFormGenerator\" id=\"gdC7y1JZhg1iC1cIaKs5Xw\"></div>",
         "background": "",
         "background_gradient": "",
         "text_color": ""
