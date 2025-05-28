@@ -80,6 +80,9 @@
         "subheading_D3RQUM",
         "richtext_fHQJF6"
       ],
+      "custom_css": [
+        ".section-full{padding-bottom: 0px!important;}"
+      ],
       "settings": {
         "full_width": true,
         "content_width": "small",
