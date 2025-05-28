@@ -125,7 +125,7 @@
         "richtext_kjJYk4": {
           "type": "richtext",
           "settings": {
-            "content": "<h3>HUR DU TÄVLAR</h3><ul><li>Gå till en butik som säljer Färsk Finsk Lakrits. <a href=\"/pages/hittabutik\" title=\"Hitta butik\">Hitta din närmsta butik</a><br/></li><li>Spara kvittot – det är din biljett in i tävlingen.<br/></li><li>Bilden ska visa datum, tid och produkt – tydligt och läsbart.<br/></li><li>Du är nu med i utlottningen av en <strong>NAVER Premium Bastu från Bast</strong> (värde ca 44 000 kr).<br/></li></ul><p>‎ </p><h3>TÄVLINGSPERIOD</h3><p>Tävlingen pågår <strong>1 juni – 30 september 2025</strong>.<br/><br/>Vinnaren kontaktas via e-post senast <strong>10 oktober 2025</strong>.</p><p>‎ </p><h3>VEM KAN DELTA?</h3><p>Tävlingen är öppen för alla över 18 år med folkbokföringsadress i Sverige.</p><p>‎ </p><h3>TÄVLINGSREGLER</h3><ul><li>Ett tävlingsbidrag per köp gäller</li></ul><p></p><ul><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Vinnaren utses slumpmässigt bland giltiga bidrag<br/></li><li>Vi kontrollerar samtliga kvitton manuellt Fusk diskas<br/>Tävlingen arrangeras av Finsk Lakrits AB i samarbete med Bast Sauna<br/></li><li>Bastun levereras till folkbokförd adress inom Sverige<br/>Vi hanterar dina uppgifter enligt vår [integritetspolicy]</li></ul><p>‎ </p><h3>‎FRÅGOR?</h3><p>Maila oss på <a href=\"mailto:info@finsklakrits.se\" title=\"mailto:info@finsklakrits.se\"><strong>info@finsklakrits.se</strong></a> – vi svarar snabbt.</p>"
+            "content": "<h3>HUR DU TÄVLAR</h3><ul><li>Gå till en butik som säljer Färsk Finsk Lakrits. <a href=\"/pages/hittabutik\" title=\"Hitta butik\">Hitta din närmsta butik</a><br/></li><li>Spara kvittot – det är din biljett in i tävlingen.<br/></li><li>Bilden ska visa datum, tid och produkt – tydligt och läsbart.<br/></li><li>Du är nu med i utlottningen av en <strong>NAVER Premium Bastu från Bast</strong> (värde ca 29 490 kr).<br/></li></ul><p>‎ </p><h3>TÄVLINGSPERIOD</h3><p>Tävlingen pågår <strong>1 juni – 30 september 2025</strong>.<br/><br/>Vinnaren kontaktas via e-post senast <strong>10 oktober 2025</strong>.</p><p>‎ </p><h3>VEM KAN DELTA?</h3><p>Tävlingen är öppen för alla över 18 år med folkbokföringsadress i Sverige.</p><p>‎ </p><h3>TÄVLINGSREGLER</h3><ul><li>Ett tävlingsbidrag per köp gäller</li></ul><p></p><ul><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Vinnaren utses slumpmässigt bland giltiga bidrag<br/></li><li>Vi kontrollerar samtliga kvitton manuellt</li></ul><p></p><ul><li>Fusk diskas</li></ul><p></p><ul><li>Tävlingen arrangeras av Finsk Lakrits AB i samarbete med Bast Sauna<br/></li><li>Bastun levereras till folkbokförd adress inom Sverige<br/>Vi hanterar dina uppgifter enligt vår [integritetspolicy]</li></ul><p>‎ </p><h3>‎FRÅGOR?</h3><p>Maila oss på <a href=\"mailto:info@finsklakrits.se\" title=\"mailto:info@finsklakrits.se\"><strong>info@finsklakrits.se</strong></a> – vi svarar snabbt.</p>"
           }
         }
       },
@@ -141,41 +141,6 @@
         "background_gradient": "",
         "text_color": ""
       }
-    },
-    "media_with_text_WkkA9m": {
-      "type": "media-with-text",
-      "blocks": {
-        "image_cWxafG": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Namnlost-1_Rityta1-03.webp",
-            "media_width": 50,
-            "media_position": "start",
-            "text_position": "place-self-center text-center",
-            "icon": "none",
-            "icon_width": 48,
-            "subheading": "Om bastun du kan vinna:",
-            "title": "Näver Premium",
-            "content": "<p><strong>NAVER Premium Bastu från Bast</strong> är en fristående bastu med en tidlös skandinavisk design. Bastun levereras färdigmonterad – byggd i massiv gran, med eleganta detaljer i asp och värmetåligt säkerhetsglas.</p><p>Med plats för två personer, LED-belysning och förstklassig känsla både utvändigt och invändigt är det här en bastu du kan ställa i trädgården, på altanen eller vid sommarstugan – redo att använda direkt.</p><p>Värde: 29 490 kr</p>",
-            "link_text": "Läs mer",
-            "link_url": "http://bastsauna.com/",
-            "background": "#f2f2f2",
-            "background_gradient": "",
-            "text_color": "#1a2533",
-            "text_gradient": "",
-            "button_background": "",
-            "button_text_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "image_cWxafG"
-      ],
-      "name": "Media with text",
-      "settings": {
-        "full_width": false,
-        "spacing": "small"
-      }
     }
   },
   "order": [
@@ -183,7 +148,6 @@
     "rich_text_ybbC46",
     "custom_liquid_8B8jnY",
     "main",
-    "rich_text_NcRj8L",
-    "media_with_text_WkkA9m"
+    "rich_text_NcRj8L"
   ]
 }
