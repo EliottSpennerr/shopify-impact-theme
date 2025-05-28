@@ -97,7 +97,7 @@
       "settings": {
         "full_width": true,
         "show_fixed_add_to_cart": true,
-        "desktop_media_width": 55,
+        "desktop_media_width": 50,
         "desktop_media_layout": "carousel_thumbnails_left",
         "mobile_media_size": "contained",
         "mobile_carousel_control": "floating_dots",
@@ -136,7 +136,6 @@
       "custom_css": [
         ".h1 {font-family: balloon; font-weight: 100;}"
       ],
-      "name": "Image with text overlay",
       "settings": {
         "full_width": true,
         "allow_transparent_header": false,
@@ -238,7 +237,6 @@
       "custom_css": [
         ".h2 {font-family: balloon; font-weight: 100;}"
       ],
-      "name": "FAQ",
       "settings": {
         "full_width": true,
         "subheading": "",
