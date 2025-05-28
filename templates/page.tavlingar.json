@@ -141,6 +141,41 @@
         "background_gradient": "",
         "text_color": ""
       }
+    },
+    "media_with_text_FMFypg": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_xxitpi": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Namnlost-1_Rityta1-03.webp",
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center text-center",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "Om bastun du kan vinna:",
+            "title": "NAVER Premium Bastu från Bast",
+            "content": "<p>NAVER Premium Bastu är en fristående bastu med en tidlös skandinavisk design. Bastun levereras färdigmonterad – byggd i massiv gran, med eleganta detaljer i asp och värmetåligt säkerhetsglas.</p><p>Med plats för två personer, LED-belysning och förstklassig känsla både utvändigt och invändigt är det här en bastu du kan ställa i trädgården, på altanen eller vid sommarstugan – redo att använda direkt.</p><p>Värde: 29 490 SEK</p>",
+            "link_text": "Läs mer",
+            "link_url": "",
+            "background": "#f0f0f0",
+            "background_gradient": "",
+            "text_color": "#1a2533",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_xxitpi"
+      ],
+      "name": "Media with text",
+      "settings": {
+        "full_width": false,
+        "spacing": "small"
+      }
     }
   },
   "order": [
@@ -148,6 +183,7 @@
     "rich_text_ybbC46",
     "custom_liquid_8B8jnY",
     "main",
-    "rich_text_NcRj8L"
+    "rich_text_NcRj8L",
+    "media_with_text_FMFypg"
   ]
 }
