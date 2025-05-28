@@ -50,6 +50,45 @@
         "background_gradient": ""
       }
     },
+    "rich_text_ybbC46": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_NmNJ8F": {
+          "type": "heading",
+          "settings": {
+            "text": "Tävla nu!",
+            "heading_tag": "h1",
+            "text_color": "",
+            "gradient": ""
+          }
+        },
+        "subheading_D3RQUM": {
+          "type": "subheading",
+          "settings": {
+            "text": "Fyll i formuläret och bifoga ditt kvitto"
+          }
+        },
+        "richtext_fHQJF6": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_NmNJ8F",
+        "subheading_D3RQUM",
+        "richtext_fHQJF6"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
     "custom_liquid_8B8jnY": {
       "type": "custom-liquid",
       "custom_css": [],
@@ -99,52 +138,13 @@
         "background_gradient": "",
         "text_color": ""
       }
-    },
-    "rich_text_ybbC46": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_NmNJ8F": {
-          "type": "heading",
-          "settings": {
-            "text": "Tävla nu!",
-            "heading_tag": "h1",
-            "text_color": "",
-            "gradient": ""
-          }
-        },
-        "subheading_D3RQUM": {
-          "type": "subheading",
-          "settings": {
-            "text": "Fyll i formuläret och bifoga ditt kvitto"
-          }
-        },
-        "richtext_fHQJF6": {
-          "type": "richtext",
-          "settings": {
-            "content": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_NmNJ8F",
-        "subheading_D3RQUM",
-        "richtext_fHQJF6"
-      ],
-      "settings": {
-        "full_width": true,
-        "content_width": "small",
-        "text_position": "center",
-        "background": "",
-        "background_gradient": "",
-        "text_color": ""
-      }
     }
   },
   "order": [
     "slideshow_xQEEGR",
+    "rich_text_ybbC46",
     "custom_liquid_8B8jnY",
     "main",
-    "rich_text_NcRj8L",
-    "rich_text_ybbC46"
+    "rich_text_NcRj8L"
   ]
 }
