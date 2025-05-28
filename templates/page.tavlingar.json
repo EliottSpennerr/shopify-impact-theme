@@ -15,12 +15,14 @@
         "image_eWGL8b": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/Tavling.jpg",
+            "mobile_image": "shopify://shop_images/Tavling-mobile.jpg",
             "content_max_width": 1200,
-            "mobile_text_position": "place-self-center text-center",
-            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "mobile_text_position": "place-self-end-start text-start",
+            "desktop_text_position": "sm:place-self-end-start sm:text-start",
             "subheading": "",
             "title": "VINN EN PREMIUM-BASTU FRÅN BAST",
-            "heading_tag": "h0",
+            "heading_tag": "h1",
             "button_text": "",
             "button_link": "",
             "text_color": "#ffffff",
@@ -36,7 +38,6 @@
       "block_order": [
         "image_eWGL8b"
       ],
-      "name": "Slideshow",
       "settings": {
         "full_width": true,
         "allow_transparent_header": true,
@@ -77,7 +78,6 @@
         "subheading_KR9Ua8",
         "richtext_kjJYk4"
       ],
-      "name": "Rich text",
       "settings": {
         "full_width": true,
         "content_width": "small",
@@ -117,7 +117,6 @@
         "subheading_D3RQUM",
         "richtext_fHQJF6"
       ],
-      "name": "Rich text",
       "settings": {
         "full_width": true,
         "content_width": "small",
@@ -130,7 +129,6 @@
     "custom_liquid_8B8jnY": {
       "type": "custom-liquid",
       "custom_css": [],
-      "name": "Custom Liquid",
       "settings": {
         "full_width": true,
         "remove_vertical_spacing": false,
