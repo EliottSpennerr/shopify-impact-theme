@@ -15,14 +15,14 @@
         "image_eWGL8b": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Tavling.jpg",
-            "mobile_image": "shopify://shop_images/Tavling-mobile.jpg",
+            "image": "shopify://shop_images/Tavlinghero_1.jpg",
+            "mobile_image": "shopify://shop_images/Tavlinghero_m.jpg",
             "content_max_width": 1200,
             "mobile_text_position": "place-self-end-start text-start",
             "desktop_text_position": "sm:place-self-end-start sm:text-start",
             "subheading": "",
-            "title": "VINN EN PREMIUM-BASTU FRÅN BAST",
-            "heading_tag": "h1",
+            "title": "VINN EN BASTU FRÅN BAST",
+            "heading_tag": "h0",
             "button_text": "",
             "button_link": "",
             "text_color": "#ffffff",
@@ -37,6 +37,9 @@
       },
       "block_order": [
         "image_eWGL8b"
+      ],
+      "custom_css": [
+        ".h0 {font-family: balloon !important; font-weight: 100;}"
       ],
       "settings": {
         "full_width": true,
