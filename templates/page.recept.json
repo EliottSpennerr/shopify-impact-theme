@@ -22,7 +22,7 @@
         "blog_hBaief": {
           "type": "blog",
           "settings": {
-            "blog": "",
+            "blog": "recept",
             "posts_count": 3,
             "stack_items": false
           }
