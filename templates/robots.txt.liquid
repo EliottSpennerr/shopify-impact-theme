@@ -1,15 +1,60 @@
-# we use Shopify as our ecommerce platform
+# --- Shopify default rules (DO NOT REMOVE) ---
 {%- comment -%}
-# Caution! Please read https://help.shopify.com/en/manual/promoting-marketing/seo/editing-robots-txt before proceeding to make changes to this file.
-{% endcomment %}
-{% for group in robots.default_groups %}
+Caution! Always keep Shopify’s core logic to ensure compatibility.
+{%- endcomment -%}
+
+{%- for group in robots.default_groups -%}
   {{- group.user_agent -}}
 
-  {% for rule in group.rules %}
+  {%- for rule in group.rules -%}
     {{- rule -}}
-  {% endfor %}
+  {%- endfor -%}
 
   {%- if group.sitemap != blank -%}
     {{ group.sitemap }}
   {%- endif -%}
-{% endfor %}
+{%- endfor -%}
+
+# --- Custom SEO & AI Bot Rules for finsklakrits.se ---
+
+# AI-specific bots
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Disallow: /
+
+# Shopify platform pages that shouldn't be indexed (clarified for SEO hygiene)
+User-agent: *
+Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /checkouts/
+Disallow: /orders
+Disallow: /account
+Disallow: /search
+Disallow: /carts
+Disallow: /*?*oseid=*
+Disallow: /*preview_theme_id*
+Disallow: /*preview_script_id*
+Disallow: /apple-app-site-association
+Disallow: /.well-known/shopify/monorail
+Disallow: /collections/*+*
+Disallow: /collections/*?*
+
+# Allow Googlebot full access to JS and CSS
+User-agent: Googlebot
+Allow: /*.js$
+Allow: /*.css$
+
+# Explicit sitemap declaration for clarity
+Sitemap: https://finsklakrits.se/sitemap.xml
