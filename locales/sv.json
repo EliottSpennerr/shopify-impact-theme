@@ -332,7 +332,7 @@
       "remove": "Ta bort"
     },
     "free_shipping_bar": {
-      "limit_unreached_html": "Hnadla för {{ remaining_amount }} till och få gratis frakt!",
+      "limit_unreached_html": "Handla för {{ remaining_amount }} till och få gratis frakt!",
       "limit_reached_html": "Du får fri frakt!"
     },
     "shipping_estimator": {
