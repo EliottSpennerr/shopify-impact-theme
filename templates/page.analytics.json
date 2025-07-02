@@ -16,32 +16,56 @@
         "content_width": "80ch"
       }
     },
-    "contact": {
-      "type": "contact",
-      "custom_css": [
-        "h2 {font-family: balloon; font-weight: 100;}"
+    "rich_text_aPkNin": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_i67xd3": {
+          "type": "heading",
+          "settings": {
+            "text": "Analytics",
+            "heading_tag": "h1",
+            "text_color": "",
+            "gradient": ""
+          }
+        },
+        "richtext_DMnmCt": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_i67xd3",
+        "richtext_DMnmCt"
       ],
+      "name": "Rich text",
       "settings": {
         "full_width": true,
-        "subheading": "",
-        "title": "Kontakta oss",
-        "content": "<p>Har du frågor, feedback eller bara vill snacka lakrits? Hör av dig!<br/><br/>Kika gärna på vår <a href=\"/pages/faq\" title=\"Faq\">FAQ</a> där vi samlat de vanligaste frågorna om produkter, frakt, ingredienser och annat smått och gott.</p>",
-        "text_position": "start",
-        "contact_form_size": "large",
+        "content_width": "small",
+        "text_position": "center",
         "background": "",
         "background_gradient": "",
-        "text_color": "",
-        "heading_color": "",
-        "heading_gradient": "",
-        "contact_background": "",
-        "contact_text_color": "",
-        "button_background": "",
-        "button_text_color": ""
+        "text_color": ""
+      }
+    },
+    "custom_liquid_fwbYLb": {
+      "type": "custom-liquid",
+      "name": "Custom Liquid",
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "liquid": "<iframe title=\"Stock-FLIS\" width=\"1024\" height=\"1060\" src=\"https://app.powerbi.com/view?r=eyJrIjoiNWMwM2U0ZjEtZjA0YS00NTEzLWFiNDQtODUwMjM5YmQ2ZDNhIiwidCI6IjgwMWIwYTExLWM3YmEtNDVmYS05YTQ3LTUxNTFiMTgxNGQ3NCIsImMiOjh9\" frameborder=\"0\" allowFullScreen=\"true\"></iframe>",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
       }
     }
   },
   "order": [
     "main",
-    "contact"
+    "rich_text_aPkNin",
+    "custom_liquid_fwbYLb"
   ]
 }

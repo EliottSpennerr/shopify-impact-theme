@@ -52,11 +52,6 @@
         "type": "shopify://apps/hulk-form-builder/blocks/app-embed/b6b8dd14-356b-4725-a4ed-77232212b3c3",
         "disabled": false,
         "settings": {}
-      },
-      "16556818989376849476": {
-        "type": "shopify://apps/private-pro-password-page-lock/blocks/password_protection/4dc6a6fa-3301-49ba-95e6-03c694327386",
-        "disabled": false,
-        "settings": {}
       }
     }
   },
