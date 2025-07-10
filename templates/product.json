@@ -22,6 +22,10 @@
           "type": "badges",
           "settings": {}
         },
+        "judge_me_reviews_preview_badge_BkceGL": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
         "price": {
           "type": "price",
           "settings": {
@@ -84,6 +88,7 @@
       "block_order": [
         "title",
         "badges",
+        "judge_me_reviews_preview_badge_BkceGL",
         "price",
         "rating",
         "payment_terms",
@@ -150,26 +155,29 @@
         "overlay_opacity": 30
       }
     },
-    "related-products": {
-      "type": "related-products",
+    "175217507622799062": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_tC3dXH": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_tC3dXH"
+      ],
       "settings": {
-        "recommendations_count": 6,
-        "products": [],
         "full_width": true,
-        "stack_products": true,
-        "show_progress_bar": false,
-        "products_per_row_mobile": "1",
-        "products_per_row_desktop": 3,
-        "subheading": "",
-        "title": "Fler favoriter",
-        "content": "",
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
         "background": "",
         "background_gradient": "",
         "text_color": "",
-        "heading_color": "",
-        "heading_gradient": "",
-        "product_card_background": "",
-        "product_card_text_color": ""
+        "enable_review_integration": true,
+        "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
+        "review_header_text_color": "#000000",
+        "review_button_background": "#000000",
+        "review_button_text_color": "#ffffff"
       }
     },
     "faq_FKepMM": {
@@ -259,29 +267,26 @@
         "accordion_text_color": "#1a2533"
       }
     },
-    "175217507622799062": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_tC3dXH": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_tC3dXH"
-      ],
+    "related-products": {
+      "type": "related-products",
       "settings": {
+        "recommendations_count": 6,
+        "products": [],
         "full_width": true,
-        "remove_vertical_spacing": false,
-        "remove_horizontal_spacing": false,
+        "stack_products": true,
+        "show_progress_bar": false,
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 3,
+        "subheading": "",
+        "title": "Fler favoriter",
+        "content": "",
         "background": "",
         "background_gradient": "",
         "text_color": "",
-        "enable_review_integration": true,
-        "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
-        "review_header_text_color": "#000000",
-        "review_button_background": "#000000",
-        "review_button_text_color": "#ffffff"
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
       }
     }
   },
