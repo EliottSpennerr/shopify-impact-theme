@@ -117,6 +117,34 @@
         "input_text_color": ""
       }
     },
+    "175217507622799062": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_tC3dXH": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_tC3dXH"
+      ],
+      "custom_css": [
+        ".jdgm-widget:not(.jdgm-review-widget--small,.jdgm-review-widget--medium) .jdgm-write-rev-link, .jdgm-widget:not(.jdgm-review-widget--small,.jdgm-review-widget--medium) .jdgm-ask-question-btn {width: 100%; border-radius: 100px; max-width: 240px; }"
+      ],
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "enable_review_integration": true,
+        "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
+        "review_header_text_color": "#000000",
+        "review_button_background": "#000000",
+        "review_button_text_color": "#ffffff"
+      }
+    },
     "image_with_text_overlay_L9xAkw": {
       "type": "image-with-text-overlay",
       "blocks": {
@@ -153,31 +181,6 @@
         "text_color": "#ffffff",
         "overlay_color": "#000000",
         "overlay_opacity": 30
-      }
-    },
-    "175217507622799062": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_tC3dXH": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_tC3dXH"
-      ],
-      "settings": {
-        "full_width": true,
-        "remove_vertical_spacing": false,
-        "remove_horizontal_spacing": false,
-        "background": "",
-        "background_gradient": "",
-        "text_color": "",
-        "enable_review_integration": true,
-        "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
-        "review_header_text_color": "#000000",
-        "review_button_background": "#000000",
-        "review_button_text_color": "#ffffff"
       }
     },
     "faq_FKepMM": {
@@ -292,8 +295,8 @@
   },
   "order": [
     "main",
-    "image_with_text_overlay_L9xAkw",
     "175217507622799062",
+    "image_with_text_overlay_L9xAkw",
     "faq_FKepMM",
     "related-products"
   ]
