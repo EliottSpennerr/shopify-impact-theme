@@ -109,13 +109,6 @@
         "text_color": ""
       }
     },
-    "main": {
-      "type": "main-page",
-      "disabled": true,
-      "settings": {
-        "content_width": "80ch"
-      }
-    },
     "custom_html_DpmPMH": {
       "type": "custom-html",
       "name": "Custom HTML",
@@ -123,10 +116,17 @@
         "full_width": true,
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false,
-        "html": "<div style=\"margin:0 auto;\" class=\"pxFormGenerator\" id=\"y8ZxbxpgC5RJB0FAfofdCA\"></div>",
+        "html": "<div style=\"margin:0 auto;\" class=\"pxFormGenerator\" id=\"rxCMQVhi6Stv9cTR94oMQg\"></div>",
         "background": "",
         "background_gradient": "",
         "text_color": ""
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
       }
     }
   },
