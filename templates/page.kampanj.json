@@ -59,7 +59,7 @@
         "heading_NmNJ8F": {
           "type": "heading",
           "settings": {
-            "text": "Tävla nu!",
+            "text": "Färsk Finsk Marmelad",
             "heading_tag": "h1",
             "text_color": "",
             "gradient": ""
@@ -67,6 +67,7 @@
         },
         "subheading_D3RQUM": {
           "type": "subheading",
+          "disabled": true,
           "settings": {
             "text": "Fyll i formuläret och bifoga ditt kvitto"
           }
@@ -74,7 +75,7 @@
         "richtext_fHQJF6": {
           "type": "richtext",
           "settings": {
-            "content": ""
+            "content": "<p>Vår absolut bäst säljande produkt under vintern  med en försäljningsökning på i snitt 30 % under säsongen. Sura marmeladbitar som ger en unik smakupplevelse i fem klassiska smaker: hallon, svartvinbär, päron, persika och citron. <br/><br/>En färgsprakande favorit som lockar både nya <br/>och återkommande kunder år efter år.</p>"
           }
         }
       },
@@ -95,14 +96,14 @@
         "text_color": ""
       }
     },
-    "custom_liquid_8B8jnY": {
+    "custom_liquid_x64nBb": {
       "type": "custom-liquid",
-      "custom_css": [],
+      "name": "Custom Liquid",
       "settings": {
         "full_width": true,
-        "remove_vertical_spacing": true,
-        "remove_horizontal_spacing": true,
-        "liquid": "<div style=\"margin:0 auto;\" class=\"pxFormGenerator\" id=\"gdC7y1JZhg1iC1cIaKs5Xw\"></div>",
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "liquid": "<style>\n  .fl-packages {\n    display: flex;\n    gap: 16px;\n    overflow-x: auto;               /* horisontell scroll på mobil */\n    -webkit-overflow-scrolling: touch;\n    padding: 8px 0;\n    scroll-snap-type: x mandatory;  /* mjuk “snapp” vid scroll */\n  }\n  .fl-package {\n    flex: 0 0 320px;                /* fast bredd på mobil, stå kvar på rad */\n    background: #fff;\n    border-radius: 12px;\n    box-shadow: 0 2px 8px rgba(0,0,0,.08);\n    text-align: center;\n    padding: 16px;\n    scroll-snap-align: start;\n  }\n  .fl-package img {\n    max-width: 100%;\n    height: auto;\n    display: block;\n    margin: 0 auto 12px;\n  }\n  .fl-package h3 {\n    margin: 0 0 8px;\n    font-weight: 800;\n    font-size: 20px;\n    color: #0B61FA;\n    letter-spacing: .5px;\n  }\n  .fl-package p {\n    margin: 0;\n    line-height: 1.5;\n    font-size: 16px;\n  }\n\n  /* Desktop: tre jämna kolumner, ingen scroll behövs */\n  @media (min-width: 992px) {\n    .fl-packages {\n      overflow: visible;\n    }\n    .fl-package {\n      flex: 1 1 0;\n      max-width: 100%;\n    }\n  }\n</style>\n\n<div class=\"fl-packages\">\n  <!-- Litet paket -->\n  <div class=\"fl-package\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Litetpaket.png?v=1757402421\" alt=\"Litet paket\">\n    <h3>LITET PAKET</h3>\n    <p>\n     <B>Köp 9 lådor, få 1 låda gratis</B><br>\n      Totalt 10 lådor (240 påsar)<br>\n      Inpris: ca 20 kr/påse<br>\n      1 låda = 24 påsar<br>\n      Rek. utpris: 2 för 60 kr eller 3 för 90 kr\n    </p>\n  </div>\n\n  <!-- Mellan paket -->\n  <div class=\"fl-package\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Mellan.png?v=1757402431\" alt=\"Mellan paket\">\n    <h3>MELLAN PAKET</h3>\n    <p>\n      <b>Köp 18 lådor, få 2 lådor gratis</B><br>\n      Totalt 20 lådor (480 påsar)<br>\n      Inpris: ca 20 kr/påse<br>\n      1 låda = 24 påsar<br>\n      Rek. utpris: 2 för 60 kr eller 3 för 90 kr\n    </p>\n  </div>\n\n  <!-- Stort paket -->\n  <div class=\"fl-package\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Stor.png?v=1757402423\" alt=\"Stort paket\">\n    <h3>STORT PAKET</h3>\n    <p>\n      <b>Köp 27 lådor, få 3 lådor gratis</b><br>\n      Totalt 30 lådor (720 påsar)<br>\n      Inpris: ca 20 kr/påse<br>\n      1 låda = 24 påsar<br>\n      Rek. utpris: 2 för 60 kr eller 3 för 90 kr\n    </p>\n  </div>\n</div>",
         "background": "",
         "background_gradient": "",
         "text_color": ""
@@ -114,78 +115,12 @@
       "settings": {
         "content_width": "80ch"
       }
-    },
-    "rich_text_NcRj8L": {
-      "type": "rich-text",
-      "blocks": {
-        "subheading_KR9Ua8": {
-          "type": "subheading",
-          "disabled": true,
-          "settings": {
-            "text": "Subheading"
-          }
-        },
-        "richtext_kjJYk4": {
-          "type": "richtext",
-          "settings": {
-            "content": "<h3>HUR DU TÄVLAR</h3><ul><li>Gå till närmsta butik som säljer Färsk Finsk Lakrits.<br/></li><li>Spara kvittot – det är din biljett in i tävlingen.<br/></li><li>Ladda upp kvittot i formuläret där du visar datum, tid och produkt – tydligt och läsbart.<br/></li><li>Du är nu med i utlottningen av en <strong>NAVER Premium Bastu från Bast</strong> (värde ca 23 495 kr inkl. moms).<br/></li></ul><p>‎ </p><h3>TÄVLINGSPERIOD</h3><p>Tävlingen pågår <strong>1 juni – 30 september 2025</strong>.<br/><br/>Vinnaren kontaktas via e-post senast <strong>10 oktober 2025</strong>.</p><p>‎ </p><h3>VEM KAN DELTA?</h3><p>Tävlingen är öppen för alla över 18 år med folkbokföringsadress i Sverige.</p><p>‎ </p><h3>TÄVLINGSREGLER</h3><ul><li>Ett tävlingsbidrag per köp gäller</li></ul><p></p><ul><li>Endast kvitton från tävlingsperioden godkänns<br/></li><li>Vinnaren utses slumpmässigt bland giltiga bidrag<br/><br/></li><li>Vi kontrollerar samtliga kvitton manuellt</li></ul><p></p><ul><li>Fusk eller försök till manipulation leder till diskvalificering</li></ul><p></p><ul><li>Tävlingen är inte beroende av motprestation eller prestation, utan avgörs genom slumpmässigt urval<br/><br/></li><li>Tävlingen arrangeras av Finsk Lakrits i Sverige AB i samarbete med Bast investment Group AB<br/></li></ul><h3><strong>VILLKOR & ANSVAR</strong></h3><ul><li>Tävlingen arrangeras av <strong>Finsk Lakrits i Sverige AB</strong> i samarbete med <strong>Bast Investment Group AB</strong></li></ul><p></p><ul><li>Bastun levereras kostnadsfritt till folkbokförd adress inom Sverige<br/><br/></li><li>Vinnaren är själv ansvarig för att redovisa vinsten i sin deklaration enligt Skatteverkets regler</li></ul><p></p><ul><li>Genom att delta godkänner du att vi behandlar dina personuppgifter enligt vår <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">integritetspolicy</a><br/><br/></li></ul><h3>‎FRÅGOR?</h3><p>Maila oss på <a href=\"mailto:info@finsklakrits.se\" title=\"mailto:info@finsklakrits.se\"><strong>info@finsklakrits.se</strong></a> – vi svarar snabbt.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "subheading_KR9Ua8",
-        "richtext_kjJYk4"
-      ],
-      "settings": {
-        "full_width": true,
-        "content_width": "small",
-        "text_position": "center",
-        "background": "",
-        "background_gradient": "",
-        "text_color": ""
-      }
-    },
-    "media_with_text_FMFypg": {
-      "type": "media-with-text",
-      "blocks": {
-        "image_xxitpi": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Namnlost-1_Rityta1-03.webp",
-            "media_width": 50,
-            "media_position": "start",
-            "text_position": "place-self-center text-center",
-            "icon": "none",
-            "icon_width": 48,
-            "subheading": "Om bastun du kan vinna:",
-            "title": "NAVER Premium Bastu från Bast",
-            "content": "<p>NAVER Premium Bastu är en fristående bastu med en tidlös skandinavisk design. Bastun levereras färdigmonterad – byggd i massiv gran, med eleganta detaljer i asp och värmetåligt säkerhetsglas.</p><p>Med plats för två personer, LED-belysning och förstklassig känsla både utvändigt och invändigt är det här en bastu du kan ställa i trädgården, på altanen eller vid sommarstugan – redo att använda direkt.</p><p>Värde: 23 495 SEK</p>",
-            "link_text": "Läs mer",
-            "link_url": "https://bastsauna.com/products/naver-premium",
-            "background": "#f0f0f0",
-            "background_gradient": "",
-            "text_color": "#1a2533",
-            "text_gradient": "",
-            "button_background": "",
-            "button_text_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "image_xxitpi"
-      ],
-      "settings": {
-        "full_width": false,
-        "spacing": "small"
-      }
     }
   },
   "order": [
     "slideshow_xQEEGR",
     "rich_text_ybbC46",
-    "custom_liquid_8B8jnY",
-    "main",
-    "rich_text_NcRj8L",
-    "media_with_text_FMFypg"
+    "custom_liquid_x64nBb",
+    "main"
   ]
 }
