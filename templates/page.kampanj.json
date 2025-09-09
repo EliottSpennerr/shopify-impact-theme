@@ -75,7 +75,7 @@
         "richtext_fHQJF6": {
           "type": "richtext",
           "settings": {
-            "content": "<p>Vår absolut bäst säljande produkt under vintern  med en försäljningsökning på i snitt 30 % under säsongen. Sura marmeladbitar som ger en unik smakupplevelse i fem klassiska smaker: hallon, svartvinbär, päron, persika och citron. <br/><br/>En färgsprakande favorit som lockar både nya <br/>och återkommande kunder år efter år.</p>"
+            "content": "<p>Vår absolut bäst säljande produkt under vintern  med en försäljningsökning på i snitt 30 % under säsongen. Sura marmeladbitar som ger en unik smakupplevelse i fem klassiska smaker: hallon, svartvinbär, päron, persika och citron. En färgsprakande favorit som lockar både nya <br/>och återkommande kunder år efter år.</p>"
           }
         }
       },
@@ -85,11 +85,11 @@
         "richtext_fHQJF6"
       ],
       "custom_css": [
-        ".section-full {padding-bottom: 0px !important;}"
+        ".section-full {padding-bottom: 30px !important;}"
       ],
       "settings": {
         "full_width": true,
-        "content_width": "small",
+        "content_width": "medium",
         "text_position": "center",
         "background": "",
         "background_gradient": "",
