@@ -115,12 +115,26 @@
       "settings": {
         "content_width": "80ch"
       }
+    },
+    "custom_html_DpmPMH": {
+      "type": "custom-html",
+      "name": "Custom HTML",
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "html": "<div style=\"margin:0 auto;\" class=\"pxFormGenerator\" id=\"y8ZxbxpgC5RJB0FAfofdCA\"></div>",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
     }
   },
   "order": [
     "slideshow_xQEEGR",
     "rich_text_ybbC46",
     "custom_liquid_x64nBb",
+    "custom_html_DpmPMH",
     "main"
   ]
 }
