@@ -111,6 +111,9 @@
     },
     "custom_html_DpmPMH": {
       "type": "custom-html",
+      "custom_css": [
+        ".form_generater_form_div, .form_generater_form_div .block_label, .form_generater_form_div .infoMessage {letter-spacing: 0; font-size: 20px}"
+      ],
       "name": "Custom HTML",
       "settings": {
         "full_width": true,
