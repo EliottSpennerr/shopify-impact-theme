@@ -105,7 +105,8 @@
         "heading_K43xpm"
       ],
       "custom_css": [
-        ".section-full {font-family: balloon; padding-bottom: 0px !important; font-family: balloon !important; font-weight: 100;}"
+        ".section-full {font-family: balloon; padding-bottom: 0px !important;}",
+        ".hyphenate {font-family: balloon !important; font-weight: 100;}"
       ],
       "settings": {
         "full_width": true,
@@ -124,6 +125,35 @@
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false,
         "liquid": "<style>\n  .fl-packages {\n    display: flex;\n    gap: 16px;\n    overflow-x: auto;               /* horisontell scroll på mobil */\n    -webkit-overflow-scrolling: touch;\n    padding: 8px 0;\n    scroll-snap-type: x mandatory;  /* mjuk “snapp” vid scroll */\n  }\n  .fl-package {\n    flex: 0 0 320px;                /* fast bredd på mobil, stå kvar på rad */\n    background: #fff;\n    border-radius: 12px;\n    box-shadow: 0 2px 8px rgba(0,0,0,.08);\n    text-align: center;\n    padding: 16px;\n    scroll-snap-align: start;\n  }\n  .fl-package img {\n    max-width: 100%;\n    height: auto;\n    display: block;\n    margin: 0 auto 12px;\n  }\n  .fl-package h3 {\n    margin: 0 0 8px;\n    font-weight: 800;\n    font-size: 20px;\n    color: #0B61FA;\n    letter-spacing: .5px;\n  }\n  .fl-package p {\n    margin: 0;\n    line-height: 1.5;\n    font-size: 16px;\n  }\n\n  /* Desktop: tre jämna kolumner, ingen scroll behövs */\n  @media (min-width: 992px) {\n    .fl-packages {\n      overflow: visible;\n    }\n    .fl-package {\n      flex: 1 1 0;\n      max-width: 100%;\n    }\n  }\n</style>\n\n<div class=\"fl-packages\">\n  <!-- Litet paket -->\n  <div class=\"fl-package\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Litetpaket.png?v=1757402421\" alt=\"Litet paket\">\n    <h3>LITET PAKET</h3>\n    <p>\n     <B>Köp 9 lådor, få 1 låda gratis</B><br>\n      Totalt 10 lådor (240 påsar)<br>\n      Inpris: ca 20 kr/påse<br>\n      1 låda = 24 påsar<br>\n      Rek. utpris: 2 för 60 kr eller 3 för 90 kr\n    </p>\n  </div>\n\n  <!-- Mellan paket -->\n  <div class=\"fl-package\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Mellan.png?v=1757402431\" alt=\"Mellan paket\">\n    <h3>MELLAN PAKET</h3>\n    <p>\n      <b>Köp 18 lådor, få 2 lådor gratis</B><br>\n      Totalt 20 lådor (480 påsar)<br>\n      Inpris: ca 20 kr/påse<br>\n      1 låda = 24 påsar<br>\n      Rek. utpris: 2 för 60 kr eller 3 för 90 kr\n    </p>\n  </div>\n\n  <!-- Stort paket -->\n  <div class=\"fl-package\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Stor.png?v=1757402423\" alt=\"Stort paket\">\n    <h3>STORT PAKET</h3>\n    <p>\n      <b>Köp 27 lådor, få 3 lådor gratis</b><br>\n      Totalt 30 lådor (720 påsar)<br>\n      Inpris: ca 20 kr/påse<br>\n      1 låda = 24 påsar<br>\n      Rek. utpris: 2 för 60 kr eller 3 för 90 kr\n    </p>\n  </div>\n</div>",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "rich_text_x4ffcm": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_PnkRrR": {
+          "type": "heading",
+          "settings": {
+            "text": "Förbeställ till din butik",
+            "heading_tag": "h1",
+            "text_color": "",
+            "gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_PnkRrR"
+      ],
+      "custom_css": [
+        ".section-full {font-family: balloon; padding-bottom: 0px !important;}",
+        ".hyphenate {font-family: balloon !important; font-weight: 100;}"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "medium",
+        "text_position": "center",
         "background": "",
         "background_gradient": "",
         "text_color": ""
@@ -156,6 +186,7 @@
     "rich_text_ybbC46",
     "rich_text_DjWyF6",
     "custom_liquid_x64nBb",
+    "rich_text_x4ffcm",
     "custom_html_DpmPMH",
     "main"
   ]
