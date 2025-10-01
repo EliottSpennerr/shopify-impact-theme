@@ -54,13 +54,27 @@
         },
         "collapsible_text_iGT7aB": {
           "type": "collapsible_text",
+          "disabled": true,
           "settings": {
             "title": "Innehåll",
             "content": "<p>{{ product.metafields.custom.inneh_ll | metafield_tag }}</p>"
           }
         },
+        "button_nXh67n": {
+          "type": "button",
+          "settings": {
+            "link": "https://www.finsklakrits.se/apps/box-builder/mix-match",
+            "text": "Skapa din låda",
+            "size": "xl",
+            "style": "fill",
+            "stretch": true,
+            "background": "",
+            "text_color": ""
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
+          "disabled": true,
           "settings": {
             "hide_sold_out_variants": false,
             "stack_blocks": true,
@@ -71,6 +85,7 @@
         },
         "quantity_selector": {
           "type": "quantity_selector",
+          "disabled": true,
           "settings": {}
         },
         "buy_buttons": {
@@ -96,10 +111,12 @@
         "separator",
         "description",
         "collapsible_text_iGT7aB",
+        "button_nXh67n",
         "variant_picker",
         "quantity_selector",
         "buy_buttons"
       ],
+      "custom_css": [],
       "settings": {
         "full_width": true,
         "show_fixed_add_to_cart": true,
