@@ -30,45 +30,9 @@
         "overlay_opacity": 30
       }
     },
-    "rich_text_B6iWg7": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_6EArBJ": {
-          "type": "heading",
-          "settings": {
-            "text": "Alla produkter",
-            "heading_tag": "h1",
-            "text_color": "",
-            "gradient": ""
-          }
-        },
-        "richtext_iNBJGQ": {
-          "type": "richtext",
-          "settings": {
-            "content": "<p>Här finns hela vårt sortiment samlat. Sötlakrits, saltlakrits, blandat godis och fudge – noga utvalt för dig som gillar riktigt gott godis. Välj dina favoriter och hitta något nytt.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading_6EArBJ",
-        "richtext_iNBJGQ"
-      ],
-      "custom_css": [
-        ".section-blends {padding-bottom: 0px; padding-top: 40px;}",
-        ".h1 {font-family: balloon; font-weight: 100;}"
-      ],
-      "name": "Rich text",
-      "settings": {
-        "full_width": true,
-        "content_width": "small",
-        "text_position": "start",
-        "background": "",
-        "background_gradient": "",
-        "text_color": ""
-      }
-    },
     "main": {
       "type": "main-collection",
+      "disabled": true,
       "settings": {
         "products_per_page": 24,
         "products_per_row_mobile": "2",
@@ -82,11 +46,37 @@
         "show_filter_values_count": true,
         "open_first_filter_group": false
       }
+    },
+    "featured_collection_4rh63x": {
+      "type": "featured-collection",
+      "name": "Featured collection",
+      "settings": {
+        "collection": "merch",
+        "products": [],
+        "full_width": true,
+        "stack_products": true,
+        "show_progress_bar": false,
+        "products_count": 6,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 3,
+        "subheading": "",
+        "title": "Merch",
+        "content": "<p>Någon i familjen som älskar Finsk Lakrits – eller kanske du själv? 🖤<br/><br/>Visa din kärlek till lakrits med vår merch: kepsar, t-shirts och totebags i stilren design. Perfekt present eller för att unna dig själv.</p>",
+        "link_url": "",
+        "link_text": "View all",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
+      }
     }
   },
   "order": [
     "banner",
-    "rich_text_B6iWg7",
-    "main"
+    "main",
+    "featured_collection_4rh63x"
   ]
 }
