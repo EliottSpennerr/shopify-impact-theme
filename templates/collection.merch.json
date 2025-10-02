@@ -49,6 +49,9 @@
     },
     "featured_collection_4rh63x": {
       "type": "featured-collection",
+      "custom_css": [
+        ".h2 {font-family: balloon; font-weight: 100; font-size: 50px;}"
+      ],
       "name": "Featured collection",
       "settings": {
         "collection": "merch",
