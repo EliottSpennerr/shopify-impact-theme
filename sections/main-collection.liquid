@@ -202,8 +202,19 @@
                       </div>
                     {%- endfor -%}
 
-                    {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
-                  {%- endfor -%}
+{%- comment -%}
+Dölj produkter som ligger i samlingen "Merch"
+{%- endcomment -%}
+{%- assign hide_product = false -%}
+{%- if collections['merch'] and collections['merch'].products_count > 0 -%}
+  {%- if product.collections contains collections['merch'] -%}
+    {%- assign hide_product = true -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- unless hide_product -%}
+  {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
+{%- endunless -%}                  {%- endfor -%}
                 </product-list>
               </reveal-items>
             </div>
