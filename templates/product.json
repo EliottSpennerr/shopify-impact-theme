@@ -18,18 +18,24 @@
             "heading_tag": "h2"
           }
         },
-        "badges": {
-          "type": "badges",
-          "settings": {}
-        },
         "judge_me_reviews_preview_badge_BkceGL": {
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "badges": {
+          "type": "badges",
           "settings": {}
         },
         "price": {
           "type": "price",
           "settings": {
             "show_taxes_notice": false
+          }
+        },
+        "inventory_WqNJfM": {
+          "type": "inventory",
+          "settings": {
+            "low_inventory_threshold": 0
           }
         },
         "rating": {
@@ -87,9 +93,10 @@
       },
       "block_order": [
         "title",
-        "badges",
         "judge_me_reviews_preview_badge_BkceGL",
+        "badges",
         "price",
+        "inventory_WqNJfM",
         "rating",
         "payment_terms",
         "separator",
