@@ -32,12 +32,6 @@
             "show_taxes_notice": false
           }
         },
-        "inventory_WqNJfM": {
-          "type": "inventory",
-          "settings": {
-            "low_inventory_threshold": 0
-          }
-        },
         "rating": {
           "type": "rating",
           "settings": {
@@ -75,6 +69,12 @@
             "size_chart_page": ""
           }
         },
+        "inventory_WqNJfM": {
+          "type": "inventory",
+          "settings": {
+            "low_inventory_threshold": 0
+          }
+        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
@@ -96,13 +96,13 @@
         "judge_me_reviews_preview_badge_BkceGL",
         "badges",
         "price",
-        "inventory_WqNJfM",
         "rating",
         "payment_terms",
         "separator",
         "description",
         "collapsible_text_iGT7aB",
         "variant_picker",
+        "inventory_WqNJfM",
         "quantity_selector",
         "buy_buttons"
       ],
