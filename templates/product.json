@@ -38,9 +38,26 @@
             "show_empty": false
           }
         },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
         "payment_terms": {
           "type": "payment_terms",
           "settings": {}
+        },
+        "inventory_WqNJfM": {
+          "type": "inventory",
+          "settings": {
+            "low_inventory_threshold": 0
+          }
         },
         "separator": {
           "type": "separator",
@@ -69,26 +86,9 @@
             "size_chart_page": ""
           }
         },
-        "inventory_WqNJfM": {
-          "type": "inventory",
-          "settings": {
-            "low_inventory_threshold": 0
-          }
-        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_payment_button": true,
-            "show_gift_card_recipient": true,
-            "atc_button_background": "",
-            "atc_button_text_color": "",
-            "payment_button_background": "",
-            "payment_button_text_color": ""
-          }
         }
       },
       "block_order": [
@@ -97,14 +97,14 @@
         "badges",
         "price",
         "rating",
+        "buy_buttons",
         "payment_terms",
+        "inventory_WqNJfM",
         "separator",
         "description",
         "collapsible_text_iGT7aB",
         "variant_picker",
-        "inventory_WqNJfM",
-        "quantity_selector",
-        "buy_buttons"
+        "quantity_selector"
       ],
       "settings": {
         "full_width": true,
@@ -131,6 +131,8 @@
           "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
             "review_data": "sample_data",
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget",
             "max_width": 1200
           }
         }
