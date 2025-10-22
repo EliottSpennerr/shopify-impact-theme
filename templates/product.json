@@ -32,12 +32,6 @@
             "show_taxes_notice": false
           }
         },
-        "liquid_GA4DQB": {
-          "type": "liquid",
-          "settings": {
-            "liquid": "<style>\n  /* Radlayout för containern som redan innehåller både qty + buy buttons */\n  .impact-qty-atc-inline {\n    display: flex !important;\n    align-items: center !important;\n    gap: 12px !important;\n    flex-wrap: nowrap !important;\n    width: 100% !important;\n  }\n\n  /* Håll kvantiteten kompakt */\n  .impact-qty-atc-inline .impact-qty {\n    flex: 0 0 auto !important;\n    min-width: 64px !important;\n    max-width: 96px !important;\n    margin: 0 !important;\n  }\n\n  /* Låt knappar ta plats */\n  .impact-qty-atc-inline .impact-buttons {\n    display: flex !important;\n    flex: 1 1 auto !important;\n    gap: 10px !important;\n    min-width: 0;\n  }\n  .impact-qty-atc-inline .impact-buttons > * {\n    flex: 1 1 auto !important;\n    min-width: 0;\n  }\n\n  @media (max-width: 640px) {\n    .impact-qty-atc-inline { flex-wrap: nowrap !important; }\n  }\n</style>\n\n<script>\n(function(){\n  // Lägsta gemensamma förälder utan att flytta noder\n  function lowestCommonAncestor(a, b) {\n    if (!a || !b) return null;\n    const set = new Set();\n    let n = a;\n    while (n) { set.add(n); n = n.parentElement; }\n    n = b;\n    while (n) { if (set.has(n)) return n; n = n.parentElement; }\n    return null;\n  }\n\n  function mountOnce() {\n    // Hitta produktform (Impact använder shopify-product-form + is=\"product-form\")\n    const form = document.querySelector('form.shopify-product-form[is=\"product-form\"][id]');\n    if (!form) return false;\n\n    // Hitta kvantitets-INPUT via form-attributet (ligger utanför form i Impact)\n    const qtyInput = document.querySelector(`input[name=\"quantity\"][form=\"${form.id}\"]`);\n    if (!qtyInput) return false;\n\n    // Hitta kvantitets-container (quantity-selector / form-control)\n    const qtyContainer = qtyInput.closest('.quantity-selector, .form-control') || qtyInput;\n    qtyContainer.classList.add('impact-qty');\n\n    // Hitta buy-buttons elementet i formen\n    const buyButtons = form.querySelector('buy-buttons');\n    if (!buyButtons) return false;\n    buyButtons.classList.add('impact-buttons');\n\n    // Hitta en gemensam förälder som redan innehåller båda\n    const lca = lowestCommonAncestor(qtyContainer, buyButtons);\n    if (!lca || lca === document.body || lca === document.documentElement) return false;\n\n    // Sätt vår radklass på den föräldern (ingen flytt av DOM)\n    lca.classList.add('impact-qty-atc-inline');\n\n    return true;\n  }\n\n  function mount() {\n    const ok = mountOnce();\n\n    // Impact re-renderar ibland; observera och applicera igen om klassen tappas\n    const root = document.querySelector('#shopify-section-template--25205362459008__main') || document.body;\n    if (!root) return;\n\n    const obs = new MutationObserver(() => {\n      if (!document.querySelector('.impact-qty-atc-inline')) {\n        mountOnce();\n      }\n    });\n    obs.observe(root, { childList: true, subtree: true });\n  }\n\n  if (document.readyState === 'loading') {\n    document.addEventListener('DOMContentLoaded', mount);\n  } else {\n    mount();\n  }\n})();\n</script>"
-          }
-        },
         "rating": {
           "type": "rating",
           "disabled": true,
@@ -104,7 +98,6 @@
         "judge_me_reviews_preview_badge_BkceGL",
         "badges",
         "price",
-        "liquid_GA4DQB",
         "rating",
         "inventory_WqNJfM",
         "buy_buttons",
