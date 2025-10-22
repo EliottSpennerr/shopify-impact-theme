@@ -38,6 +38,12 @@
             "show_empty": false
           }
         },
+        "inventory_WqNJfM": {
+          "type": "inventory",
+          "settings": {
+            "low_inventory_threshold": 0
+          }
+        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -51,13 +57,8 @@
         },
         "payment_terms": {
           "type": "payment_terms",
+          "disabled": true,
           "settings": {}
-        },
-        "inventory_WqNJfM": {
-          "type": "inventory",
-          "settings": {
-            "low_inventory_threshold": 0
-          }
         },
         "separator": {
           "type": "separator",
@@ -97,9 +98,9 @@
         "badges",
         "price",
         "rating",
+        "inventory_WqNJfM",
         "buy_buttons",
         "payment_terms",
-        "inventory_WqNJfM",
         "separator",
         "description",
         "collapsible_text_iGT7aB",
