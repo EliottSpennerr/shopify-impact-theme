@@ -142,10 +142,7 @@
       "block_order": [
         "judge_me_reviews_review_widget_tC3dXH"
       ],
-      "custom_css": [
-        ".jdgm-widget:not(.jdgm-review-widget--small, .jdgm-review-widget--medium) .jdgm-write-rev-link,.jdgm-widget:not(.jdgm-review-widget--small, .jdgm-review-widget--medium) .jdgm-ask-question-btn {border-radius: 100px !important;}",
-        ".jdgm-write-rev-link {border-radius: 200px !important;}"
-      ],
+      "custom_css": [],
       "settings": {
         "full_width": true,
         "remove_vertical_spacing": false,
