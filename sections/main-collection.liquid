@@ -205,12 +205,22 @@
 {%- comment -%}
 Dölj produkter som ligger i samlingen "Merch"
 {%- endcomment -%}
+{%- comment -%} 
+Dölj produkter som ligger i samlingen "Merch" 
+eller produkten "Mix&Match"
+{%- endcomment -%}
 {%- assign hide_product = false -%}
+
 {%- if collections['merch'] and collections['merch'].products_count > 0 -%}
   {%- if product.collections contains collections['merch'] -%}
     {%- assign hide_product = true -%}
   {%- endif -%}
 {%- endif -%}
+
+{%- if product.handle == 'mix-match' or product.title contains 'Mix&Match' -%}
+  {%- assign hide_product = true -%}
+{%- endif -%}
+
 
 {%- unless hide_product -%}
   {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
