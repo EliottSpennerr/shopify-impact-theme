@@ -32,6 +32,20 @@
             "show_taxes_notice": false
           }
         },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "stack_blocks": true,
+            "selector_mode": "block",
+            "color_mode": "color",
+            "size_chart_page": ""
+          }
+        },
         "rating": {
           "type": "rating",
           "disabled": true,
@@ -77,20 +91,6 @@
             "title": "Innehåll",
             "content": "<p>{{ product.metafields.custom.inneh_ll | metafield_tag }}</p>"
           }
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "hide_sold_out_variants": false,
-            "stack_blocks": true,
-            "selector_mode": "block",
-            "color_mode": "color",
-            "size_chart_page": ""
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
         }
       },
       "block_order": [
@@ -98,15 +98,15 @@
         "judge_me_reviews_preview_badge_BkceGL",
         "badges",
         "price",
+        "quantity_selector",
+        "variant_picker",
         "rating",
         "inventory_WqNJfM",
         "buy_buttons",
         "payment_terms",
         "separator",
         "description",
-        "collapsible_text_iGT7aB",
-        "variant_picker",
-        "quantity_selector"
+        "collapsible_text_iGT7aB"
       ],
       "settings": {
         "full_width": true,
