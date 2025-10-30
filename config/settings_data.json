@@ -78,6 +78,13 @@
         "settings": {
           "settings_js_develop_mode": false
         }
+      },
+      "7052923239363062473": {
+        "type": "shopify://apps/totebot-ai-sales-marketing/blocks/totebot/bf29f0eb-b904-4ba5-8a69-03163d1a33e2",
+        "disabled": false,
+        "settings": {
+          "app_url": "https://totebot.ai"
+        }
       }
     }
   },
