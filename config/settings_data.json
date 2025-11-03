@@ -81,15 +81,10 @@
       },
       "7052923239363062473": {
         "type": "shopify://apps/totebot-ai-sales-marketing/blocks/totebot/bf29f0eb-b904-4ba5-8a69-03163d1a33e2",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "app_url": "https://totebot.ai"
         }
-      },
-      "13969055170449783870": {
-        "type": "shopify://apps/bss-b2b-solution/blocks/config-header/451233f2-9631-4c49-8b6f-057e4ebcde7f",
-        "disabled": false,
-        "settings": {}
       }
     }
   },
