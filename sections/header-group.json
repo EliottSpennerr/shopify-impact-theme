@@ -40,6 +40,8 @@
       "custom_css": [],
       "settings": {
         "enable_sticky": true,
+        "logo_en": "shopify://shop_images/Finnishlicorice_White.svg",
+        "transparent_logo_en": "shopify://shop_images/Finnishlicorice_blue.svg",
         "hide_on_scroll": false,
         "logo": "shopify://shop_images/Finsklakrits-Bla.svg",
         "logo_max_width": 120,
