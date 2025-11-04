@@ -198,34 +198,20 @@ the underlying logic of the menu.
       --------------------------------------------------------------------------------------------------------------------
       {%- endcomment -%}
 
-    {%- capture logo_content -%}
-  {%- comment -%} Välj rätt logo beroende på språk {%- endcomment -%}
-  {%- assign current_logo = section.settings.logo -%}
-  {%- assign current_transparent_logo = section.settings.transparent_logo -%}
+      {%- capture logo_content -%}
+        {%- if section.settings.logo -%}
+          {%- capture sizes -%}{{ section.settings.logo_max_width }}px{%- endcapture -%}
+          {%- capture widths -%}{{ section.settings.logo_max_width | times: 2 | at_most: section.settings.logo.width }}, {{ section.settings.logo_max_width | times: 3 | at_most: section.settings.logo.width }}{%- endcapture -%}
+          <span class="sr-only">{{ shop.name }}</span>
+          {{- section.settings.logo | image_url: width: section.settings.logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image' -}}
 
-  {%- if request.locale.iso_code == 'en' -%}
-    {%- if section.settings.logo_en != blank -%}
-      {%- assign current_logo = section.settings.logo_en -%}
-    {%- endif -%}
-    {%- if section.settings.transparent_logo_en != blank -%}
-      {%- assign current_transparent_logo = section.settings.transparent_logo_en -%}
-    {%- endif -%}
-  {%- endif -%}
-
-  {%- if current_logo -%}
-    {%- capture sizes -%}{{ section.settings.logo_max_width }}px{%- endcapture -%}
-    {%- capture widths -%}{{ section.settings.logo_max_width | times: 2 | at_most: current_logo.width }}, {{ section.settings.logo_max_width | times: 3 | at_most: current_logo.width }}{%- endcapture -%}
-    <span class="sr-only">{{ shop.name }}</span>
-    {{- current_logo | image_url: width: current_logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image' -}}
-
-    {%- if current_transparent_logo -%}
-      {{- current_transparent_logo | image_url: width: current_transparent_logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image header__logo-image--transparent' -}}
-    {%- endif -%}
-  {%- else -%}
-    <span class="header__logo-text h4">{{ shop.name }}</span>
-  {%- endif -%}
-{%- endcapture -%}
-
+          {%- if section.settings.transparent_logo -%}
+            {{- section.settings.transparent_logo | image_url: width: section.settings.transparent_logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image header__logo-image--transparent' -}}
+          {%- endif -%}
+        {%- else -%}
+          <span class="header__logo-text h4">{{ shop.name }}</span>
+        {%- endif -%}
+      {%- endcapture -%}
 
       {%- if request.page_type == 'index' -%}
         <h1 class="header__logo">
@@ -340,16 +326,6 @@ the underlying logic of the menu.
       "label": "Enable sticky header",
       "default": true
     },
-    {
-  "type": "image_picker",
-  "id": "logo_en",
-  "label": "Image (English /en)"
-},
-{
-  "type": "image_picker",
-  "id": "transparent_logo_en",
-  "label": "Logo image (English /en, transparent)"
-},
     {
       "type": "checkbox",
       "id": "hide_on_scroll",
