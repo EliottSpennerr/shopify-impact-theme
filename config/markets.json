@@ -11,6 +11,9 @@
   "markets": {
     "europeiska-unionen": {
       "parent": "@default"
+    },
+    "scandinaviansweets": {
+      "parent": "@default"
     }
   }
 }

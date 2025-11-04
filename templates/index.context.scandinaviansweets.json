@@ -12,5 +12,46 @@
   "context": {
     "market": "scandinaviansweets"
   },
-  "sections": {}
+  "sections": {
+    "slideshow": {
+      "settings": {},
+      "blocks": {
+        "slide-1": {
+          "settings": {
+            "title": "Free shipping over x amouint",
+            "heading_tag": "h1",
+            "button_text": "Buy now",
+            "button_background": "#6c0704"
+          }
+        }
+      }
+    },
+    "collection-list": {
+      "settings": {
+        "background": "#f5b4bf",
+        "text_color": "#6c0704"
+      },
+      "blocks": {}
+    },
+    "text_with_icons_yR6zh6": {
+      "settings": {
+        "background": "#f5b4bf"
+      },
+      "blocks": {}
+    },
+    "logo_list_CMeLpz": {
+      "settings": {
+        "background": "#f5b4bf",
+        "text_color": "#6c0704"
+      },
+      "blocks": {}
+    },
+    "faq_yNQgm7": {
+      "settings": {
+        "background": "#f5b4bf",
+        "text_color": "#6c0704"
+      },
+      "blocks": {}
+    }
+  }
 }
