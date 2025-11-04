@@ -14,15 +14,22 @@
   },
   "sections": {
     "footer": {
+      "custom_css": [],
       "settings": {},
       "blocks": {
         "newsletter": {
           "settings": {
             "image": "shopify://shop_images/Scansweet.svg",
-            "image_width": 300
+            "image_width": 300,
+            "content": "<p><strong>Get 10% off your first order</strong> when you subscribe to our newsletter!</p>"
           }
         }
       }
+    },
+    "17611115335485f308": {
+      "disabled": true,
+      "settings": {},
+      "blocks": {}
     }
   }
 }

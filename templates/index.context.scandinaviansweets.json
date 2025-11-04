@@ -29,7 +29,7 @@
     "collection-list": {
       "settings": {
         "background": "#f5b4bf",
-        "text_color": "#6c0704"
+        "text_color": "#530d01"
       },
       "blocks": {}
     },
@@ -37,14 +37,14 @@
       "custom_css": [],
       "settings": {
         "background": "#f5b4bf",
-        "text_color": "#6c0704"
+        "text_color": "#530d01"
       },
       "blocks": {
         "item_d7zWYj": {
           "settings": {
             "icon": "picto-earth",
             "custom_icon": null,
-            "icon_color": "#6c0704",
+            "icon_color": "#530d01",
             "title": "Real candy from Scandinavia",
             "content": "<p>A collection of authentic Nordic favorites</p>"
           }
@@ -53,7 +53,7 @@
           "settings": {
             "icon": "picto-jewelry",
             "custom_icon": null,
-            "icon_color": "#6c0704",
+            "icon_color": "#530d01",
             "title": "Fresh & full of flavor",
             "content": "<p>We focus on softness, freshness, and taste.</p>"
           }
@@ -62,7 +62,7 @@
           "settings": {
             "icon": "picto-truck",
             "custom_icon": null,
-            "icon_color": "#6c0704",
+            "icon_color": "#530d01",
             "title": "Fast delivery",
             "content": "<p>Ships directly from our Nordic warehouse.</p>"
           }
@@ -78,11 +78,85 @@
       "blocks": {}
     },
     "faq_yNQgm7": {
+      "custom_css": [],
       "settings": {
         "background": "#f5b4bf",
-        "text_color": "#6c0704"
+        "text_color": "#530d01",
+        "title": "FAQ",
+        "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>"
       },
-      "blocks": {}
+      "blocks": {
+        "item_LVqJTf": {
+          "settings": {
+            "title": "Is all your candy from Scandinavia?",
+            "content": "<p>Yes! All of our candy comes from Sweden, Denmark, Finland, or Norway — real treats from real Nordic makers.</p>"
+          }
+        },
+        "item_JBrjtm": {
+          "settings": {
+            "title": "Is the candy fresh?",
+            "content": "<p>Always. We work with producers who make in smaller batches, so your candy doesn’t spend months on a shelf before it reaches you.</p>"
+          }
+        },
+        "item_WCV9mY": {
+          "settings": {
+            "title": "Where do you ship from?",
+            "content": "<p>From our Nordic warehouse straight to your door.</p>"
+          }
+        },
+        "item_LWJ4mH": {
+          "settings": {
+            "title": "Is it really that good?",
+            "content": "<p>We think so. Thousands of Nordic candy lovers agree. But don’t take our word for it taste it yourself.</p>"
+          }
+        },
+        "item_fKVhQM": {
+          "disabled": false,
+          "settings": {
+            "title": "How long does the candy last?",
+            "content": "<p>About 12 months from the production date.<br/>But honestly it tastes best fresh. So open, enjoy, and share it before then.</p>"
+          }
+        },
+        "item_mcMBrg": {
+          "disabled": true,
+          "settings": {}
+        },
+        "item_PHnCna": {
+          "disabled": true,
+          "settings": {}
+        }
+      }
+    },
+    "image-with-text-overlay": {
+      "custom_css": [],
+      "settings": {},
+      "blocks": {
+        "1664424230c4756b0e-1": {
+          "settings": {
+            "text": "Candy made the Scandinavian way."
+          }
+        },
+        "1664424230c4756b0e-2": {
+          "settings": {
+            "content": "<p>Real Scandinavian sweets, crafted with respect for the ingredients and for your taste. No shortcuts. No nonsense. Just the kind of candy worth craving.</p>"
+          }
+        }
+      }
+    },
+    "slideshow_e7THg7": {
+      "custom_css": [],
+      "settings": {},
+      "blocks": {
+        "image_gNxLg3": {
+          "settings": {
+            "title": "Become a retailer",
+            "subheading": "Bring real Scandinavian candy to your shelves, the kind customers can’t resist.",
+            "button_text": "Contact us",
+            "button_background": "#6c0704",
+            "button_text_color": "#f5b4bf"
+          }
+        }
+      }
     }
   }
 }
