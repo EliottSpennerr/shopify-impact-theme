@@ -22,6 +22,13 @@
           }
         }
       }
+    },
+    "header": {
+      "settings": {
+        "logo": "shopify://shop_images/Finnishlicorice_blue.svg",
+        "transparent_logo": "shopify://shop_images/Finnishlicorice_white.svg"
+      },
+      "blocks": {}
     }
   }
 }
