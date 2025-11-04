@@ -12,5 +12,16 @@
   "context": {
     "market": "europeiska-unionen"
   },
-  "sections": {}
+  "sections": {
+    "announcement-bar": {
+      "settings": {},
+      "blocks": {
+        "message": {
+          "settings": {
+            "text": "FRI FRAKT ÖVER 500 SEK"
+          }
+        }
+      }
+    }
+  }
 }
