@@ -70,6 +70,7 @@
       }
     },
     "logo_list_CMeLpz": {
+      "disabled": true,
       "settings": {
         "background": "#f5b4bf",
         "text_color": "#6c0704"
