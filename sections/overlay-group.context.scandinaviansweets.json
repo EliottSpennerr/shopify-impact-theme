@@ -12,5 +12,11 @@
   "context": {
     "market": "scandinaviansweets"
   },
-  "sections": {}
+  "sections": {
+    "newsletter-popup": {
+      "disabled": true,
+      "settings": {},
+      "blocks": {}
+    }
+  }
 }
