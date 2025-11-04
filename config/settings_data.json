@@ -23,7 +23,7 @@
     "footer_background": "#ffffff",
     "footer_text_color": "#1a2533",
     "primary_button_background": "#0962fa",
-    "primary_button_text_color": "#ffffff",
+    "primary_button_text_color": "{{ shop.brand.colors.primary[0].foreground }}",
     "secondary_button_background": "#1a2533",
     "secondary_button_text_color": "#ffffff",
     "product_card_text_color": "#1a2533",
