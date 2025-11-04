@@ -11,9 +11,6 @@
   "markets": {
     "europeiska-unionen": {
       "parent": "@default"
-    },
-    "internationell": {
-      "parent": "@default"
     }
   }
 }
