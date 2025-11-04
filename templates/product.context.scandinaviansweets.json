@@ -12,5 +12,16 @@
   "context": {
     "market": "scandinaviansweets"
   },
-  "sections": {}
+  "sections": {
+    "main": {
+      "settings": {},
+      "blocks": {
+        "buy_buttons": {
+          "settings": {
+            "atc_button_background": "#6c0704"
+          }
+        }
+      }
+    }
+  }
 }
