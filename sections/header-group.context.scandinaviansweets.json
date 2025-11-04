@@ -18,14 +18,20 @@
         "background": "#f5b4bf",
         "text_color": "#6c0704"
       },
-      "blocks": {}
+      "blocks": {
+        "message": {
+          "settings": {
+            "text": "FREE SHIPPING OVER 50$"
+          }
+        }
+      }
     },
     "header": {
       "settings": {
         "logo": "shopify://shop_images/Scansweet1.svg",
         "logo_max_width": 200,
-        "transparent_logo": "shopify://shop_images/Scansweet_pink1.svg",
-        "show_locale_selector": false
+        "show_locale_selector": false,
+        "transparent_logo": "shopify://shop_images/Scansweet_pink1.svg"
       },
       "blocks": {}
     }
