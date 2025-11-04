@@ -18,7 +18,7 @@
       "blocks": {
         "slide-1": {
           "settings": {
-            "title": "Free shipping over x amouint",
+            "title": "Scandinavian Candy, Done Right.",
             "heading_tag": "h1",
             "button_text": "Buy now",
             "button_background": "#6c0704"
@@ -42,29 +42,29 @@
       "blocks": {
         "item_d7zWYj": {
           "settings": {
-            "title": "Real candy from Scandinavia",
-            "content": "<p>A collection of authentic Nordic favorites</p>",
-            "icon_color": "#6c0704",
             "icon": "picto-earth",
-            "custom_icon": null
+            "custom_icon": null,
+            "icon_color": "#6c0704",
+            "title": "Real candy from Scandinavia",
+            "content": "<p>A collection of authentic Nordic favorites</p>"
           }
         },
         "item_93Gtb3": {
           "settings": {
-            "title": "Fresh & full of flavor",
-            "content": "<p>We focus on softness, freshness, and taste.</p>",
-            "custom_icon": null,
             "icon": "picto-jewelry",
-            "icon_color": "#6c0704"
+            "custom_icon": null,
+            "icon_color": "#6c0704",
+            "title": "Fresh & full of flavor",
+            "content": "<p>We focus on softness, freshness, and taste.</p>"
           }
         },
         "item_bzAFw7": {
           "settings": {
-            "content": "<p>Ships directly from our Nordic warehouse.</p>",
-            "custom_icon": null,
             "icon": "picto-truck",
+            "custom_icon": null,
             "icon_color": "#6c0704",
-            "title": "Fast delivery"
+            "title": "Fast delivery",
+            "content": "<p>Ships directly from our Nordic warehouse.</p>"
           }
         }
       }
