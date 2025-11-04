@@ -12,5 +12,17 @@
   "context": {
     "market": "scandinaviansweets"
   },
-  "sections": {}
+  "sections": {
+    "footer": {
+      "settings": {},
+      "blocks": {
+        "newsletter": {
+          "settings": {
+            "image": "shopify://shop_images/Scansweet.svg",
+            "image_width": 300
+          }
+        }
+      }
+    }
+  }
 }

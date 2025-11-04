@@ -24,9 +24,8 @@
       "settings": {
         "logo_en": "shopify://shop_images/Scansweet1.svg",
         "transparent_logo_en": "shopify://shop_images/Scansweet_pink1.svg",
-        "logo": "shopify://shop_images/Scansweet_pink1.svg",
-        "logo_max_width": 300,
-        "transparent_logo": null
+        "logo": "shopify://shop_images/Scansweet1.svg",
+        "logo_max_width": 300
       },
       "blocks": {}
     }
