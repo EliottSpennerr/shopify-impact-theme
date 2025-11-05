@@ -4,6 +4,8 @@
   CSS
   ------------------------------------------------------------------------------------------------------------------------
   {%- endcomment -%}
+   .announcement-bar__scrolling-list .shape-circle { display: none!important; }
+
   <style>
     :root {
       --sticky-announcement-bar-enabled: {%- if section.settings.enable_sticky -%}1{% else %}0{% endif %};
