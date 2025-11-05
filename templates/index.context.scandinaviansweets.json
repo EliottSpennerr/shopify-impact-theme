@@ -27,6 +27,7 @@
       }
     },
     "collection-list": {
+      "disabled": true,
       "settings": {
         "background": "#f5b4bf",
         "text_color": "#530d01"
@@ -69,6 +70,22 @@
         }
       }
     },
+    "image-with-text-overlay": {
+      "custom_css": [],
+      "settings": {},
+      "blocks": {
+        "1664424230c4756b0e-1": {
+          "settings": {
+            "text": "Candy made the Scandinavian way."
+          }
+        },
+        "1664424230c4756b0e-2": {
+          "settings": {
+            "content": "<p>Real Scandinavian sweets, crafted with respect for the ingredients and for your taste. No shortcuts. No nonsense. Just the kind of candy worth craving.</p>"
+          }
+        }
+      }
+    },
     "logo_list_CMeLpz": {
       "disabled": true,
       "settings": {
@@ -80,10 +97,10 @@
     "faq_yNQgm7": {
       "custom_css": [],
       "settings": {
-        "background": "#f5b4bf",
-        "text_color": "#530d01",
         "title": "FAQ",
-        "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>"
+        "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>",
+        "background": "#f5b4bf",
+        "text_color": "#530d01"
       },
       "blocks": {
         "item_LVqJTf": {
@@ -127,36 +144,94 @@
         }
       }
     },
-    "image-with-text-overlay": {
-      "custom_css": [],
-      "settings": {},
-      "blocks": {
-        "1664424230c4756b0e-1": {
-          "settings": {
-            "text": "Candy made the Scandinavian way."
-          }
-        },
-        "1664424230c4756b0e-2": {
-          "settings": {
-            "content": "<p>Real Scandinavian sweets, crafted with respect for the ingredients and for your taste. No shortcuts. No nonsense. Just the kind of candy worth craving.</p>"
-          }
-        }
-      }
-    },
     "slideshow_e7THg7": {
       "custom_css": [],
       "settings": {},
       "blocks": {
         "image_gNxLg3": {
           "settings": {
-            "title": "Become a retailer",
             "subheading": "Bring real Scandinavian candy to your shelves, the kind customers can’t resist.",
+            "title": "Become a retailer",
             "button_text": "Contact us",
             "button_background": "#6c0704",
             "button_text_color": "#f5b4bf"
           }
         }
       }
+    },
+    "1762324561e283b06b": {
+      "type": "_blocks",
+      "disabled": false,
+      "settings": {},
+      "blocks": {
+        "ai_gen_block_9862c91_fj3pn": {
+          "type": "ai_gen_block_9862c91",
+          "disabled": false,
+          "settings": {
+            "header-49d6d7660aef04181de4b60e4a394b01": null,
+            "heading": "Våra topprodukter",
+            "subtitle": "Kundfavoriter, gjorda i Finland.",
+            "heading_alignment": "left",
+            "collection": "alla-produkter",
+            "product_tag": "top",
+            "products_count": 12,
+            "button_text": "Handla nu",
+            "discount_type": "percentage",
+            "header-de9916c95afe1477893b4b3fda923301": null,
+            "section_padding_top": 80,
+            "section_padding_bottom": 60,
+            "header_spacing": 48,
+            "scroll_padding": 20,
+            "card_padding": 24,
+            "header-5cc3f0e8c510599c78c6c67f7f7ba63f": null,
+            "heading_size": 42,
+            "heading_size_mobile": 28,
+            "heading_line_height": 1.2,
+            "heading_letter_spacing": 0,
+            "subtitle_size": 16,
+            "header-e04e6bb7cd136414fcd08ca93dca09f0": null,
+            "product_title_size": 18,
+            "product_title_line_height": 1.3,
+            "header-6f74aef6a3cd54601ef6ee8ec244dacf": null,
+            "card_width": 300,
+            "card_width_mobile": 280,
+            "header-283b03c2d1eb4b6f5d61750d11bbc183": null,
+            "background_color": "#f0f0f0",
+            "text_color": "#1a2533",
+            "header-51b42053e4e3f866de65411b2fe578cb": null,
+            "card_background": "#ffffff",
+            "card_border_radius": 24,
+            "shadow_opacity": 10,
+            "shadow_vertical_offset": 18,
+            "shadow_blur": 50,
+            "header-08cea8fecc987279f311e0829ce41c2e": null,
+            "badge_background": "#803cee",
+            "badge_text_color": "#ffffff",
+            "header-7fa060fe248f9caa38a7c48fa6104800": null,
+            "button_background": "#0962fa",
+            "button_text_color": "#ffffff",
+            "button_hover_background": "#1a2533",
+            "button_border_radius": 60,
+            "header-939c688984a39f8f2af0fc287010f55c": null,
+            "arrow_background": "#ffffff",
+            "arrow_color": "#1a2533",
+            "arrow_hover_background": "#1a2533"
+          }
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9862c91_fj3pn"
+      ]
     }
-  }
+  },
+  "order": [
+    "slideshow",
+    "1762324561e283b06b",
+    "collection-list",
+    "text_with_icons_yR6zh6",
+    "image-with-text-overlay",
+    "logo_list_CMeLpz",
+    "faq_yNQgm7",
+    "slideshow_e7THg7"
+  ]
 }
