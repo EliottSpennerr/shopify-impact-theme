@@ -208,14 +208,14 @@
             "badge_background": "#803cee",
             "badge_text_color": "#ffffff",
             "header-7fa060fe248f9caa38a7c48fa6104800": null,
-            "button_background": "#0962fa",
+            "button_background": "#6c0704",
             "button_text_color": "#ffffff",
             "button_hover_background": "#1a2533",
             "button_border_radius": 60,
             "header-939c688984a39f8f2af0fc287010f55c": null,
-            "arrow_background": "#ffffff",
-            "arrow_color": "#1a2533",
-            "arrow_hover_background": "#1a2533"
+            "arrow_background": "#6c0704",
+            "arrow_color": "#f5b4bf",
+            "arrow_hover_background": "#6c0704"
           }
         }
       },
