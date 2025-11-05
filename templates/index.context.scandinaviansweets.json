@@ -13,6 +13,42 @@
     "market": "scandinaviansweets"
   },
   "sections": {
+    "featured_collection_7YgRW": {
+      "type": "featured-collection",
+      "disabled": false,
+      "settings": {
+        "collection": "",
+        "products": [
+          "sotlakrits-lakritsmix",
+          "marmeladkulor",
+          "mint",
+          "fruktblandning",
+          "flygande-matta"
+        ],
+        "full_width": true,
+        "stack_products": false,
+        "show_progress_bar": true,
+        "products_count": 7,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "subheading": "",
+        "title": "Our best sellers",
+        "content": "",
+        "link_url": "",
+        "link_text": "View all",
+        "header-2642aee7b938fba3ad476080267f2c62": null,
+        "background": "rgba(0,0,0,0)",
+        "background_gradient": "",
+        "text_color": "#6c0704",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "#ffffff",
+        "product_card_text_color": ""
+      },
+      "blocks": {},
+      "block_order": [],
+      "name": "Featured collection"
+    },
     "slideshow": {
       "settings": {},
       "blocks": {
@@ -158,42 +194,6 @@
           }
         }
       }
-    },
-    "featured_collection_7YgRW": {
-      "type": "featured-collection",
-      "disabled": false,
-      "settings": {
-        "collection": "",
-        "products": [
-          "sotlakrits-lakritsmix",
-          "marmeladkulor",
-          "mint",
-          "fruktblandning",
-          "flygande-matta"
-        ],
-        "full_width": true,
-        "stack_products": false,
-        "show_progress_bar": true,
-        "products_count": 8,
-        "products_per_row_mobile": "2",
-        "products_per_row_desktop": 4,
-        "subheading": "",
-        "title": "Our best sellers",
-        "content": "",
-        "link_url": "",
-        "link_text": "View all",
-        "header-d146b4e3072dca696a527c682fbbf86a": null,
-        "background": "rgba(0,0,0,0)",
-        "background_gradient": "",
-        "text_color": "#6c0704",
-        "heading_color": "",
-        "heading_gradient": "",
-        "product_card_background": "#ffffff",
-        "product_card_text_color": ""
-      },
-      "blocks": {},
-      "block_order": [],
-      "name": "Featured collection"
     }
   },
   "order": [
