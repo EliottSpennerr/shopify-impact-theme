@@ -15,11 +15,11 @@
   "sections": {
     "featured_collection_7YgRW": {
       "type": "featured-collection",
-      "disabled": false,
+      "name": "Featured collection",
       "settings": {
         "collection": "",
         "products": [
-          "sotlakrits-lakritsmix",
+          "lakritsmix",
           "marmeladkulor",
           "mint",
           "fruktblandning",
@@ -36,7 +36,6 @@
         "content": "",
         "link_url": "",
         "link_text": "View all",
-        "header-2642aee7b938fba3ad476080267f2c62": null,
         "background": "rgba(0,0,0,0)",
         "background_gradient": "",
         "text_color": "#6c0704",
@@ -44,13 +43,9 @@
         "heading_gradient": "",
         "product_card_background": "#ffffff",
         "product_card_text_color": ""
-      },
-      "blocks": {},
-      "block_order": [],
-      "name": "Featured collection"
+      }
     },
     "slideshow": {
-      "settings": {},
       "blocks": {
         "slide-1": {
           "settings": {
@@ -60,27 +55,21 @@
             "button_background": "#6c0704"
           }
         }
-      }
+      },
+      "settings": {}
     },
     "collection-list": {
       "disabled": true,
       "settings": {
         "background": "#f5b4bf",
         "text_color": "#530d01"
-      },
-      "blocks": {}
+      }
     },
     "text_with_icons_yR6zh6": {
-      "custom_css": [],
-      "settings": {
-        "background": "#f5b4bf",
-        "text_color": "#530d01"
-      },
       "blocks": {
         "item_d7zWYj": {
           "settings": {
             "icon": "picto-earth",
-            "custom_icon": null,
             "icon_color": "#530d01",
             "title": "Real candy from Scandinavia",
             "content": "<p>A collection of authentic Nordic favorites</p>"
@@ -89,7 +78,6 @@
         "item_93Gtb3": {
           "settings": {
             "icon": "picto-jewelry",
-            "custom_icon": null,
             "icon_color": "#530d01",
             "title": "Fresh & full of flavor",
             "content": "<p>We focus on softness, freshness, and taste.</p>"
@@ -98,17 +86,19 @@
         "item_bzAFw7": {
           "settings": {
             "icon": "picto-truck",
-            "custom_icon": null,
             "icon_color": "#530d01",
             "title": "Fast delivery",
             "content": "<p>Ships directly from our Nordic warehouse.</p>"
           }
         }
+      },
+      "custom_css": [],
+      "settings": {
+        "background": "#f5b4bf",
+        "text_color": "#530d01"
       }
     },
     "image-with-text-overlay": {
-      "custom_css": [],
-      "settings": {},
       "blocks": {
         "1664424230c4756b0e-1": {
           "settings": {
@@ -120,24 +110,18 @@
             "content": "<p>Real Scandinavian sweets, crafted with respect for the ingredients and for your taste. No shortcuts. No nonsense. Just the kind of candy worth craving.</p>"
           }
         }
-      }
+      },
+      "custom_css": [],
+      "settings": {}
     },
     "logo_list_CMeLpz": {
       "disabled": true,
       "settings": {
         "background": "#f5b4bf",
         "text_color": "#6c0704"
-      },
-      "blocks": {}
+      }
     },
     "faq_yNQgm7": {
-      "custom_css": [],
-      "settings": {
-        "title": "FAQ",
-        "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>",
-        "background": "#f5b4bf",
-        "text_color": "#530d01"
-      },
       "blocks": {
         "item_LVqJTf": {
           "settings": {
@@ -164,25 +148,27 @@
           }
         },
         "item_fKVhQM": {
-          "disabled": false,
           "settings": {
             "title": "How long does the candy last?",
             "content": "<p>About 12 months from the production date.<br/>But honestly it tastes best fresh. So open, enjoy, and share it before then.</p>"
           }
         },
         "item_mcMBrg": {
-          "disabled": true,
-          "settings": {}
+          "disabled": true
         },
         "item_PHnCna": {
-          "disabled": true,
-          "settings": {}
+          "disabled": true
         }
+      },
+      "custom_css": [],
+      "settings": {
+        "title": "FAQ",
+        "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>",
+        "background": "#f5b4bf",
+        "text_color": "#530d01"
       }
     },
     "slideshow_e7THg7": {
-      "custom_css": [],
-      "settings": {},
       "blocks": {
         "image_gNxLg3": {
           "settings": {
@@ -193,7 +179,9 @@
             "button_text_color": "#f5b4bf"
           }
         }
-      }
+      },
+      "custom_css": [],
+      "settings": {}
     }
   },
   "order": [
