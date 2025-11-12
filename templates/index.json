@@ -15,21 +15,21 @@
         "slide-1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/MarmeladHeader.jpg",
+            "image": "shopify://shop_images/JULBILD.jpg",
             "mobile_image": "shopify://shop_images/Marmelad12.jpg",
-            "content_max_width": 780,
-            "mobile_text_position": "place-self-center text-center",
-            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "content_max_width": 480,
+            "mobile_text_position": "place-self-end-start text-start",
+            "desktop_text_position": "sm:place-self-end-start sm:text-start",
             "subheading": "",
-            "title": "Riktig finsk lakrits.",
-            "heading_tag": "h0",
+            "title": "Julens godaste gåva.",
+            "heading_tag": "h1",
             "button_text": "Köp nu",
             "button_link": "shopify://collections/all",
             "text_color": "#ffffff",
             "button_background": "#0962fa",
             "button_text_color": "#ffffff",
             "overlay_color": "#000000",
-            "overlay_opacity": 30,
+            "overlay_opacity": 10,
             "background": "",
             "background_gradient": ""
           }
