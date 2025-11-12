@@ -38,6 +38,7 @@
     "show_page_transition": true,
     "heading_apparition": "split_fade",
     "show_product_rating": false,
+    "discount_mode": "percentage",
     "product_color_display": "swatch",
     "product_info_alignment": "start",
     "cart_show_free_shipping_threshold": true,
@@ -86,11 +87,6 @@
         "settings": {
           "app_url": "https://totebot.ai"
         }
-      },
-      "7278732907249339192": {
-        "type": "shopify://apps/rimix-product-badges/blocks/rimix-helper/46f9dcab-fec8-4959-8563-b2334479cd94",
-        "disabled": false,
-        "settings": {}
       }
     }
   },
