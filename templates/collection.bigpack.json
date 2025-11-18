@@ -36,7 +36,7 @@
         "heading_6EArBJ": {
           "type": "heading",
           "settings": {
-            "text": "Alla produkter",
+            "text": "Big pack",
             "heading_tag": "h1",
             "text_color": "",
             "gradient": ""
@@ -45,7 +45,7 @@
         "richtext_iNBJGQ": {
           "type": "richtext",
           "settings": {
-            "content": "<p>Här finns hela vårt sortiment samlat. Sötlakrits, saltlakrits, blandat godis och fudge – noga utvalt för dig som gillar riktigt gott godis. Välj dina favoriter och hitta något nytt.</p>"
+            "content": "<p>Här hittar du alla våra Big Packs det smartaste sättet att fylla på med dina favoriter till ett lägre pris.</p>"
           }
         }
       },
