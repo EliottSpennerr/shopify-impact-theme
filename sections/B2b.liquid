@@ -1,0 +1,309 @@
+{%- render 'section-spacing-collapsing' -%}
+
+{%- comment -%}
+------------------------------------------------------------------------------------------------------------------------
+CSS
+------------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+<style>
+  #shopify-section-{{ section.id }} .b2b-login__inner {
+    max-width: var(--page-width, 1100px);
+    margin-inline: auto;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-block: 1rem 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__input {
+    flex: 1 1 220px;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 999px;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__error {
+    color: #cc0000;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__card {
+    border-radius: 0.5rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 1rem;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__title {
+    margin: 0 0 0.25rem 0;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__price {
+    margin: 0 0 0.75rem 0;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .b2b-login__product-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+</style>
+
+{%- comment -%}
+------------------------------------------------------------------------------------------------------------------------
+LIQUID
+------------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+<div {% render 'section-properties', background: section.settings.background, background_gradient: section.settings.background_gradient, text_color: section.settings.text_color %}>
+  <div class="section-stack b2b-login__inner">
+    {%- render 'section-header',
+      subheading: section.settings.subheading,
+      heading: section.settings.title,
+      heading_color: section.settings.heading_color,
+      heading_gradient: section.settings.heading_gradient,
+      content: section.settings.content
+    -%}
+
+    <div class="b2b-login" id="b2b-login-{{ section.id }}">
+      <div class="b2b-login__form-wrapper" data-b2b-form>
+        <form id="B2BEmailForm-{{ section.id }}" class="b2b-login__form" novalidate>
+          <input
+            type="email"
+            name="b2b_email"
+            class="b2b-login__input"
+            placeholder="Butikens e-post"
+            required
+          >
+          <button type="submit" class="b2b-login__button">
+            Logga in som butik
+          </button>
+        </form>
+        <p class="b2b-login__error" data-b2b-error style="display:none;"></p>
+      </div>
+
+      <div class="b2b-login__collection" data-b2b-collection style="display:none;">
+        {%- assign b2b_collection = section.settings.collection -%}
+        {%- if b2b_collection == blank -%}
+          {%- assign b2b_collection = collections['all'] -%}
+        {%- endif -%}
+
+        {%- if b2b_collection != blank and b2b_collection.products_count > 0 -%}
+          <div class="b2b-login__grid">
+            {%- for product in b2b_collection.products -%}
+              <article class="b2b-login__card">
+                <a href="{{ product.url }}">
+                  {%- if product.featured_image -%}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 600 }}"
+                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                      loading="lazy"
+                      class="b2b-login__image"
+                    >
+                  {%- endif -%}
+                </a>
+                <h3 class="b2b-login__title">
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                </h3>
+                <p class="b2b-login__price">
+                  {{ product.price | money }}
+                </p>
+                <a href="{{ product.url }}" class="b2b-login__product-button">
+                  Visa produktsida
+                </a>
+              </article>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <p>Inga produkter hittades.</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var root = document.getElementById('b2b-login-{{ section.id }}');
+    if (!root) return;
+
+    var formWrapper = root.querySelector('[data-b2b-form]');
+    var form = root.querySelector('#B2BEmailForm-{{ section.id }}');
+    var errorEl = root.querySelector('[data-b2b-error]');
+    var collectionWrapper = root.querySelector('[data-b2b-collection]');
+
+    // REDIGERA DENNA LISTA MED ERA GODKÄNDA BUTIKSMAIL
+    var allowedEmails = [
+      'butik1@example.com',
+      'butik2@example.com'
+    ];
+
+    function normalizeEmail(email) {
+      return (email || '').trim().toLowerCase();
+    }
+
+    function isAuthorized() {
+      try {
+        return localStorage.getItem('b2b_authorized') === 'true';
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function setAuthorized() {
+      try {
+        localStorage.setItem('b2b_authorized', 'true');
+      } catch (e) {}
+    }
+
+    function showCollection() {
+      if (collectionWrapper) collectionWrapper.style.display = 'block';
+      if (formWrapper) formWrapper.style.display = 'none';
+    }
+
+    function showForm() {
+      if (formWrapper) formWrapper.style.display = 'block';
+      if (collectionWrapper) collectionWrapper.style.display = 'none';
+    }
+
+    if (isAuthorized()) {
+      showCollection();
+    } else {
+      showForm();
+    }
+
+    if (form) {
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (!form.b2b_email) return;
+
+        var inputEmail = normalizeEmail(form.b2b_email.value);
+        var match = allowedEmails.some(function(e) {
+          return normalizeEmail(e) === inputEmail;
+        });
+
+        if (!match) {
+          if (errorEl) {
+            errorEl.textContent = 'E-postadressen finns inte registrerad som butik.';
+            errorEl.style.display = 'block';
+          }
+          return;
+        }
+
+        if (errorEl) {
+          errorEl.textContent = '';
+          errorEl.style.display = 'none';
+        }
+
+        setAuthorized();
+        showCollection();
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "B2B email login",
+  "class": "shopify-section--b2b-email-login",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Skriv in er e-post för att se våra företagsprodukter."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Inloggning för butiker"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Kollektion att visa (B2B)",
+      "info": "Om tom används All products som default."
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient ersätter solid färg om satt."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient",
+      "label": "Heading gradient"
+    }
+  ],
+  "presets": [
+    {
+      "name": "B2B email login"
+    }
+  ]
+}
+{% endschema %}
