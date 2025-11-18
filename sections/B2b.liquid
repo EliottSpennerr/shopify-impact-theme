@@ -122,12 +122,7 @@ LIQUID
               <article class="b2b-login__card">
                 <a href="{{ product.url }}">
 {% if product.featured_image %}
-  <img
-    src="{{ product.featured_image | img_url: '600x600' }}"
-    alt="{{ product.title | escape }}"
-    loading="lazy"
-    class="b2b-login__image"
-  >
+    
 {% endif %}
 
                 </a>
