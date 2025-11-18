@@ -116,35 +116,39 @@ LIQUID
           {%- assign b2b_collection = collections['all'] -%}
         {%- endif -%}
 
-        {%- if b2b_collection != blank and b2b_collection.products_count > 0 -%}
-          <div class="b2b-login__grid">
-            {%- for product in b2b_collection.products -%}
-              <article class="b2b-login__card">
-                <a href="{{ product.url }}">
-                  {%- if product.featured_image -%}
-                    <img
-                      src="{{ product.featured_image | image_url: width: 600 }}"
-                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
-                      loading="lazy"
-                      class="b2b-login__image"
-                    >
-                  {%- endif -%}
-                </a>
-                <h3 class="b2b-login__title">
-                  <a href="{{ product.url }}">{{ product.title }}</a>
-                </h3>
-                <p class="b2b-login__price">
-                  {{ product.price | money }}
-                </p>
-                <a href="{{ product.url }}" class="b2b-login__product-button">
-                  Visa produktsida
-                </a>
-              </article>
-            {%- endfor -%}
-          </div>
-        {%- else -%}
-          <p>Inga produkter hittades.</p>
-        {%- endif -%}
+  {%- if b2b_collection != blank and b2b_collection.products_count > 0 -%}
+  <div class="b2b-login__grid">
+    {% for product in b2b_collection.products %}
+      <article class="b2b-login__card">
+        <a href="{{ product.url }}">
+          {% if product.featured_image %}
+            <img
+           src="{{ product.featured_image | img_url: '600x600', scale: 2 }}"
+  alt="{{ product.title | escape }}"
+  loading="lazy"
+  class="b2b-login__image"
+            >
+          {% endif %}
+        </a>
+
+        <h3 class="b2b-login__title">
+          <a href="{{ product.url }}">{{ product.title }}</a>
+        </h3>
+
+        <p class="b2b-login__price">
+          {{ product.price | money }}
+        </p>
+
+        <a href="{{ product.url }}" class="b2b-login__product-button">
+          Visa produktsida
+        </a>
+      </article>
+    {% endfor %}
+  </div>
+{%- else -%}
+  <p>Inga produkter hittades.</p>
+{%- endif -%}
+
       </div>
     </div>
   </div>
