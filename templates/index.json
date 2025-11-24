@@ -24,7 +24,7 @@
             "title": "Julens godaste gåva.",
             "heading_tag": "h1",
             "button_text": "Köp nu",
-            "button_link": "shopify://collections/all",
+            "button_link": "https://finsklakrits.se/collections/all?sort_by=best-selling",
             "text_color": "#ffffff",
             "button_background": "#0962fa",
             "button_text_color": "#ffffff",
