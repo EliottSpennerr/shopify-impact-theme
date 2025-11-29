@@ -111,7 +111,7 @@
       "settings": {
         "full_width": true,
         "show_fixed_add_to_cart": true,
-        "desktop_media_width": 50,
+        "desktop_media_width": 40,
         "desktop_media_layout": "carousel_thumbnails_left",
         "mobile_media_size": "contained",
         "mobile_carousel_control": "free_scroll",
@@ -133,9 +133,9 @@
           "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
             "review_data": "sample_data",
+            "max_width": 1200,
             "show_shop_reviews": false,
-            "empty_state": "empty_widget",
-            "max_width": 1200
+            "empty_state": "empty_widget"
           }
         }
       },
