@@ -194,7 +194,7 @@
       ".shopify-pc__banner__dialog button.shopify-pc__banner__btn-accept {border-radius: 20px;}",
       ".shopify-pc__banner__dialog button.shopify-pc__banner__btn-decline {border-radius: 20px; background-color: #1a2533;}",
       "shopify-accelerated-checkout,shopify-accelerated-checkout-cart {--shopify-accelerated-checkout-button-block-size: 55px; --shopify-accelerated-checkout-button-border-radius: 100px;}",
-      "#__totebot-bubble-button {z-index: 1 !important;}"
+      "div#__totebot-bubble-button.ready {z-index: 1 !important; bottom: 30px !important;}"
     ]
   }
 }
