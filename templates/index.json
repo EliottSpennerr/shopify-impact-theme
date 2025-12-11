@@ -217,6 +217,37 @@
         "product_card_text_color": ""
       }
     },
+    "featured_collection_wTPiPH": {
+      "type": "featured-collection",
+      "name": "Featured collection",
+      "settings": {
+        "collection": "alla-produkter",
+        "products": [
+          "lakritsmix",
+          "sotlakrits",
+          "saltmix",
+          "citron"
+        ],
+        "full_width": true,
+        "stack_products": true,
+        "show_progress_bar": false,
+        "products_count": 6,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "subheading": "",
+        "title": "Populärast just nu",
+        "content": "",
+        "link_url": "",
+        "link_text": "View all",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
+      }
+    },
     "image-with-text-overlay": {
       "type": "image-with-text-overlay",
       "blocks": {
@@ -496,6 +527,7 @@
     "collection-list",
     "text_with_icons_yR6zh6",
     "featured_collection_aQH33k",
+    "featured_collection_wTPiPH",
     "image-with-text-overlay",
     "logo_list_CMeLpz",
     "faq_yNQgm7",
