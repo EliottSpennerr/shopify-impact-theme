@@ -191,6 +191,32 @@
         "text_color": "#0962fa"
       }
     },
+    "featured_collection_aQH33k": {
+      "type": "featured-collection",
+      "name": "Featured collection",
+      "settings": {
+        "collection": "big-pack",
+        "products": [],
+        "full_width": true,
+        "stack_products": true,
+        "show_progress_bar": false,
+        "products_count": 6,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "subheading": "",
+        "title": "Big packs",
+        "content": "",
+        "link_url": "",
+        "link_text": "View all",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
+      }
+    },
     "image-with-text-overlay": {
       "type": "image-with-text-overlay",
       "blocks": {
@@ -448,15 +474,32 @@
         "background": "#f2f2f2",
         "background_gradient": ""
       }
+    },
+    "slideshow_ayrhrG": {
+      "type": "slideshow",
+      "name": "Slideshow",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": true,
+        "image_size": "sm",
+        "controls_type": "dots",
+        "transition_type": "fade_with_text",
+        "autoplay": false,
+        "cycle_speed": 6,
+        "background": "#F2F2F2",
+        "background_gradient": ""
+      }
     }
   },
   "order": [
     "slideshow",
     "collection-list",
     "text_with_icons_yR6zh6",
+    "featured_collection_aQH33k",
     "image-with-text-overlay",
     "logo_list_CMeLpz",
     "faq_yNQgm7",
-    "slideshow_e7THg7"
+    "slideshow_e7THg7",
+    "slideshow_ayrhrG"
   ]
 }
