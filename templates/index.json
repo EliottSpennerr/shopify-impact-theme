@@ -175,6 +175,7 @@
         "item_93Gtb3",
         "item_bzAFw7"
       ],
+      "disabled": true,
       "custom_css": [
         ".h4 {font-family: balloon; font-weight: 100;}"
       ],
