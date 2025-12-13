@@ -436,15 +436,13 @@
         "item_mcMBrg",
         "item_PHnCna"
       ],
-      "custom_css": [
-        ".h2 {font-family: balloon; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "name": "FAQ",
       "settings": {
         "full_width": true,
         "subheading": "",
-        "title": "Vanliga frågor (och lika vanliga svar)",
-        "content": "<p>För dig som undrar lite, och vet att det är helt rimligt att göra det.</p>",
+        "title": "FAQ",
+        "content": "<p>För dig som undrar lite.</p>",
         "team_avatar_width": 160,
         "support_hours": "",
         "answer_time": "",
