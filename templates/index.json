@@ -18,7 +18,7 @@
             "image": "shopify://shop_images/JULBILD.jpg",
             "mobile_image": "shopify://shop_images/Julmobile.jpg",
             "content_max_width": 480,
-            "mobile_text_position": "place-self-end-start text-start",
+            "mobile_text_position": "place-self-end-center text-center",
             "desktop_text_position": "sm:place-self-end-start sm:text-start",
             "subheading": "",
             "title": "Julens godaste gåva.",
@@ -517,7 +517,7 @@
         "transition_type": "fade_with_text",
         "autoplay": false,
         "cycle_speed": 6,
-        "background": "#F2F2F2",
+        "background": "#f2f2f2",
         "background_gradient": ""
       }
     }
