@@ -194,9 +194,7 @@
     },
     "featured_collection_aQH33k": {
       "type": "featured-collection",
-      "custom_css": [
-        ".product-card__image {border-bottom-left-radius: var(--rounded-sm) !important; border-bottom-right-radius: var(--rounded-sm) !important;}"
-      ],
+      "custom_css": [],
       "name": "Featured collection",
       "settings": {
         "collection": "big-pack",
@@ -268,9 +266,7 @@
     },
     "featured_collection_wTPiPH": {
       "type": "featured-collection",
-      "custom_css": [
-        ".product-card__image {border-bottom-left-radius: var(--rounded-sm) !important; border-bottom-right-radius: var(--rounded-sm) !important;}"
-      ],
+      "custom_css": [],
       "name": "Featured collection",
       "settings": {
         "collection": "alla-produkter",
