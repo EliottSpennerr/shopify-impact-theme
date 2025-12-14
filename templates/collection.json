@@ -69,9 +69,7 @@
     },
     "main": {
       "type": "main-collection",
-      "custom_css": [
-        ".product-card__image {border-bottom-left-radius: var(--rounded-sm) !important; border-bottom-right-radius: var(--rounded-sm) !important;}"
-      ],
+      "custom_css": [],
       "settings": {
         "products_per_page": 24,
         "products_per_row_mobile": "2",
