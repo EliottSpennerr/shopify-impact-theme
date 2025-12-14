@@ -30,6 +30,11 @@
       --product-list-carousel-item-width: calc(var(--container-inner-width) / {{ section.settings.products_per_row_desktop }} - (var(--product-list-column-gap) / {{ section.settings.products_per_row_desktop }} * {{ section.settings.products_per_row_desktop | minus: 1 }}));
     }
   }
+
+  a {
+  font-size: 15px;
+  font-weight: 100;
+}
 </style>
 
 <div {% render 'section-properties' %}>
