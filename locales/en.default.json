@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "page": "Page {{ page }}",
@@ -84,7 +93,7 @@
       "view_in_space": "View in your space",
       "taxes_included": "Tax included.",
       "taxes_excluded": "Tax excluded.",
-      "shipping_policy_html": "<a href=\"{{ link }}\" class=\"link\">Shipping calculated<\/a> at checkout",
+      "shipping_policy_html": "<a href=\"{{ link }}\" class=\"link\">Shipping calculated</a> at checkout",
       "size_chart": "Size chart",
       "available_colors_count": {
         "one": "{{ count }} color available",
@@ -412,6 +421,31 @@
         "zero": "This product has no reviews yet.",
         "one": "It has received {{ count }} review.",
         "other": "It has received {{ count }} reviews."
+      }
+    }
+  },
+  "shopify": {
+    "checkout": {
+      "shipping": {
+        "address_form": {
+          "max_address": "Limit of {{max_addresses}} addresses reached. Remove an address to add a new one."
+        }
+      },
+      "payment": {
+        "saved_addresses": "Saved addresses",
+        "save_this_address": "Save this address"
+      },
+      "shipping_errors": {
+        "must_use_address_banner": {
+          "one": "Your order can only be delivered to %{name}'s address.",
+          "other": "Your order can only be delivered to one of these addresses."
+        }
+      },
+      "billing": {
+        "update_address_banner": "Update your address to see your delivery options."
+      },
+      "address_management": {
+        "confirm_address_deletion": "Are you sure you want to delete the address {{address}} ?"
       }
     }
   }
