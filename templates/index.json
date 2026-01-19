@@ -15,13 +15,13 @@
         "slide-1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/WallLicorice2.jpg",
-            "mobile_image": "shopify://shop_images/WallLicoricemobile2.jpg",
+            "image": "shopify://shop_images/Drawnheader.jpg",
+            "mobile_image": "shopify://shop_images/Drawnheader.jpg",
             "content_max_width": 480,
             "mobile_text_position": "place-self-end-center text-center",
             "desktop_text_position": "sm:place-self-end-start sm:text-start",
             "subheading": "",
-            "title": "Premiumlakrits direkt från Finland.",
+            "title": "Premium lakrits från Finland",
             "heading_tag": "h1",
             "button_text": "Köp nu",
             "button_link": "https://finsklakrits.se/collections/all?sort_by=best-selling",
@@ -29,7 +29,7 @@
             "button_background": "#0962fa",
             "button_text_color": "#ffffff",
             "overlay_color": "#000000",
-            "overlay_opacity": 20,
+            "overlay_opacity": 25,
             "background": "",
             "background_gradient": ""
           }
