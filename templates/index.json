@@ -15,7 +15,7 @@
         "slide-1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Drawnheader.jpg",
+            "image": "shopify://shop_images/FinskHERO.jpg",
             "mobile_image": "shopify://shop_images/DrawnMix.jpg",
             "content_max_width": 480,
             "mobile_text_position": "place-self-end-center text-center",
