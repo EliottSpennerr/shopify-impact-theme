@@ -27,7 +27,7 @@
       ],
       "settings": {
         "enable_sticky": false,
-        "text_size": "text-base",
+        "text_size": "text-xs",
         "navigation_mode": "scrolling",
         "scrolling_speed": 10,
         "background": "#0962fa",
@@ -40,8 +40,6 @@
       "custom_css": [],
       "settings": {
         "enable_sticky": true,
-        "logo_en": "shopify://shop_images/Finnishlicorice_blue.svg",
-        "transparent_logo_en": "shopify://shop_images/Finnishlicorice_white.svg",
         "hide_on_scroll": false,
         "logo": "shopify://shop_images/Finsklakrits-Bla.svg",
         "logo_max_width": 120,
