@@ -25,6 +25,7 @@
       "block_order": [
         "message"
       ],
+      "custom_css": [],
       "settings": {
         "enable_sticky": false,
         "text_size": "text-base",
