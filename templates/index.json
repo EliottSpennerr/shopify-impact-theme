@@ -38,9 +38,7 @@
       "block_order": [
         "slide-1"
       ],
-      "custom_css": [
-        ".h0 {font-family: balloon !important; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "settings": {
         "full_width": true,
         "allow_transparent_header": true,
