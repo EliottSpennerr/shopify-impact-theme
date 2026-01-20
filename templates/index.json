@@ -15,8 +15,8 @@
         "slide-1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Headerfl.jpg",
-            "mobile_image": "shopify://shop_images/HeadermobileFl.jpg",
+            "image": "shopify://shop_images/Finsklakritsheader.jpg",
+            "mobile_image": "shopify://shop_images/Flisheader.jpg",
             "content_max_width": 400,
             "mobile_text_position": "place-self-end-start text-start",
             "desktop_text_position": "sm:place-self-end-start sm:text-start",
