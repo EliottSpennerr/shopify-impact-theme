@@ -30,7 +30,7 @@
     "product_card_background": "#f0f0f0",
     "product_card_text_color": "#1a2533",
     "product_primary_badge_background": "#803cee",
-    "heading_font": "din_next_n7",
+    "heading_font": "barlow_n6",
     "heading_font_size": "medium",
     "heading_letter_spacing": -2,
     "text_font": "din_next_n4",
@@ -186,7 +186,7 @@
       ".product-card__image {border-bottom-left-radius: var(--rounded-sm) !important; border-bottom-right-radius: var(--rounded-sm) !important;}",
       ".text-on-sale {color: #a30f0f !important;}",
       ".badge {background: #a30f0f !important;}",
-      ".badge.badge--sold-out {background: #1A2533!important;}"
+      ".badge.badge--sold-out {background: #1a2533 !important;}"
     ]
   }
 }
