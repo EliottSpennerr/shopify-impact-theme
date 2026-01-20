@@ -53,6 +53,90 @@
         "background_gradient": "linear-gradient(60deg, rgba(60, 65, 68, 1), rgba(23, 29, 33, 1) 98%)"
       }
     },
+    "featured_collection_wTPiPH": {
+      "type": "featured-collection",
+      "custom_css": [],
+      "name": "Featured collection",
+      "settings": {
+        "collection": "alla-produkter",
+        "products": [
+          "lakritsmix",
+          "sotlakrits",
+          "saltmix",
+          "citron",
+          "mint",
+          "marmeladkulor",
+          "hallon-lakrits-fudge",
+          "fruktblandning",
+          "flygande-matta",
+          "saltlakrits",
+          "saltskallar"
+        ],
+        "full_width": true,
+        "stack_products": true,
+        "show_progress_bar": false,
+        "products_count": 4,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "subheading": "",
+        "title": "Populärast just nu",
+        "content": "",
+        "link_url": "",
+        "link_text": "View all",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
+      }
+    },
+    "image-with-text-overlay": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "1664424230c4756b0e-0": {
+          "type": "subheading",
+          "settings": {
+            "text": ""
+          }
+        },
+        "1664424230c4756b0e-1": {
+          "type": "heading",
+          "settings": {
+            "text": "Vi gör lakrits som smakar.",
+            "heading_tag": "h1"
+          }
+        },
+        "1664424230c4756b0e-2": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Finsk lakrits, tillverkad med respekt för råvarorna – och för din smak. Inga onödigheter. Bara det som gör den värd att längta efter.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1664424230c4756b0e-0",
+        "1664424230c4756b0e-1",
+        "1664424230c4756b0e-2"
+      ],
+      "custom_css": [
+        ".h1 {font-family: balloon; font-weight: 100;}"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/WallLicorice2.jpg",
+        "mobile_image": "shopify://shop_images/WallLicoricemobile2.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
     "collection-list": {
       "type": "collection-list",
       "blocks": {
@@ -207,90 +291,6 @@
         "products_per_row_desktop": 4,
         "subheading": "",
         "title": "Big Pack",
-        "content": "",
-        "link_url": "",
-        "link_text": "View all",
-        "background": "",
-        "background_gradient": "",
-        "text_color": "",
-        "heading_color": "",
-        "heading_gradient": "",
-        "product_card_background": "",
-        "product_card_text_color": ""
-      }
-    },
-    "image-with-text-overlay": {
-      "type": "image-with-text-overlay",
-      "blocks": {
-        "1664424230c4756b0e-0": {
-          "type": "subheading",
-          "settings": {
-            "text": ""
-          }
-        },
-        "1664424230c4756b0e-1": {
-          "type": "heading",
-          "settings": {
-            "text": "Vi gör lakrits som smakar.",
-            "heading_tag": "h1"
-          }
-        },
-        "1664424230c4756b0e-2": {
-          "type": "richtext",
-          "settings": {
-            "content": "<p>Finsk lakrits, tillverkad med respekt för råvarorna – och för din smak. Inga onödigheter. Bara det som gör den värd att längta efter.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "1664424230c4756b0e-0",
-        "1664424230c4756b0e-1",
-        "1664424230c4756b0e-2"
-      ],
-      "custom_css": [
-        ".h1 {font-family: balloon; font-weight: 100;}"
-      ],
-      "settings": {
-        "full_width": true,
-        "allow_transparent_header": false,
-        "enable_parallax": false,
-        "image_size": "auto",
-        "image": "shopify://shop_images/WallLicorice2.jpg",
-        "mobile_image": "shopify://shop_images/WallLicoricemobile2.jpg",
-        "mobile_text_position": "place-self-center text-center",
-        "desktop_text_position": "sm:place-self-center sm:text-center",
-        "text_color": "#ffffff",
-        "overlay_color": "#000000",
-        "overlay_opacity": 30
-      }
-    },
-    "featured_collection_wTPiPH": {
-      "type": "featured-collection",
-      "custom_css": [],
-      "name": "Featured collection",
-      "settings": {
-        "collection": "alla-produkter",
-        "products": [
-          "lakritsmix",
-          "sotlakrits",
-          "saltmix",
-          "citron",
-          "mint",
-          "marmeladkulor",
-          "hallon-lakrits-fudge",
-          "fruktblandning",
-          "flygande-matta",
-          "saltlakrits",
-          "saltskallar"
-        ],
-        "full_width": true,
-        "stack_products": true,
-        "show_progress_bar": false,
-        "products_count": 6,
-        "products_per_row_mobile": "2",
-        "products_per_row_desktop": 4,
-        "subheading": "",
-        "title": "Populärast just nu",
         "content": "",
         "link_url": "",
         "link_text": "View all",
@@ -534,11 +534,11 @@
   },
   "order": [
     "slideshow",
+    "featured_collection_wTPiPH",
+    "image-with-text-overlay",
     "collection-list",
     "text_with_icons_yR6zh6",
     "featured_collection_aQH33k",
-    "image-with-text-overlay",
-    "featured_collection_wTPiPH",
     "logo_list_CMeLpz",
     "faq_yNQgm7",
     "slideshow_e7THg7",
