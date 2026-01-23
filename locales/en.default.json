@@ -448,5 +448,33 @@
         "confirm_address_deletion": "Are you sure you want to delete the address {{address}} ?"
       }
     }
+  },
+  "customer_accounts": {
+    "subscriptions": {
+      "subscription_contracts": {
+        "title": "Use payment method for recurring orders",
+        "subscription_contracts_updated": "{{succeeded}} of {{total}} subscriptions have been updated",
+        "product_details": "Product details",
+        "load_more": "Load more",
+        "more_items": {
+          "one": "{{count}} to product",
+          "other": "{{count}} to products"
+        },
+        "product_count": {
+          "one": "{{count}} product",
+          "other": "{{count}} products"
+        }
+      },
+      "contracts_update_failed": "Some subscription agreements could not be updated",
+      "updating_contracts": {
+        "one": "{{count}} subscription agreements are being updated...",
+        "other": "{{count}} subscription agreements are being updated..."
+      },
+      "contracts_updated": {
+        "one": "{{count}} subscription agreements have been updated",
+        "other": "{{count}} subscription agreements have been updated"
+      },
+      "invalid_wallet_type_error": "Invalid wallet type."
+    }
   }
 }
