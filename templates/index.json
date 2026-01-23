@@ -9,48 +9,34 @@
  */
 {
   "sections": {
-    "17691497185427ac0f": {
-      "type": "_blocks",
+    "slideshow": {
+      "type": "slideshow",
       "blocks": {
-        "ai_gen_block_c7318fc_aX8kEM": {
-          "type": "ai_gen_block_c7318fc",
+        "image_GpeHXQ": {
+          "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Headerfl_ec7a6698-c9bd-4fad-bcb8-47bcdf7f3174.jpg",
-            "section_height_mobile": 500,
-            "section_height_desktop": 600,
-            "overlay_color": "#000000",
-            "overlay_opacity": 10,
-            "title": "Premium lakrits från Finland",
-            "subtitle": "<h6>Upptäck vårt fantastiska sortiment av produkter</h6>",
-            "content_max_width": 600,
-            "content_position_vertical": "flex-end",
-            "content_position_horizontal": "flex-start",
-            "text_alignment": "left",
-            "title_size_mobile": 32,
-            "title_size_desktop": 40,
-            "title_color": "#ffffff",
-            "subtitle_size_mobile": 16,
-            "subtitle_size_desktop": 16,
-            "subtitle_color": "#ffffff",
+            "image": "shopify://shop_images/Headerfl.jpg",
+            "content_max_width": 780,
+            "mobile_text_position": "place-self-end-start text-start",
+            "desktop_text_position": "sm:place-self-end-start sm:text-start",
+            "subheading": "",
+            "title": "Premium lakrits från Finland.",
+            "heading_tag": "h0",
             "button_text": "Köp nu",
             "button_link": "shopify://collections/alla-produkter",
-            "button_font_size": 13,
-            "button_border_radius": 60,
+            "text_color": "#ffffff",
             "button_background": "#0962fa",
-            "button_text_color": "#ffffff",
-            "button_hover_background": "#074ec9",
-            "button_hover_text_color": "#ffffff"
-          },
-          "blocks": {}
+            "button_text_color": "#f0f0f0",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "background": "",
+            "background_gradient": ""
+          }
         }
       },
       "block_order": [
-        "ai_gen_block_c7318fc_aX8kEM"
+        "image_GpeHXQ"
       ],
-      "settings": {}
-    },
-    "slideshow": {
-      "type": "slideshow",
       "custom_css": [],
       "settings": {
         "full_width": true,
@@ -544,7 +530,6 @@
     }
   },
   "order": [
-    "17691497185427ac0f",
     "slideshow",
     "featured_collection_wTPiPH",
     "image-with-text-overlay",
