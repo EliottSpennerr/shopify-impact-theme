@@ -1,6 +1,458 @@
+{% doc %}
+  @prompt
+    Gör en header med bild, titel subtitel och köp nu knapp.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hero-header-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: block;
+  }
+
+  .ai-hero-header__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: {{ block.settings.section_height_mobile }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-hero-header__image-wrapper-{{ ai_gen_id }} {
+      height: {{ block.settings.section_height_desktop }}px;
+    }
+  }
+
+  .ai-hero-header__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-hero-header__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-hero-header__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+
+  .ai-hero-header__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-hero-header__overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: {{ block.settings.overlay_color }};
+    opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  .ai-hero-header__content-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: {{ block.settings.content_position_vertical }};
+    align-items: {{ block.settings.content_position_horizontal }};
+    padding: 40px 20px;
+    text-align: {{ block.settings.text_alignment }};
+    z-index: 2;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-hero-header__content-{{ ai_gen_id }} {
+      padding: 60px 40px;
+    }
+  }
+
+  .ai-hero-header__content-inner-{{ ai_gen_id }} {
+    max-width: {{ block.settings.content_max_width }}px;
+  }
+
+  .ai-hero-header__title-{{ ai_gen_id }} {
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_size_mobile }}px;
+    margin: 0 0 16px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-hero-header__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size_desktop }}px;
+    }
+  }
+
+  .ai-hero-header__subtitle-{{ ai_gen_id }} {
+    color: {{ block.settings.subtitle_color }};
+    font-size: {{ block.settings.subtitle_size_mobile }}px;
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-hero-header__subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size_desktop }}px;
+    }
+  }
+
+  .ai-hero-header__button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-hero-header__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    color: {{ block.settings.button_hover_text_color }};
+  }
+{% endstyle %}
+
+<hero-header-{{ ai_gen_id }}
+  class="ai-hero-header-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-hero-header__image-wrapper-{{ ai_gen_id }}">
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url: width: 2000 }}"
+        alt="{{ block.settings.image.alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.image.width }}"
+        height="{{ block.settings.image.height }}"
+        class="ai-hero-header__image-{{ ai_gen_id }}"
+      >
+    {% else %}
+      <div class="ai-hero-header__placeholder-{{ ai_gen_id }}">
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+        <div class="ai-hero-header__empty-state-{{ ai_gen_id }}">
+          Lägg till en bakgrundsbild
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="ai-hero-header__overlay-{{ ai_gen_id }}"></div>
+
+    <div class="ai-hero-header__content-{{ ai_gen_id }}">
+      <div class="ai-hero-header__content-inner-{{ ai_gen_id }}">
+        {% if block.settings.title != blank %}
+          <h1 class="ai-hero-header__title-{{ ai_gen_id }}">
+            {{ block.settings.title }}
+          </h1>
+        {% endif %}
+
+        {% if block.settings.subtitle != blank %}
+          <div class="ai-hero-header__subtitle-{{ ai_gen_id }}">
+            {{ block.settings.subtitle }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.button_text != blank %}
+          <a
+            href="{{ block.settings.button_link }}"
+            class="ai-hero-header__button-{{ ai_gen_id }}"
+          >
+            {{ block.settings.button_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</hero-header-{{ ai_gen_id }}>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Hero header",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bild"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Bakgrundsbild"
+    },
+    {
+      "type": "range",
+      "id": "section_height_mobile",
+      "min": 300,
+      "max": 700,
+      "step": 50,
+      "unit": "px",
+      "label": "Höjd (mobil)",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "section_height_desktop",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "label": "Höjd (desktop)",
+      "default": 600
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Överlagringsfärg",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Överlagringsopacitet",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Innehåll"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Titel",
+      "default": "Välkommen till vår butik"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Underrubrik",
+      "default": "<p>Upptäck vårt fantastiska sortiment av produkter</p>"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Innehållsbredd",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "content_position_vertical",
+      "label": "Vertikal position",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Topp"
+        },
+        {
+          "value": "center",
+          "label": "Mitten"
+        },
+        {
+          "value": "flex-end",
+          "label": "Botten"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_position_horizontal",
+      "label": "Horisontell position",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Vänster"
+        },
+        {
+          "value": "center",
+          "label": "Mitten"
+        },
+        {
+          "value": "flex-end",
+          "label": "Höger"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Textjustering",
+      "options": [
+        {
+          "value": "left",
+          "label": "Vänster"
+        },
+        {
+          "value": "center",
+          "label": "Mitten"
+        },
+        {
+          "value": "right",
+          "label": "Höger"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Titel"
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Titelstorlek (mobil)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Titelstorlek (desktop)",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Titelfärg",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Underrubrik"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Underrubrikstorlek (mobil)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_desktop",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Underrubrikstorlek (desktop)",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Underrubrikfärg",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Knapp"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_text",
+      "label": "Knapptext",
+      "default": "Köp nu"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Knapplänk"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Textstorlek",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Hörnradie",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Bakgrundsfärg",
+      "default": "#0962fa"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Textfärg",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Hover bakgrundsfärg",
+      "default": "#074ec9"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover textfärg",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero header"
+    }
+  ]
+}
 {% endschema %}
