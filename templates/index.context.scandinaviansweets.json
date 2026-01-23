@@ -46,16 +46,7 @@
       }
     },
     "slideshow": {
-      "blocks": {
-        "slide-1": {
-          "settings": {
-            "title": "Scandinavian Candy, Done Right.",
-            "heading_tag": "h1",
-            "button_text": "Buy now",
-            "button_background": "#6c0704"
-          }
-        }
-      },
+      "blocks": {},
       "settings": {}
     },
     "collection-list": {
