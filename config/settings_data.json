@@ -188,7 +188,8 @@
       ".badge {background: #a30f0f !important;}",
       ".badge.badge--sold-out {background: #1a2533 !important;}",
       ".button {font-weight: lighter !important;}",
-      ".text-sm {font-weight: lighter !important;}"
+      ".text-sm {font-weight: lighter !important;}",
+      ".bold{font-weight: 600!important;}"
     ]
   }
 }
