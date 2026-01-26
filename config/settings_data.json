@@ -75,6 +75,11 @@
         "settings": {
           "app_url": "https://totebot.ai"
         }
+      },
+      "18128612654622612671": {
+        "type": "shopify://apps/selecty/blocks/app-embed/a005a4a7-4aa2-4155-9c2b-0ab41acbf99c",
+        "disabled": false,
+        "settings": {}
       }
     }
   },
@@ -189,7 +194,7 @@
       ".badge.badge--sold-out {background: #1a2533 !important;}",
       ".button {font-weight: lighter !important;}",
       ".text-sm {font-weight: lighter !important;}",
-      ".bold{font-weight: 600!important;}"
+      ".bold {font-weight: 600 !important;}"
     ]
   }
 }
