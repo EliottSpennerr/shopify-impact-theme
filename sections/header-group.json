@@ -33,7 +33,7 @@
         "text_size": "text-xs",
         "navigation_mode": "arrows",
         "scrolling_speed": 30,
-        "background": "#0962fa",
+        "background": "#035dc6",
         "background_gradient": "",
         "text_color": "#ffffff"
       }
@@ -44,7 +44,7 @@
       "settings": {
         "enable_sticky": true,
         "hide_on_scroll": false,
-        "logo": "shopify://shop_images/Finsklakrits-Bla.svg",
+        "logo": "shopify://shop_images/Finsklakrits-Bla_84835bea-8502-48eb-8f07-4090323ad2cd.svg",
         "logo_max_width": 90,
         "logo_mobile_max_width": 80,
         "menu": "main-menu",
