@@ -70,17 +70,22 @@
           "settings_js_develop_mode": false
         }
       },
-      "7052923239363062473": {
-        "type": "shopify://apps/totebot-ai-sales-marketing/blocks/totebot/bf29f0eb-b904-4ba5-8a69-03163d1a33e2",
-        "disabled": false,
-        "settings": {
-          "app_url": "https://totebot.ai"
-        }
-      },
       "5550728556201851227": {
         "type": "shopify://apps/geolocation-glc/blocks/selector/e347b539-0714-46e4-9e69-23a73992ae3a",
         "disabled": true,
         "settings": {}
+      },
+      "10864971697205422121": {
+        "type": "shopify://apps/gorgias-live-chat-helpdesk/blocks/gorgias/a66db725-7b96-4e3f-916e-6c8e6f87aaaa",
+        "disabled": false,
+        "settings": {}
+      },
+      "7052923239363062473": {
+        "type": "shopify://apps/totebot-ai-sales-marketing/blocks/totebot/bf29f0eb-b904-4ba5-8a69-03163d1a33e2",
+        "disabled": true,
+        "settings": {
+          "app_url": "https://totebot.ai"
+        }
       }
     }
   },
