@@ -15,7 +15,7 @@
   "sections": {
     "featured_collection_7YgRW": {
       "type": "featured-collection",
-      "name": "Featured collection",
+      "disabled": false,
       "settings": {
         "collection": "",
         "products": [
@@ -36,6 +36,7 @@
         "content": "",
         "link_url": "",
         "link_text": "View all",
+        "header-71678d3d5f1e761402e1e11b5bf642b8": null,
         "background": "rgba(0,0,0,0)",
         "background_gradient": "",
         "text_color": "#6c0704",
@@ -43,20 +44,25 @@
         "heading_gradient": "",
         "product_card_background": "#ffffff",
         "product_card_text_color": ""
-      }
-    },
-    "slideshow": {
+      },
       "blocks": {},
-      "settings": {}
+      "block_order": [],
+      "name": "Featured collection"
     },
     "collection-list": {
       "disabled": true,
       "settings": {
         "background": "#f5b4bf",
         "text_color": "#530d01"
-      }
+      },
+      "blocks": {}
     },
     "text_with_icons_yR6zh6": {
+      "custom_css": [],
+      "settings": {
+        "background": "#f5b4bf",
+        "text_color": "#530d01"
+      },
       "blocks": {
         "item_d7zWYj": {
           "settings": {
@@ -82,14 +88,11 @@
             "content": "<p>Ships directly from our Nordic warehouse.</p>"
           }
         }
-      },
-      "custom_css": [],
-      "settings": {
-        "background": "#f5b4bf",
-        "text_color": "#530d01"
       }
     },
     "image-with-text-overlay": {
+      "custom_css": [],
+      "settings": {},
       "blocks": {
         "1664424230c4756b0e-1": {
           "settings": {
@@ -101,18 +104,24 @@
             "content": "<p>Real Scandinavian sweets, crafted with respect for the ingredients and for your taste. No shortcuts. No nonsense. Just the kind of candy worth craving.</p>"
           }
         }
-      },
-      "custom_css": [],
-      "settings": {}
+      }
     },
     "logo_list_CMeLpz": {
       "disabled": true,
       "settings": {
         "background": "#f5b4bf",
         "text_color": "#6c0704"
-      }
+      },
+      "blocks": {}
     },
     "faq_yNQgm7": {
+      "custom_css": [],
+      "settings": {
+        "title": "FAQ",
+        "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>",
+        "background": "#f5b4bf",
+        "text_color": "#530d01"
+      },
       "blocks": {
         "item_LVqJTf": {
           "settings": {
@@ -145,21 +154,18 @@
           }
         },
         "item_mcMBrg": {
-          "disabled": true
+          "disabled": true,
+          "settings": {}
         },
         "item_PHnCna": {
-          "disabled": true
+          "disabled": true,
+          "settings": {}
         }
-      },
-      "custom_css": [],
-      "settings": {
-        "title": "FAQ",
-        "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>",
-        "background": "#f5b4bf",
-        "text_color": "#530d01"
       }
     },
     "slideshow_e7THg7": {
+      "custom_css": [],
+      "settings": {},
       "blocks": {
         "image_gNxLg3": {
           "settings": {
@@ -170,14 +176,97 @@
             "button_text_color": "#f5b4bf"
           }
         }
+      }
+    },
+    "17715006511e656c97": {
+      "type": "apps",
+      "disabled": false,
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "header-8c1828ec59d471bee7bbbb342c826979": null,
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "header-a28b576e9b2f1b1a0c92dae4e1131b8e": null,
+        "enable_review_integration": true,
+        "review_header_gradient": "linear-gradient(135deg, #FFC266 0%, #FFA31A 100%)",
+        "review_header_text_color": "#000000",
+        "review_button_background": "#000000",
+        "review_button_text_color": "#ffffff"
       },
-      "custom_css": [],
-      "settings": {}
+      "blocks": {},
+      "block_order": []
+    },
+    "177150068305f5846e": {
+      "type": "apps",
+      "disabled": false,
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "header-684883020ebccb1cbd4b754188f9d022": null,
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "header-bdabc8a4a55129acec502d134fd13af4": null,
+        "enable_review_integration": true,
+        "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
+        "review_header_text_color": "#000000",
+        "review_button_background": "#000000",
+        "review_button_text_color": "#ffffff"
+      },
+      "blocks": {
+        "judge_me_reviews_cards_carousel_RQt64": {
+          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": false,
+          "settings": {
+            "header-fd4c9f6595206170eb503485204630a4": null,
+            "show_sample_reviews": true,
+            "reviews_selection": "product_reviews",
+            "products": [],
+            "star_rating": "4_to_5_star",
+            "show_review_media": true,
+            "display_order": "media_first",
+            "no_image_fallback": "review_text_only",
+            "max_reviews": 20,
+            "header-be09f870bad00b02c934713288d72d3d": null,
+            "review_length": "medium",
+            "text_size": "medium",
+            "image_ratio": "0.75",
+            "reviews_shown": 5,
+            "show_reviewer_name": true,
+            "show_product_name": true,
+            "hide_arrows_mobile": true,
+            "arrows_position": "bottom",
+            "max_width": 1100,
+            "header-c089ca6fde936abe28c40f002e80e180": null,
+            "corner_styling": "soft",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#F9F9F9",
+            "stars_color": "",
+            "arrows_color": "#000000",
+            "header-0f647d162324d4a2ce255edeae3d30da": null,
+            "transition_speed": 5,
+            "header-be20b67024d6e483f2f9f8264fbf2c14": null,
+            "header_text": "Customers are saying",
+            "show_average_rating": true,
+            "paragraph-373a80db33b5dc10ea0f43d396cccdb4": null
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_cards_carousel_RQt64"
+      ]
     }
   },
   "order": [
     "slideshow",
     "featured_collection_7YgRW",
+    "177150068305f5846e",
+    "17715006511e656c97",
     "collection-list",
     "text_with_icons_yR6zh6",
     "image-with-text-overlay",
