@@ -48,24 +48,10 @@
         "background_gradient": "",
         "text_color": ""
       }
-    },
-    "custom_html_UytPfU": {
-      "type": "custom-html",
-      "name": "Custom HTML",
-      "settings": {
-        "full_width": true,
-        "remove_vertical_spacing": false,
-        "remove_horizontal_spacing": false,
-        "html": "<script defer src=\"https://contact.gorgias.help/api/contact-forms/loader.js?v=3\" data-gorgias-loader-contact-form=\"\" data-gorgias-contact-form-uid=\"ma0ar8lw\"></script>",
-        "background": "",
-        "background_gradient": "",
-        "text_color": ""
-      }
     }
   },
   "order": [
     "main",
-    "rich_text_F6J6C8",
-    "custom_html_UytPfU"
+    "rich_text_F6J6C8"
   ]
 }
