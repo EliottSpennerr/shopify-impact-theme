@@ -70,17 +70,17 @@
           "settings_js_develop_mode": false
         }
       },
-      "10864971697205422121": {
-        "type": "shopify://apps/gorgias-live-chat-helpdesk/blocks/gorgias/a66db725-7b96-4e3f-916e-6c8e6f87aaaa",
-        "disabled": false,
-        "settings": {}
-      },
       "14926935257333466880": {
         "type": "shopify://apps/geos-geolocation/blocks/location-selector-core/3cd5a431-7aea-4ecd-a807-59b3321c525b",
         "disabled": false,
         "settings": {
           "body_font": "sans_serif_n4"
         }
+      },
+      "13759942015198248323": {
+        "type": "shopify://apps/willdesk-live-chat-helpdesk/blocks/helpdesk/fdb9f3d8-334c-44b1-86d1-03be979bbf8d",
+        "disabled": false,
+        "settings": {}
       }
     }
   },
