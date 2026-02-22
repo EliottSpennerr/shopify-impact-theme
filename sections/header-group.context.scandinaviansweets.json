@@ -15,8 +15,8 @@
   "sections": {
     "announcement-bar": {
       "settings": {
-        "background": "#f5b4bf",
-        "text_color": "#6c0704"
+        "background": "#005dc6",
+        "text_color": "#f0f0f0"
       },
       "blocks": {
         "message": {
@@ -28,14 +28,14 @@
     },
     "header": {
       "settings": {
-        "logo": "shopify://shop_images/Scansweet1.svg",
+        "logo": "shopify://shop_images/Norse.png",
         "logo_max_width": 200,
+        "logo_mobile_max_width": 130,
         "show_locale_selector": false,
         "show_country_selector": true,
         "show_country_flag": false,
-        "transparent_logo": "shopify://shop_images/Scansweet_pink1.svg",
-        "background_opacity": 100,
-        "logo_mobile_max_width": 130
+        "transparent_logo": "shopify://shop_images/Norsewhite.png",
+        "background_opacity": 100
       },
       "blocks": {}
     }
