@@ -13,23 +13,23 @@
     "market": "scandinaviansweets"
   },
   "sections": {
+    "17611115335485f308": {
+      "disabled": true,
+      "settings": {},
+      "blocks": {}
+    },
     "footer": {
       "custom_css": [],
       "settings": {},
       "blocks": {
         "newsletter": {
           "settings": {
-            "image": "shopify://shop_images/Scansweet.svg",
+            "image": "shopify://shop_images/Norsewhite.png",
             "image_width": 300,
             "content": "<p>Get 10% off your first order when you subscribe to our newsletter!</p>"
           }
         }
       }
-    },
-    "17611115335485f308": {
-      "disabled": true,
-      "settings": {},
-      "blocks": {}
     }
   }
 }

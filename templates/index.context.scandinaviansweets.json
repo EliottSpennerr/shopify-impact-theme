@@ -36,10 +36,10 @@
         "content": "",
         "link_url": "",
         "link_text": "View all",
-        "header-71678d3d5f1e761402e1e11b5bf642b8": null,
+        "header-92229b529b44cd0d839783577b21dd48": null,
         "background": "rgba(0,0,0,0)",
         "background_gradient": "",
-        "text_color": "#6c0704",
+        "text_color": "#3f3a9c",
         "heading_color": "",
         "heading_gradient": "",
         "product_card_background": "#ffffff",
@@ -48,6 +48,89 @@
       "blocks": {},
       "block_order": [],
       "name": "Featured collection"
+    },
+    "177150068305f5846e": {
+      "type": "apps",
+      "disabled": false,
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "header-11a99bd6fff59b52d18a17bfe6c2cbea": null,
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "header-498b9419aaeadc21016705dc53904c81": null,
+        "enable_review_integration": true,
+        "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
+        "review_header_text_color": "#000000",
+        "review_button_background": "#000000",
+        "review_button_text_color": "#ffffff"
+      },
+      "blocks": {
+        "judge_me_reviews_cards_carousel_RQt64": {
+          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": false,
+          "settings": {
+            "header-bb7a8fc8b78eac42921dc8ea00524151": null,
+            "show_sample_reviews": true,
+            "reviews_selection": "product_reviews",
+            "products": [],
+            "star_rating": "4_to_5_star",
+            "show_review_media": true,
+            "display_order": "media_first",
+            "no_image_fallback": "review_text_only",
+            "max_reviews": 20,
+            "header-30612ec365d96316fdf1ef81c3739562": null,
+            "review_length": "medium",
+            "text_size": "medium",
+            "image_ratio": "0.75",
+            "reviews_shown": 5,
+            "show_reviewer_name": true,
+            "show_product_name": true,
+            "hide_arrows_mobile": true,
+            "arrows_position": "bottom",
+            "max_width": 1100,
+            "header-6c3ba8f51b3c9225b954139195f85e85": null,
+            "corner_styling": "soft",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#f9f9f9",
+            "stars_color": "",
+            "arrows_color": "#000000",
+            "header-91f4cdfc9111b113b54120c6e8863389": null,
+            "transition_speed": 5,
+            "header-d52545cf08c6b7b901b91c0b9da1ce90": null,
+            "header_text": "Customers are saying",
+            "show_average_rating": true,
+            "paragraph-327b900bd25b04bac3c218bf98ffd706": null
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_cards_carousel_RQt64"
+      ]
+    },
+    "17715006511e656c97": {
+      "type": "apps",
+      "disabled": false,
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "header-07a8afd8bb39de10823561b0708e6eeb": null,
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "header-499f0ece7b36251692f00d79ef03ed9f": null,
+        "enable_review_integration": true,
+        "review_header_gradient": "linear-gradient(135deg, #FFC266 0%, #FFA31A 100%)",
+        "review_header_text_color": "#000000",
+        "review_button_background": "#000000",
+        "review_button_text_color": "#ffffff"
+      },
+      "blocks": {},
+      "block_order": []
     },
     "collection-list": {
       "disabled": true,
@@ -119,8 +202,9 @@
       "settings": {
         "title": "FAQ",
         "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>",
-        "background": "#f5b4bf",
-        "text_color": "#530d01"
+        "background": "#3f3a9c",
+        "text_color": "#f0f0f0",
+        "accordion_text_color": "#f0f0f0"
       },
       "blocks": {
         "item_LVqJTf": {
@@ -172,94 +256,11 @@
             "subheading": "Bring real Scandinavian candy to your shelves, the kind customers can’t resist.",
             "title": "Become a retailer",
             "button_text": "Contact us",
-            "button_background": "#6c0704",
-            "button_text_color": "#f5b4bf"
+            "button_background": "#3f3a9c",
+            "button_text_color": "#f0f0f0"
           }
         }
       }
-    },
-    "17715006511e656c97": {
-      "type": "apps",
-      "disabled": false,
-      "settings": {
-        "full_width": true,
-        "remove_vertical_spacing": false,
-        "remove_horizontal_spacing": false,
-        "header-8c1828ec59d471bee7bbbb342c826979": null,
-        "background": "",
-        "background_gradient": "",
-        "text_color": "",
-        "header-a28b576e9b2f1b1a0c92dae4e1131b8e": null,
-        "enable_review_integration": true,
-        "review_header_gradient": "linear-gradient(135deg, #FFC266 0%, #FFA31A 100%)",
-        "review_header_text_color": "#000000",
-        "review_button_background": "#000000",
-        "review_button_text_color": "#ffffff"
-      },
-      "blocks": {},
-      "block_order": []
-    },
-    "177150068305f5846e": {
-      "type": "apps",
-      "disabled": false,
-      "settings": {
-        "full_width": true,
-        "remove_vertical_spacing": false,
-        "remove_horizontal_spacing": false,
-        "header-684883020ebccb1cbd4b754188f9d022": null,
-        "background": "",
-        "background_gradient": "",
-        "text_color": "",
-        "header-bdabc8a4a55129acec502d134fd13af4": null,
-        "enable_review_integration": true,
-        "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
-        "review_header_text_color": "#000000",
-        "review_button_background": "#000000",
-        "review_button_text_color": "#ffffff"
-      },
-      "blocks": {
-        "judge_me_reviews_cards_carousel_RQt64": {
-          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "disabled": false,
-          "settings": {
-            "header-fd4c9f6595206170eb503485204630a4": null,
-            "show_sample_reviews": true,
-            "reviews_selection": "product_reviews",
-            "products": [],
-            "star_rating": "4_to_5_star",
-            "show_review_media": true,
-            "display_order": "media_first",
-            "no_image_fallback": "review_text_only",
-            "max_reviews": 20,
-            "header-be09f870bad00b02c934713288d72d3d": null,
-            "review_length": "medium",
-            "text_size": "medium",
-            "image_ratio": "0.75",
-            "reviews_shown": 5,
-            "show_reviewer_name": true,
-            "show_product_name": true,
-            "hide_arrows_mobile": true,
-            "arrows_position": "bottom",
-            "max_width": 1100,
-            "header-c089ca6fde936abe28c40f002e80e180": null,
-            "corner_styling": "soft",
-            "header_text_color": "#000000",
-            "text_color": "#000000",
-            "card_color": "#F9F9F9",
-            "stars_color": "",
-            "arrows_color": "#000000",
-            "header-0f647d162324d4a2ce255edeae3d30da": null,
-            "transition_speed": 5,
-            "header-be20b67024d6e483f2f9f8264fbf2c14": null,
-            "header_text": "Customers are saying",
-            "show_average_rating": true,
-            "paragraph-373a80db33b5dc10ea0f43d396cccdb4": null
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_cards_carousel_RQt64"
-      ]
     }
   },
   "order": [
