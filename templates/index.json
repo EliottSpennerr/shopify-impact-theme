@@ -24,7 +24,7 @@
             "title": "Påskens mix är här.",
             "heading_tag": "h1",
             "button_text": "Köp nu",
-            "button_link": "shopify://collections/alla-produkter",
+            "button_link": "shopify://products/paskmix",
             "text_color": "#ffffff",
             "button_background": "#005dc6",
             "button_text_color": "#ffffff",
