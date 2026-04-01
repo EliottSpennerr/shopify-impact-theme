@@ -108,6 +108,7 @@
         "description",
         "collapsible_text_iGT7aB"
       ],
+      "disabled": true,
       "settings": {
         "full_width": true,
         "show_fixed_add_to_cart": true,
