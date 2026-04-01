@@ -1,0 +1,892 @@
+{% comment %}
+  ============================================================
+  BUNDLE MIX & MATCH — Finsk Lakrits
+  ============================================================
+  Drop-in Liquid section. Works on any page via Theme Editor.
+  Requires: Automatic discount "BUNDLE10" (10% off, min 8 items)
+  set up in Shopify Admin → Discounts.
+  ============================================================
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  /* ── Design tokens ── */
+  :root {
+    --bundle-bg: #faf8f5;
+    --bundle-card-bg: #ffffff;
+    --bundle-text: #1a1a1a;
+    --bundle-text-muted: #6b6b6b;
+    --bundle-accent: #1a1a1a;
+    --bundle-accent-hover: #333333;
+    --bundle-success: #2d7a4f;
+    --bundle-success-bg: #e8f5ee;
+    --bundle-border: #e5e2dd;
+    --bundle-radius: 10px;
+    --bundle-radius-sm: 6px;
+    --bundle-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    --bundle-shadow-hover: 0 4px 12px rgba(0,0,0,0.1);
+    --bundle-font: inherit;
+    --bundle-progress-bg: #e5e2dd;
+    --bundle-progress-fill: #1a1a1a;
+    --bundle-progress-fill-active: #2d7a4f;
+    --bundle-sticky-bg: #ffffff;
+    --bundle-badge-bg: #2d7a4f;
+    --bundle-badge-text: #ffffff;
+  }
+
+  /* ── Section wrapper ── */
+  .bundle-section {
+    font-family: var(--bundle-font);
+    background: var(--bundle-bg);
+    padding: 48px 0 160px;
+    color: var(--bundle-text);
+  }
+
+  .bundle-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* ── Header ── */
+  .bundle-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .bundle-header__title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--bundle-text);
+  }
+
+  .bundle-header__subtitle {
+    font-size: clamp(0.95rem, 2vw, 1.125rem);
+    color: var(--bundle-text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .bundle-header__badge {
+    display: inline-block;
+    background: var(--bundle-badge-bg);
+    color: var(--bundle-badge-text);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  /* ── Progress bar (top) ── */
+  .bundle-progress-top {
+    max-width: 480px;
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+
+  .bundle-progress-top__text {
+    font-size: 0.9rem;
+    color: var(--bundle-text-muted);
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+  }
+
+  .bundle-progress-top__text.is-complete {
+    color: var(--bundle-success);
+    font-weight: 600;
+  }
+
+  .bundle-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bundle-progress-bg);
+    border-radius: 99px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bundle-progress-bar__fill {
+    height: 100%;
+    width: 0%;
+    background: var(--bundle-progress-fill);
+    border-radius: 99px;
+    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s ease;
+  }
+
+  .bundle-progress-bar__fill.is-complete {
+    background: var(--bundle-progress-fill-active);
+  }
+
+  /* ── Product grid ── */
+  .bundle-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 960px) {
+    .bundle-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 640px) {
+    .bundle-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  }
+
+  /* ── Product card ── */
+  .bundle-card {
+    background: var(--bundle-card-bg);
+    border-radius: var(--bundle-radius);
+    border: 1.5px solid var(--bundle-border);
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bundle-card:hover {
+    border-color: #ccc;
+    box-shadow: var(--bundle-shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .bundle-card.is-selected {
+    border-color: var(--bundle-success);
+    box-shadow: 0 0 0 2px rgba(45, 122, 79, 0.15);
+  }
+
+  .bundle-card__img-wrap {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f5f3f0;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .bundle-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .bundle-card:hover .bundle-card__img {
+    transform: scale(1.04);
+  }
+
+  .bundle-card__qty-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--bundle-badge-bg);
+    color: var(--bundle-badge-text);
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .bundle-card.is-selected .bundle-card__qty-badge {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .bundle-card__body {
+    padding: 14px 14px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bundle-card__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0 0 4px;
+    line-height: 1.3;
+    color: var(--bundle-text);
+  }
+
+  .bundle-card__price {
+    font-size: 0.825rem;
+    color: var(--bundle-text-muted);
+    margin: 0 0 12px;
+  }
+
+  .bundle-card__controls {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .bundle-card__btn {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--bundle-border);
+    background: var(--bundle-card-bg);
+    color: var(--bundle-text);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+    padding: 0;
+    -webkit-appearance: none;
+  }
+
+  .bundle-card__btn:first-child {
+    border-radius: var(--bundle-radius-sm) 0 0 var(--bundle-radius-sm);
+    border-right: none;
+  }
+
+  .bundle-card__btn:last-child {
+    border-radius: 0 var(--bundle-radius-sm) var(--bundle-radius-sm) 0;
+    border-left: none;
+  }
+
+  .bundle-card__btn:hover {
+    background: var(--bundle-accent);
+    color: #fff;
+    border-color: var(--bundle-accent);
+  }
+
+  .bundle-card__btn:active {
+    transform: scale(0.92);
+  }
+
+  .bundle-card__qty {
+    width: 40px;
+    height: 36px;
+    border: 1.5px solid var(--bundle-border);
+    background: #fafafa;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--bundle-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Quick-add overlay on image tap (mobile) ── */
+  .bundle-card__quick-add {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(26,26,26,0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 2;
+    letter-spacing: 0.02em;
+  }
+
+  .bundle-card:hover .bundle-card__quick-add,
+  .bundle-card__img-wrap:active .bundle-card__quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 640px) {
+    .bundle-card__body { padding: 10px 10px 12px; }
+    .bundle-card__title { font-size: 0.8rem; }
+    .bundle-card__price { font-size: 0.75rem; margin-bottom: 8px; }
+    .bundle-card__btn { width: 32px; height: 32px; font-size: 1rem; }
+    .bundle-card__qty { width: 34px; height: 32px; font-size: 0.8rem; }
+  }
+
+  /* ── Sticky bottom bar ── */
+  .bundle-sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bundle-sticky-bg);
+    border-top: 1px solid var(--bundle-border);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 0;
+  }
+
+  .bundle-sticky.is-visible {
+    transform: translateY(0);
+  }
+
+  .bundle-sticky__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .bundle-sticky__info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .bundle-sticky__count {
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--bundle-text);
+  }
+
+  .bundle-sticky__count span {
+    color: var(--bundle-success);
+  }
+
+  .bundle-sticky__savings {
+    font-size: 0.825rem;
+    color: var(--bundle-success);
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .bundle-sticky__savings.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .bundle-sticky__prices {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .bundle-sticky__original {
+    font-size: 0.75rem;
+    color: var(--bundle-text-muted);
+    text-decoration: line-through;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .bundle-sticky__total {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--bundle-text);
+    line-height: 1;
+  }
+
+  .bundle-sticky__cta {
+    background: var(--bundle-accent);
+    color: #fff;
+    border: none;
+    padding: 14px 32px;
+    border-radius: var(--bundle-radius);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bundle-sticky__cta:hover:not(:disabled) {
+    background: var(--bundle-accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .bundle-sticky__cta:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .bundle-sticky__cta:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .bundle-sticky__cta.is-loading {
+    pointer-events: none;
+    color: transparent;
+  }
+
+  .bundle-sticky__cta.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: bundle-spin 0.6s linear infinite;
+  }
+
+  .bundle-sticky__cta.is-success {
+    background: var(--bundle-success);
+  }
+
+  @keyframes bundle-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 640px) {
+    .bundle-sticky__inner {
+      padding: 12px 16px;
+      flex-wrap: nowrap;
+    }
+    .bundle-sticky__info { gap: 12px; }
+    .bundle-sticky__cta { padding: 12px 20px; font-size: 0.875rem; }
+    .bundle-sticky__prices { display: none; }
+
+    .bundle-section { padding: 32px 0 140px; }
+  }
+
+  /* ── Animations ── */
+  @keyframes bundle-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  .bundle-card__qty-badge.pop {
+    animation: bundle-pop 0.3s ease;
+  }
+
+  /* ── Empty state hint ── */
+  .bundle-hint {
+    text-align: center;
+    padding: 20px;
+    color: var(--bundle-text-muted);
+    font-size: 0.9rem;
+    grid-column: 1 / -1;
+  }
+
+  /* ── Added-to-cart flash ── */
+  @keyframes bundle-flash {
+    0% { box-shadow: 0 0 0 0 rgba(45, 122, 79, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(45, 122, 79, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(45, 122, 79, 0); }
+  }
+
+  .bundle-card.flash {
+    animation: bundle-flash 0.5s ease;
+  }
+{%- endstyle -%}
+
+<section class="bundle-section" id="bundle-mix-match" data-section-id="{{ section.id }}">
+  <div class="bundle-container">
+
+    {%- comment -%} ── Header ── {%- endcomment -%}
+    <div class="bundle-header">
+      <div class="bundle-header__badge">{{ section.settings.badge_text }}</div>
+      <h2 class="bundle-header__title">{{ section.settings.heading }}</h2>
+      <p class="bundle-header__subtitle">{{ section.settings.subheading }}</p>
+    </div>
+
+    {%- comment -%} ── Progress bar (top) ── {%- endcomment -%}
+    <div class="bundle-progress-top">
+      <div class="bundle-progress-top__text" id="bundle-progress-text">
+        Välj minst {{ section.settings.min_items }} produkter för {{ section.settings.discount_percent }}% rabatt
+      </div>
+      <div class="bundle-progress-bar">
+        <div class="bundle-progress-bar__fill" id="bundle-progress-fill"></div>
+      </div>
+    </div>
+
+    {%- comment -%} ── Product grid ── {%- endcomment -%}
+    <div class="bundle-grid" id="bundle-grid">
+      {%- assign bundle_collection = collections[section.settings.collection] -%}
+      {%- if section.settings.collection == blank or bundle_collection == blank -%}
+        {%- assign bundle_products = collections['all'].products -%}
+      {%- else -%}
+        {%- assign bundle_products = bundle_collection.products -%}
+      {%- endif -%}
+
+      {%- for product in bundle_products limit: section.settings.max_products -%}
+        {%- assign first_variant = product.variants | first -%}
+        <div class="bundle-card"
+             data-bundle-card
+             data-variant-id="{{ first_variant.id }}"
+             data-price="{{ first_variant.price }}"
+             data-title="{{ product.title | escape }}"
+             data-qty="0">
+
+          <div class="bundle-card__img-wrap" onclick="bundleAddOne(this.closest('[data-bundle-card]'))">
+            <div class="bundle-card__qty-badge" data-qty-badge>0</div>
+            {%- if product.featured_image -%}
+              <img
+                class="bundle-card__img"
+                src="{{ product.featured_image | image_url: width: 480 }}"
+                alt="{{ product.title | escape }}"
+                loading="lazy"
+                width="480"
+                height="480"
+              >
+            {%- else -%}
+              <img
+                class="bundle-card__img"
+                src="{{ 'product-1' | placeholder_svg_tag }}"
+                alt="{{ product.title | escape }}"
+              >
+            {%- endif -%}
+            <div class="bundle-card__quick-add">Tryck för att lägga till</div>
+          </div>
+
+          <div class="bundle-card__body">
+            <h3 class="bundle-card__title">{{ product.title }}</h3>
+            <p class="bundle-card__price">{{ first_variant.price | money }}</p>
+            <div class="bundle-card__controls">
+              <button class="bundle-card__btn" onclick="bundleChangeQty(this.closest('[data-bundle-card]'), -1)" aria-label="Minska antal">−</button>
+              <div class="bundle-card__qty" data-qty-display>0</div>
+              <button class="bundle-card__btn" onclick="bundleChangeQty(this.closest('[data-bundle-card]'), 1)" aria-label="Öka antal">+</button>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{%- comment -%} ── Sticky bottom bar ── {%- endcomment -%}
+<div class="bundle-sticky" id="bundle-sticky">
+  <div class="bundle-sticky__inner">
+    <div class="bundle-sticky__info">
+      <div class="bundle-sticky__count">
+        <span id="bundle-total-count">0</span> / {{ section.settings.min_items }} valda
+      </div>
+      <div class="bundle-sticky__savings" id="bundle-savings">
+        Du sparar <strong id="bundle-savings-amount">0 kr</strong>
+      </div>
+    </div>
+    <div class="bundle-sticky__prices">
+      <div class="bundle-sticky__original" id="bundle-original-price"></div>
+      <div class="bundle-sticky__total" id="bundle-total-price">0 kr</div>
+    </div>
+    <button class="bundle-sticky__cta"
+            id="bundle-cta"
+            disabled
+            onclick="bundleAddToCart()">
+      <span id="bundle-cta-text">Välj minst {{ section.settings.min_items }} st</span>
+    </button>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ── Config from section settings ── */
+  const MIN_ITEMS    = {{ section.settings.min_items | default: 8 }};
+  const DISCOUNT_PCT = {{ section.settings.discount_percent | default: 10 }};
+
+  /* ── DOM refs ── */
+  const grid          = document.getElementById('bundle-grid');
+  const sticky        = document.getElementById('bundle-sticky');
+  const progressText  = document.getElementById('bundle-progress-text');
+  const progressFill  = document.getElementById('bundle-progress-fill');
+  const totalCountEl  = document.getElementById('bundle-total-count');
+  const savingsWrap   = document.getElementById('bundle-savings');
+  const savingsAmount = document.getElementById('bundle-savings-amount');
+  const originalPrice = document.getElementById('bundle-original-price');
+  const totalPrice    = document.getElementById('bundle-total-price');
+  const cta           = document.getElementById('bundle-cta');
+  const ctaText       = document.getElementById('bundle-cta-text');
+  const cards         = document.querySelectorAll('[data-bundle-card]');
+
+  /* ── Format price ── */
+  function formatMoney(cents) {
+    return (cents / 100).toLocaleString('sv-SE', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }) + ' kr';
+  }
+
+  /* ── Update everything ── */
+  function bundleUpdate() {
+    let totalQty = 0;
+    let totalCents = 0;
+
+    cards.forEach(function(card) {
+      const qty = parseInt(card.getAttribute('data-qty')) || 0;
+      const price = parseInt(card.getAttribute('data-price')) || 0;
+      totalQty += qty;
+      totalCents += qty * price;
+
+      /* Update card displays */
+      const qtyDisplay = card.querySelector('[data-qty-display]');
+      const qtyBadge = card.querySelector('[data-qty-badge]');
+
+      if (qtyDisplay) qtyDisplay.textContent = qty;
+      if (qtyBadge) qtyBadge.textContent = qty;
+
+      if (qty > 0) {
+        card.classList.add('is-selected');
+      } else {
+        card.classList.remove('is-selected');
+      }
+    });
+
+    /* Progress */
+    const progress = Math.min((totalQty / MIN_ITEMS) * 100, 100);
+    progressFill.style.width = progress + '%';
+
+    const isComplete = totalQty >= MIN_ITEMS;
+
+    if (isComplete) {
+      progressFill.classList.add('is-complete');
+      progressText.classList.add('is-complete');
+      progressText.textContent = '✓ ' + DISCOUNT_PCT + '% rabatt aktiverad — ' + totalQty + ' produkter valda';
+    } else {
+      progressFill.classList.remove('is-complete');
+      progressText.classList.remove('is-complete');
+      const remaining = MIN_ITEMS - totalQty;
+      progressText.textContent = remaining + ' till för ' + DISCOUNT_PCT + '% rabatt';
+    }
+
+    /* Total count */
+    totalCountEl.textContent = totalQty;
+
+    /* Prices */
+    if (isComplete) {
+      const discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
+      const finalCents = totalCents - discountCents;
+
+      originalPrice.textContent = formatMoney(totalCents);
+      originalPrice.style.display = 'block';
+      totalPrice.textContent = formatMoney(finalCents);
+
+      savingsAmount.textContent = formatMoney(discountCents);
+      savingsWrap.classList.add('is-visible');
+
+      cta.disabled = false;
+      ctaText.textContent = 'Lägg i varukorgen — ' + formatMoney(finalCents);
+    } else {
+      originalPrice.style.display = 'none';
+      totalPrice.textContent = totalQty > 0 ? formatMoney(totalCents) : '0 kr';
+
+      savingsWrap.classList.remove('is-visible');
+
+      cta.disabled = true;
+      if (totalQty === 0) {
+        ctaText.textContent = 'Välj minst ' + MIN_ITEMS + ' st';
+      } else {
+        ctaText.textContent = 'Välj ' + (MIN_ITEMS - totalQty) + ' till';
+      }
+    }
+
+    /* Sticky visibility */
+    if (totalQty > 0) {
+      sticky.classList.add('is-visible');
+    } else {
+      sticky.classList.remove('is-visible');
+    }
+  }
+
+  /* ── Change qty ── */
+  window.bundleChangeQty = function(card, delta) {
+    let qty = parseInt(card.getAttribute('data-qty')) || 0;
+    qty = Math.max(0, qty + delta);
+    card.setAttribute('data-qty', qty);
+
+    /* Pop animation on badge */
+    const badge = card.querySelector('[data-qty-badge]');
+    if (badge && delta > 0) {
+      badge.classList.remove('pop');
+      void badge.offsetWidth; /* reflow */
+      badge.classList.add('pop');
+    }
+
+    /* Flash animation on card */
+    if (delta > 0) {
+      card.classList.remove('flash');
+      void card.offsetWidth;
+      card.classList.add('flash');
+    }
+
+    bundleUpdate();
+  };
+
+  /* ── Quick-add from image tap ── */
+  window.bundleAddOne = function(card) {
+    window.bundleChangeQty(card, 1);
+  };
+
+  /* ── Add to cart via AJAX ── */
+  window.bundleAddToCart = function() {
+    const items = [];
+
+    cards.forEach(function(card) {
+      const qty = parseInt(card.getAttribute('data-qty')) || 0;
+      if (qty > 0) {
+        items.push({
+          id: parseInt(card.getAttribute('data-variant-id')),
+          quantity: qty
+        });
+      }
+    });
+
+    if (items.length === 0) return;
+
+    /* Loading state */
+    cta.classList.add('is-loading');
+    cta.disabled = true;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: items })
+    })
+    .then(function(response) {
+      if (!response.ok) throw new Error('Cart error');
+      return response.json();
+    })
+    .then(function() {
+      /* Success state */
+      cta.classList.remove('is-loading');
+      cta.classList.add('is-success');
+      ctaText.textContent = '✓ Tillagd i varukorgen';
+
+      /* Reset after 2s */
+      setTimeout(function() {
+        cards.forEach(function(card) {
+          card.setAttribute('data-qty', 0);
+        });
+        cta.classList.remove('is-success');
+        bundleUpdate();
+      }, 2000);
+
+      /* Trigger Shopify cart update event (works with most themes) */
+      document.dispatchEvent(new CustomEvent('cart:updated'));
+
+      /* Try to update cart drawer/counter if theme supports it */
+      if (typeof fetch === 'function') {
+        fetch('/cart.js')
+          .then(function(r) { return r.json(); })
+          .then(function(cart) {
+            /* Update common cart counter selectors */
+            var counters = document.querySelectorAll(
+              '.cart-count, .cart-count-bubble span, [data-cart-count], .js-cart-count, #cart-icon-bubble span'
+            );
+            counters.forEach(function(el) {
+              el.textContent = cart.item_count;
+            });
+          })
+          .catch(function() { /* silent */ });
+      }
+    })
+    .catch(function(err) {
+      console.error('Bundle add to cart failed:', err);
+      cta.classList.remove('is-loading');
+      cta.disabled = false;
+      ctaText.textContent = 'Något gick fel — försök igen';
+      setTimeout(function() { bundleUpdate(); }, 2000);
+    });
+  };
+
+  /* ── Init ── */
+  bundleUpdate();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Bundle Mix & Match",
+  "tag": "section",
+  "class": "bundle-mix-match-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge-text",
+      "default": "Spara 10%"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Bygg din egen mix"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Underrubrik",
+      "default": "Välj minst 8 favoriter och få 10% rabatt på hela ordern"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Kollektion (lämna tom för alla produkter)"
+    },
+    {
+      "type": "range",
+      "id": "min_items",
+      "label": "Minsta antal för rabatt",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "discount_percent",
+      "label": "Rabattprocent",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Max antal produkter att visa",
+      "min": 8,
+      "max": 100,
+      "step": 4,
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Mix & Match"
+    }
+  ]
+}
+{% endschema %}
