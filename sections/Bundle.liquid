@@ -612,7 +612,6 @@
   var DISCOUNT_PCT = {{ section.settings.discount_percent | default: 10 }};
   var MONEY_FORMAT = {{ shop.money_format | json }};
 
-  /* ── Translatable strings from section settings ── */
   var S = {
     progressRemaining: {{ section.settings.text_progress_remaining | json }},
     progressComplete:  {{ section.settings.text_progress_complete | json }},
@@ -623,7 +622,6 @@
     selected:          {{ section.settings.text_selected | json }}
   };
 
-  /* ── DOM refs ── */
   var sticky        = document.getElementById('bundle-sticky');
   var progressText  = document.getElementById('bundle-progress-text');
   var progressFill  = document.getElementById('bundle-progress-fill');
@@ -634,11 +632,8 @@
   var totalPrice    = document.getElementById('bundle-total-price');
   var ctaText       = document.getElementById('bundle-cta-text');
   var cards         = document.querySelectorAll('[data-bundle-card]');
+  var busy          = false;
 
-  /* ── Throttle to prevent double-taps ── */
-  var busyCards = {};
-
-  /* ── Format money using Shopify's active money format ── */
   function formatMoney(cents) {
     var val = cents / 100;
     var noDecimals = Math.round(val).toString();
@@ -654,7 +649,6 @@
       .replace(/\{\{\s*amount\s*\}\}/g, withDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
   }
 
-  /* ── Template string replacer ── */
   function t(str, data) {
     var result = str;
     for (var k in data) {
@@ -663,21 +657,20 @@
     return result;
   }
 
-  /* ── Update cart counter in theme header ── */
   function refreshCartCounter() {
     fetch('/cart.js', { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(cart) {
+        console.log('[Bundle] Cart updated, items:', cart.item_count);
         var counters = document.querySelectorAll(
           '.cart-count, .cart-count-bubble span, [data-cart-count], .js-cart-count, #cart-icon-bubble span, .header__cart-count'
         );
         counters.forEach(function(el) { el.textContent = cart.item_count; });
         document.dispatchEvent(new CustomEvent('cart:updated'));
       })
-      .catch(function() {});
+      .catch(function(e) { console.warn('[Bundle] Cart counter refresh failed:', e); });
   }
 
-  /* ── Flash animation on card ── */
   function flashCard(card) {
     var flash = card.querySelector('[data-flash]');
     if (flash) {
@@ -697,7 +690,6 @@
     card.classList.add('flash');
   }
 
-  /* ── Update UI based on local qty tracking ── */
   function updateUI() {
     var totalQty = 0;
     var totalCents = 0;
@@ -721,7 +713,6 @@
       }
     });
 
-    /* Progress */
     var progress = Math.min((totalQty / MIN_ITEMS) * 100, 100);
     progressFill.style.width = progress + '%';
 
@@ -738,10 +729,8 @@
       progressText.textContent = t(S.progressRemaining, { remaining: remaining, discount: DISCOUNT_PCT });
     }
 
-    /* Total count */
     totalCountEl.textContent = totalQty;
 
-    /* Prices */
     if (isComplete) {
       var discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
       var finalCents = totalCents - discountCents;
@@ -767,7 +756,6 @@
       }
     }
 
-    /* Sticky visibility */
     if (totalQty > 0) {
       sticky.classList.add('is-visible');
     } else {
@@ -775,101 +763,118 @@
     }
   }
 
-  /* ── Add 1 item to cart immediately ── */
+  /* ── Add 1 item to cart — waits for response before updating UI ── */
   function addToCart(card) {
+    if (busy) return;
+    busy = true;
+
     var variantId = card.getAttribute('data-variant-id');
-    if (busyCards[variantId]) return;
-    busyCards[variantId] = true;
-
-    /* Update local qty immediately for responsive UI */
-    var qty = (parseInt(card.getAttribute('data-qty')) || 0) + 1;
-    card.setAttribute('data-qty', qty);
-    updateUI();
-    flashCard(card);
-
-    /* Disable buttons briefly */
-    var btns = card.querySelectorAll('[data-plus-btn], [data-minus-btn], [data-add-btn]');
-    btns.forEach(function(b) { b.classList.add('is-busy'); });
+    console.log('[Bundle] Adding variant:', variantId);
 
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify({ items: [{ id: parseInt(variantId), quantity: 1 }] })
+      body: JSON.stringify({ items: [{ id: variantId, quantity: 1 }] })
     })
     .then(function(response) {
-      if (!response.ok) throw new Error('Cart error');
+      console.log('[Bundle] /cart/add.js status:', response.status);
+      if (!response.ok) {
+        return response.text().then(function(body) {
+          console.error('[Bundle] Error body:', body);
+          throw new Error('Cart add failed: ' + response.status);
+        });
+      }
       return response.json();
     })
-    .then(function() {
-      refreshCartCounter();
-    })
-    .catch(function(err) {
-      console.error('Bundle add failed:', err);
-      /* Roll back local qty */
-      var current = parseInt(card.getAttribute('data-qty')) || 0;
-      card.setAttribute('data-qty', Math.max(0, current - 1));
+    .then(function(data) {
+      console.log('[Bundle] Added successfully:', data);
+      var qty = (parseInt(card.getAttribute('data-qty')) || 0) + 1;
+      card.setAttribute('data-qty', qty);
       updateUI();
+      flashCard(card);
+      refreshCartCounter();
+      busy = false;
     })
-    .finally(function() {
-      delete busyCards[variantId];
-      btns.forEach(function(b) { b.classList.remove('is-busy'); });
+    .then(null, function(err) {
+      console.error('[Bundle] Add to cart failed:', err);
+      busy = false;
     });
   }
 
-  /* ── Remove 1 item from cart ── */
+  /* ── Remove 1 item from cart — waits for response before updating UI ── */
   function removeFromCart(card) {
-    var variantId = card.getAttribute('data-variant-id');
     var qty = parseInt(card.getAttribute('data-qty')) || 0;
-    if (qty <= 0 || busyCards[variantId]) return;
-    busyCards[variantId] = true;
+    if (qty <= 0 || busy) return;
+    busy = true;
 
-    /* Update local qty immediately */
-    card.setAttribute('data-qty', qty - 1);
-    updateUI();
+    var variantId = card.getAttribute('data-variant-id');
+    var newQty = qty - 1;
+    console.log('[Bundle] Removing variant:', variantId, 'new qty:', newQty);
 
-    var btns = card.querySelectorAll('[data-plus-btn], [data-minus-btn], [data-add-btn]');
-    btns.forEach(function(b) { b.classList.add('is-busy'); });
-
-    /* Use /cart/change.js to set new quantity for this variant */
     fetch('/cart/change.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify({ id: variantId, quantity: qty - 1 })
+      body: JSON.stringify({ id: variantId, quantity: newQty })
     })
     .then(function(response) {
-      if (!response.ok) throw new Error('Cart error');
+      console.log('[Bundle] /cart/change.js status:', response.status);
+      if (!response.ok) {
+        return response.text().then(function(body) {
+          console.error('[Bundle] Error body:', body);
+          throw new Error('Cart change failed: ' + response.status);
+        });
+      }
       return response.json();
     })
     .then(function() {
-      refreshCartCounter();
-    })
-    .catch(function(err) {
-      console.error('Bundle remove failed:', err);
-      /* Roll back */
-      card.setAttribute('data-qty', qty);
+      card.setAttribute('data-qty', newQty);
       updateUI();
+      refreshCartCounter();
+      busy = false;
     })
-    .finally(function() {
-      delete busyCards[variantId];
-      btns.forEach(function(b) { b.classList.remove('is-busy'); });
+    .then(null, function(err) {
+      console.error('[Bundle] Remove from cart failed:', err);
+      busy = false;
     });
   }
 
-  /* ── Bind event listeners (works on mobile + desktop) ── */
+  /* ── Bind events — uses real <button> elements, works on all devices ── */
   cards.forEach(function(card) {
     var addBtn   = card.querySelector('[data-add-btn]');
     var plusBtn  = card.querySelector('[data-plus-btn]');
     var minusBtn = card.querySelector('[data-minus-btn]');
 
-    if (addBtn)   addBtn.addEventListener('click', function(e) { e.preventDefault(); addToCart(card); });
-    if (plusBtn)  plusBtn.addEventListener('click', function(e) { e.preventDefault(); addToCart(card); });
-    if (minusBtn) minusBtn.addEventListener('click', function(e) { e.preventDefault(); removeFromCart(card); });
+    function handleAdd(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      addToCart(card);
+    }
+
+    function handleRemove(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      removeFromCart(card);
+    }
+
+    if (addBtn) {
+      addBtn.addEventListener('click', handleAdd, false);
+      addBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        addToCart(card);
+      }, { passive: false });
+    }
+    if (plusBtn) {
+      plusBtn.addEventListener('click', handleAdd, false);
+    }
+    if (minusBtn) {
+      minusBtn.addEventListener('click', handleRemove, false);
+    }
   });
 
-  /* ── Init ── */
   updateUI();
+  console.log('[Bundle] Initialized. Cards found:', cards.length, 'Min items:', MIN_ITEMS);
 })();
 </script>
 
