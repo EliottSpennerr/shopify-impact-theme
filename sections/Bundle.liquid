@@ -657,37 +657,60 @@
     return result;
   }
 
-  /* ── Refresh the entire cart: counter, drawer, and events ── */
+  /* ── Refresh cart: find the actual theme sections and re-render them ── */
   function refreshCart() {
-    fetch('/cart.js', { credentials: 'same-origin' })
+    /* Step 1: Find which Shopify sections contain cart elements */
+    var sectionIds = [];
+    var cartElements = document.querySelectorAll(
+      '[data-cart-count], .cart-count-bubble, .cart-count, #cart-icon-bubble, ' +
+      '[class*="cart-count"], [class*="cart-icon"], [data-section-type="cart"]'
+    );
+    cartElements.forEach(function(el) {
+      var section = el.closest('[id^="shopify-section-"]');
+      if (section) {
+        var id = section.id.replace('shopify-section-', '');
+        if (sectionIds.indexOf(id) === -1) sectionIds.push(id);
+      }
+    });
+
+    /* Also look for cart-drawer sections */
+    var drawerSections = document.querySelectorAll(
+      '[id^="shopify-section-cart-drawer"], [id^="shopify-section-cart-items"], ' +
+      '[id^="shopify-section-mini-cart"]'
+    );
+    drawerSections.forEach(function(el) {
+      var id = el.id.replace('shopify-section-', '');
+      if (sectionIds.indexOf(id) === -1) sectionIds.push(id);
+    });
+
+    if (sectionIds.length === 0) {
+      /* Fallback: try common section names */
+      sectionIds = ['header', 'cart-drawer', 'cart-icon-bubble', 'cart-items'];
+    }
+
+    /* Step 2: Ask Shopify to re-render those sections with fresh cart data */
+    fetch('/?sections=' + sectionIds.join(','), { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
-      .then(function(cart) {
-        /* Update all common cart counter selectors */
-        var counters = document.querySelectorAll(
-          '.cart-count, .cart-count-bubble span, [data-cart-count], .js-cart-count, #cart-icon-bubble span, .header__cart-count, .cart-count-bubble'
-        );
-        counters.forEach(function(el) { el.textContent = cart.item_count; });
-
-        /* Fire events that most Shopify themes listen to */
-        document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
-        document.dispatchEvent(new CustomEvent('cart:change', { detail: { cart: cart } }));
-
-        /* Try to refresh cart drawer via Shopify section rendering API */
-        fetch('/?sections=cart-drawer,cart-items,mini-cart,cart-icon-bubble', { credentials: 'same-origin' })
-          .then(function(r) { return r.json(); })
-          .then(function(sections) {
-            for (var name in sections) {
-              var html = sections[name];
-              /* Find matching section in DOM and replace its content */
-              var target = document.getElementById('shopify-section-' + name);
-              if (target) {
-                target.innerHTML = new DOMParser().parseFromString(html, 'text/html').body.innerHTML;
-              }
-            }
-          })
-          .catch(function() { /* Section rendering not available, that's fine */ });
+      .then(function(sections) {
+        for (var name in sections) {
+          var target = document.getElementById('shopify-section-' + name);
+          if (target && sections[name]) {
+            target.outerHTML = sections[name];
+          }
+        }
       })
-      .catch(function() {});
+      .catch(function() {
+        /* Section rendering failed — last resort: update counter text */
+        fetch('/cart.js', { credentials: 'same-origin' })
+          .then(function(r) { return r.json(); })
+          .then(function(cart) {
+            var counters = document.querySelectorAll(
+              '.cart-count, .cart-count-bubble span, [data-cart-count], #cart-icon-bubble span'
+            );
+            counters.forEach(function(el) { el.textContent = cart.item_count; });
+          })
+          .catch(function() {});
+      });
   }
 
   function flashCard(card) {
