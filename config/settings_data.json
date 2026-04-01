@@ -90,11 +90,6 @@
           "button_vertical_position": "lowest",
           "greeting_message": ""
         }
-      },
-      "11348531219507317188": {
-        "type": "shopify://apps/eb-easy-bundle-builder/blocks/app-embed/05b1325c-6303-4da5-8e2f-b13ab2a50e1a",
-        "disabled": false,
-        "settings": {}
       }
     }
   },
@@ -205,7 +200,6 @@
       "div#__totebot-bubble-button.ready {z-index: 1 !important; bottom: 22px !important; width: 50px !important; height: 50px !important;}",
       ".product-card__image {border-bottom-left-radius: var(--rounded-sm) !important; border-bottom-right-radius: var(--rounded-sm) !important;}",
       ".text-on-sale {color: #a30f0f !important;}",
-      ".badge {background: #a30f0f !important;}",
       ".badge.badge--sold-out {background: #00234a !important;}",
       ".button {font-weight: lighter !important;}",
       ".text-sm {font-weight: lighter !important;}",
