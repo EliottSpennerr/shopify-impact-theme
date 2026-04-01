@@ -657,18 +657,37 @@
     return result;
   }
 
-  function refreshCartCounter() {
+  /* ── Refresh the entire cart: counter, drawer, and events ── */
+  function refreshCart() {
     fetch('/cart.js', { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(cart) {
-        console.log('[Bundle] Cart updated, items:', cart.item_count);
+        /* Update all common cart counter selectors */
         var counters = document.querySelectorAll(
-          '.cart-count, .cart-count-bubble span, [data-cart-count], .js-cart-count, #cart-icon-bubble span, .header__cart-count'
+          '.cart-count, .cart-count-bubble span, [data-cart-count], .js-cart-count, #cart-icon-bubble span, .header__cart-count, .cart-count-bubble'
         );
         counters.forEach(function(el) { el.textContent = cart.item_count; });
-        document.dispatchEvent(new CustomEvent('cart:updated'));
+
+        /* Fire events that most Shopify themes listen to */
+        document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
+        document.dispatchEvent(new CustomEvent('cart:change', { detail: { cart: cart } }));
+
+        /* Try to refresh cart drawer via Shopify section rendering API */
+        fetch('/?sections=cart-drawer,cart-items,mini-cart,cart-icon-bubble', { credentials: 'same-origin' })
+          .then(function(r) { return r.json(); })
+          .then(function(sections) {
+            for (var name in sections) {
+              var html = sections[name];
+              /* Find matching section in DOM and replace its content */
+              var target = document.getElementById('shopify-section-' + name);
+              if (target) {
+                target.innerHTML = new DOMParser().parseFromString(html, 'text/html').body.innerHTML;
+              }
+            }
+          })
+          .catch(function() { /* Section rendering not available, that's fine */ });
       })
-      .catch(function(e) { console.warn('[Bundle] Cart counter refresh failed:', e); });
+      .catch(function() {});
   }
 
   function flashCard(card) {
@@ -763,13 +782,12 @@
     }
   }
 
-  /* ── Add 1 item to cart — waits for response before updating UI ── */
+  /* ── Add 1 item to cart ── */
   function addToCart(card) {
     if (busy) return;
     busy = true;
 
     var variantId = card.getAttribute('data-variant-id');
-    console.log('[Bundle] Adding variant:', variantId);
 
     fetch('/cart/add.js', {
       method: 'POST',
@@ -778,22 +796,15 @@
       body: JSON.stringify({ items: [{ id: Number(variantId), quantity: 1 }] })
     })
     .then(function(response) {
-      console.log('[Bundle] /cart/add.js status:', response.status);
-      if (!response.ok) {
-        return response.text().then(function(body) {
-          console.error('[Bundle] Error body:', body);
-          throw new Error('Cart add failed: ' + response.status);
-        });
-      }
+      if (!response.ok) throw new Error('Cart add failed: ' + response.status);
       return response.json();
     })
-    .then(function(data) {
-      console.log('[Bundle] Added successfully:', data);
+    .then(function() {
       var qty = (parseInt(card.getAttribute('data-qty')) || 0) + 1;
       card.setAttribute('data-qty', qty);
       updateUI();
       flashCard(card);
-      refreshCartCounter();
+      refreshCart();
       busy = false;
     })
     .then(null, function(err) {
@@ -802,7 +813,7 @@
     });
   }
 
-  /* ── Remove 1 item from cart — waits for response before updating UI ── */
+  /* ── Remove 1 item from cart ── */
   function removeFromCart(card) {
     var qty = parseInt(card.getAttribute('data-qty')) || 0;
     if (qty <= 0 || busy) return;
@@ -810,7 +821,6 @@
 
     var variantId = card.getAttribute('data-variant-id');
     var newQty = qty - 1;
-    console.log('[Bundle] Removing variant:', variantId, 'new qty:', newQty);
 
     fetch('/cart/change.js', {
       method: 'POST',
@@ -819,19 +829,13 @@
       body: JSON.stringify({ id: Number(variantId), quantity: newQty })
     })
     .then(function(response) {
-      console.log('[Bundle] /cart/change.js status:', response.status);
-      if (!response.ok) {
-        return response.text().then(function(body) {
-          console.error('[Bundle] Error body:', body);
-          throw new Error('Cart change failed: ' + response.status);
-        });
-      }
+      if (!response.ok) throw new Error('Cart change failed: ' + response.status);
       return response.json();
     })
     .then(function() {
       card.setAttribute('data-qty', newQty);
       updateUI();
-      refreshCartCounter();
+      refreshCart();
       busy = false;
     })
     .then(null, function(err) {
@@ -840,41 +844,50 @@
     });
   }
 
-  /* ── Bind events — uses real <button> elements, works on all devices ── */
+  /* ── Bind click events only (no touchend — buttons handle touch natively) ── */
   cards.forEach(function(card) {
     var addBtn   = card.querySelector('[data-add-btn]');
     var plusBtn  = card.querySelector('[data-plus-btn]');
     var minusBtn = card.querySelector('[data-minus-btn]');
 
-    function handleAdd(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      addToCart(card);
-    }
-
-    function handleRemove(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      removeFromCart(card);
-    }
-
     if (addBtn) {
-      addBtn.addEventListener('click', handleAdd, false);
-      addBtn.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        addToCart(card);
-      }, { passive: false });
+      addBtn.addEventListener('click', function(e) { e.preventDefault(); addToCart(card); }, false);
     }
     if (plusBtn) {
-      plusBtn.addEventListener('click', handleAdd, false);
+      plusBtn.addEventListener('click', function(e) { e.preventDefault(); addToCart(card); }, false);
     }
     if (minusBtn) {
-      minusBtn.addEventListener('click', handleRemove, false);
+      minusBtn.addEventListener('click', function(e) { e.preventDefault(); removeFromCart(card); }, false);
     }
   });
 
-  updateUI();
-  console.log('[Bundle] Initialized. Cards found:', cards.length, 'Min items:', MIN_ITEMS);
+  /* ── On page load: sync bundle UI with what's already in the cart ── */
+  fetch('/cart.js', { credentials: 'same-origin' })
+    .then(function(r) { return r.json(); })
+    .then(function(cart) {
+      if (!cart.items || cart.items.length === 0) return;
+
+      /* Build a map of variant_id → quantity from the cart */
+      var cartMap = {};
+      cart.items.forEach(function(item) {
+        var vid = String(item.variant_id);
+        cartMap[vid] = (cartMap[vid] || 0) + item.quantity;
+      });
+
+      /* Set data-qty on matching bundle cards */
+      cards.forEach(function(card) {
+        var vid = card.getAttribute('data-variant-id');
+        if (cartMap[vid]) {
+          card.setAttribute('data-qty', cartMap[vid]);
+        }
+      });
+
+      updateUI();
+    })
+    .catch(function() {
+      /* Cart fetch failed, start fresh */
+      updateUI();
+    });
 })();
 </script>
 
