@@ -775,7 +775,7 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify({ items: [{ id: variantId, quantity: 1 }] })
+      body: JSON.stringify({ items: [{ id: Number(variantId), quantity: 1 }] })
     })
     .then(function(response) {
       console.log('[Bundle] /cart/add.js status:', response.status);
@@ -816,7 +816,7 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
-      body: JSON.stringify({ id: variantId, quantity: newQty })
+      body: JSON.stringify({ id: Number(variantId), quantity: newQty })
     })
     .then(function(response) {
       console.log('[Bundle] /cart/change.js status:', response.status);
