@@ -2,8 +2,11 @@
   ============================================================
   BUNDLE MIX & MATCH — Finsk Lakrits
   ============================================================
-  Drop-in Liquid section. Works on any page via Theme Editor.
-  Requires: Automatic discount "BUNDLE10" (10% off, min 8 items)
+  Every product click instantly adds to cart via AJAX.
+  All UI strings are section settings — translatable via
+  Shopify Translate & Adapt per market.
+  Prices render via shop.money_format (multi-currency).
+  Requires: Automatic discount (10% off, min 8 items)
   set up in Shopify Admin → Discounts.
   ============================================================
 {% endcomment %}
@@ -11,7 +14,6 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-  /* ── Design tokens ── */
   :root {
     --bundle-bg: #faf8f5;
     --bundle-card-bg: #ffffff;
@@ -35,7 +37,6 @@
     --bundle-badge-text: #ffffff;
   }
 
-  /* ── Section wrapper ── */
   .bundle-section {
     font-family: var(--bundle-font);
     background: var(--bundle-bg);
@@ -49,7 +50,6 @@
     padding: 0 20px;
   }
 
-  /* ── Header ── */
   .bundle-header {
     text-align: center;
     margin-bottom: 40px;
@@ -84,7 +84,6 @@
     text-transform: uppercase;
   }
 
-  /* ── Progress bar (top) ── */
   .bundle-progress-top {
     max-width: 480px;
     margin: 0 auto 40px;
@@ -124,7 +123,6 @@
     background: var(--bundle-progress-fill-active);
   }
 
-  /* ── Product grid ── */
   .bundle-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -139,7 +137,6 @@
     .bundle-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   }
 
-  /* ── Product card ── */
   .bundle-card {
     background: var(--bundle-card-bg);
     border-radius: var(--bundle-radius);
@@ -167,7 +164,6 @@
     overflow: hidden;
     background: #f5f3f0;
     position: relative;
-    cursor: pointer;
   }
 
   .bundle-card__img {
@@ -175,10 +171,26 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
+    pointer-events: none;
   }
 
   .bundle-card:hover .bundle-card__img {
     transform: scale(1.04);
+  }
+
+  .bundle-card__img-btn {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    padding: 0;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+    touch-action: manipulation;
   }
 
   .bundle-card__qty-badge {
@@ -205,6 +217,46 @@
   .bundle-card.is-selected .bundle-card__qty-badge {
     opacity: 1;
     transform: scale(1);
+  }
+
+  .bundle-card__add-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(26,26,26,0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 3;
+    letter-spacing: 0.02em;
+  }
+
+  .bundle-card:hover .bundle-card__add-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .bundle-card__added-flash {
+    position: absolute;
+    inset: 0;
+    background: rgba(45, 122, 79, 0.15);
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .bundle-card__added-flash.is-visible {
+    opacity: 1;
   }
 
   .bundle-card__body {
@@ -251,6 +303,8 @@
     line-height: 1;
     padding: 0;
     -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+    touch-action: manipulation;
   }
 
   .bundle-card__btn:first-child {
@@ -273,6 +327,11 @@
     transform: scale(0.92);
   }
 
+  .bundle-card__btn.is-busy {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   .bundle-card__qty {
     width: 40px;
     height: 36px;
@@ -287,34 +346,6 @@
     justify-content: center;
   }
 
-  /* ── Quick-add overlay on image tap (mobile) ── */
-  .bundle-card__quick-add {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(26,26,26,0.85);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    z-index: 2;
-    letter-spacing: 0.02em;
-  }
-
-  .bundle-card:hover .bundle-card__quick-add,
-  .bundle-card__img-wrap:active .bundle-card__quick-add {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   @media (max-width: 640px) {
     .bundle-card__body { padding: 10px 10px 12px; }
     .bundle-card__title { font-size: 0.8rem; }
@@ -323,7 +354,6 @@
     .bundle-card__qty { width: 34px; height: 32px; font-size: 0.8rem; }
   }
 
-  /* ── Sticky bottom bar ── */
   .bundle-sticky {
     position: fixed;
     bottom: 0;
@@ -408,6 +438,7 @@
   }
 
   .bundle-sticky__cta {
+    display: inline-block;
     background: var(--bundle-accent);
     color: #fff;
     border: none;
@@ -420,50 +451,19 @@
     white-space: nowrap;
     letter-spacing: 0.01em;
     flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
   }
 
-  .bundle-sticky__cta:hover:not(:disabled) {
+  .bundle-sticky__cta:hover {
     background: var(--bundle-accent-hover);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: #fff;
   }
 
-  .bundle-sticky__cta:active:not(:disabled) {
+  .bundle-sticky__cta:active {
     transform: translateY(0);
-  }
-
-  .bundle-sticky__cta:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
-  .bundle-sticky__cta.is-loading {
-    pointer-events: none;
-    color: transparent;
-  }
-
-  .bundle-sticky__cta.is-loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    margin: -10px 0 0 -10px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: bundle-spin 0.6s linear infinite;
-  }
-
-  .bundle-sticky__cta.is-success {
-    background: var(--bundle-success);
-  }
-
-  @keyframes bundle-spin {
-    to { transform: rotate(360deg); }
   }
 
   @media (max-width: 640px) {
@@ -474,11 +474,9 @@
     .bundle-sticky__info { gap: 12px; }
     .bundle-sticky__cta { padding: 12px 20px; font-size: 0.875rem; }
     .bundle-sticky__prices { display: none; }
-
     .bundle-section { padding: 32px 0 140px; }
   }
 
-  /* ── Animations ── */
   @keyframes bundle-pop {
     0% { transform: scale(1); }
     50% { transform: scale(1.15); }
@@ -489,7 +487,6 @@
     animation: bundle-pop 0.3s ease;
   }
 
-  /* ── Empty state hint ── */
   .bundle-hint {
     text-align: center;
     padding: 20px;
@@ -498,7 +495,6 @@
     grid-column: 1 / -1;
   }
 
-  /* ── Added-to-cart flash ── */
   @keyframes bundle-flash {
     0% { box-shadow: 0 0 0 0 rgba(45, 122, 79, 0.4); }
     70% { box-shadow: 0 0 0 8px rgba(45, 122, 79, 0); }
@@ -513,24 +509,21 @@
 <section class="bundle-section" id="bundle-mix-match" data-section-id="{{ section.id }}">
   <div class="bundle-container">
 
-    {%- comment -%} ── Header ── {%- endcomment -%}
     <div class="bundle-header">
       <div class="bundle-header__badge">{{ section.settings.badge_text }}</div>
       <h2 class="bundle-header__title">{{ section.settings.heading }}</h2>
       <p class="bundle-header__subtitle">{{ section.settings.subheading }}</p>
     </div>
 
-    {%- comment -%} ── Progress bar (top) ── {%- endcomment -%}
     <div class="bundle-progress-top">
       <div class="bundle-progress-top__text" id="bundle-progress-text">
-        Välj minst {{ section.settings.min_items }} produkter för {{ section.settings.discount_percent }}% rabatt
+        {{ section.settings.text_progress_remaining }}
       </div>
       <div class="bundle-progress-bar">
         <div class="bundle-progress-bar__fill" id="bundle-progress-fill"></div>
       </div>
     </div>
 
-    {%- comment -%} ── Product grid ── {%- endcomment -%}
     <div class="bundle-grid" id="bundle-grid">
       {%- assign bundle_collection = collections[section.settings.collection] -%}
       {%- if section.settings.collection == blank or bundle_collection == blank -%}
@@ -548,7 +541,7 @@
              data-title="{{ product.title | escape }}"
              data-qty="0">
 
-          <div class="bundle-card__img-wrap" onclick="bundleAddOne(this.closest('[data-bundle-card]'))">
+          <div class="bundle-card__img-wrap">
             <div class="bundle-card__qty-badge" data-qty-badge>0</div>
             {%- if product.featured_image -%}
               <img
@@ -566,16 +559,22 @@
                 alt="{{ product.title | escape }}"
               >
             {%- endif -%}
-            <div class="bundle-card__quick-add">Tryck för att lägga till</div>
+            <button type="button"
+                    class="bundle-card__img-btn"
+                    data-add-btn
+                    aria-label="{{ section.settings.text_quick_add }}">
+            </button>
+            <div class="bundle-card__add-overlay">{{ section.settings.text_quick_add }}</div>
+            <div class="bundle-card__added-flash" data-flash></div>
           </div>
 
           <div class="bundle-card__body">
             <h3 class="bundle-card__title">{{ product.title }}</h3>
             <p class="bundle-card__price">{{ first_variant.price | money }}</p>
             <div class="bundle-card__controls">
-              <button class="bundle-card__btn" onclick="bundleChangeQty(this.closest('[data-bundle-card]'), -1)" aria-label="Minska antal">−</button>
+              <button type="button" class="bundle-card__btn" data-minus-btn aria-label="{{ section.settings.text_decrease }}">−</button>
               <div class="bundle-card__qty" data-qty-display>0</div>
-              <button class="bundle-card__btn" onclick="bundleChangeQty(this.closest('[data-bundle-card]'), 1)" aria-label="Öka antal">+</button>
+              <button type="button" class="bundle-card__btn" data-plus-btn aria-label="{{ section.settings.text_increase }}">+</button>
             </div>
           </div>
         </div>
@@ -585,27 +584,23 @@
   </div>
 </section>
 
-{%- comment -%} ── Sticky bottom bar ── {%- endcomment -%}
 <div class="bundle-sticky" id="bundle-sticky">
   <div class="bundle-sticky__inner">
     <div class="bundle-sticky__info">
       <div class="bundle-sticky__count">
-        <span id="bundle-total-count">0</span> / {{ section.settings.min_items }} valda
+        <span id="bundle-total-count">0</span> / {{ section.settings.min_items }} {{ section.settings.text_selected }}
       </div>
       <div class="bundle-sticky__savings" id="bundle-savings">
-        Du sparar <strong id="bundle-savings-amount">0 kr</strong>
+        {{ section.settings.text_you_save }} <strong id="bundle-savings-amount"></strong>
       </div>
     </div>
     <div class="bundle-sticky__prices">
       <div class="bundle-sticky__original" id="bundle-original-price"></div>
-      <div class="bundle-sticky__total" id="bundle-total-price">0 kr</div>
+      <div class="bundle-sticky__total" id="bundle-total-price"></div>
     </div>
-    <button class="bundle-sticky__cta"
-            id="bundle-cta"
-            disabled
-            onclick="bundleAddToCart()">
-      <span id="bundle-cta-text">Välj minst {{ section.settings.min_items }} st</span>
-    </button>
+    <a href="/cart" class="bundle-sticky__cta" id="bundle-cta">
+      <span id="bundle-cta-text">{{ section.settings.text_cta_before }}</span>
+    </a>
   </div>
 </div>
 
@@ -613,46 +608,108 @@
 (function() {
   'use strict';
 
-  /* ── Config from section settings ── */
-  const MIN_ITEMS    = {{ section.settings.min_items | default: 8 }};
-  const DISCOUNT_PCT = {{ section.settings.discount_percent | default: 10 }};
+  var MIN_ITEMS    = {{ section.settings.min_items | default: 8 }};
+  var DISCOUNT_PCT = {{ section.settings.discount_percent | default: 10 }};
+  var MONEY_FORMAT = {{ shop.money_format | json }};
+
+  /* ── Translatable strings from section settings ── */
+  var S = {
+    progressRemaining: {{ section.settings.text_progress_remaining | json }},
+    progressComplete:  {{ section.settings.text_progress_complete | json }},
+    ctaBefore:         {{ section.settings.text_cta_before | json }},
+    ctaRemaining:      {{ section.settings.text_cta_remaining | json }},
+    ctaGoToCart:        {{ section.settings.text_cta_go_to_cart | json }},
+    youSave:           {{ section.settings.text_you_save | json }},
+    selected:          {{ section.settings.text_selected | json }}
+  };
 
   /* ── DOM refs ── */
-  const grid          = document.getElementById('bundle-grid');
-  const sticky        = document.getElementById('bundle-sticky');
-  const progressText  = document.getElementById('bundle-progress-text');
-  const progressFill  = document.getElementById('bundle-progress-fill');
-  const totalCountEl  = document.getElementById('bundle-total-count');
-  const savingsWrap   = document.getElementById('bundle-savings');
-  const savingsAmount = document.getElementById('bundle-savings-amount');
-  const originalPrice = document.getElementById('bundle-original-price');
-  const totalPrice    = document.getElementById('bundle-total-price');
-  const cta           = document.getElementById('bundle-cta');
-  const ctaText       = document.getElementById('bundle-cta-text');
-  const cards         = document.querySelectorAll('[data-bundle-card]');
+  var sticky        = document.getElementById('bundle-sticky');
+  var progressText  = document.getElementById('bundle-progress-text');
+  var progressFill  = document.getElementById('bundle-progress-fill');
+  var totalCountEl  = document.getElementById('bundle-total-count');
+  var savingsWrap   = document.getElementById('bundle-savings');
+  var savingsAmount = document.getElementById('bundle-savings-amount');
+  var originalPrice = document.getElementById('bundle-original-price');
+  var totalPrice    = document.getElementById('bundle-total-price');
+  var ctaText       = document.getElementById('bundle-cta-text');
+  var cards         = document.querySelectorAll('[data-bundle-card]');
 
-  /* ── Format price ── */
+  /* ── Throttle to prevent double-taps ── */
+  var busyCards = {};
+
+  /* ── Format money using Shopify's active money format ── */
   function formatMoney(cents) {
-    return (cents / 100).toLocaleString('sv-SE', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }) + ' kr';
+    var val = cents / 100;
+    var noDecimals = Math.round(val).toString();
+    var withDecimals = val.toFixed(2);
+
+    return MONEY_FORMAT
+      .replace(/\{\{\s*amount_no_decimals_with_comma_separator\s*\}\}/g, noDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, '.'))
+      .replace(/\{\{\s*amount_no_decimals_with_space_separator\s*\}\}/g, noDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ' '))
+      .replace(/\{\{\s*amount_no_decimals\s*\}\}/g, noDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+      .replace(/\{\{\s*amount_with_comma_separator\s*\}\}/g, withDecimals.replace(/\./, ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.'))
+      .replace(/\{\{\s*amount_with_apostrophe_separator\s*\}\}/g, withDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, "'"))
+      .replace(/\{\{\s*amount_with_space_separator\s*\}\}/g, withDecimals.replace(/\./, ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' '))
+      .replace(/\{\{\s*amount\s*\}\}/g, withDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
   }
 
-  /* ── Update everything ── */
-  function bundleUpdate() {
-    let totalQty = 0;
-    let totalCents = 0;
+  /* ── Template string replacer ── */
+  function t(str, data) {
+    var result = str;
+    for (var k in data) {
+      result = result.split('{' + k + '}').join(data[k]);
+    }
+    return result;
+  }
+
+  /* ── Update cart counter in theme header ── */
+  function refreshCartCounter() {
+    fetch('/cart.js', { credentials: 'same-origin' })
+      .then(function(r) { return r.json(); })
+      .then(function(cart) {
+        var counters = document.querySelectorAll(
+          '.cart-count, .cart-count-bubble span, [data-cart-count], .js-cart-count, #cart-icon-bubble span, .header__cart-count'
+        );
+        counters.forEach(function(el) { el.textContent = cart.item_count; });
+        document.dispatchEvent(new CustomEvent('cart:updated'));
+      })
+      .catch(function() {});
+  }
+
+  /* ── Flash animation on card ── */
+  function flashCard(card) {
+    var flash = card.querySelector('[data-flash]');
+    if (flash) {
+      flash.classList.add('is-visible');
+      setTimeout(function() { flash.classList.remove('is-visible'); }, 300);
+    }
+
+    var badge = card.querySelector('[data-qty-badge]');
+    if (badge) {
+      badge.classList.remove('pop');
+      void badge.offsetWidth;
+      badge.classList.add('pop');
+    }
+
+    card.classList.remove('flash');
+    void card.offsetWidth;
+    card.classList.add('flash');
+  }
+
+  /* ── Update UI based on local qty tracking ── */
+  function updateUI() {
+    var totalQty = 0;
+    var totalCents = 0;
 
     cards.forEach(function(card) {
-      const qty = parseInt(card.getAttribute('data-qty')) || 0;
-      const price = parseInt(card.getAttribute('data-price')) || 0;
+      var qty = parseInt(card.getAttribute('data-qty')) || 0;
+      var price = parseInt(card.getAttribute('data-price')) || 0;
       totalQty += qty;
       totalCents += qty * price;
 
-      /* Update card displays */
-      const qtyDisplay = card.querySelector('[data-qty-display]');
-      const qtyBadge = card.querySelector('[data-qty-badge]');
+      var qtyDisplay = card.querySelector('[data-qty-display]');
+      var qtyBadge = card.querySelector('[data-qty-badge]');
 
       if (qtyDisplay) qtyDisplay.textContent = qty;
       if (qtyBadge) qtyBadge.textContent = qty;
@@ -665,20 +722,20 @@
     });
 
     /* Progress */
-    const progress = Math.min((totalQty / MIN_ITEMS) * 100, 100);
+    var progress = Math.min((totalQty / MIN_ITEMS) * 100, 100);
     progressFill.style.width = progress + '%';
 
-    const isComplete = totalQty >= MIN_ITEMS;
+    var isComplete = totalQty >= MIN_ITEMS;
 
     if (isComplete) {
       progressFill.classList.add('is-complete');
       progressText.classList.add('is-complete');
-      progressText.textContent = '✓ ' + DISCOUNT_PCT + '% rabatt aktiverad — ' + totalQty + ' produkter valda';
+      progressText.textContent = t(S.progressComplete, { discount: DISCOUNT_PCT, count: totalQty });
     } else {
       progressFill.classList.remove('is-complete');
       progressText.classList.remove('is-complete');
-      const remaining = MIN_ITEMS - totalQty;
-      progressText.textContent = remaining + ' till för ' + DISCOUNT_PCT + '% rabatt';
+      var remaining = MIN_ITEMS - totalQty;
+      progressText.textContent = t(S.progressRemaining, { remaining: remaining, discount: DISCOUNT_PCT });
     }
 
     /* Total count */
@@ -686,8 +743,8 @@
 
     /* Prices */
     if (isComplete) {
-      const discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
-      const finalCents = totalCents - discountCents;
+      var discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
+      var finalCents = totalCents - discountCents;
 
       originalPrice.textContent = formatMoney(totalCents);
       originalPrice.style.display = 'block';
@@ -696,19 +753,17 @@
       savingsAmount.textContent = formatMoney(discountCents);
       savingsWrap.classList.add('is-visible');
 
-      cta.disabled = false;
-      ctaText.textContent = 'Lägg i varukorgen — ' + formatMoney(finalCents);
+      ctaText.textContent = t(S.ctaGoToCart, { price: formatMoney(finalCents) });
     } else {
       originalPrice.style.display = 'none';
-      totalPrice.textContent = totalQty > 0 ? formatMoney(totalCents) : '0 kr';
+      totalPrice.textContent = totalQty > 0 ? formatMoney(totalCents) : '';
 
       savingsWrap.classList.remove('is-visible');
 
-      cta.disabled = true;
       if (totalQty === 0) {
-        ctaText.textContent = 'Välj minst ' + MIN_ITEMS + ' st';
+        ctaText.textContent = t(S.ctaBefore, { min: MIN_ITEMS });
       } else {
-        ctaText.textContent = 'Välj ' + (MIN_ITEMS - totalQty) + ' till';
+        ctaText.textContent = t(S.ctaRemaining, { remaining: MIN_ITEMS - totalQty });
       }
     }
 
@@ -720,109 +775,101 @@
     }
   }
 
-  /* ── Change qty ── */
-  window.bundleChangeQty = function(card, delta) {
-    let qty = parseInt(card.getAttribute('data-qty')) || 0;
-    qty = Math.max(0, qty + delta);
+  /* ── Add 1 item to cart immediately ── */
+  function addToCart(card) {
+    var variantId = card.getAttribute('data-variant-id');
+    if (busyCards[variantId]) return;
+    busyCards[variantId] = true;
+
+    /* Update local qty immediately for responsive UI */
+    var qty = (parseInt(card.getAttribute('data-qty')) || 0) + 1;
     card.setAttribute('data-qty', qty);
+    updateUI();
+    flashCard(card);
 
-    /* Pop animation on badge */
-    const badge = card.querySelector('[data-qty-badge]');
-    if (badge && delta > 0) {
-      badge.classList.remove('pop');
-      void badge.offsetWidth; /* reflow */
-      badge.classList.add('pop');
-    }
-
-    /* Flash animation on card */
-    if (delta > 0) {
-      card.classList.remove('flash');
-      void card.offsetWidth;
-      card.classList.add('flash');
-    }
-
-    bundleUpdate();
-  };
-
-  /* ── Quick-add from image tap ── */
-  window.bundleAddOne = function(card) {
-    window.bundleChangeQty(card, 1);
-  };
-
-  /* ── Add to cart via AJAX ── */
-  window.bundleAddToCart = function() {
-    const items = [];
-
-    cards.forEach(function(card) {
-      const qty = parseInt(card.getAttribute('data-qty')) || 0;
-      if (qty > 0) {
-        items.push({
-          id: parseInt(card.getAttribute('data-variant-id')),
-          quantity: qty
-        });
-      }
-    });
-
-    if (items.length === 0) return;
-
-    /* Loading state */
-    cta.classList.add('is-loading');
-    cta.disabled = true;
+    /* Disable buttons briefly */
+    var btns = card.querySelectorAll('[data-plus-btn], [data-minus-btn], [data-add-btn]');
+    btns.forEach(function(b) { b.classList.add('is-busy'); });
 
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: items })
+      credentials: 'same-origin',
+      body: JSON.stringify({ items: [{ id: parseInt(variantId), quantity: 1 }] })
     })
     .then(function(response) {
       if (!response.ok) throw new Error('Cart error');
       return response.json();
     })
     .then(function() {
-      /* Success state */
-      cta.classList.remove('is-loading');
-      cta.classList.add('is-success');
-      ctaText.textContent = '✓ Tillagd i varukorgen';
-
-      /* Reset after 2s */
-      setTimeout(function() {
-        cards.forEach(function(card) {
-          card.setAttribute('data-qty', 0);
-        });
-        cta.classList.remove('is-success');
-        bundleUpdate();
-      }, 2000);
-
-      /* Trigger Shopify cart update event (works with most themes) */
-      document.dispatchEvent(new CustomEvent('cart:updated'));
-
-      /* Try to update cart drawer/counter if theme supports it */
-      if (typeof fetch === 'function') {
-        fetch('/cart.js')
-          .then(function(r) { return r.json(); })
-          .then(function(cart) {
-            /* Update common cart counter selectors */
-            var counters = document.querySelectorAll(
-              '.cart-count, .cart-count-bubble span, [data-cart-count], .js-cart-count, #cart-icon-bubble span'
-            );
-            counters.forEach(function(el) {
-              el.textContent = cart.item_count;
-            });
-          })
-          .catch(function() { /* silent */ });
-      }
+      refreshCartCounter();
     })
     .catch(function(err) {
-      console.error('Bundle add to cart failed:', err);
-      cta.classList.remove('is-loading');
-      cta.disabled = false;
-      ctaText.textContent = 'Något gick fel — försök igen';
-      setTimeout(function() { bundleUpdate(); }, 2000);
+      console.error('Bundle add failed:', err);
+      /* Roll back local qty */
+      var current = parseInt(card.getAttribute('data-qty')) || 0;
+      card.setAttribute('data-qty', Math.max(0, current - 1));
+      updateUI();
+    })
+    .finally(function() {
+      delete busyCards[variantId];
+      btns.forEach(function(b) { b.classList.remove('is-busy'); });
     });
-  };
+  }
+
+  /* ── Remove 1 item from cart ── */
+  function removeFromCart(card) {
+    var variantId = card.getAttribute('data-variant-id');
+    var qty = parseInt(card.getAttribute('data-qty')) || 0;
+    if (qty <= 0 || busyCards[variantId]) return;
+    busyCards[variantId] = true;
+
+    /* Update local qty immediately */
+    card.setAttribute('data-qty', qty - 1);
+    updateUI();
+
+    var btns = card.querySelectorAll('[data-plus-btn], [data-minus-btn], [data-add-btn]');
+    btns.forEach(function(b) { b.classList.add('is-busy'); });
+
+    /* Use /cart/change.js to set new quantity for this variant */
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ id: variantId, quantity: qty - 1 })
+    })
+    .then(function(response) {
+      if (!response.ok) throw new Error('Cart error');
+      return response.json();
+    })
+    .then(function() {
+      refreshCartCounter();
+    })
+    .catch(function(err) {
+      console.error('Bundle remove failed:', err);
+      /* Roll back */
+      card.setAttribute('data-qty', qty);
+      updateUI();
+    })
+    .finally(function() {
+      delete busyCards[variantId];
+      btns.forEach(function(b) { b.classList.remove('is-busy'); });
+    });
+  }
+
+  /* ── Bind event listeners (works on mobile + desktop) ── */
+  cards.forEach(function(card) {
+    var addBtn   = card.querySelector('[data-add-btn]');
+    var plusBtn  = card.querySelector('[data-plus-btn]');
+    var minusBtn = card.querySelector('[data-minus-btn]');
+
+    if (addBtn)   addBtn.addEventListener('click', function(e) { e.preventDefault(); addToCart(card); });
+    if (plusBtn)  plusBtn.addEventListener('click', function(e) { e.preventDefault(); addToCart(card); });
+    if (minusBtn) minusBtn.addEventListener('click', function(e) { e.preventDefault(); removeFromCart(card); });
+  });
 
   /* ── Init ── */
-  bundleUpdate();
+  updateUI();
 })();
 </script>
 
@@ -833,22 +880,8 @@
   "class": "bundle-mix-match-section",
   "settings": [
     {
-      "type": "text",
-      "id": "badge_text",
-      "label": "Badge-text",
-      "default": "Spara 10%"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Rubrik",
-      "default": "Bygg din egen mix"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Underrubrik",
-      "default": "Välj minst 8 favoriter och få 10% rabatt på hela ordern"
+      "type": "header",
+      "content": "Bundle-regler"
     },
     {
       "type": "collection",
@@ -881,6 +914,93 @@
       "max": 100,
       "step": 4,
       "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Texter (översätts via Translate & Adapt)"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge",
+      "default": "Spara 10%"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Bygg din egen mix"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Underrubrik",
+      "default": "Välj minst 8 favoriter och få 10% rabatt på hela ordern"
+    },
+    {
+      "type": "text",
+      "id": "text_quick_add",
+      "label": "Snabblägg (bildöverlägg)",
+      "default": "Tryck för att lägga till"
+    },
+    {
+      "type": "text",
+      "id": "text_progress_remaining",
+      "label": "Progress (före)",
+      "default": "{remaining} till för {discount}% rabatt",
+      "info": "{remaining} = antal kvar, {discount} = rabattprocent"
+    },
+    {
+      "type": "text",
+      "id": "text_progress_complete",
+      "label": "Progress (klar)",
+      "default": "✓ {discount}% rabatt aktiverad — {count} produkter valda",
+      "info": "{discount} = rabattprocent, {count} = antal valda"
+    },
+    {
+      "type": "text",
+      "id": "text_selected",
+      "label": "\"valda\" (bredvid antal)",
+      "default": "valda"
+    },
+    {
+      "type": "text",
+      "id": "text_you_save",
+      "label": "\"Du sparar\" (före belopp)",
+      "default": "Du sparar"
+    },
+    {
+      "type": "text",
+      "id": "text_cta_before",
+      "label": "Knapptext (0 valda)",
+      "default": "Välj minst {min} st",
+      "info": "{min} = minsta antal"
+    },
+    {
+      "type": "text",
+      "id": "text_cta_remaining",
+      "label": "Knapptext (pågående)",
+      "default": "Välj {remaining} till",
+      "info": "{remaining} = antal kvar"
+    },
+    {
+      "type": "text",
+      "id": "text_cta_go_to_cart",
+      "label": "Knapptext (gå till varukorg)",
+      "default": "Gå till varukorgen — {price}",
+      "info": "{price} = totalpris med rabatt"
+    },
+    {
+      "type": "text",
+      "id": "text_decrease",
+      "label": "Aria: minska antal",
+      "default": "Minska antal"
+    },
+    {
+      "type": "text",
+      "id": "text_increase",
+      "label": "Aria: öka antal",
+      "default": "Öka antal"
     }
   ],
   "presets": [
