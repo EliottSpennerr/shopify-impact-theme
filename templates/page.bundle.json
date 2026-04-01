@@ -28,10 +28,176 @@
       "settings": {
         "content_width": "80ch"
       }
+    },
+    "1775054137033f8032": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_dbGBXQ": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_dbGBXQ"
+      ],
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "enable_review_integration": true,
+        "review_header_gradient": "linear-gradient(135deg, #FFC266 0%, #FFA31A 100%)",
+        "review_header_text_color": "#000000",
+        "review_button_background": "#000000",
+        "review_button_text_color": "#ffffff"
+      }
+    },
+    "image_with_text_overlay_8YhRxa": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "subheading_LUbnfg": {
+          "type": "subheading",
+          "settings": {
+            "text": ""
+          }
+        },
+        "heading_zhgEYD": {
+          "type": "heading",
+          "settings": {
+            "text": "Vi gör lakrits som smakar.",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_DWjF8D": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Finsk lakrits, tillverkad med respekt för råvarorna – och för din smak. Inga onödigheter. Bara det som gör den värd att längta efter.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_LUbnfg",
+        "heading_zhgEYD",
+        "richtext_DWjF8D"
+      ],
+      "custom_css": [
+        ".h1 {font-family: balloon; font-weight: 100;}"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/WallLicorice2.jpg",
+        "mobile_image": "shopify://shop_images/WallLicoricemobile2.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "faq_f67npX": {
+      "type": "faq",
+      "blocks": {
+        "item_6HDKWc": {
+          "type": "item",
+          "settings": {
+            "title": "Vad är Finsk Lakrits, egentligen?",
+            "content": "<p>Det är premiumlakrits till ett överkomligt pris. Vi gör färsk, kompromisslös lakrits för människor med god smak, utan att det behöver kosta en förmögenhet.</p>"
+          }
+        },
+        "item_bjTnhK": {
+          "type": "item",
+          "settings": {
+            "title": "Är det verkligen färsk lakrits?",
+            "content": "<p>Ja. Vi tillverkar vår lakrits i små satser, packar ofta och levererar snabbt – så du får den när den smakar som bäst: mjuk, fyllig och nygjord.</p>"
+          }
+        },
+        "item_eeFzeV": {
+          "type": "item",
+          "settings": {
+            "title": "Varför är era förpackningar så… enkla?",
+            "content": "<p>För att smaken ska tala. Vi lägger pengarna där det räknas – i ingredienserna. Vår lakrits smakar bättre än den ser ut. Med flit.</p>"
+          }
+        },
+        "item_XBncN9": {
+          "type": "item",
+          "settings": {
+            "title": "Innehåller er lakrits gelatin?",
+            "content": "<p>Ja, vår lakrits innehåller gelatin. Vi har valt det för att ge rätt tugg och konsistens, men vi jobbar på att utveckla fler varianter framöver.</p>"
+          }
+        },
+        "item_U9jEVb": {
+          "type": "item",
+          "settings": {
+            "title": "Hur lång är hållbarheten?",
+            "content": "<p>12 månader från tillverkningsdatum. Men vi vågar säga att den är som godast färsk, så öppna, njut och dela innan dess.</p>"
+          }
+        },
+        "item_RRT3Fi": {
+          "type": "item",
+          "settings": {
+            "title": "Var kan jag köpa er lakrits?",
+            "content": "<p>Just nu hittar du oss i vår egen webbshop eller i din närmsta dagligvarubutik. Och finns vi inte där? Be dem ta in oss! Annars kan du scrolla ner för att hitta din närmaste återförsäljare.</p>"
+          }
+        },
+        "item_mfEWmq": {
+          "type": "item",
+          "settings": {
+            "title": "Vad gör er lakrits bättre än andra?",
+            "content": "<p>Vi har valt bort genvägar och tillsatser och fokuserat på smak, känsla och kvalitet. Resultatet? Lakrits du kommer att minnas.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_6HDKWc",
+        "item_bjTnhK",
+        "item_eeFzeV",
+        "item_XBncN9",
+        "item_U9jEVb",
+        "item_RRT3Fi",
+        "item_mfEWmq"
+      ],
+      "custom_css": [
+        ".h2 {font-family: balloon; font-weight: 100;}"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "full_width": true,
+        "subheading": "",
+        "title": "FAQ",
+        "content": "<p>För dig som undrar lite.</p>",
+        "team_avatar_width": 160,
+        "support_hours": "",
+        "answer_time": "",
+        "button_text": "",
+        "button_url": "",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "#1a2533",
+        "heading_color": "",
+        "heading_gradient": "",
+        "button_background": "",
+        "button_text_color": "",
+        "accordion_background": "",
+        "accordion_text_color": "#1a2533"
+      }
     }
   },
   "order": [
     "bundle_nPJz9m",
-    "main"
+    "1775054137033f8032",
+    "main",
+    "image_with_text_overlay_8YhRxa",
+    "faq_f67npX"
   ]
 }
