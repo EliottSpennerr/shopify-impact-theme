@@ -123,6 +123,21 @@
     background: var(--bundle-progress-fill-active);
   }
 
+  .bundle-progress-top__savings {
+    font-size: 0.85rem;
+    color: var(--bundle-success);
+    font-weight: 600;
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .bundle-progress-top__savings.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   .bundle-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -219,32 +234,6 @@
     transform: scale(1);
   }
 
-  .bundle-card__add-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(26,26,26,0.85);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    z-index: 3;
-    letter-spacing: 0.02em;
-  }
-
-  .bundle-card:hover .bundle-card__add-overlay {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   .bundle-card__added-flash {
     position: absolute;
     inset: 0;
@@ -288,12 +277,12 @@
   }
 
   .bundle-card__btn {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border: 1.5px solid var(--bundle-border);
     background: var(--bundle-card-bg);
     color: var(--bundle-text);
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 500;
     cursor: pointer;
     display: flex;
@@ -333,12 +322,12 @@
   }
 
   .bundle-card__qty {
-    width: 40px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border: 1.5px solid var(--bundle-border);
     background: #fafafa;
     text-align: center;
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--bundle-text);
     display: flex;
@@ -346,12 +335,40 @@
     justify-content: center;
   }
 
+  /* ── Permanent "+" icon on image ── */
+  .bundle-card__add-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    background: var(--bundle-accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 400;
+    z-index: 3;
+    pointer-events: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    line-height: 1;
+  }
+
+  .bundle-card.is-selected .bundle-card__add-icon {
+    opacity: 0.7;
+    transform: scale(0.85);
+  }
+
   @media (max-width: 640px) {
     .bundle-card__body { padding: 10px 10px 12px; }
     .bundle-card__title { font-size: 0.8rem; }
     .bundle-card__price { font-size: 0.75rem; margin-bottom: 8px; }
-    .bundle-card__btn { width: 32px; height: 32px; font-size: 1rem; }
-    .bundle-card__qty { width: 34px; height: 32px; font-size: 0.8rem; }
+    .bundle-card__btn { width: 44px; height: 44px; font-size: 1.2rem; }
+    .bundle-card__qty { width: 44px; height: 44px; font-size: 0.9rem; }
+    .bundle-card__add-icon { width: 32px; height: 32px; font-size: 1.1rem; bottom: 8px; right: 8px; }
   }
 
   /* ── Sold out state ── */
@@ -395,13 +412,7 @@
     border-top: 1px solid var(--bundle-border);
     box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
     z-index: 999;
-    transform: translateY(100%);
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     padding: 0;
-  }
-
-  .bundle-sticky.is-visible {
-    transform: translateY(0);
   }
 
   .bundle-sticky__inner {
@@ -509,6 +520,7 @@
       <div class="bundle-progress-bar">
         <div class="bundle-progress-bar__fill" id="bundle-progress-fill"></div>
       </div>
+      <div class="bundle-progress-top__savings" id="bundle-savings-text"></div>
     </div>
 
     <div class="bundle-grid" id="bundle-grid">
@@ -565,7 +577,7 @@
                       data-add-btn
                       aria-label="{{ section.settings.text_quick_add }}">
               </button>
-              <div class="bundle-card__add-overlay">{{ section.settings.text_quick_add }}</div>
+              <div class="bundle-card__add-icon">+</div>
               <div class="bundle-card__added-flash" data-flash></div>
             {%- endif -%}
           </div>
@@ -614,14 +626,14 @@
     ctaBefore:         {{ section.settings.text_cta_before | json }},
     ctaRemaining:      {{ section.settings.text_cta_remaining | json }},
     ctaGoToCart:        {{ section.settings.text_cta_go_to_cart | json }},
-    youSave:           {{ section.settings.text_you_save | json }},
-    selected:          {{ section.settings.text_selected | json }}
+    selected:          {{ section.settings.text_selected | json }},
+    youSave:           {{ section.settings.text_you_save | json }}
   };
 
-  var sticky        = document.getElementById('bundle-sticky');
   var progressText  = document.getElementById('bundle-progress-text');
   var progressFill  = document.getElementById('bundle-progress-fill');
   var totalCountEl  = document.getElementById('bundle-total-count');
+  var savingsText   = document.getElementById('bundle-savings-text');
   var ctaText       = document.getElementById('bundle-cta-text');
   var cards         = document.querySelectorAll('[data-bundle-card]');
   var busy          = false;
@@ -756,22 +768,20 @@
 
     totalCountEl.textContent = totalQty;
 
+    /* Savings display under progress bar */
     if (isComplete) {
       var discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
       var finalCents = totalCents - discountCents;
+      savingsText.textContent = t(S.youSave, { amount: formatMoney(discountCents) });
+      savingsText.classList.add('is-visible');
       ctaText.textContent = t(S.ctaGoToCart, { price: formatMoney(finalCents) });
     } else {
+      savingsText.classList.remove('is-visible');
       if (totalQty === 0) {
         ctaText.textContent = t(S.ctaBefore, { min: MIN_ITEMS });
       } else {
         ctaText.textContent = t(S.ctaRemaining, { remaining: MIN_ITEMS - totalQty });
       }
-    }
-
-    if (totalQty > 0) {
-      sticky.classList.add('is-visible');
-    } else {
-      sticky.classList.remove('is-visible');
     }
   }
 
@@ -978,8 +988,9 @@
     {
       "type": "text",
       "id": "text_you_save",
-      "label": "\"Du sparar\" (före belopp)",
-      "default": "Du sparar"
+      "label": "Besparingstext",
+      "default": "Du sparar {amount}",
+      "info": "{amount} = sparat belopp"
     },
     {
       "type": "text",
