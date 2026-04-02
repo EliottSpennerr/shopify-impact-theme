@@ -15,26 +15,26 @@
 
 {%- style -%}
   :root {
-    --bundle-bg: #faf8f5;
-    --bundle-card-bg: #ffffff;
-    --bundle-text: #1a1a1a;
-    --bundle-text-muted: #6b6b6b;
-    --bundle-accent: #1a1a1a;
-    --bundle-accent-hover: #333333;
-    --bundle-success: #2d7a4f;
+    --bundle-bg: {{ section.settings.color_background }};
+    --bundle-card-bg: {{ section.settings.color_card_bg }};
+    --bundle-text: {{ section.settings.color_text }};
+    --bundle-text-muted: {{ section.settings.color_text_muted }};
+    --bundle-accent: {{ section.settings.color_button }};
+    --bundle-accent-hover: {{ section.settings.color_button_hover }};
+    --bundle-success: {{ section.settings.color_success }};
     --bundle-success-bg: #e8f5ee;
-    --bundle-border: #e5e2dd;
+    --bundle-border: {{ section.settings.color_border }};
     --bundle-radius: 10px;
     --bundle-radius-sm: 6px;
     --bundle-shadow: 0 1px 3px rgba(0,0,0,0.06);
     --bundle-shadow-hover: 0 4px 12px rgba(0,0,0,0.1);
     --bundle-font: inherit;
-    --bundle-progress-bg: #e5e2dd;
-    --bundle-progress-fill: #1a1a1a;
-    --bundle-progress-fill-active: #2d7a4f;
-    --bundle-sticky-bg: #ffffff;
-    --bundle-badge-bg: #2d7a4f;
-    --bundle-badge-text: #ffffff;
+    --bundle-progress-bg: {{ section.settings.color_border }};
+    --bundle-progress-fill: {{ section.settings.color_button }};
+    --bundle-progress-fill-active: {{ section.settings.color_success }};
+    --bundle-sticky-bg: {{ section.settings.color_card_bg }};
+    --bundle-badge-bg: {{ section.settings.color_badge_bg }};
+    --bundle-badge-text: {{ section.settings.color_badge_text }};
   }
 
   .bundle-section {
@@ -354,6 +354,38 @@
     .bundle-card__qty { width: 34px; height: 32px; font-size: 0.8rem; }
   }
 
+  /* ── Sold out state ── */
+  .bundle-card.is-soldout {
+    opacity: 0.5;
+    pointer-events: none;
+    position: relative;
+  }
+
+  .bundle-card.is-soldout .bundle-card__img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.4);
+    z-index: 5;
+  }
+
+  .bundle-card__soldout-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bundle-text);
+    color: var(--bundle-card-bg);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 4px;
+    z-index: 6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
   .bundle-sticky {
     position: fixed;
     bottom: 0;
@@ -534,12 +566,23 @@
 
       {%- for product in bundle_products limit: section.settings.max_products -%}
         {%- assign first_variant = product.variants | first -%}
-        <div class="bundle-card"
+        {%- assign is_soldout = false -%}
+        {%- unless product.available -%}
+          {%- assign is_soldout = true -%}
+        {%- endunless -%}
+
+        {%- comment -%} Skip sold-out products entirely if setting says so {%- endcomment -%}
+        {%- if is_soldout and section.settings.soldout_behavior == 'hide' -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        <div class="bundle-card{% if is_soldout %} is-soldout{% endif %}"
              data-bundle-card
              data-variant-id="{{ first_variant.id }}"
              data-price="{{ first_variant.price }}"
              data-title="{{ product.title | escape }}"
-             data-qty="0">
+             data-qty="0"
+             {% if is_soldout %}data-soldout="true"{% endif %}>
 
           <div class="bundle-card__img-wrap">
             <div class="bundle-card__qty-badge" data-qty-badge>0</div>
@@ -559,23 +602,29 @@
                 alt="{{ product.title | escape }}"
               >
             {%- endif -%}
-            <button type="button"
-                    class="bundle-card__img-btn"
-                    data-add-btn
-                    aria-label="{{ section.settings.text_quick_add }}">
-            </button>
-            <div class="bundle-card__add-overlay">{{ section.settings.text_quick_add }}</div>
-            <div class="bundle-card__added-flash" data-flash></div>
+            {%- if is_soldout -%}
+              <div class="bundle-card__soldout-label">{{ section.settings.text_soldout }}</div>
+            {%- else -%}
+              <button type="button"
+                      class="bundle-card__img-btn"
+                      data-add-btn
+                      aria-label="{{ section.settings.text_quick_add }}">
+              </button>
+              <div class="bundle-card__add-overlay">{{ section.settings.text_quick_add }}</div>
+              <div class="bundle-card__added-flash" data-flash></div>
+            {%- endif -%}
           </div>
 
           <div class="bundle-card__body">
             <h3 class="bundle-card__title">{{ product.title }}</h3>
             <p class="bundle-card__price">{{ first_variant.price | money }}</p>
-            <div class="bundle-card__controls">
-              <button type="button" class="bundle-card__btn" data-minus-btn aria-label="{{ section.settings.text_decrease }}">−</button>
-              <div class="bundle-card__qty" data-qty-display>0</div>
-              <button type="button" class="bundle-card__btn" data-plus-btn aria-label="{{ section.settings.text_increase }}">+</button>
-            </div>
+            {%- unless is_soldout -%}
+              <div class="bundle-card__controls">
+                <button type="button" class="bundle-card__btn" data-minus-btn aria-label="{{ section.settings.text_decrease }}">−</button>
+                <div class="bundle-card__qty" data-qty-display>0</div>
+                <button type="button" class="bundle-card__btn" data-plus-btn aria-label="{{ section.settings.text_increase }}">+</button>
+              </div>
+            {%- endunless -%}
           </div>
         </div>
       {%- endfor -%}
@@ -794,6 +843,7 @@
   /* ── Add 1 item to cart ── */
   function addToCart(card) {
     if (busy) return;
+    if (card.hasAttribute('data-soldout')) return;
     busy = true;
 
     var variantId = card.getAttribute('data-variant-id');
@@ -1028,6 +1078,90 @@
       "id": "text_increase",
       "label": "Aria: öka antal",
       "default": "Öka antal"
+    },
+    {
+      "type": "header",
+      "content": "Slutsålda produkter"
+    },
+    {
+      "type": "select",
+      "id": "soldout_behavior",
+      "label": "Hantering av slutsålda produkter",
+      "options": [
+        { "value": "show", "label": "Visa som slutsåld (gråad)" },
+        { "value": "hide", "label": "Dölj helt" }
+      ],
+      "default": "show"
+    },
+    {
+      "type": "text",
+      "id": "text_soldout",
+      "label": "Slutsåld-text",
+      "default": "Slutsåld"
+    },
+    {
+      "type": "header",
+      "content": "Färger"
+    },
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "Bakgrund (sektion)",
+      "default": "#faf8f5"
+    },
+    {
+      "type": "color",
+      "id": "color_card_bg",
+      "label": "Bakgrund (kort)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text (primär)",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "color_text_muted",
+      "label": "Text (sekundär)",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "color",
+      "id": "color_button",
+      "label": "Knappar & CTA",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "color_button_hover",
+      "label": "Knappar hover",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "color_success",
+      "label": "Rabatt aktiverad & framgång",
+      "default": "#2d7a4f"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Kanter & progress-bakgrund",
+      "default": "#e5e2dd"
+    },
+    {
+      "type": "color",
+      "id": "color_badge_bg",
+      "label": "Badge & antal-cirkel (bakgrund)",
+      "default": "#2d7a4f"
+    },
+    {
+      "type": "color",
+      "id": "color_badge_text",
+      "label": "Badge & knapptext (textfärg)",
+      "default": "#ffffff"
     }
   ],
   "presets": [
