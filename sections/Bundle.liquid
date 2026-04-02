@@ -593,7 +593,7 @@
     <div class="bundle-sticky__count">
       <span id="bundle-total-count">0</span> / {{ section.settings.min_items }} {{ section.settings.text_selected }}
     </div>
-    <a href="/cart" class="bundle-sticky__cta" id="bundle-cta">
+    <a href="/checkout" class="bundle-sticky__cta" id="bundle-cta">
       {%- assign ph_min = '{min}' -%}
       <span id="bundle-cta-text">{{ section.settings.text_cta_before | replace: ph_min, section.settings.min_items }}</span>
     </a>
@@ -998,8 +998,8 @@
     {
       "type": "text",
       "id": "text_cta_go_to_cart",
-      "label": "Knapptext (gå till varukorg)",
-      "default": "Gå till varukorgen — {price}",
+      "label": "Knapptext (gå till checkout)",
+      "default": "Gå till kassan — {price}",
       "info": "{price} = totalpris med rabatt"
     },
     {
