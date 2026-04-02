@@ -157,6 +157,28 @@
         "review_button_text_color": "#ffffff"
       }
     },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "recommendations_count": 6,
+        "products": [],
+        "full_width": true,
+        "stack_products": true,
+        "show_progress_bar": false,
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 3,
+        "subheading": "",
+        "title": "Fler favoriter",
+        "content": "",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
+      }
+    },
     "image_with_text_overlay_L9xAkw": {
       "type": "image-with-text-overlay",
       "blocks": {
@@ -281,35 +303,13 @@
         "accordion_background": "",
         "accordion_text_color": "#1a2533"
       }
-    },
-    "related-products": {
-      "type": "related-products",
-      "settings": {
-        "recommendations_count": 6,
-        "products": [],
-        "full_width": true,
-        "stack_products": true,
-        "show_progress_bar": false,
-        "products_per_row_mobile": "1",
-        "products_per_row_desktop": 3,
-        "subheading": "",
-        "title": "Fler favoriter",
-        "content": "",
-        "background": "",
-        "background_gradient": "",
-        "text_color": "",
-        "heading_color": "",
-        "heading_gradient": "",
-        "product_card_background": "",
-        "product_card_text_color": ""
-      }
     }
   },
   "order": [
     "main",
     "175217507622799062",
+    "related-products",
     "image_with_text_overlay_L9xAkw",
-    "faq_FKepMM",
-    "related-products"
+    "faq_FKepMM"
   ]
 }
