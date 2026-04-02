@@ -772,7 +772,12 @@
     if (isComplete) {
       var discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
       var finalCents = totalCents - discountCents;
-      savingsText.textContent = t(S.youSave, { amount: formatMoney(discountCents) });
+      var savingsStr = S.youSave;
+      if (savingsStr.indexOf('{amount}') > -1) {
+        savingsText.textContent = t(savingsStr, { amount: formatMoney(discountCents) });
+      } else {
+        savingsText.textContent = savingsStr + ' ' + formatMoney(discountCents);
+      }
       savingsText.classList.add('is-visible');
       ctaText.textContent = t(S.ctaGoToCart, { price: formatMoney(finalCents) });
     } else {
