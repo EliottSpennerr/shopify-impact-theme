@@ -502,7 +502,9 @@
 
     <div class="bundle-progress-top">
       <div class="bundle-progress-top__text" id="bundle-progress-text">
-        {{ section.settings.text_progress_remaining }}
+        {%- assign ph_remaining = '{remaining}' -%}
+        {%- assign ph_discount = '{discount}' -%}
+        {{ section.settings.text_progress_remaining | replace: ph_remaining, section.settings.min_items | replace: ph_discount, section.settings.discount_percent }}
       </div>
       <div class="bundle-progress-bar">
         <div class="bundle-progress-bar__fill" id="bundle-progress-fill"></div>
@@ -592,7 +594,8 @@
       <span id="bundle-total-count">0</span> / {{ section.settings.min_items }} {{ section.settings.text_selected }}
     </div>
     <a href="/cart" class="bundle-sticky__cta" id="bundle-cta">
-      <span id="bundle-cta-text">{{ section.settings.text_cta_before }}</span>
+      {%- assign ph_min = '{min}' -%}
+      <span id="bundle-cta-text">{{ section.settings.text_cta_before | replace: ph_min, section.settings.min_items }}</span>
     </a>
   </div>
 </div>
