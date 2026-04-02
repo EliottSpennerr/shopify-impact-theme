@@ -24,18 +24,22 @@
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
-{% style %}
+  {% style %}
+  .ai-hero-header-wrapper-{{ ai_gen_id }} {
+    background: #ffffff;
+    padding: {{ block.settings.container_margin }}px 0;
+    width: 100%;
+  }
 
   .ai-hero-header-{{ ai_gen_id }} {
     display: block;
     width: {{ block.settings.desktop_width_percent }}%;
     max-width: 100%;
-    margin: {{ block.settings.container_margin }}px auto;
+    margin: 0 auto;
     border-radius: {{ block.settings.border_radius }}px;
     overflow: hidden;
     position: relative;
     min-height: {{ block.settings.min_height }}px;
-
   }
 
   .ai-hero-header__background-{{ ai_gen_id }} {
@@ -128,8 +132,11 @@
   }
 
   @media screen and (max-width: 749px) {
+    .ai-hero-header-wrapper-{{ ai_gen_id }} {
+      padding: {{ block.settings.container_margin | times: 0.5 }}px 0;
+    }
+
     .ai-hero-header-{{ ai_gen_id }} {
-      margin: {{ block.settings.container_margin | times: 0.5 }}px auto;
       min-height: {{ block.settings.min_height | times: 0.7 }}px;
     }
 
@@ -152,52 +159,54 @@
   }
 {% endstyle %}
 
-<hero-header-{{ ai_gen_id }}
-  class="ai-hero-header-{{ ai_gen_id }}"
-  {{ block.shopify_attributes }}
->
-  <div class="ai-hero-header__background-{{ ai_gen_id }}">
-    {% if block.settings.background_image %}
-      <img
-        src="{{ block.settings.background_image | image_url: width: 2000 }}"
-        alt="{{ block.settings.background_image.alt | escape }}"
-        loading="lazy"
-        width="{{ block.settings.background_image.width }}"
-        height="{{ block.settings.background_image.height }}"
-      >
-    {% else %}
-      <div class="ai-hero-header__background-placeholder-{{ ai_gen_id }}">
-        {{ 'lifestyle-1' | placeholder_svg_tag }}
-      </div>
-    {% endif %}
-  </div>
-
-  {% if block.settings.overlay_opacity > 0 %}
-    <div class="ai-hero-header__overlay-{{ ai_gen_id }}"></div>
-  {% endif %}
-
-  <div class="ai-hero-header__content-wrapper-{{ ai_gen_id }}">
-    <div class="ai-hero-header__content-{{ ai_gen_id }}">
-      {% if block.settings.heading != blank %}
-        <h1 class="ai-hero-header__heading-{{ ai_gen_id }}">
-          {{ block.settings.heading }}
-        </h1>
-      {% endif %}
-
-      {% if block.settings.text != blank %}
-        <div class="ai-hero-header__text-{{ ai_gen_id }}">
-          {{ block.settings.text }}
+<div class="ai-hero-header-wrapper-{{ ai_gen_id }}">
+  <hero-header-{{ ai_gen_id }}
+    class="ai-hero-header-{{ ai_gen_id }}"
+    {{ block.shopify_attributes }}
+  >
+    <div class="ai-hero-header__background-{{ ai_gen_id }}">
+      {% if block.settings.background_image %}
+        <img
+          src="{{ block.settings.background_image | image_url: width: 2000 }}"
+          alt="{{ block.settings.background_image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.background_image.width }}"
+          height="{{ block.settings.background_image.height }}"
+        >
+      {% else %}
+        <div class="ai-hero-header__background-placeholder-{{ ai_gen_id }}">
+          {{ 'lifestyle-1' | placeholder_svg_tag }}
         </div>
       {% endif %}
     </div>
-  </div>
 
-  {% if block.settings.background_image == blank %}
-    <div class="ai-hero-header__empty-state-{{ ai_gen_id }}">
-      Next, add a background image
+    {% if block.settings.overlay_opacity > 0 %}
+      <div class="ai-hero-header__overlay-{{ ai_gen_id }}"></div>
+    {% endif %}
+
+    <div class="ai-hero-header__content-wrapper-{{ ai_gen_id }}">
+      <div class="ai-hero-header__content-{{ ai_gen_id }}">
+        {% if block.settings.heading != blank %}
+          <h1 class="ai-hero-header__heading-{{ ai_gen_id }}">
+            {{ block.settings.heading }}
+          </h1>
+        {% endif %}
+
+        {% if block.settings.text != blank %}
+          <div class="ai-hero-header__text-{{ ai_gen_id }}">
+            {{ block.settings.text }}
+          </div>
+        {% endif %}
+      </div>
     </div>
-  {% endif %}
-</hero-header-{{ ai_gen_id }}>
+
+    {% if block.settings.background_image == blank %}
+      <div class="ai-hero-header__empty-state-{{ ai_gen_id }}">
+        Next, add a background image
+      </div>
+    {% endif %}
+  </hero-header-{{ ai_gen_id }}>
+</div>
 
 {% schema %}
 {
