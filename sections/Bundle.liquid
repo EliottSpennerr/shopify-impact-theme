@@ -754,7 +754,9 @@
     totalCountEl.textContent = totalQty;
 
     if (isComplete) {
-      ctaText.textContent = S.ctaGoToCart;
+      var discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
+      var finalCents = totalCents - discountCents;
+      ctaText.textContent = t(S.ctaGoToCart, { price: formatMoney(finalCents) });
     } else {
       if (totalQty === 0) {
         ctaText.textContent = t(S.ctaBefore, { min: MIN_ITEMS });
@@ -994,7 +996,8 @@
       "type": "text",
       "id": "text_cta_go_to_cart",
       "label": "Knapptext (gå till varukorg)",
-      "default": "Gå till varukorgen"
+      "default": "Gå till varukorgen — {price}",
+      "info": "{price} = totalpris med rabatt"
     },
     {
       "type": "text",
