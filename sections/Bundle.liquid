@@ -412,15 +412,6 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .bundle-sticky__info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex: 1;
-    min-width: 0;
   }
 
   .bundle-sticky__count {
@@ -432,41 +423,6 @@
 
   .bundle-sticky__count span {
     color: var(--bundle-success);
-  }
-
-  .bundle-sticky__savings {
-    font-size: 0.825rem;
-    color: var(--bundle-success);
-    font-weight: 600;
-    white-space: nowrap;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .bundle-sticky__savings.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .bundle-sticky__prices {
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  .bundle-sticky__original {
-    font-size: 0.75rem;
-    color: var(--bundle-text-muted);
-    text-decoration: line-through;
-    line-height: 1;
-    margin-bottom: 2px;
-  }
-
-  .bundle-sticky__total {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--bundle-text);
-    line-height: 1;
   }
 
   .bundle-sticky__cta {
@@ -501,11 +457,8 @@
   @media (max-width: 640px) {
     .bundle-sticky__inner {
       padding: 12px 16px;
-      flex-wrap: nowrap;
     }
-    .bundle-sticky__info { gap: 12px; }
     .bundle-sticky__cta { padding: 12px 20px; font-size: 0.875rem; }
-    .bundle-sticky__prices { display: none; }
     .bundle-section { padding: 32px 0 140px; }
   }
 
@@ -635,17 +588,8 @@
 
 <div class="bundle-sticky" id="bundle-sticky">
   <div class="bundle-sticky__inner">
-    <div class="bundle-sticky__info">
-      <div class="bundle-sticky__count">
-        <span id="bundle-total-count">0</span> / {{ section.settings.min_items }} {{ section.settings.text_selected }}
-      </div>
-      <div class="bundle-sticky__savings" id="bundle-savings">
-        {{ section.settings.text_you_save }} <strong id="bundle-savings-amount"></strong>
-      </div>
-    </div>
-    <div class="bundle-sticky__prices">
-      <div class="bundle-sticky__original" id="bundle-original-price"></div>
-      <div class="bundle-sticky__total" id="bundle-total-price"></div>
+    <div class="bundle-sticky__count">
+      <span id="bundle-total-count">0</span> / {{ section.settings.min_items }} {{ section.settings.text_selected }}
     </div>
     <a href="/cart" class="bundle-sticky__cta" id="bundle-cta">
       <span id="bundle-cta-text">{{ section.settings.text_cta_before }}</span>
@@ -675,10 +619,6 @@
   var progressText  = document.getElementById('bundle-progress-text');
   var progressFill  = document.getElementById('bundle-progress-fill');
   var totalCountEl  = document.getElementById('bundle-total-count');
-  var savingsWrap   = document.getElementById('bundle-savings');
-  var savingsAmount = document.getElementById('bundle-savings-amount');
-  var originalPrice = document.getElementById('bundle-original-price');
-  var totalPrice    = document.getElementById('bundle-total-price');
   var ctaText       = document.getElementById('bundle-cta-text');
   var cards         = document.querySelectorAll('[data-bundle-card]');
   var busy          = false;
@@ -688,7 +628,7 @@
     var noDecimals = Math.round(val).toString();
     var withDecimals = val.toFixed(2);
 
-    return MONEY_FORMAT
+    var result = MONEY_FORMAT
       .replace(/\{\{\s*amount_no_decimals_with_comma_separator\s*\}\}/g, noDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, '.'))
       .replace(/\{\{\s*amount_no_decimals_with_space_separator\s*\}\}/g, noDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ' '))
       .replace(/\{\{\s*amount_no_decimals\s*\}\}/g, noDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ','))
@@ -696,6 +636,11 @@
       .replace(/\{\{\s*amount_with_apostrophe_separator\s*\}\}/g, withDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, "'"))
       .replace(/\{\{\s*amount_with_space_separator\s*\}\}/g, withDecimals.replace(/\./, ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' '))
       .replace(/\{\{\s*amount\s*\}\}/g, withDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+
+    /* Strip any HTML tags from Shopify's money format */
+    var tmp = document.createElement('div');
+    tmp.innerHTML = result;
+    return tmp.textContent || tmp.innerText || result;
   }
 
   function t(str, data) {
@@ -809,23 +754,8 @@
     totalCountEl.textContent = totalQty;
 
     if (isComplete) {
-      var discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
-      var finalCents = totalCents - discountCents;
-
-      originalPrice.textContent = formatMoney(totalCents);
-      originalPrice.style.display = 'block';
-      totalPrice.textContent = formatMoney(finalCents);
-
-      savingsAmount.textContent = formatMoney(discountCents);
-      savingsWrap.classList.add('is-visible');
-
-      ctaText.textContent = t(S.ctaGoToCart, { price: formatMoney(finalCents) });
+      ctaText.textContent = S.ctaGoToCart;
     } else {
-      originalPrice.style.display = 'none';
-      totalPrice.textContent = totalQty > 0 ? formatMoney(totalCents) : '';
-
-      savingsWrap.classList.remove('is-visible');
-
       if (totalQty === 0) {
         ctaText.textContent = t(S.ctaBefore, { min: MIN_ITEMS });
       } else {
@@ -1064,8 +994,7 @@
       "type": "text",
       "id": "text_cta_go_to_cart",
       "label": "Knapptext (gå till varukorg)",
-      "default": "Gå till varukorgen — {price}",
-      "info": "{price} = totalpris med rabatt"
+      "default": "Gå till varukorgen"
     },
     {
       "type": "text",
