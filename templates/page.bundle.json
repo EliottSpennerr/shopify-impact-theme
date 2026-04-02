@@ -11,9 +11,7 @@
   "sections": {
     "bundle_nPJz9m": {
       "type": "Bundle",
-      "custom_css": [
-        "button.chat-toggle.chat-toggle--icon-button {z-index: 0!important;}"
-      ],
+      "custom_css": [],
       "name": "Bundle Mix & Match",
       "settings": {
         "collection": "mixnmatch",
