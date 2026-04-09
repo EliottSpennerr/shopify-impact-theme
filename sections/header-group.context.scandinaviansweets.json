@@ -15,7 +15,7 @@
   "sections": {
     "announcement-bar": {
       "settings": {
-        "background": "#3f3a9c",
+        "background": "#0021b6",
         "text_color": "#f0f0f0"
       },
       "blocks": {

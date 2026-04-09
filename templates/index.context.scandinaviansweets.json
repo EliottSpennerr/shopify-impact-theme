@@ -36,10 +36,10 @@
         "content": "",
         "link_url": "",
         "link_text": "View all",
-        "header-92229b529b44cd0d839783577b21dd48": null,
+        "header-fe60d5a00be86483b5e9a2e15d0af67b": null,
         "background": "rgba(0,0,0,0)",
         "background_gradient": "",
-        "text_color": "#3f3a9c",
+        "text_color": "#0021b6",
         "heading_color": "",
         "heading_gradient": "",
         "product_card_background": "#ffffff",
@@ -56,11 +56,11 @@
         "full_width": true,
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false,
-        "header-11a99bd6fff59b52d18a17bfe6c2cbea": null,
+        "header-2fe1483275174557b3085192ee75366b": null,
         "background": "",
         "background_gradient": "",
         "text_color": "",
-        "header-498b9419aaeadc21016705dc53904c81": null,
+        "header-14e8e36885d1d38a9908b379bccaa1fb": null,
         "enable_review_integration": true,
         "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
         "review_header_text_color": "#000000",
@@ -72,7 +72,7 @@
           "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "disabled": false,
           "settings": {
-            "header-bb7a8fc8b78eac42921dc8ea00524151": null,
+            "header-3c22bcadd3c52d872a53a29f17774cdc": null,
             "show_sample_reviews": true,
             "reviews_selection": "product_reviews",
             "products": [],
@@ -81,7 +81,7 @@
             "display_order": "media_first",
             "no_image_fallback": "review_text_only",
             "max_reviews": 20,
-            "header-30612ec365d96316fdf1ef81c3739562": null,
+            "header-bedc490d1a93fdc9a65625bc58329cc1": null,
             "review_length": "medium",
             "text_size": "medium",
             "image_ratio": "0.75",
@@ -91,19 +91,19 @@
             "hide_arrows_mobile": true,
             "arrows_position": "bottom",
             "max_width": 1100,
-            "header-6c3ba8f51b3c9225b954139195f85e85": null,
+            "header-95ae7be399717dc791de77d395c8dde6": null,
             "corner_styling": "soft",
             "header_text_color": "#000000",
             "text_color": "#000000",
             "card_color": "#f9f9f9",
             "stars_color": "",
             "arrows_color": "#000000",
-            "header-91f4cdfc9111b113b54120c6e8863389": null,
+            "header-cdf13fd3c595d76bbcac405031a4c92b": null,
             "transition_speed": 5,
-            "header-d52545cf08c6b7b901b91c0b9da1ce90": null,
+            "header-760774fbd9cea7c099285371cfe95389": null,
             "header_text": "Customers are saying",
             "show_average_rating": true,
-            "paragraph-327b900bd25b04bac3c218bf98ffd706": null
+            "paragraph-3549d4adbfd4117033c446055381e920": null
           }
         }
       },
@@ -118,11 +118,11 @@
         "full_width": true,
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false,
-        "header-07a8afd8bb39de10823561b0708e6eeb": null,
+        "header-5041a006d6fb6a9ccbff0a355c003c03": null,
         "background": "",
         "background_gradient": "",
         "text_color": "",
-        "header-499f0ece7b36251692f00d79ef03ed9f": null,
+        "header-2c65515b370fd2a336e08a173daa2b3b": null,
         "enable_review_integration": true,
         "review_header_gradient": "linear-gradient(135deg, #FFC266 0%, #FFA31A 100%)",
         "review_header_text_color": "#000000",
@@ -202,7 +202,7 @@
       "settings": {
         "title": "FAQ",
         "content": "<p><strong>For the curious ones — asking is always fair.</strong></p>",
-        "background": "#3f3a9c",
+        "background": "#0021b6",
         "text_color": "#f0f0f0",
         "accordion_text_color": "#f0f0f0"
       },
@@ -256,8 +256,18 @@
             "subheading": "Bring real Scandinavian candy to your shelves, the kind customers can’t resist.",
             "title": "Become a retailer",
             "button_text": "Contact us",
-            "button_background": "#3f3a9c",
+            "button_background": "#0021b6",
             "button_text_color": "#f0f0f0"
+          }
+        }
+      }
+    },
+    "slideshow": {
+      "settings": {},
+      "blocks": {
+        "image_GpeHXQ": {
+          "settings": {
+            "button_background": "#0021b6"
           }
         }
       }
