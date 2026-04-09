@@ -28,13 +28,13 @@
     },
     "header": {
       "settings": {
-        "logo": "shopify://shop_images/Norse.png",
+        "logo": "shopify://shop_images/ScandinaviansweetsVIT.svg",
         "logo_max_width": 200,
         "logo_mobile_max_width": 130,
         "show_locale_selector": false,
         "show_country_selector": true,
         "show_country_flag": false,
-        "transparent_logo": "shopify://shop_images/Norsewhite.png",
+        "transparent_logo": "shopify://shop_images/ScandinaviansweetsVIT.svg",
         "background_opacity": 100
       },
       "blocks": {}
