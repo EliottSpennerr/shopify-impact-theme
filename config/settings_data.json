@@ -70,13 +70,6 @@
           "settings_js_develop_mode": false
         }
       },
-      "14926935257333466880": {
-        "type": "shopify://apps/geos-geolocation/blocks/location-selector-core/3cd5a431-7aea-4ecd-a807-59b3321c525b",
-        "disabled": false,
-        "settings": {
-          "body_font": "sans_serif_n4"
-        }
-      },
       "15683396631634586217": {
         "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
         "disabled": false,
@@ -89,6 +82,13 @@
           "button_horizontal_position": "bottom_right",
           "button_vertical_position": "higher",
           "greeting_message": ""
+        }
+      },
+      "14926935257333466880": {
+        "type": "shopify://apps/geos-geolocation/blocks/location-selector-core/3cd5a431-7aea-4ecd-a807-59b3321c525b",
+        "disabled": true,
+        "settings": {
+          "body_font": "sans_serif_n4"
         }
       }
     }
