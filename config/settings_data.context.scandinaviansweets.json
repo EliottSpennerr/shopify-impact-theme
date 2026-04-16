@@ -11,5 +11,16 @@
   "context": {
     "market": "scandinaviansweets"
   },
-  "current": {}
+  "current": {
+    "background": "#fffaeb",
+    "text_color": "#0021b6",
+    "header_background": "#fffaeb",
+    "header_text_color": "#0021b6",
+    "footer_background": "#fffaeb",
+    "footer_text_color": "#0021b6",
+    "primary_button_background": "#0021b6",
+    "secondary_button_background": "#fffaeb",
+    "product_card_background": "#fffaeb",
+    "color_swatch_config": ""
+  }
 }
