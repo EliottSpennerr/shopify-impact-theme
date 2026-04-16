@@ -12,15 +12,16 @@
     "market": "scandinaviansweets"
   },
   "current": {
-    "background": "#fffaeb",
+    "background": "#f4f1ec",
     "text_color": "#0021b6",
-    "header_background": "#fffaeb",
+    "header_background": "#f4f1ec",
     "header_text_color": "#0021b6",
-    "footer_background": "#fffaeb",
+    "footer_background": "#f4f1ec",
     "footer_text_color": "#0021b6",
     "primary_button_background": "#0021b6",
-    "secondary_button_background": "#fffaeb",
-    "product_card_background": "#fffaeb",
+    "secondary_button_background": "#f4f1ec",
+    "secondary_button_text_color": "#0021b6",
+    "product_card_background": "#f4f1ec",
     "color_swatch_config": ""
   }
 }
