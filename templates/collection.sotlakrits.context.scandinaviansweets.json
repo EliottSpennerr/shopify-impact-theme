@@ -1,0 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "scandinaviansweets"
+  },
+  "parent": "collection.sotlakrits.json",
+  "sections": {
+    "rich_text_B6iWg7": {
+      "settings": {},
+      "blocks": {
+        "richtext_iNBJGQ": {
+          "settings": {
+            "content": "<p>Soft, balanced and full of flavor. Our sweet licorice is a modern classic for those who like their licorice smooth and a little less edgy. Perfect with a Friday night snack or a cup of coffee.</p>"
+          }
+        }
+      }
+    }
+  }
+}
