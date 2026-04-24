@@ -141,7 +141,7 @@
             "padding": 40,
             "spacing": 30,
             "border_radius": 20,
-            "background_color": "#ffffff",
+            "background_color": "#f2f2f2",
             "title_color": "#00234a",
             "label_color": "#00234a",
             "result_color": "#0962fa",
