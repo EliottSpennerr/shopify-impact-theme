@@ -18,7 +18,50 @@
         "h2 {font-weight: 600;}"
       ],
       "settings": {},
-      "blocks": {}
+      "blocks": {
+        "item_RQah4C": {
+          "settings": {
+            "title": "What is Scandinavian Sweets, really?",
+            "content": "<p>Premium candy at a price that makes sense. We make fresh, uncompromising sweets for people with great taste — without the premium price tag.</p>"
+          }
+        },
+        "item_cV7ki8": {
+          "settings": {
+            "title": "Is it actually fresh?",
+            "content": "<p>Yes. We produce in small batches, pack regularly and ship fast — so you get it at its best. Soft, full of flavor and made to be eaten, not stored.</p>"
+          }
+        },
+        "item_g76yeY": {
+          "settings": {
+            "title": "Why are your packages so… simple?",
+            "content": "<p>Because the product should do the talking. We put our money where it matters — into the ingredients. Our candy tastes better than it looks. On purpose.</p>"
+          }
+        },
+        "item_mCPYXL": {
+          "settings": {
+            "title": "Does your licorice contain gelatin?",
+            "content": "<p>Yes, it does. We use it to get the right chew and texture, but we're working on developing more options down the line.</p>"
+          }
+        },
+        "item_DHzrnH": {
+          "settings": {
+            "title": "What's the shelf life?",
+            "content": "<p>12 months from the production date. But honestly, it's at its best fresh — so open it, enjoy it and share it before then.</p>"
+          }
+        },
+        "item_PW3DfW": {
+          "settings": {
+            "title": "Where can I buy your candy?",
+            "content": "<p>Right now you can find us in our own webshop or at your nearest grocery store. Not there yet? Ask them to stock us. Or scroll down to find your nearest retailer.</p>"
+          }
+        },
+        "item_bJCgCX": {
+          "settings": {
+            "content": "<p>We've cut the shortcuts and the fillers and focused on flavor, texture and quality. The result? Candy you'll actually remember.</p>",
+            "title": "What makes your licorice better than others?"
+          }
+        }
+      }
     }
   }
 }
