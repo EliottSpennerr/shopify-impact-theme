@@ -18,7 +18,8 @@
       "blocks": {
         "buy_buttons": {
           "settings": {
-            "atc_button_background": "#6c0704"
+            "show_payment_button": false,
+            "atc_button_background": "rgba(0,0,0,0)"
           }
         }
       }

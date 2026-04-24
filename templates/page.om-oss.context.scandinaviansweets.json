@@ -12,5 +12,17 @@
     "market": "scandinaviansweets"
   },
   "parent": "page.om-oss.json",
-  "sections": {}
+  "sections": {
+    "media_with_text_QPANfB": {
+      "settings": {},
+      "blocks": {
+        "image_tg9iKy": {
+          "settings": {
+            "content": "<p>We started Scandinavian Sweets for one reason: we're obsessed with really great licorice. Fresh, bold, and uncompromising. That's still at the heart of everything we do but the vision goes further than that.</p><p>Scandinavian Sweets is about more than selling candy. We're here to elevate the whole experience. Our ambition is to craft the best licorice on the market  and down the line, other sweets too where creativity drives what we make, not convention. When flavor comes first and freshness sets the standard, something special happens.</p><p>We're a young, curious company with big ambitions and a genuine feel for what people actually want from the candy aisle. But you don't need to remember any of that.</p><p>The only thing you really need to know: if it says Scandinavian Sweets on the bag, it's going to be good.</p>",
+            "title": ""
+          }
+        }
+      }
+    }
+  }
 }
