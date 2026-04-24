@@ -18,7 +18,13 @@
         ".section-blends {padding-bottom: 0px; padding-top: 40px;}"
       ],
       "settings": {},
-      "blocks": {}
+      "blocks": {
+        "richtext_iNBJGQ": {
+          "settings": {
+            "content": "<p>Everything we make, in one place. Carefully selected for people who take their sweets seriously. Find your favorites, discover something new.</p>"
+          }
+        }
+      }
     }
   }
 }
