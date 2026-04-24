@@ -13,7 +13,7 @@
     
     Below the result, add a small fine print line in gray: "Genomsnittssäljaren säljer 35 påsar."
     
-    Design should match a clean, modern Scandinavian style with teal/dark green as primary color, dark background, rounded inputs and sliders.
+    Design should match a clean, modern Scandinavian style with teal/dark green as primary color, white background, rounded inputs and sliders. No extra buttons needed — the result should update in real time as sliders move.
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
@@ -41,15 +41,10 @@
 
   .ai-profit-calc__title-{{ ai_gen_id }} em {
     font-style: italic;
-    color: #1D9E75;
   }
 
   .ai-profit-calc__slider-group-{{ ai_gen_id }} {
     margin-bottom: {{ block.settings.spacing }}px;
-    background-color: #242424;
-    border: 1px solid #333333;
-    border-radius: 12px;
-    padding: 20px 24px;
   }
 
   .ai-profit-calc__label-{{ ai_gen_id }} {
@@ -68,8 +63,8 @@
 
   .ai-profit-calc__slider-{{ ai_gen_id }} {
     flex-grow: 1;
-    height: 4px;
-    border-radius: 2px;
+    height: 8px;
+    border-radius: 4px;
     background: {{ block.settings.slider_track_color }};
     outline: none;
     -webkit-appearance: none;
@@ -79,21 +74,23 @@
   .ai-profit-calc__slider-{{ ai_gen_id }}::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: {{ block.settings.slider_thumb_color }};
     cursor: pointer;
-    border: 3px solid {{ block.settings.background_color }};
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
   .ai-profit-calc__slider-{{ ai_gen_id }}::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: {{ block.settings.slider_thumb_color }};
     cursor: pointer;
-    border: 3px solid {{ block.settings.background_color }};
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
   .ai-profit-calc__input-{{ ai_gen_id }} {
@@ -104,7 +101,7 @@
     font-size: 16px;
     text-align: center;
     color: {{ block.settings.label_color }};
-    background-color: #2a2a2a;
+    background-color: #ffffff;
   }
 
   .ai-profit-calc__input-{{ ai_gen_id }}:focus {
@@ -112,22 +109,9 @@
     outline-offset: 2px;
   }
 
-  .ai-profit-calc__divider-{{ ai_gen_id }} {
-    border: none;
-    border-top: 1px solid #2e2e2e;
-    margin: {{ block.settings.spacing }}px 0;
-  }
-
   .ai-profit-calc__result-{{ ai_gen_id }} {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: {{ block.settings.spacing | divided_by: 2 }}px;
-  }
-
-  .ai-profit-calc__result-label-{{ ai_gen_id }} {
-    font-size: {{ block.settings.label_size }}px;
-    color: {{ block.settings.label_color }};
+    margin: {{ block.settings.spacing | times: 1.5 }}px 0 {{ block.settings.spacing | divided_by: 2 }}px;
+    text-align: {{ block.settings.text_align }};
   }
 
   .ai-profit-calc__result-text-{{ ai_gen_id }} {
@@ -135,7 +119,6 @@
     font-weight: 700;
     color: {{ block.settings.result_color }};
     line-height: 1.2;
-    letter-spacing: -0.5px;
   }
 
   .ai-profit-calc__footnote-{{ ai_gen_id }} {
@@ -236,15 +219,12 @@
       </div>
     </div>
 
-    <hr class="ai-profit-calc__divider-{{ ai_gen_id }}">
-
     <div class="ai-profit-calc__result-{{ ai_gen_id }}">
-      <span class="ai-profit-calc__result-label-{{ ai_gen_id }}">{{ block.settings.result_prefix }}</span>
       <div
         class="ai-profit-calc__result-text-{{ ai_gen_id }}"
         data-calculator-result
       >
-        <span data-calculator-value>{{ block.settings.slider_1_default | times: block.settings.slider_2_default | times: block.settings.multiplier }}</span> {{ block.settings.result_suffix }}
+        {{ block.settings.result_prefix }} <span data-calculator-value>{{ block.settings.slider_1_default | times: block.settings.slider_2_default | times: block.settings.multiplier }}</span> {{ block.settings.result_suffix }}
       </div>
     </div>
 
@@ -403,7 +383,7 @@
       "type": "inline_richtext",
       "id": "slider_2_label",
       "label": "Label",
-      "default": "Produkter var att sälja"
+      "default": "Produkter var att säljare"
     },
     {
       "type": "range",
@@ -439,7 +419,7 @@
     {
       "type": "range",
       "id": "multiplier",
-      "label": "Multiplier (kr per bag)",
+      "label": "Multiplier",
       "min": 1,
       "max": 100,
       "step": 1,
@@ -464,8 +444,14 @@
       "id": "text_align",
       "label": "Text alignment",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
       ],
       "default": "left"
     },
@@ -507,49 +493,49 @@
       "type": "color",
       "id": "background_color",
       "label": "Background",
-      "default": "#1a1a1a"
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "title_color",
       "label": "Title",
-      "default": "#ffffff"
+      "default": "#00234a"
     },
     {
       "type": "color",
       "id": "label_color",
       "label": "Label",
-      "default": "#cccccc"
+      "default": "#00234a"
     },
     {
       "type": "color",
       "id": "result_color",
       "label": "Result",
-      "default": "#1D9E75"
+      "default": "#00a896"
     },
     {
       "type": "color",
       "id": "footnote_color",
       "label": "Footnote",
-      "default": "#555555"
+      "default": "#677279"
     },
     {
       "type": "color",
       "id": "slider_track_color",
       "label": "Slider track",
-      "default": "#3a3a3a"
+      "default": "#e0e0e0"
     },
     {
       "type": "color",
       "id": "slider_thumb_color",
       "label": "Slider thumb",
-      "default": "#1D9E75"
+      "default": "#00a896"
     },
     {
       "type": "color",
       "id": "input_border_color",
       "label": "Input border",
-      "default": "#3a3a3a"
+      "default": "#d0d0d0"
     },
     {
       "type": "header",
