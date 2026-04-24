@@ -272,6 +272,10 @@
       "block_order": [
         "ai_gen_block_1e5c86e_cptjA4"
       ],
+      "custom_css": [
+        ".ai-contact-form-heading-an1dou203mkrtz3leyaigenblock1e5c86ecptja4 {font-size: 54px; color: #0962fa;}",
+        ".ai-contact-form-input-an1dou203mkrtz3leyaigenblock1e5c86ecptja4,.ai-contact-form-textarea-an1dou203mkrtz3leyaigenblock1e5c86ecptja4 {color: #00234A;}"
+      ],
       "settings": {}
     }
   },
