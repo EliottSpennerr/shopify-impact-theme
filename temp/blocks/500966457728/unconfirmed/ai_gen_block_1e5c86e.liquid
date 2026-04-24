@@ -1,6 +1,433 @@
+{% doc %}
+  @prompt
+    "Build a complete contact form section in Swedish for a Shopify page. The section has two parts: an intro text block at the top, followed by the form itself.
+    Intro text block:
+    Three sentences maximum. The first sentence tells the visitor exactly what happens after they submit: we get back to them within one business day with more information and a proposal tailored to their team. The second sentence removes any hesitation: filling in the form is just the first step in a conversation, no commitment whatsoever. The third sentence makes it feel easy and human: we handle everything else from here. Tone must feel like a real person wrote it — direct, warm, zero corporate language. No phrases like 'do not hesitate' or 'please feel free'. Write as if a teammate is talking to another teammate.
+    The form itself:
+    Six fields arranged in a two-column grid on desktop, single column on mobile:
+    
+    Kontaktperson (text input, full width on its own row)
+    Förening (text input) and Lag (text input) side by side
+    Antal säljare — approximate number of sellers (number input) and Mobilnummer (tel input) side by side
+    E-post (email input, full width)
+    Övrig kommentar (textarea, full width, 3 rows, placeholder: 'Skriv gärna om ni har frågor eller önskemål')
+    
+    All field labels sit above their input, not as floating placeholders inside. Labels are small (13px), muted gray. Inputs have dark background (#2a2a2a), light border (#3a3a3a), white text, 8px border-radius, comfortable padding (12px 14px).
+    Submit button: full width, background #1D9E75, white text, font-weight 600, 14px, 48px tall, border-radius 10px. Button label: 'Skicka in — vi hör av oss inom en arbetsdag'. No hover animation needed, just a slightly darker green on hover (#0F6E56).
+    Overall section background: #1a1a1a. Section has generous padding top and bottom (60px desktop, 40px mobile). Max-width 600px, centered.
+    Typography: intro text is white, 15px, line-height 1.7, muted slightly (not pure white — use #e0e0e0). Section heading above intro text (if used): white, 22px, font-weight 600.
+    The form should be fully schema-driven with Shopify settings for: section heading, intro text, button label, background color, accent color (teal), input border color, border-radius on inputs and button. All text fields must be editable from the theme editor.
+    On submit, show a simple inline success message below the button in teal: 'Tack! Vi hör av oss inom en arbetsdag.' No page reload. No redirect. The form fields clear on success.
+    Responsive: two-column grid collapses to single column below 749px. Button remains full width on all breakpoints."
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contact-form-section-{{ ai_gen_id }} {
+    background-color: {{ block.settings.section_background }};
+    padding: 60px 20px;
+    display: block;
+  }
+
+  .ai-contact-form-container-{{ ai_gen_id }} {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .ai-contact-form-heading-{{ ai_gen_id }} {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    text-align: center;
+  }
+
+  .ai-contact-form-intro-{{ ai_gen_id }} {
+    color: {{ block.settings.intro_text_color }};
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 40px 0;
+    text-align: center;
+  }
+
+  .ai-contact-form-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ai-contact-form-row-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .ai-contact-form-field-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-contact-form-label-{{ ai_gen_id }} {
+    font-size: 13px;
+    color: {{ block.settings.label_color }};
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .ai-contact-form-input-{{ ai_gen_id }},
+  .ai-contact-form-textarea-{{ ai_gen_id }} {
+    background-color: {{ block.settings.input_background }};
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    color: #ffffff;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ai-contact-form-input-{{ ai_gen_id }}::placeholder,
+  .ai-contact-form-textarea-{{ ai_gen_id }}::placeholder {
+    color: #888888;
+  }
+
+  .ai-contact-form-input-{{ ai_gen_id }}:focus,
+  .ai-contact-form-textarea-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.accent_color }};
+  }
+
+  .ai-contact-form-textarea-{{ ai_gen_id }} {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .ai-contact-form-button-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: {{ block.settings.accent_color }};
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    height: 48px;
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 8px;
+  }
+
+  .ai-contact-form-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-contact-form-success-{{ ai_gen_id }} {
+    color: {{ block.settings.accent_color }};
+    font-size: 15px;
+    margin-top: 16px;
+    text-align: center;
+    display: none;
+  }
+
+  .ai-contact-form-success-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-contact-form-section-{{ ai_gen_id }} {
+      padding: 40px 20px;
+    }
+
+    .ai-contact-form-row-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-contact-form-intro-{{ ai_gen_id }} {
+      margin-bottom: 32px;
+    }
+  }
+{% endstyle %}
+
+<contact-form-{{ ai_gen_id }} class="ai-contact-form-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-contact-form-container-{{ ai_gen_id }}">
+    {% if block.settings.section_heading != blank %}
+      <h2 class="ai-contact-form-heading-{{ ai_gen_id }}">{{ block.settings.section_heading }}</h2>
+    {% endif %}
+
+    {% if block.settings.intro_text != blank %}
+      <div class="ai-contact-form-intro-{{ ai_gen_id }}">
+        {{ block.settings.intro_text }}
+      </div>
+    {% endif %}
+
+    {% form 'contact' %}
+      <input type="hidden" name="contact[subject]" value="Lagkassa förfrågan">
+
+      <div class="ai-contact-form-grid-{{ ai_gen_id }}">
+        <div class="ai-contact-form-field-{{ ai_gen_id }}">
+          <label class="ai-contact-form-label-{{ ai_gen_id }}" for="contact-person-{{ ai_gen_id }}">
+            Kontaktperson
+          </label>
+          <input
+            type="text"
+            id="contact-person-{{ ai_gen_id }}"
+            name="contact[Kontaktperson]"
+            class="ai-contact-form-input-{{ ai_gen_id }}"
+            required
+          >
+        </div>
+
+        <div class="ai-contact-form-row-{{ ai_gen_id }}">
+          <div class="ai-contact-form-field-{{ ai_gen_id }}">
+            <label class="ai-contact-form-label-{{ ai_gen_id }}" for="forening-{{ ai_gen_id }}">
+              Förening
+            </label>
+            <input
+              type="text"
+              id="forening-{{ ai_gen_id }}"
+              name="contact[Förening]"
+              class="ai-contact-form-input-{{ ai_gen_id }}"
+              required
+            >
+          </div>
+
+          <div class="ai-contact-form-field-{{ ai_gen_id }}">
+            <label class="ai-contact-form-label-{{ ai_gen_id }}" for="lag-{{ ai_gen_id }}">
+              Lag
+            </label>
+            <input
+              type="text"
+              id="lag-{{ ai_gen_id }}"
+              name="contact[Lag]"
+              class="ai-contact-form-input-{{ ai_gen_id }}"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="ai-contact-form-row-{{ ai_gen_id }}">
+          <div class="ai-contact-form-field-{{ ai_gen_id }}">
+            <label class="ai-contact-form-label-{{ ai_gen_id }}" for="antal-saljare-{{ ai_gen_id }}">
+              Antal säljare
+            </label>
+            <input
+              type="number"
+              id="antal-saljare-{{ ai_gen_id }}"
+              name="contact[Antal säljare]"
+              class="ai-contact-form-input-{{ ai_gen_id }}"
+              min="1"
+              required
+            >
+          </div>
+
+          <div class="ai-contact-form-field-{{ ai_gen_id }}">
+            <label class="ai-contact-form-label-{{ ai_gen_id }}" for="mobilnummer-{{ ai_gen_id }}">
+              Mobilnummer
+            </label>
+            <input
+              type="tel"
+              id="mobilnummer-{{ ai_gen_id }}"
+              name="contact[Mobilnummer]"
+              class="ai-contact-form-input-{{ ai_gen_id }}"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="ai-contact-form-field-{{ ai_gen_id }}">
+          <label class="ai-contact-form-label-{{ ai_gen_id }}" for="email-{{ ai_gen_id }}">
+            E-post
+          </label>
+          <input
+            type="email"
+            id="email-{{ ai_gen_id }}"
+            name="contact[email]"
+            class="ai-contact-form-input-{{ ai_gen_id }}"
+            required
+          >
+        </div>
+
+        <div class="ai-contact-form-field-{{ ai_gen_id }}">
+          <label class="ai-contact-form-label-{{ ai_gen_id }}" for="kommentar-{{ ai_gen_id }}">
+            Övrig kommentar
+          </label>
+          <textarea
+            id="kommentar-{{ ai_gen_id }}"
+            name="contact[Övrig kommentar]"
+            class="ai-contact-form-textarea-{{ ai_gen_id }}"
+            rows="3"
+            placeholder="Skriv gärna om ni har frågor eller önskemål"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="ai-contact-form-button-{{ ai_gen_id }}">
+          {{ block.settings.button_label }}
+        </button>
+      </div>
+
+      <div class="ai-contact-form-success-{{ ai_gen_id }}">
+        {{ block.settings.success_message }}
+      </div>
+    {% endform %}
+  </div>
+</contact-form-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ContactForm{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.form = this.querySelector('form');
+        this.successMessage = this.querySelector('.ai-contact-form-success-{{ ai_gen_id }}');
+        
+        if (this.form) {
+          this.form.addEventListener('submit', this.handleSubmit.bind(this));
+        }
+      }
+
+      handleSubmit(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(this.form);
+        
+        fetch(this.form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            this.form.reset();
+            this.successMessage.classList.add('active');
+            
+            setTimeout(() => {
+              this.successMessage.classList.remove('active');
+            }, 5000);
+          }
+        })
+        .catch(error => {
+          console.error('Form submission error:', error);
+        });
+      }
+    }
+
+    customElements.define('contact-form-{{ ai_gen_id }}', ContactForm{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Lagkassa kontaktformulär",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Innehåll"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Rubrik",
+      "default": "Intresserad av lagkassa?"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Introduktionstext",
+      "default": "Vi hör av oss inom en arbetsdag med mer information och ett förslag anpassat efter ert lag. Att fylla i formuläret är bara första steget i en dialog — ingen förpliktelse alls. Vi sköter resten härifrån."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Knapptext",
+      "default": "Skicka in — vi hör av oss inom en arbetsdag"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Bekräftelsemeddelande",
+      "default": "Tack! Vi hör av oss inom en arbetsdag."
+    },
+    {
+      "type": "header",
+      "content": "Färger"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Bakgrund",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "intro_text_color",
+      "label": "Introduktionstext",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Etikett",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Fält bakgrund",
+      "default": "#2a2a2a"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Fält ram",
+      "default": "#3a3a3a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accentfärg",
+      "default": "#1D9E75"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Knapp hover",
+      "default": "#0F6E56"
+    },
+    {
+      "type": "header",
+      "content": "Stil"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Fält hörnradie",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Knapp hörnradie",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lagkassa kontaktformulär"
+    }
+  ]
+}
 {% endschema %}
