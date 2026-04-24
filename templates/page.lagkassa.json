@@ -253,7 +253,7 @@
           "type": "ai_gen_block_1e5c86e",
           "settings": {
             "section_heading": "Intresserad av lagkassa?",
-            "intro_text": "Vi hör av oss inom en arbetsdag med mer information och ett förslag anpassat efter ert lag. Att fylla i formuläret är bara första steget i en dialog — ingen förpliktelse alls. Vi sköter resten härifrån.",
+            "intro_text": "Vi hör av oss inom en arbetsdag med mer information och ett förslag anpassat efter ert lag. Att fylla i formuläret är bara första steget i en dialog, ingen förpliktelse alls. Vi sköter resten härifrån.",
             "button_label": "Signera",
             "success_message": "Tack! Vi hör av oss inom en arbetsdag.",
             "section_background": "#f0f0f0",
@@ -274,7 +274,8 @@
       ],
       "custom_css": [
         ".ai-contact-form-heading-an1dou203mkrtz3leyaigenblock1e5c86ecptja4 {font-size: 54px; color: #0962fa;}",
-        ".ai-contact-form-input-an1dou203mkrtz3leyaigenblock1e5c86ecptja4,.ai-contact-form-textarea-an1dou203mkrtz3leyaigenblock1e5c86ecptja4 {color: #00234A;}"
+        ".ai-contact-form-input-an1dou203mkrtz3leyaigenblock1e5c86ecptja4,.ai-contact-form-textarea-an1dou203mkrtz3leyaigenblock1e5c86ecptja4 {color: #00234a;}",
+        ".ai-contact-form-button-an1dou203mkrtz3leyaigenblock1e5c86ecptja4 {font-size: 20px; display: flex; align-items: center; /* vertikal centrering */ justify-content: center; /* horisontell centrering */ text-align: center; /* fallback */}"
       ],
       "settings": {}
     }
