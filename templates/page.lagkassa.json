@@ -163,41 +163,6 @@
       ],
       "settings": {}
     },
-    "media_with_text_mpcCXh": {
-      "type": "media-with-text",
-      "blocks": {
-        "image_fKc9zX": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Paskmixxsss.jpg",
-            "media_width": 40,
-            "media_position": "start",
-            "text_position": "place-self-center text-center",
-            "icon": "none",
-            "icon_width": 48,
-            "subheading": "",
-            "title": "Heading",
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
-            "link_text": "",
-            "link_url": "",
-            "background": "#f0f0f0",
-            "background_gradient": "",
-            "text_color": "#0962fa",
-            "text_gradient": "",
-            "button_background": "",
-            "button_text_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "image_fKc9zX"
-      ],
-      "name": "Media with text",
-      "settings": {
-        "full_width": false,
-        "spacing": "medium"
-      }
-    },
     "blocks_6a7BGc": {
       "type": "_blocks",
       "blocks": {
@@ -243,6 +208,9 @@
       "block_order": [
         "ai_gen_block_5b9acf9_CtmUhJ"
       ],
+      "custom_css": [
+        ".ai-how-it-works-steps-avepvss9gu3hlnxa5saigenblock5b9acf9ctmuhj {background: #DEE0E2; padding: 50px; border-radius: 20px;}"
+      ],
       "name": "Så fungerar det",
       "settings": {}
     },
@@ -285,7 +253,6 @@
     "slideshow_RwtJRi",
     "text_with_icons_rN6VPt",
     "1777033473ff3c8f1f",
-    "media_with_text_mpcCXh",
     "blocks_6a7BGc",
     "17770428002e720cae"
   ]
