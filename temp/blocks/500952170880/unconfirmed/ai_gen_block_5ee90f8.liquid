@@ -1,6 +1,424 @@
+{% doc %}
+  @prompt
+    Write a 3-step how-it-works section in Swedish for a youth sports fundraising website. The product being sold is high-quality Finnish licorice. Format: each step has a short bold title (max 6 words) and a body text of 3–4 sentences that explains both what happens AND why it's good for the team.
+    Step 1 is about filling in a contact form. We respond quickly, go through the setup together, and find the best solution for their specific team size and situation. Make it feel like a conversation, not a transaction.
+    Step 2 is about receiving the products at home and getting a dedicated webshop set up specifically for their team. Customers can pay directly into the webshop — the team never handles cash or invoices. Emphasize that they can start selling immediately with the product physically in hand.
+    Step 3 is about receiving the earnings. When the campaign is done, the money is paid out directly to the team. Any unsold bags are simply sent back to us — no cost, no questions. End this step with a forward-looking sentence about what the team can now do with the money.
+    Tone: warm, clear and reassuring. Each step should feel like removing a worry, not adding a task. Write for a parent or team manager who is skeptical about whether this will actually be simple. No bullet points within the steps — flowing sentences only. Write in Swedish.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-how-it-works-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-how-it-works-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-how-it-works-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-how-it-works-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 16px 0;
+    font-weight: 700;
+  }
+
+  .ai-how-it-works-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .ai-how-it-works-steps-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: {{ block.settings.step_gap }}px;
+    margin-top: {{ block.settings.steps_top_margin }}px;
+  }
+
+  .ai-how-it-works-step-{{ ai_gen_id }} {
+    background-color: {{ block.settings.step_background }};
+    padding: {{ block.settings.step_padding }}px;
+    border-radius: {{ block.settings.step_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-how-it-works-step-number-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ block.settings.number_size }}px;
+    height: {{ block.settings.number_size }}px;
+    background-color: {{ block.settings.number_background }};
+    color: {{ block.settings.number_color }};
+    border-radius: 50%;
+    font-size: {{ block.settings.number_font_size }}px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .ai-how-it-works-step-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.step_title_size }}px;
+    color: {{ block.settings.step_title_color }};
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    line-height: 1.3;
+  }
+
+  .ai-how-it-works-step-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.step_text_size }}px;
+    color: {{ block.settings.step_text_color }};
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-how-it-works-steps-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-how-it-works-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.8);
+    }
+
+    .ai-how-it-works-subtitle-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subtitle_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<how-it-works-{{ ai_gen_id }} class="ai-how-it-works-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-how-it-works-container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank or block.settings.subtitle != blank %}
+      <div class="ai-how-it-works-header-{{ ai_gen_id }}">
+        {% if block.settings.title != blank %}
+          <h2 class="ai-how-it-works-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+        {% endif %}
+        {% if block.settings.subtitle != blank %}
+          <div class="ai-how-it-works-subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ai-how-it-works-steps-{{ ai_gen_id }}">
+      {% if block.settings.step_1_title != blank %}
+        <div class="ai-how-it-works-step-{{ ai_gen_id }}">
+          <div class="ai-how-it-works-step-number-{{ ai_gen_id }}">1</div>
+          <h3 class="ai-how-it-works-step-title-{{ ai_gen_id }}">{{ block.settings.step_1_title }}</h3>
+          <div class="ai-how-it-works-step-text-{{ ai_gen_id }}">{{ block.settings.step_1_text }}</div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.step_2_title != blank %}
+        <div class="ai-how-it-works-step-{{ ai_gen_id }}">
+          <div class="ai-how-it-works-step-number-{{ ai_gen_id }}">2</div>
+          <h3 class="ai-how-it-works-step-title-{{ ai_gen_id }}">{{ block.settings.step_2_title }}</h3>
+          <div class="ai-how-it-works-step-text-{{ ai_gen_id }}">{{ block.settings.step_2_text }}</div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.step_3_title != blank %}
+        <div class="ai-how-it-works-step-{{ ai_gen_id }}">
+          <div class="ai-how-it-works-step-number-{{ ai_gen_id }}">3</div>
+          <h3 class="ai-how-it-works-step-title-{{ ai_gen_id }}">{{ block.settings.step_3_title }}</h3>
+          <div class="ai-how-it-works-step-text-{{ ai_gen_id }}">{{ block.settings.step_3_text }}</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</how-it-works-{{ ai_gen_id }}>
+
+<script>
+(function() {
+  class HowItWorks{{ ai_gen_id }} extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.steps = this.querySelectorAll('.ai-how-it-works-step-{{ ai_gen_id }}');
+    }
+  }
+
+  customElements.define('how-it-works-{{ ai_gen_id }}', HowItWorks{{ ai_gen_id }});
+})();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Så här fungerar det",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Rubrik"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Titel",
+      "default": "Så här fungerar det"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Underrubrik",
+      "default": "<p>Tre enkla steg från idé till insamlade pengar</p>"
+    },
+    {
+      "type": "header",
+      "content": "Steg 1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "step_1_title",
+      "label": "Titel",
+      "default": "Fyll i kontaktformuläret"
+    },
+    {
+      "type": "richtext",
+      "id": "step_1_text",
+      "label": "Text",
+      "default": "<p>Vi hör av oss samma dag och går igenom allt tillsammans per telefon eller mejl. Ni berättar om er lagstorlek och era mål, så hittar vi den lösning som passar er bäst. Det här är ett samtal, inte en försäljningspitch – vi vill att ni ska känna er trygga innan ni bestämmer er.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Steg 2"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "step_2_title",
+      "label": "Titel",
+      "default": "Ta emot produkterna hemma"
+    },
+    {
+      "type": "richtext",
+      "id": "step_2_text",
+      "label": "Text",
+      "default": "<p>Lakritsen skickas direkt hem till er, och samtidigt får ni en egen webbshop som är redo att användas. Kunderna betalar direkt i webshopen – ni slipper hantera kontanter, fakturor eller Swish-överföringar. Ni kan börja sälja samma dag som paketet kommer, med produkten i handen och tekniken på plats.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Steg 3"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "step_3_title",
+      "label": "Titel",
+      "default": "Få ut pengarna"
+    },
+    {
+      "type": "richtext",
+      "id": "step_3_text",
+      "label": "Text",
+      "default": "<p>När kampanjen är klar betalas pengarna ut direkt till laget. Osålda påsar skickar ni helt enkelt tillbaka till oss – ingen kostnad, inga krångliga villkor. Nu har ni pengarna på kontot och kan äntligen boka den träningsläger, köpa nya matchtröjor eller satsa på det ni verkligen behöver.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Header spacing",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "steps_top_margin",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Steps top margin",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "step_gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between steps",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "step_padding",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Step padding",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "step_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Step border radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Färger"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "step_background",
+      "label": "Step background",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "step_title_color",
+      "label": "Step title",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "step_text_color",
+      "label": "Step text",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "number_background",
+      "label": "Number background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Number text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typografi"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "step_title_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Step title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "step_text_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Step text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "number_size",
+      "min": 30,
+      "max": 70,
+      "step": 5,
+      "unit": "px",
+      "label": "Number circle size",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "number_font_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Number font size",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Så här fungerar det"
+    }
+  ]
+}
 {% endschema %}
