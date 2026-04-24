@@ -12,5 +12,13 @@
     "market": "scandinaviansweets"
   },
   "parent": "page.faq.json",
-  "sections": {}
+  "sections": {
+    "faq_66eHq3": {
+      "custom_css": [
+        "h2 {font-weight: 600;}"
+      ],
+      "settings": {},
+      "blocks": {}
+    }
+  }
 }
