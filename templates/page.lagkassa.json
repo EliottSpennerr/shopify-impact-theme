@@ -25,8 +25,8 @@
             "content_max_width": 780,
             "mobile_text_position": "place-self-center text-center",
             "desktop_text_position": "sm:place-self-center-start sm:text-start",
-            "subheading": "Tell your",
-            "title": "Tjäna pengar till laget",
+            "subheading": "Sälj lakrits av hög kvalitet direkt till kunder — och tjäna upp till flera tiotusentals kronor till laget. Ni säljer, vi fixar resten.",
+            "title": "Fyll lagkassan.Utan krångel.",
             "heading_tag": "h0",
             "button_text": "",
             "button_link": "",
@@ -52,7 +52,7 @@
         "transition_type": "fade_with_text",
         "autoplay": false,
         "cycle_speed": 6,
-        "background": "#F2F2F2",
+        "background": "#f2f2f2",
         "background_gradient": ""
       }
     },
@@ -62,40 +62,40 @@
         "item_jJGmDC": {
           "type": "item",
           "settings": {
-            "icon": "picto-secure-profile",
+            "icon": "picto-box",
             "mobile_icon_width": 24,
             "icon_width": 32,
             "icon_background_type": "circle",
             "icon_background": "#0962fa",
             "icon_color": "#ffffff",
-            "title": "Sälj kravfritt",
-            "content": ""
+            "title": "Produkten i handen direkt",
+            "content": "<p>Inga infoblad eller broschyrer. Ni säljer produkten på plats och kunden kan ta hem den direkt.</p>"
           }
         },
         "item_Ya6EYi": {
           "type": "item",
           "settings": {
-            "icon": "picto-award-gift",
+            "icon": "picto-shield",
             "mobile_icon_width": 24,
             "icon_width": 24,
             "icon_background_type": "circle",
             "icon_background": "#0962fa",
             "icon_color": "#ffffff",
-            "title": "Garanterad vinst",
-            "content": ""
+            "title": "Helt riskfritt upplägg",
+            "content": "<p>Ni beställer bara det ni säljer. Eventuellt överlager skickas tillbaka till oss — ingen risk för laget.</p>"
           }
         },
         "item_q3Afef": {
           "type": "item",
           "settings": {
-            "icon": "picto-love",
+            "icon": "picto-money",
             "mobile_icon_width": 24,
             "icon_width": 24,
             "icon_background_type": "circle",
             "icon_background": "#0962fa",
             "icon_color": "#ffffff",
-            "title": "Utan bindning",
-            "content": ""
+            "title": "17 kr i vinst per påse",
+            "content": "<p>Tydlig och garanterad förtjänst. Ni vet exakt vad ni tjänar — före, under och efter försäljningen.</p>"
           }
         }
       },
@@ -115,67 +115,6 @@
         "background": "#00234a",
         "background_gradient": "",
         "text_color": "#ffffff"
-      }
-    },
-    "text_with_icons_rbhKJV": {
-      "type": "text-with-icons",
-      "blocks": {
-        "item_LxPd7T": {
-          "type": "item",
-          "settings": {
-            "icon": "picto-document",
-            "mobile_icon_width": 24,
-            "icon_width": 32,
-            "icon_background_type": "circle",
-            "icon_background": "#f0f0f0",
-            "icon_color": "#005dc6",
-            "title": "Free shipping",
-            "content": "<p>Free worldwide shipping and returns - customs and duties taxes included</p>"
-          }
-        },
-        "item_JGFXyH": {
-          "type": "item",
-          "settings": {
-            "icon": "picto-award-gift",
-            "mobile_icon_width": 24,
-            "icon_width": 32,
-            "icon_background_type": "circle",
-            "icon_background": "#f0f0f0",
-            "icon_color": "#005dc6",
-            "title": "Customer service",
-            "content": "<p>We are available from monday to friday to answer your questions.</p>"
-          }
-        },
-        "item_C8yc79": {
-          "type": "item",
-          "settings": {
-            "icon": "picto-earth",
-            "mobile_icon_width": 24,
-            "icon_width": 32,
-            "icon_background_type": "circle",
-            "icon_background": "#005dc6",
-            "icon_color": "#ffffff",
-            "title": "Secure payment",
-            "content": "<p>Your payment information is processed securely.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "item_LxPd7T",
-        "item_JGFXyH",
-        "item_C8yc79"
-      ],
-      "name": "Text with icons",
-      "settings": {
-        "full_width": true,
-        "stack_on_mobile": false,
-        "title": "Såhär funkar det",
-        "heading_tag": "h5",
-        "text_alignment": "center",
-        "icon_spacing": "medium",
-        "background": "rgba(0,0,0,0)",
-        "background_gradient": "",
-        "text_color": "#0962fa"
       }
     },
     "1777033473ff3c8f1f": {
@@ -223,13 +162,65 @@
         "ai_gen_block_3053b60_7E6cFW"
       ],
       "settings": {}
+    },
+    "1777039234dbb27457": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_5b9acf9_Vy896m": {
+          "type": "ai_gen_block_5b9acf9",
+          "settings": {
+            "heading": "<strong>Tre steg — sedan rullar det på</strong>",
+            "intro": "Från ansökan till utbetalning tar det bara några veckor.",
+            "step_1_title": "Fyll i kontaktformuläret",
+            "step_1_body": "Vi svarar snabbt, går igenom upplägget med er och hjälper er att komma igång på bästa sätt för just ert lag. Ni behöver inte ha gjort det här förut — vi guidar er genom varje steg.",
+            "step_2_title": "Ta emot produkterna — och få en egen webshop",
+            "step_2_body": "Lakritsen skickas hem till er adress. En egen webshop skapas för just ert lag. Kunderna betalar direkt i webshopen — ni slipper hantera kontanter eller fakturor.",
+            "step_3_title": "Ta emot pengarna — och skicka tillbaka osålda påsar",
+            "step_3_body": "När kampanjen är slut betalas er andel ut direkt. Eventuella osålda påsar skickar ni helt enkelt tillbaka till oss utan kostnad för er.",
+            "text_alignment": "left",
+            "max_width": 900,
+            "padding_top": 80,
+            "padding_bottom": 80,
+            "padding_horizontal": 30,
+            "heading_spacing": 20,
+            "intro_spacing": 50,
+            "step_spacing": 40,
+            "icon_text_gap": 25,
+            "content_top_offset": 4,
+            "title_spacing": 10,
+            "background_color": "#ffffff",
+            "heading_color": "#0962fa",
+            "intro_color": "#00234a",
+            "icon_color": "#0962fa",
+            "icon_number_color": "#ffffff",
+            "title_color": "#0962fa",
+            "body_color": "#00234a",
+            "heading_size": 48,
+            "intro_size": 18,
+            "icon_size": 60,
+            "icon_number_size": 24,
+            "title_size": 22,
+            "body_size": 17
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_5b9acf9_Vy896m"
+      ],
+      "settings": {}
+    },
+    "17770390175e55252a": {
+      "type": "_blocks",
+      "settings": {}
     }
   },
   "order": [
     "main",
     "slideshow_RwtJRi",
     "text_with_icons_rN6VPt",
-    "text_with_icons_rbhKJV",
-    "1777033473ff3c8f1f"
+    "1777033473ff3c8f1f",
+    "1777039234dbb27457",
+    "17770390175e55252a"
   ]
 }
