@@ -66,13 +66,74 @@
             "mobile_icon_width": 24,
             "icon_width": 32,
             "icon_background_type": "circle",
+            "icon_background": "#0962fa",
+            "icon_color": "#ffffff",
+            "title": "Sälj kravfritt",
+            "content": ""
+          }
+        },
+        "item_Ya6EYi": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-award-gift",
+            "mobile_icon_width": 24,
+            "icon_width": 24,
+            "icon_background_type": "circle",
+            "icon_background": "#0962fa",
+            "icon_color": "#ffffff",
+            "title": "Garanterad vinst",
+            "content": ""
+          }
+        },
+        "item_q3Afef": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-love",
+            "mobile_icon_width": 24,
+            "icon_width": 24,
+            "icon_background_type": "circle",
+            "icon_background": "#0962fa",
+            "icon_color": "#ffffff",
+            "title": "Utan bindning",
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_jJGmDC",
+        "item_Ya6EYi",
+        "item_q3Afef"
+      ],
+      "name": "Text with icons",
+      "settings": {
+        "full_width": false,
+        "stack_on_mobile": false,
+        "title": "",
+        "heading_tag": "h5",
+        "text_alignment": "center",
+        "icon_spacing": "medium",
+        "background": "#00234a",
+        "background_gradient": "",
+        "text_color": "#ffffff"
+      }
+    },
+    "text_with_icons_rbhKJV": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_LxPd7T": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "circle",
             "icon_background": "#f0f0f0",
             "icon_color": "#005dc6",
             "title": "Free shipping",
             "content": "<p>Free worldwide shipping and returns - customs and duties taxes included</p>"
           }
         },
-        "item_Ya6EYi": {
+        "item_JGFXyH": {
           "type": "item",
           "settings": {
             "icon": "picto-award-gift",
@@ -85,7 +146,7 @@
             "content": "<p>We are available from monday to friday to answer your questions.</p>"
           }
         },
-        "item_q3Afef": {
+        "item_C8yc79": {
           "type": "item",
           "settings": {
             "icon": "picto-earth",
@@ -100,21 +161,21 @@
         }
       },
       "block_order": [
-        "item_jJGmDC",
-        "item_Ya6EYi",
-        "item_q3Afef"
+        "item_LxPd7T",
+        "item_JGFXyH",
+        "item_C8yc79"
       ],
       "name": "Text with icons",
       "settings": {
         "full_width": true,
         "stack_on_mobile": false,
-        "title": "",
+        "title": "Såhär funkar det",
         "heading_tag": "h5",
         "text_alignment": "center",
         "icon_spacing": "medium",
-        "background": "#00234a",
+        "background": "rgba(0,0,0,0)",
         "background_gradient": "",
-        "text_color": "#ffffff"
+        "text_color": "#0962fa"
       }
     },
     "1777033473ff3c8f1f": {
@@ -168,6 +229,7 @@
     "main",
     "slideshow_RwtJRi",
     "text_with_icons_rN6VPt",
+    "text_with_icons_rbhKJV",
     "1777033473ff3c8f1f"
   ]
 }
