@@ -36,7 +36,7 @@
         "heading_6EArBJ": {
           "type": "heading",
           "settings": {
-            "text": "Alla produkter",
+            "text": "Choklad",
             "heading_tag": "h1",
             "text_color": "",
             "gradient": ""
@@ -45,7 +45,7 @@
         "richtext_iNBJGQ": {
           "type": "richtext",
           "settings": {
-            "content": "<p>Här hittar du hela vårt sortiment av finsk lakrits – mjuk, smakrik och tillverkad med fokus på balans och kvalitet. För vardag, helg och allt däremellan.</p>"
+            "content": "<p>Utforska vårt urval av chokladsorter – från mörk och intensiv till mjölkig och len. Perfekt för den som älskar choklad i alla dess former.</p>"
           }
         }
       },
