@@ -209,7 +209,7 @@
         "ai_gen_block_5b9acf9_CtmUhJ"
       ],
       "custom_css": [
-        ".ai-how-it-works-steps-avepvss9gu3hlnxa5saigenblock5b9acf9ctmuhj {background: #DEE0E2; padding: 50px; border-radius: 20px;}"
+        ".ai-how-it-works-steps-avepvss9gu3hlnxa5saigenblock5b9acf9ctmuhj {background: #dee0e2; padding: 50px; border-radius: 20px;}"
       ],
       "name": "Så fungerar det",
       "settings": {}
@@ -246,6 +246,38 @@
         ".ai-contact-form-button-an1dou203mkrtz3leyaigenblock1e5c86ecptja4 {font-size: 20px; display: flex; align-items: center; /* vertikal centrering */ justify-content: center; /* horisontell centrering */ text-align: center; /* fallback */}"
       ],
       "settings": {}
+    },
+    "blocks_de97ND": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_d1bccb9_MUmp3c": {
+          "type": "ai_gen_block_d1bccb9",
+          "settings": {
+            "heading": "Premium Swedish Licorice",
+            "text": "<p>Discover our carefully curated selection of authentic Finnish and Swedish confectionery, crafted with tradition and quality.</p>",
+            "image_position": "right center",
+            "overlay_color": "#1a3a2e",
+            "overlay_opacity": 0.3,
+            "text_color": "#ffffff",
+            "heading_size": 56,
+            "text_size": 18,
+            "heading_spacing": 20,
+            "content_max_width": 600,
+            "min_height": 500,
+            "border_radius": 16,
+            "container_margin": 24,
+            "padding_vertical": 60,
+            "padding_horizontal": 60,
+            "desktop_width_percent": 95
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_d1bccb9_MUmp3c"
+      ],
+      "name": "Hero header",
+      "settings": {}
     }
   },
   "order": [
@@ -253,6 +285,7 @@
     "slideshow_RwtJRi",
     "text_with_icons_rN6VPt",
     "1777033473ff3c8f1f",
+    "blocks_de97ND",
     "blocks_6a7BGc",
     "17770428002e720cae"
   ]
