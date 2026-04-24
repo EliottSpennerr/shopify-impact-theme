@@ -16,46 +16,158 @@
         "content_width": "80ch"
       }
     },
-    "rich_text_LQi8DK": {
-      "type": "rich-text",
+    "slideshow_RwtJRi": {
+      "type": "slideshow",
       "blocks": {
-        "heading_CDE8Kg": {
-          "type": "heading",
+        "image_kxnMh6": {
+          "type": "image",
           "settings": {
-            "text": "Reklamation & Garanti",
-            "heading_tag": "h1",
-            "text_color": "",
-            "gradient": ""
-          }
-        },
-        "richtext_iRXjri": {
-          "type": "richtext",
-          "settings": {
-            "content": "<h3>Skadat gods vid leverans</h3><p>Vi vill att din upplevelse med Finsk Lakrits ska vara lika god som vår lakrits – från beställning till sista tuggan. Om ditt paket skulle skadas under frakt hanterar vi det snabbt och smidigt:<br/><br/>Anmäl detta direkt på utlämningsstället. Be gärna ombudet upprätta en skadeanmälan innan du tar emot paketet.<br/><br/>Kontakta oss direkt på info@finsklakrits.se</p><h3>Reklamation</h3><p>Om något inte stämmer med din beställning – fel vara, kvalitetsproblem eller något annat som inte känns rätt – så är det viktigt för oss att få veta det.</p><p>Skicka ett mejl till <a title=\"mailto:info@finsklakrits.se\">info@finsklakrits.se</a> med följande uppgifter:</p><p>Vi återkommer så fort vi kan. Vid behov skickar vi ny vara eller återbetalar dig – beroende på vad som är lämpligast i just ditt fall.<br/><br/>Vid eventuell tvist följer vi alltid rekommendation från <strong>Allmänna Reklamationsnämnden (ARN)</strong> – <a href=\"https://www.arn.se\">www.arn.se</a></p><h3>Garanti</h3><p>Eftersom våra produkter är livsmedel omfattas de inte av traditionell garanti. Däremot står vi alltid bakom kvaliteten på våra varor och behandlar reklamationer med fullt ansvar.</p><h3>Ångerrätt</h3><p>Enligt distansavtalslagen gäller <strong>ingen ångerrätt för livsmedel</strong>. Detta för att vi inte kan garantera produktsäkerheten efter leverans. Vi hoppas på din förståelse – och att du älskar din lakrits så mycket att du inte vill skicka tillbaka den ändå.</p>"
+            "content_max_width": 780,
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_text_position": "sm:place-self-center-start sm:text-start",
+            "subheading": "Tell your",
+            "title": "Tjäna pengar till laget",
+            "heading_tag": "h0",
+            "button_text": "",
+            "button_link": "",
+            "text_color": "#ffffff",
+            "button_background": "#ffffff",
+            "button_text_color": "#000000",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "background": "",
+            "background_gradient": ""
           }
         }
       },
       "block_order": [
-        "heading_CDE8Kg",
-        "richtext_iRXjri"
+        "image_kxnMh6"
       ],
-      "custom_css": [
-        ".h1 {font-family: balloon; font-weight: 100;}",
-        ".section-full {padding-bottom: 5px;}"
-      ],
-      "name": "Rich text",
+      "name": "Slideshow",
       "settings": {
         "full_width": true,
-        "content_width": "small",
-        "text_position": "start",
-        "background": "",
-        "background_gradient": "",
-        "text_color": ""
+        "allow_transparent_header": true,
+        "image_size": "auto",
+        "controls_type": "dots",
+        "transition_type": "fade_with_text",
+        "autoplay": false,
+        "cycle_speed": 6,
+        "background": "#F2F2F2",
+        "background_gradient": ""
       }
+    },
+    "text_with_icons_rN6VPt": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_jJGmDC": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-secure-profile",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "circle",
+            "icon_background": "#f0f0f0",
+            "icon_color": "#005dc6",
+            "title": "Free shipping",
+            "content": "<p>Free worldwide shipping and returns - customs and duties taxes included</p>"
+          }
+        },
+        "item_Ya6EYi": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-award-gift",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "circle",
+            "icon_background": "#f0f0f0",
+            "icon_color": "#005dc6",
+            "title": "Customer service",
+            "content": "<p>We are available from monday to friday to answer your questions.</p>"
+          }
+        },
+        "item_q3Afef": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-earth",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "circle",
+            "icon_background": "#f0f0f0",
+            "icon_color": "#005dc6",
+            "title": "Secure payment",
+            "content": "<p>Your payment information is processed securely.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_jJGmDC",
+        "item_Ya6EYi",
+        "item_q3Afef"
+      ],
+      "name": "Text with icons",
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "title": "",
+        "heading_tag": "h5",
+        "text_alignment": "center",
+        "icon_spacing": "medium",
+        "background": "#00234a",
+        "background_gradient": "",
+        "text_color": "#ffffff"
+      }
+    },
+    "1777033473ff3c8f1f": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_3053b60_7E6cFW": {
+          "type": "ai_gen_block_3053b60",
+          "settings": {
+            "title": "<p><strong>Hur mycket vill </strong><em><strong>ni</strong></em><strong> tjäna?</strong></p>",
+            "result_prefix": "Ger er:",
+            "result_suffix": "kr",
+            "footnote": "Genomsnittssäljaren säljer 35 påsar.",
+            "slider_1_label": "Personer som säljer",
+            "slider_1_min": 1,
+            "slider_1_max": 100,
+            "slider_1_default": 20,
+            "slider_2_label": "Produkter var att säljare",
+            "slider_2_min": 1,
+            "slider_2_max": 100,
+            "slider_2_default": 15,
+            "multiplier": 17,
+            "desktop_width_percent": 100,
+            "text_align": "left",
+            "padding": 40,
+            "spacing": 30,
+            "border_radius": 20,
+            "background_color": "#ffffff",
+            "title_color": "#00234a",
+            "label_color": "#00234a",
+            "result_color": "#0962fa",
+            "footnote_color": "#677279",
+            "slider_track_color": "#e0e0e0",
+            "slider_thumb_color": "#0962fa",
+            "input_border_color": "#d0d0d0",
+            "title_size": 32,
+            "label_size": 16,
+            "result_size": 48,
+            "footnote_size": 14,
+            "input_border_radius": 8
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_3053b60_7E6cFW"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "rich_text_LQi8DK"
+    "slideshow_RwtJRi",
+    "text_with_icons_rN6VPt",
+    "1777033473ff3c8f1f"
   ]
 }
