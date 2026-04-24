@@ -1,0 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "scandinaviansweets"
+  },
+  "parent": "collection.saltlakrits.json",
+  "sections": {
+    "rich_text_B6iWg7": {
+      "settings": {},
+      "blocks": {
+        "richtext_iNBJGQ": {
+          "settings": {
+            "content": "<p>Licorice with a little more punch. Our salty licorice is for those who want something with real character not strong for the sake of it, just exactly right.</p>"
+          }
+        }
+      }
+    }
+  }
+}
