@@ -1,6 +1,601 @@
+{% doc %}
+  @prompt
+    Create an interactive profitability calculator section for a Shopify page with the following specs:
+    Create an interactive profitability calculator section for a Shopify page with the following specs:
+    
+    Title: "Hur mycket vill ni tjäna?" with "ni" in italic.
+    
+    Two sliders with editable number inputs next to them:
+    
+    Slider 1 — "Personer som säljer" — range 1 to 100, default value 20. Slider 2 — "Produkter var att säljare" — range 1 to 100, default value 15.
+    
+    Below the sliders, display a live result that updates as the user drags: "Ger er: [X] kr" where X = number of people × number of products × 17. Format the result in large bold teal-colored text.
+    
+    Below the result, add a small fine print line in gray: "Genomsnittssäljaren säljer 35 påsar."
+    
+    Design should match a clean, modern Scandinavian style with teal/dark green as primary color, white background, rounded inputs and sliders. No extra buttons needed — the result should update in real time as sliders move.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-profit-calc-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.padding }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-profit-calc__container-{{ ai_gen_id }} {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .ai-profit-calc__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.spacing }}px;
+    text-align: {{ block.settings.text_align }};
+  }
+
+  .ai-profit-calc__title-{{ ai_gen_id }} em {
+    font-style: italic;
+  }
+
+  .ai-profit-calc__slider-group-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.spacing }}px;
+  }
+
+  .ai-profit-calc__label-{{ ai_gen_id }} {
+    display: block;
+    font-size: {{ block.settings.label_size }}px;
+    color: {{ block.settings.label_color }};
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .ai-profit-calc__controls-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .ai-profit-calc__slider-{{ ai_gen_id }} {
+    flex-grow: 1;
+    height: 8px;
+    border-radius: 4px;
+    background: {{ block.settings.slider_track_color }};
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .ai-profit-calc__slider-{{ ai_gen_id }}::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: {{ block.settings.slider_thumb_color }};
+    cursor: pointer;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-profit-calc__slider-{{ ai_gen_id }}::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: {{ block.settings.slider_thumb_color }};
+    cursor: pointer;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-profit-calc__input-{{ ai_gen_id }} {
+    width: 80px;
+    padding: 10px 12px;
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-size: 16px;
+    text-align: center;
+    color: {{ block.settings.label_color }};
+    background-color: #ffffff;
+  }
+
+  .ai-profit-calc__input-{{ ai_gen_id }}:focus {
+    outline: 2px solid {{ block.settings.slider_thumb_color }};
+    outline-offset: 2px;
+  }
+
+  .ai-profit-calc__result-{{ ai_gen_id }} {
+    margin: {{ block.settings.spacing | times: 1.5 }}px 0 {{ block.settings.spacing | divided_by: 2 }}px;
+    text-align: {{ block.settings.text_align }};
+  }
+
+  .ai-profit-calc__result-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.result_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.result_color }};
+    line-height: 1.2;
+  }
+
+  .ai-profit-calc__footnote-{{ ai_gen_id }} {
+    font-size: {{ block.settings.footnote_size }}px;
+    color: {{ block.settings.footnote_color }};
+    text-align: {{ block.settings.text_align }};
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-profit-calc__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-profit-calc__result-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.result_size | times: 0.7 }}px;
+    }
+
+    .ai-profit-calc__controls-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ai-profit-calc__slider-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-profit-calc__input-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<profit-calculator-{{ ai_gen_id }}
+  class="ai-profit-calc-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-profit-calc__container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-profit-calc__title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+
+    <div class="ai-profit-calc__slider-group-{{ ai_gen_id }}">
+      <label
+        for="ai-profit-calc-people-{{ ai_gen_id }}"
+        class="ai-profit-calc__label-{{ ai_gen_id }}"
+      >
+        {{ block.settings.slider_1_label }}
+      </label>
+      <div class="ai-profit-calc__controls-{{ ai_gen_id }}">
+        <input
+          type="range"
+          id="ai-profit-calc-people-{{ ai_gen_id }}"
+          class="ai-profit-calc__slider-{{ ai_gen_id }}"
+          min="{{ block.settings.slider_1_min }}"
+          max="{{ block.settings.slider_1_max }}"
+          value="{{ block.settings.slider_1_default }}"
+          data-calculator-input="people"
+        >
+        <input
+          type="number"
+          class="ai-profit-calc__input-{{ ai_gen_id }}"
+          min="{{ block.settings.slider_1_min }}"
+          max="{{ block.settings.slider_1_max }}"
+          value="{{ block.settings.slider_1_default }}"
+          data-calculator-input="people"
+          aria-label="{{ block.settings.slider_1_label }}"
+        >
+      </div>
+    </div>
+
+    <div class="ai-profit-calc__slider-group-{{ ai_gen_id }}">
+      <label
+        for="ai-profit-calc-products-{{ ai_gen_id }}"
+        class="ai-profit-calc__label-{{ ai_gen_id }}"
+      >
+        {{ block.settings.slider_2_label }}
+      </label>
+      <div class="ai-profit-calc__controls-{{ ai_gen_id }}">
+        <input
+          type="range"
+          id="ai-profit-calc-products-{{ ai_gen_id }}"
+          class="ai-profit-calc__slider-{{ ai_gen_id }}"
+          min="{{ block.settings.slider_2_min }}"
+          max="{{ block.settings.slider_2_max }}"
+          value="{{ block.settings.slider_2_default }}"
+          data-calculator-input="products"
+        >
+        <input
+          type="number"
+          class="ai-profit-calc__input-{{ ai_gen_id }}"
+          min="{{ block.settings.slider_2_min }}"
+          max="{{ block.settings.slider_2_max }}"
+          value="{{ block.settings.slider_2_default }}"
+          data-calculator-input="products"
+          aria-label="{{ block.settings.slider_2_label }}"
+        >
+      </div>
+    </div>
+
+    <div class="ai-profit-calc__result-{{ ai_gen_id }}">
+      <div
+        class="ai-profit-calc__result-text-{{ ai_gen_id }}"
+        data-calculator-result
+      >
+        {{ block.settings.result_prefix }} <span data-calculator-value>{{ block.settings.slider_1_default | times: block.settings.slider_2_default | times: block.settings.multiplier }}</span> {{ block.settings.result_suffix }}
+      </div>
+    </div>
+
+    {% if block.settings.footnote != blank %}
+      <p class="ai-profit-calc__footnote-{{ ai_gen_id }}">{{ block.settings.footnote }}</p>
+    {% endif %}
+  </div>
+</profit-calculator-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProfitCalculator{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.multiplier = {{ block.settings.multiplier }};
+      }
+
+      connectedCallback() {
+        this.peopleSlider = this.querySelector('[data-calculator-input="people"][type="range"]');
+        this.peopleInput = this.querySelector('[data-calculator-input="people"][type="number"]');
+        this.productsSlider = this.querySelector('[data-calculator-input="products"][type="range"]');
+        this.productsInput = this.querySelector('[data-calculator-input="products"][type="number"]');
+        this.resultValue = this.querySelector('[data-calculator-value]');
+
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.peopleSlider.addEventListener('input', (e) => {
+          this.peopleInput.value = e.target.value;
+          this.updateResult();
+        });
+
+        this.peopleInput.addEventListener('input', (e) => {
+          const value = this.clampValue(e.target.value, {{ block.settings.slider_1_min }}, {{ block.settings.slider_1_max }});
+          this.peopleSlider.value = value;
+          this.updateResult();
+        });
+
+        this.productsSlider.addEventListener('input', (e) => {
+          this.productsInput.value = e.target.value;
+          this.updateResult();
+        });
+
+        this.productsInput.addEventListener('input', (e) => {
+          const value = this.clampValue(e.target.value, {{ block.settings.slider_2_min }}, {{ block.settings.slider_2_max }});
+          this.productsSlider.value = value;
+          this.updateResult();
+        });
+
+        this.peopleInput.addEventListener('blur', (e) => {
+          e.target.value = this.clampValue(e.target.value, {{ block.settings.slider_1_min }}, {{ block.settings.slider_1_max }});
+        });
+
+        this.productsInput.addEventListener('blur', (e) => {
+          e.target.value = this.clampValue(e.target.value, {{ block.settings.slider_2_min }}, {{ block.settings.slider_2_max }});
+        });
+      }
+
+      clampValue(value, min, max) {
+        const num = parseInt(value) || min;
+        return Math.min(Math.max(num, min), max);
+      }
+
+      updateResult() {
+        const people = parseInt(this.peopleSlider.value) || 0;
+        const products = parseInt(this.productsSlider.value) || 0;
+        const result = people * products * this.multiplier;
+        this.resultValue.textContent = this.formatNumber(result);
+      }
+
+      formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      }
+    }
+
+    customElements.define('profit-calculator-{{ ai_gen_id }}', ProfitCalculator{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Profitability calculator",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Hur mycket vill <em>ni</em> tjäna?</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "result_prefix",
+      "label": "Result prefix",
+      "default": "Ger er:"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "result_suffix",
+      "label": "Result suffix",
+      "default": "kr"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Genomsnittssäljaren säljer 35 påsar."
+    },
+    {
+      "type": "header",
+      "content": "Slider 1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "slider_1_label",
+      "label": "Label",
+      "default": "Personer som säljer"
+    },
+    {
+      "type": "range",
+      "id": "slider_1_min",
+      "label": "Minimum",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "slider_1_max",
+      "label": "Maximum",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "slider_1_default",
+      "label": "Default value",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Slider 2"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "slider_2_label",
+      "label": "Label",
+      "default": "Produkter var att säljare"
+    },
+    {
+      "type": "range",
+      "id": "slider_2_min",
+      "label": "Minimum",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "slider_2_max",
+      "label": "Maximum",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "slider_2_default",
+      "label": "Default value",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Calculation"
+    },
+    {
+      "type": "range",
+      "id": "multiplier",
+      "label": "Multiplier",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 17
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Spacing between elements",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#00234a"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label",
+      "default": "#00234a"
+    },
+    {
+      "type": "color",
+      "id": "result_color",
+      "label": "Result",
+      "default": "#00a896"
+    },
+    {
+      "type": "color",
+      "id": "footnote_color",
+      "label": "Footnote",
+      "default": "#677279"
+    },
+    {
+      "type": "color",
+      "id": "slider_track_color",
+      "label": "Slider track",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "slider_thumb_color",
+      "label": "Slider thumb",
+      "default": "#00a896"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border",
+      "default": "#d0d0d0"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "result_size",
+      "label": "Result size",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "footnote_size",
+      "label": "Footnote size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Profitability calculator"
+    }
+  ]
+}
 {% endschema %}
