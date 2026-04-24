@@ -245,6 +245,34 @@
       ],
       "name": "Så fungerar det",
       "settings": {}
+    },
+    "17770428002e720cae": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_1e5c86e_cptjA4": {
+          "type": "ai_gen_block_1e5c86e",
+          "settings": {
+            "section_heading": "Intresserad av lagkassa?",
+            "intro_text": "Vi hör av oss inom en arbetsdag med mer information och ett förslag anpassat efter ert lag. Att fylla i formuläret är bara första steget i en dialog — ingen förpliktelse alls. Vi sköter resten härifrån.",
+            "button_label": "Skicka in — vi hör av oss inom en arbetsdag",
+            "success_message": "Tack! Vi hör av oss inom en arbetsdag.",
+            "section_background": "#00234a",
+            "intro_text_color": "#e0e0e0",
+            "label_color": "#f0f0f0",
+            "input_background": "#0962fa",
+            "input_border_color": "#3a3a3a",
+            "accent_color": "#0962fa",
+            "button_hover_color": "#0962fa",
+            "input_border_radius": 8,
+            "button_border_radius": 10
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_1e5c86e_cptjA4"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -253,6 +281,7 @@
     "text_with_icons_rN6VPt",
     "1777033473ff3c8f1f",
     "media_with_text_mpcCXh",
-    "blocks_6a7BGc"
+    "blocks_6a7BGc",
+    "17770428002e720cae"
   ]
 }
