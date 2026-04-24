@@ -18,7 +18,13 @@
         ".section-blends {padding-bottom: 0px; padding-top: 40px;}"
       ],
       "settings": {},
-      "blocks": {}
+      "blocks": {
+        "richtext_iNBJGQ": {
+          "settings": {
+            "content": "<p>All our Big Packs in one place — the easiest and best value way to stock up, or treat someone who really loves their scandinavian candy.</p>"
+          }
+        }
+      }
     }
   }
 }
