@@ -36,7 +36,7 @@
         "content": "",
         "link_url": "",
         "link_text": "View all",
-        "header-dcae0b01e8e25f00210fb0cbbf5d17c2": null,
+        "header-163e6f0e54c55230fd3339658e582021": null,
         "background": "rgba(0,0,0,0)",
         "background_gradient": "",
         "text_color": "#0021b6",
@@ -56,11 +56,11 @@
         "full_width": true,
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false,
-        "header-d6b6b3116f7c213b1d8947b3504b87ac": null,
+        "header-7951e5c5c8bc2242f292e70285af7096": null,
         "background": "",
         "background_gradient": "",
         "text_color": "",
-        "header-49b75172b8d8671d84747ad6fdd30175": null,
+        "header-fcd45f5f548d1c8585f42e5fccfad19a": null,
         "enable_review_integration": true,
         "review_header_gradient": "linear-gradient(135deg, rgba(255, 194, 102, 1), rgba(255, 163, 26, 1) 100%)",
         "review_header_text_color": "#000000",
@@ -72,7 +72,7 @@
           "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "disabled": false,
           "settings": {
-            "header-00356ad42898b33c9ceda47c70db581d": null,
+            "header-fba38eb307c0d96ee2f68acf8bb0305b": null,
             "show_sample_reviews": true,
             "reviews_selection": "all",
             "products": [],
@@ -81,7 +81,7 @@
             "display_order": "media_first",
             "no_image_fallback": "review_text_only",
             "max_reviews": 20,
-            "header-6829a2704bda2c66448fdcef373a8a7b": null,
+            "header-71df145c050877f5579f67f8889ef071": null,
             "review_length": "small",
             "text_size": "medium",
             "image_ratio": "0.75",
@@ -91,19 +91,19 @@
             "hide_arrows_mobile": true,
             "arrows_position": "bottom",
             "max_width": 1100,
-            "header-9e70a3bda73e298b6c9e810f44d9a489": null,
+            "header-95f5a343dbb8cfe4642f221d10d9a3aa": null,
             "corner_styling": "soft",
             "header_text_color": "#000000",
             "text_color": "#000000",
             "card_color": "#f9f9f9",
             "stars_color": "",
             "arrows_color": "#000000",
-            "header-d51c520069c591c539ac38c37911e24f": null,
+            "header-3f2283c37dbc0c7add5308881bf4b713": null,
             "transition_speed": 5,
-            "header-be443139225f82f154921b931d79de31": null,
+            "header-088dce5f864db4f290608397b72e05ee": null,
             "header_text": "Customers are saying",
             "show_average_rating": true,
-            "paragraph-85d481a2926d48d66a2129094f653661": null
+            "paragraph-a9189c76bc77a6b308e1504e7465fbb9": null
           }
         }
       },
@@ -118,11 +118,11 @@
         "full_width": true,
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false,
-        "header-1a1322986a50a59186c195153bc90475": null,
+        "header-8c0f6eecdc1817e99ea2e8bc577019a1": null,
         "background": "",
         "background_gradient": "",
         "text_color": "",
-        "header-df3ef31f0636d7e2640e92d21a1cc886": null,
+        "header-b73d46430dcff167dbb1f16ea2216cdf": null,
         "enable_review_integration": true,
         "review_header_gradient": "linear-gradient(135deg, #FFC266 0%, #FFA31A 100%)",
         "review_header_text_color": "#000000",
@@ -137,7 +137,8 @@
       "blocks": {
         "image_GpeHXQ": {
           "settings": {
-            "button_background": "#0021b6"
+            "button_background": "#0021b6",
+            "title": "Premium Lakrits"
           }
         }
       }
