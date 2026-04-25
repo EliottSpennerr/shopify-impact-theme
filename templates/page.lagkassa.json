@@ -179,7 +179,7 @@
             "heading_size": 56,
             "text_size": 18,
             "heading_spacing": 20,
-            "content_max_width": 800,
+            "content_max_width": 700,
             "min_height": 450,
             "border_radius": 16,
             "container_margin": 24,
@@ -205,7 +205,7 @@
         "ai_gen_block_5b9acf9_CtmUhJ": {
           "type": "ai_gen_block_5b9acf9",
           "settings": {
-            "heading": "<strong>Tre steg — sedan rullar det på</strong>",
+            "heading": "<strong>Hur fungerar det?</strong>",
             "intro": "Från ansökan till utbetalning tar det bara några veckor.",
             "step_1_title": "Fyll i kontaktformuläret",
             "step_1_body": "Vi svarar snabbt, går igenom upplägget med er och hjälper er att komma igång på bästa sätt för just ert lag. Ni behöver inte ha gjort det här förut — vi guidar er genom varje steg.",
