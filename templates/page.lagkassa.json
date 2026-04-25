@@ -171,7 +171,8 @@
           "settings": {
             "heading": "Premium Swedish Licorice",
             "text": "<p>Discover our carefully curated selection of authentic Finnish and Swedish confectionery, crafted with tradition and quality.</p>",
-            "image_position": "right center",
+            "background_image": "shopify://shop_images/Drawnheader.jpg",
+            "image_position": "center center",
             "overlay_color": "#1a3a2e",
             "overlay_opacity": 0.3,
             "text_color": "#ffffff",
