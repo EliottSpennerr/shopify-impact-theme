@@ -178,13 +178,13 @@
             "heading_size": 56,
             "text_size": 18,
             "heading_spacing": 20,
-            "content_max_width": 600,
-            "min_height": 500,
+            "content_max_width": 800,
+            "min_height": 450,
             "border_radius": 16,
             "container_margin": 24,
             "padding_vertical": 60,
             "padding_horizontal": 60,
-            "desktop_width_percent": 95
+            "desktop_width_percent": 90
           },
           "blocks": {}
         }
@@ -193,7 +193,7 @@
         "ai_gen_block_d1bccb9_MUmp3c"
       ],
       "custom_css": [
-        ".ai-hero-header-wrapper-avvretlv3nu5ewxrpuaigenblockd1bccb9mump3c {background: #F2F2F2; padding: 24px 0; width: 100%;}"
+        ".ai-hero-header-wrapper-avvretlv3nu5ewxrpuaigenblockd1bccb9mump3c {background: #f2f2f2; padding: 24px 0; width: 100%;}"
       ],
       "name": "Hero header",
       "settings": {}
