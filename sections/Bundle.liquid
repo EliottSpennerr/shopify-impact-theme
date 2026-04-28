@@ -6,6 +6,7 @@
   All UI strings are section settings — translatable via
   Shopify Translate & Adapt per market.
   Prices render via shop.money_format (multi-currency).
+  Filterable by category (blocks), brand, and price sort.
   Requires: Automatic discount (10% off, min 8 items)
   set up in Shopify Admin → Discounts.
   ============================================================
@@ -138,6 +139,103 @@
     transform: translateY(0);
   }
 
+  /* ── Filter bar ── */
+  .bundle-filters {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bundle-filters__categories {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .bundle-filters__categories::-webkit-scrollbar {
+    display: none;
+  }
+
+  .bundle-filters__cat-btn {
+    flex-shrink: 0;
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 1.5px solid var(--bundle-border);
+    background: var(--bundle-card-bg);
+    color: var(--bundle-text);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    -webkit-appearance: none;
+    touch-action: manipulation;
+    line-height: 1.3;
+  }
+
+  .bundle-filters__cat-btn:hover {
+    border-color: var(--bundle-accent);
+  }
+
+  .bundle-filters__cat-btn.is-active {
+    background: var(--bundle-accent);
+    color: #fff;
+    border-color: var(--bundle-accent);
+  }
+
+  .bundle-filters__controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .bundle-filters__select {
+    padding: 8px 32px 8px 12px;
+    border-radius: var(--bundle-radius-sm);
+    border: 1.5px solid var(--bundle-border);
+    background: var(--bundle-card-bg);
+    color: var(--bundle-text);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b6b6b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    min-width: 0;
+    flex: 1;
+    max-width: 200px;
+  }
+
+  .bundle-filters__select:focus {
+    outline: none;
+    border-color: var(--bundle-accent);
+  }
+
+  .bundle-filters__no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--bundle-text-muted);
+    font-size: 0.9rem;
+    grid-column: 1 / -1;
+    display: none;
+  }
+
+  .bundle-filters__no-results.is-visible {
+    display: block;
+  }
+
+  @media (max-width: 640px) {
+    .bundle-filters__cat-btn { padding: 8px 14px; font-size: 0.75rem; }
+    .bundle-filters__select { font-size: 0.75rem; max-width: none; flex: 1; }
+  }
+
+  /* ── Product grid ── */
   .bundle-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -161,6 +259,10 @@
     position: relative;
     display: flex;
     flex-direction: column;
+  }
+
+  .bundle-card.is-hidden {
+    display: none;
   }
 
   .bundle-card:hover {
@@ -335,7 +437,6 @@
     justify-content: center;
   }
 
-  /* ── Permanent "+" icon on image ── */
   .bundle-card__add-icon {
     position: absolute;
     bottom: 10px;
@@ -400,6 +501,7 @@
     white-space: nowrap;
   }
 
+  /* ── Sticky bar ── */
   .bundle-sticky {
     position: fixed;
     bottom: 0;
@@ -463,9 +565,7 @@
   }
 
   @media (max-width: 640px) {
-    .bundle-sticky__inner {
-      padding: 12px 16px;
-    }
+    .bundle-sticky__inner { padding: 12px 16px; }
     .bundle-sticky__cta { padding: 12px 20px; font-size: 0.875rem; }
     .bundle-section { padding: 32px 0 140px; }
   }
@@ -478,14 +578,6 @@
 
   .bundle-card__qty-badge.pop {
     animation: bundle-pop 0.3s ease;
-  }
-
-  .bundle-hint {
-    text-align: center;
-    padding: 20px;
-    color: var(--bundle-text-muted);
-    font-size: 0.9rem;
-    grid-column: 1 / -1;
   }
 
   @keyframes bundle-flash {
@@ -520,6 +612,65 @@
       <div class="bundle-progress-top__savings" id="bundle-savings-text"></div>
     </div>
 
+    {%- comment -%} ── Filters ── {%- endcomment -%}
+    <div class="bundle-filters" id="bundle-filters">
+
+      {%- comment -%} Category pills from blocks {%- endcomment -%}
+      {%- if section.blocks.size > 0 -%}
+        <div class="bundle-filters__categories" id="bundle-cat-bar">
+          <button type="button" class="bundle-filters__cat-btn is-active" data-cat="all">{{ section.settings.text_filter_all }}</button>
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'category' -%}
+              <button type="button"
+                      class="bundle-filters__cat-btn"
+                      data-cat="{{ block.settings.match_value | handleize }}"
+                      {{ block.shopify_attributes }}>
+                {{ block.settings.label }}
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Brand + Sort dropdowns {%- endcomment -%}
+      <div class="bundle-filters__controls">
+        {%- comment -%} Collect unique vendors {%- endcomment -%}
+        {%- assign bundle_collection_f = collections[section.settings.collection] -%}
+        {%- if section.settings.collection == blank or bundle_collection_f == blank -%}
+          {%- assign bundle_products_f = collections['all'].products -%}
+        {%- else -%}
+          {%- assign bundle_products_f = bundle_collection_f.products -%}
+        {%- endif -%}
+
+        {%- assign vendors = '' -%}
+        {%- for product in bundle_products_f limit: section.settings.max_products -%}
+          {%- unless vendors contains product.vendor -%}
+            {%- if vendors == '' -%}
+              {%- assign vendors = product.vendor -%}
+            {%- else -%}
+              {%- assign vendors = vendors | append: '|||' | append: product.vendor -%}
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        {%- assign vendor_list = vendors | split: '|||' | sort -%}
+
+        <select class="bundle-filters__select" id="bundle-filter-brand">
+          <option value="all">{{ section.settings.text_filter_brand }}</option>
+          {%- for vendor in vendor_list -%}
+            <option value="{{ vendor | handleize }}">{{ vendor }}</option>
+          {%- endfor -%}
+        </select>
+
+        <select class="bundle-filters__select" id="bundle-filter-sort">
+          <option value="default">{{ section.settings.text_filter_sort }}</option>
+          <option value="price-asc">{{ section.settings.text_sort_price_asc }}</option>
+          <option value="price-desc">{{ section.settings.text_sort_price_desc }}</option>
+          <option value="name-asc">{{ section.settings.text_sort_name_asc }}</option>
+        </select>
+      </div>
+    </div>
+
+    {%- comment -%} ── Product grid ── {%- endcomment -%}
     <div class="bundle-grid" id="bundle-grid">
       {%- assign bundle_collection = collections[section.settings.collection] -%}
       {%- if section.settings.collection == blank or bundle_collection == blank -%}
@@ -535,7 +686,6 @@
           {%- assign is_soldout = true -%}
         {%- endunless -%}
 
-        {%- comment -%} Skip sold-out products entirely if setting says so {%- endcomment -%}
         {%- if is_soldout and section.settings.soldout_behavior == 'hide' -%}
           {%- continue -%}
         {%- endif -%}
@@ -545,6 +695,9 @@
              data-variant-id="{{ first_variant.id }}"
              data-price="{{ first_variant.price }}"
              data-title="{{ product.title | escape }}"
+             data-vendor="{{ product.vendor | handleize }}"
+             data-product-type="{{ product.type | handleize }}"
+             data-tags="{{ product.tags | join: ',' | handleize }}"
              data-qty="0"
              {% if is_soldout %}data-soldout="true"{% endif %}>
 
@@ -592,6 +745,10 @@
           </div>
         </div>
       {%- endfor -%}
+
+      <div class="bundle-filters__no-results" id="bundle-no-results">
+        {{ section.settings.text_no_results }}
+      </div>
     </div>
 
   </div>
@@ -627,13 +784,31 @@
     youSave:           {{ section.settings.text_you_save | json }}
   };
 
+  /* ── Category match config from blocks ── */
+  var CATEGORIES = {};
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'category' -%}
+      CATEGORIES[{{ block.settings.match_value | handleize | json }}] = {
+        type: {{ block.settings.match_type | json }},
+        value: {{ block.settings.match_value | handleize | json }}
+      };
+    {%- endif -%}
+  {%- endfor -%}
+
   var progressText  = document.getElementById('bundle-progress-text');
   var progressFill  = document.getElementById('bundle-progress-fill');
   var totalCountEl  = document.getElementById('bundle-total-count');
   var savingsText   = document.getElementById('bundle-savings-text');
   var ctaText       = document.getElementById('bundle-cta-text');
+  var grid          = document.getElementById('bundle-grid');
+  var noResults     = document.getElementById('bundle-no-results');
   var cards         = document.querySelectorAll('[data-bundle-card]');
   var busy          = false;
+
+  /* ── Current filter state ── */
+  var activeCategory = 'all';
+  var activeBrand    = 'all';
+  var activeSort     = 'default';
 
   function formatMoney(cents) {
     var val = cents / 100;
@@ -649,7 +824,6 @@
       .replace(/\{\{\s*amount_with_space_separator\s*\}\}/g, withDecimals.replace(/\./, ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' '))
       .replace(/\{\{\s*amount\s*\}\}/g, withDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 
-    /* Strip any HTML tags from Shopify's money format */
     var tmp = document.createElement('div');
     tmp.innerHTML = result;
     return tmp.textContent || tmp.innerText || result;
@@ -663,21 +837,116 @@
     return result;
   }
 
-  /* ── Refresh cart: re-render all cart-related theme sections ── */
+  /* ── Filtering ── */
+  function matchesCategory(card) {
+    if (activeCategory === 'all') return true;
+    var catConfig = CATEGORIES[activeCategory];
+    if (!catConfig) return true;
+
+    if (catConfig.type === 'product_type') {
+      return card.getAttribute('data-product-type') === catConfig.value;
+    } else if (catConfig.type === 'tag') {
+      var tags = card.getAttribute('data-tags') || '';
+      return tags.indexOf(catConfig.value) > -1;
+    } else if (catConfig.type === 'vendor') {
+      return card.getAttribute('data-vendor') === catConfig.value;
+    }
+    return true;
+  }
+
+  function matchesBrand(card) {
+    if (activeBrand === 'all') return true;
+    return card.getAttribute('data-vendor') === activeBrand;
+  }
+
+  function applyFilters() {
+    var visibleCount = 0;
+    var cardsArray = Array.prototype.slice.call(cards);
+
+    /* Show/hide based on category + brand */
+    cardsArray.forEach(function(card) {
+      if (matchesCategory(card) && matchesBrand(card)) {
+        card.classList.remove('is-hidden');
+        visibleCount++;
+      } else {
+        card.classList.add('is-hidden');
+      }
+    });
+
+    /* Sort visible cards */
+    if (activeSort !== 'default') {
+      var visible = cardsArray.filter(function(c) { return !c.classList.contains('is-hidden'); });
+
+      if (activeSort === 'price-asc') {
+        visible.sort(function(a, b) {
+          return (parseInt(a.getAttribute('data-price')) || 0) - (parseInt(b.getAttribute('data-price')) || 0);
+        });
+      } else if (activeSort === 'price-desc') {
+        visible.sort(function(a, b) {
+          return (parseInt(b.getAttribute('data-price')) || 0) - (parseInt(a.getAttribute('data-price')) || 0);
+        });
+      } else if (activeSort === 'name-asc') {
+        visible.sort(function(a, b) {
+          return (a.getAttribute('data-title') || '').localeCompare(b.getAttribute('data-title') || '', 'sv');
+        });
+      }
+
+      /* Re-append in sorted order (hidden ones stay at end) */
+      visible.forEach(function(card) {
+        grid.appendChild(card);
+      });
+    }
+
+    /* No results message */
+    if (visibleCount === 0) {
+      noResults.classList.add('is-visible');
+    } else {
+      noResults.classList.remove('is-visible');
+    }
+  }
+
+  /* ── Category buttons ── */
+  var catButtons = document.querySelectorAll('[data-cat]');
+  catButtons.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      activeCategory = btn.getAttribute('data-cat');
+      catButtons.forEach(function(b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      applyFilters();
+    }, false);
+  });
+
+  /* ── Brand dropdown ── */
+  var brandSelect = document.getElementById('bundle-filter-brand');
+  if (brandSelect) {
+    brandSelect.addEventListener('change', function() {
+      activeBrand = brandSelect.value;
+      applyFilters();
+    }, false);
+  }
+
+  /* ── Sort dropdown ── */
+  var sortSelect = document.getElementById('bundle-filter-sort');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      activeSort = sortSelect.value;
+      applyFilters();
+    }, false);
+  }
+
+  /* ── Refresh cart ── */
   function refreshCart() {
-    /* Find ALL Shopify sections on the page that might be cart-related */
     var sectionIds = [];
     var allSections = document.querySelectorAll('[id^="shopify-section-"]');
 
     allSections.forEach(function(el) {
       var id = el.id.replace('shopify-section-', '');
-      /* Include any section with "cart" or "header" in its ID */
       if (id.toLowerCase().indexOf('cart') > -1 || id.toLowerCase().indexOf('header') > -1) {
         sectionIds.push(id);
       }
     });
 
-    /* Also check if any section contains cart-count elements (catches non-obvious names) */
     var cartCountEls = document.querySelectorAll(
       '[data-cart-count], .cart-count-bubble, .cart-count, #cart-icon-bubble'
     );
@@ -691,7 +960,6 @@
 
     if (sectionIds.length === 0) return;
 
-    /* Ask Shopify to re-render those sections with fresh cart data */
     fetch(window.location.pathname + '?sections=' + sectionIds.join(','), { credentials: 'same-origin' })
       .then(function(r) { return r.json(); })
       .then(function(sections) {
@@ -765,7 +1033,6 @@
 
     totalCountEl.textContent = totalQty;
 
-    /* Savings display under progress bar */
     if (isComplete) {
       var discountCents = Math.round(totalCents * (DISCOUNT_PCT / 100));
       var finalCents = totalCents - discountCents;
@@ -787,7 +1054,6 @@
     }
   }
 
-  /* ── Add 1 item to cart ── */
   function addToCart(card) {
     if (busy) return;
     if (card.hasAttribute('data-soldout')) return;
@@ -819,7 +1085,6 @@
     });
   }
 
-  /* ── Remove 1 item from cart ── */
   function removeFromCart(card) {
     var qty = parseInt(card.getAttribute('data-qty')) || 0;
     if (qty <= 0 || busy) return;
@@ -850,7 +1115,6 @@
     });
   }
 
-  /* ── Bind click events only (no touchend — buttons handle touch natively) ── */
   cards.forEach(function(card) {
     var addBtn   = card.querySelector('[data-add-btn]');
     var plusBtn  = card.querySelector('[data-plus-btn]');
@@ -867,20 +1131,18 @@
     }
   });
 
-  /* ── On page load: sync bundle UI with what's already in the cart ── */
+  /* ── On page load: sync bundle UI with cart ── */
   fetch('/cart.js', { credentials: 'same-origin' })
     .then(function(r) { return r.json(); })
     .then(function(cart) {
       if (!cart.items || cart.items.length === 0) return;
 
-      /* Build a map of variant_id → quantity from the cart */
       var cartMap = {};
       cart.items.forEach(function(item) {
         var vid = String(item.variant_id);
         cartMap[vid] = (cartMap[vid] || 0) + item.quantity;
       });
 
-      /* Set data-qty on matching bundle cards */
       cards.forEach(function(card) {
         var vid = card.getAttribute('data-variant-id');
         if (cartMap[vid]) {
@@ -891,7 +1153,6 @@
       updateUI();
     })
     .catch(function() {
-      /* Cart fetch failed, start fresh */
       updateUI();
     });
 })();
@@ -964,7 +1225,7 @@
     {
       "type": "text",
       "id": "text_quick_add",
-      "label": "Snabblägg (bildöverlägg)",
+      "label": "Snabblägg (aria-label)",
       "default": "Tryck för att lägga till"
     },
     {
@@ -1026,6 +1287,52 @@
       "id": "text_increase",
       "label": "Aria: öka antal",
       "default": "Öka antal"
+    },
+    {
+      "type": "header",
+      "content": "Filter-texter"
+    },
+    {
+      "type": "text",
+      "id": "text_filter_all",
+      "label": "\"Alla\"-knapp",
+      "default": "Alla"
+    },
+    {
+      "type": "text",
+      "id": "text_filter_brand",
+      "label": "Varumärke dropdown",
+      "default": "Alla varumärken"
+    },
+    {
+      "type": "text",
+      "id": "text_filter_sort",
+      "label": "Sortering dropdown",
+      "default": "Sortera"
+    },
+    {
+      "type": "text",
+      "id": "text_sort_price_asc",
+      "label": "Pris: lågt → högt",
+      "default": "Pris: lågt → högt"
+    },
+    {
+      "type": "text",
+      "id": "text_sort_price_desc",
+      "label": "Pris: högt → lågt",
+      "default": "Pris: högt → lågt"
+    },
+    {
+      "type": "text",
+      "id": "text_sort_name_asc",
+      "label": "Namn: A → Ö",
+      "default": "Namn: A → Ö"
+    },
+    {
+      "type": "text",
+      "id": "text_no_results",
+      "label": "Inga resultat-text",
+      "default": "Inga produkter matchar dina filter."
     },
     {
       "type": "header",
@@ -1110,6 +1417,39 @@
       "id": "color_badge_text",
       "label": "Badge & knapptext (textfärg)",
       "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Kategori-filter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Knapptext (synligt namn)",
+          "default": "Salt"
+        },
+        {
+          "type": "select",
+          "id": "match_type",
+          "label": "Matcha mot",
+          "options": [
+            { "value": "product_type", "label": "Produkttyp" },
+            { "value": "tag", "label": "Tagg" },
+            { "value": "vendor", "label": "Varumärke" }
+          ],
+          "default": "product_type",
+          "info": "Bestämmer vilken produktegenskap filtret matchar mot."
+        },
+        {
+          "type": "text",
+          "id": "match_value",
+          "label": "Värde att matcha",
+          "default": "Salt",
+          "info": "Måste matcha exakt (produkttyp, tagg, eller varumärke). Shopify handleize:ar automatiskt."
+        }
+      ]
     }
   ],
   "presets": [
