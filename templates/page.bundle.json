@@ -46,20 +46,6 @@
     "bundle_nPJz9m": {
       "type": "Bundle",
       "blocks": {
-        "category_FqcVp6": {
-          "type": "category",
-          "settings": {
-            "label": "Blandat",
-            "collection": "blandat"
-          }
-        },
-        "category_wfqhBn": {
-          "type": "category",
-          "settings": {
-            "label": "Choklad",
-            "collection": "choklad"
-          }
-        },
         "category_7Bb99t": {
           "type": "category",
           "settings": {
@@ -73,13 +59,27 @@
             "label": "Saltlakrits",
             "collection": "saltlakrits"
           }
+        },
+        "category_wfqhBn": {
+          "type": "category",
+          "settings": {
+            "label": "Choklad",
+            "collection": "choklad"
+          }
+        },
+        "category_FqcVp6": {
+          "type": "category",
+          "settings": {
+            "label": "Blandat",
+            "collection": "blandat"
+          }
         }
       },
       "block_order": [
-        "category_FqcVp6",
-        "category_wfqhBn",
         "category_7Bb99t",
-        "category_LGrymg"
+        "category_LGrymg",
+        "category_wfqhBn",
+        "category_FqcVp6"
       ],
       "custom_css": [],
       "name": "Bundle Mix & Match",
