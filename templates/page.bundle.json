@@ -45,6 +45,42 @@
     },
     "bundle_nPJz9m": {
       "type": "Bundle",
+      "blocks": {
+        "category_FqcVp6": {
+          "type": "category",
+          "settings": {
+            "label": "Blandat",
+            "collection": "blandat"
+          }
+        },
+        "category_wfqhBn": {
+          "type": "category",
+          "settings": {
+            "label": "Choklad",
+            "collection": "choklad"
+          }
+        },
+        "category_7Bb99t": {
+          "type": "category",
+          "settings": {
+            "label": "Sötlakrits",
+            "collection": "sotlakrits"
+          }
+        },
+        "category_LGrymg": {
+          "type": "category",
+          "settings": {
+            "label": "Saltlakrits",
+            "collection": "saltlakrits"
+          }
+        }
+      },
+      "block_order": [
+        "category_FqcVp6",
+        "category_wfqhBn",
+        "category_7Bb99t",
+        "category_LGrymg"
+      ],
       "custom_css": [],
       "name": "Bundle Mix & Match",
       "settings": {
@@ -65,7 +101,15 @@
         "text_cta_go_to_cart": "Gå till varukorgen — {price}",
         "text_decrease": "Minska antal",
         "text_increase": "Öka antal",
-        "soldout_behavior": "show",
+        "text_filter_all": "Alla",
+        "text_filter_brand": "Alla varumärken",
+        "text_filter_sort": "Sortera",
+        "text_sort_price_asc": "Pris ↑",
+        "text_sort_price_desc": "Pris ↓",
+        "text_sort_name_asc": "A → Ö",
+        "text_no_results": "Inga produkter matchar dina filter.",
+        "text_showing": "Visar {count} av {total}",
+        "soldout_behavior": "hide",
         "text_soldout": "Slutsåld",
         "color_background": "#ffffff",
         "color_card_bg": "#ffffff",
