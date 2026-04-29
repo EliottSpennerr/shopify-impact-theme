@@ -20,10 +20,26 @@
             "text": "FRI FRAKT ÖVER 599 SEK",
             "url": ""
           }
+        },
+        "message_yDe87G": {
+          "type": "message",
+          "settings": {
+            "text": "2-5 vardagar leverans",
+            "url": ""
+          }
+        },
+        "message_ACnBJG": {
+          "type": "message",
+          "settings": {
+            "text": "4.7 av 5 stjärnor baserat på 1102 recensioner",
+            "url": ""
+          }
         }
       },
       "block_order": [
-        "message"
+        "message",
+        "message_yDe87G",
+        "message_ACnBJG"
       ],
       "custom_css": [
         ".bold {font-weight: 100 !important;}"
@@ -31,7 +47,7 @@
       "settings": {
         "enable_sticky": false,
         "text_size": "text-xs",
-        "navigation_mode": "arrows",
+        "navigation_mode": "scrolling",
         "scrolling_speed": 30,
         "background": "#035dc6",
         "background_gradient": "",
