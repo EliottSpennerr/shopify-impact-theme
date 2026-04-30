@@ -22,8 +22,8 @@
         "image_kxnMh6": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/AIEnhancer_lagkassa.png",
-            "content_max_width": 780,
+            "image": "shopify://shop_images/HeaderLagkassa.jpg",
+            "content_max_width": 760,
             "mobile_text_position": "place-self-center text-center",
             "desktop_text_position": "sm:place-self-center-start sm:text-start",
             "subheading": "Sälj lakrits av hög kvalitet direkt till kunder — och tjäna upp till flera tiotusentals kronor till laget. Ni säljer, vi fixar resten.",
