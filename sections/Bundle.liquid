@@ -6,7 +6,7 @@
   All UI strings translatable via Shopify Translate & Adapt.
   Prices adapt to active market via shop.money_format.
   Category filter uses Shopify collections (picked in blocks).
-  Sold-out products hidden by default.
+  Products sorted by best-selling. Sold-out hidden by default.
   Requires: Automatic discount in Shopify Admin → Discounts.
   ============================================================
 {% endcomment %}
@@ -48,26 +48,17 @@
   .bundle-progress-top__savings { font-size: 0.85rem; color: var(--bundle-success); font-weight: 600; margin-top: 10px; opacity: 0; transform: translateY(-4px); transition: opacity 0.3s ease, transform 0.3s ease; }
   .bundle-progress-top__savings.is-visible { opacity: 1; transform: translateY(0); }
 
-  /* ── Filters ── */
+  /* ── Category tabs ── */
   .bundle-filters { margin-bottom: 24px; }
-  .bundle-filters__tabs { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 0 12px; margin-bottom: 12px; border-bottom: 1px solid var(--bundle-border); }
+  .bundle-filters__tabs { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 0 4px; }
   .bundle-filters__tabs::-webkit-scrollbar { display: none; }
   .bundle-filters__tab { flex-shrink: 0; padding: 9px 20px; border-radius: 8px; border: none; background: transparent; color: var(--bundle-text-muted); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; -webkit-appearance: none; touch-action: manipulation; line-height: 1.3; }
   .bundle-filters__tab:hover { color: var(--bundle-text); background: rgba(0,0,0,0.03); }
   .bundle-filters__tab.is-active { background: var(--bundle-accent); color: #fff; font-weight: 600; }
-  .bundle-filters__row { display: flex; gap: 8px; align-items: center; }
-  .bundle-filters__dropdown { flex: 0 1 auto; }
-  .bundle-filters__select { padding: 9px 36px 9px 14px; border-radius: 8px; border: 1.5px solid var(--bundle-border); background: var(--bundle-card-bg); color: var(--bundle-text); font-size: 0.82rem; font-weight: 500; cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b6b6b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; transition: border-color 0.2s ease; width: 100%; }
-  .bundle-filters__select:focus { outline: none; border-color: var(--bundle-accent); }
-  .bundle-filters__select.has-filter { border-color: var(--bundle-accent); color: var(--bundle-accent); font-weight: 600; }
-  .bundle-filters__count { font-size: 0.8rem; color: var(--bundle-text-muted); margin-left: auto; white-space: nowrap; flex-shrink: 0; }
   .bundle-filters__no-results { text-align: center; padding: 48px 20px; color: var(--bundle-text-muted); font-size: 0.95rem; grid-column: 1/-1; display: none; }
   .bundle-filters__no-results.is-visible { display: block; }
   @media (max-width: 640px) {
     .bundle-filters__tab { padding: 8px 14px; font-size: 0.78rem; }
-    .bundle-filters__select { font-size: 0.78rem; padding: 8px 32px 8px 12px; }
-    .bundle-filters__count { display: none; }
-    .bundle-filters__dropdown { flex: 1; min-width: 0; }
   }
 
   /* ── Grid ── */
@@ -148,9 +139,8 @@
       <div class="bundle-progress-top__savings" id="bundle-savings-text"></div>
     </div>
 
-    {%- comment -%} ── FILTERS ── {%- endcomment -%}
-    <div class="bundle-filters">
-      {%- if section.blocks.size > 0 -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="bundle-filters">
         <div class="bundle-filters__tabs">
           <button type="button" class="bundle-filters__tab is-active" data-cat="all">{{ section.settings.text_filter_all }}</button>
           {%- for block in section.blocks -%}
@@ -161,47 +151,15 @@
             {%- endif -%}
           {%- endfor -%}
         </div>
-      {%- endif -%}
-
-      <div class="bundle-filters__row">
-        {%- assign bundle_products_v = collections[section.settings.collection].products | default: collections['all'].products -%}
-        {%- assign vendors = '' -%}
-        {%- for product in bundle_products_v limit: section.settings.max_products -%}
-          {%- if product.available -%}
-            {%- unless vendors contains product.vendor -%}
-              {%- if vendors == '' -%}{%- assign vendors = product.vendor -%}{%- else -%}{%- assign vendors = vendors | append: '|||' | append: product.vendor -%}{%- endif -%}
-            {%- endunless -%}
-          {%- endif -%}
-        {%- endfor -%}
-        {%- assign vendor_list = vendors | split: '|||' | sort -%}
-
-        <div class="bundle-filters__dropdown">
-          <select class="bundle-filters__select" id="bundle-filter-brand">
-            <option value="all">{{ section.settings.text_filter_brand }}</option>
-            {%- for vendor in vendor_list -%}
-              <option value="{{ vendor | handleize }}">{{ vendor }}</option>
-            {%- endfor -%}
-          </select>
-        </div>
-        <div class="bundle-filters__dropdown">
-          <select class="bundle-filters__select" id="bundle-filter-sort">
-            <option value="default">{{ section.settings.text_filter_sort }}</option>
-            <option value="price-asc">{{ section.settings.text_sort_price_asc }}</option>
-            <option value="price-desc">{{ section.settings.text_sort_price_desc }}</option>
-            <option value="name-asc">{{ section.settings.text_sort_name_asc }}</option>
-          </select>
-        </div>
-        <span class="bundle-filters__count" id="bundle-visible-count"></span>
       </div>
-    </div>
+    {%- endif -%}
 
-    {%- comment -%} ── PRODUCT GRID ── {%- endcomment -%}
     <div class="bundle-grid" id="bundle-grid">
       {%- assign bundle_collection = collections[section.settings.collection] -%}
       {%- if section.settings.collection == blank or bundle_collection == blank -%}
-        {%- assign bundle_products = collections['all'].products -%}
+        {%- assign bundle_products = collections['all'].products | sort: 'best-selling' -%}
       {%- else -%}
-        {%- assign bundle_products = bundle_collection.products -%}
+        {%- assign bundle_products = bundle_collection.products | sort: 'best-selling' -%}
       {%- endif -%}
 
       {%- for product in bundle_products limit: section.settings.max_products -%}
@@ -217,7 +175,6 @@
              data-variant-id="{{ first_variant.id }}"
              data-price="{{ first_variant.price }}"
              data-title="{{ product.title | escape }}"
-             data-vendor="{{ product.vendor | handleize }}"
              data-collections="{% for col in product.collections %}{{ col.handle }}{% unless forloop.last %},{% endunless %}{% endfor %}"
              data-qty="0"
              {% if is_soldout %}data-soldout="true"{% endif %}>
@@ -281,8 +238,7 @@
     ctaRemaining:      {{ section.settings.text_cta_remaining | json }},
     ctaGoToCart:        {{ section.settings.text_cta_go_to_cart | json }},
     selected:          {{ section.settings.text_selected | json }},
-    youSave:           {{ section.settings.text_you_save | json }},
-    showing:           {{ section.settings.text_showing | json }}
+    youSave:           {{ section.settings.text_you_save | json }}
   };
 
   var progressText = document.getElementById('bundle-progress-text');
@@ -292,13 +248,9 @@
   var ctaText      = document.getElementById('bundle-cta-text');
   var grid         = document.getElementById('bundle-grid');
   var noResults    = document.getElementById('bundle-no-results');
-  var countDisplay = document.getElementById('bundle-visible-count');
   var cards        = document.querySelectorAll('[data-bundle-card]');
   var busy         = false;
-
-  var activeCat   = 'all';
-  var activeBrand = 'all';
-  var activeSort  = 'default';
+  var activeCat    = 'all';
 
   function formatMoney(cents) {
     var v = cents / 100, n = Math.round(v).toString(), d = v.toFixed(2);
@@ -316,55 +268,27 @@
 
   function t(s, data) { var r = s; for (var k in data) r = r.split('{'+k+'}').join(data[k]); return r; }
 
-  /* ── Filtering by collection handle ── */
-  function matchesCat(card) {
-    if (activeCat === 'all') return true;
-    var cols = (card.getAttribute('data-collections') || '').split(',');
-    return cols.indexOf(activeCat) > -1;
-  }
-  function matchesBrand(card) {
-    if (activeBrand === 'all') return true;
-    return card.getAttribute('data-vendor') === activeBrand;
-  }
-
-  function applyFilters() {
-    var cnt = 0, arr = Array.prototype.slice.call(cards);
-    arr.forEach(function(c) {
-      if (matchesCat(c) && matchesBrand(c)) { c.classList.remove('is-hidden'); cnt++; }
+  /* ── Category filter ── */
+  function applyFilter() {
+    var cnt = 0;
+    cards.forEach(function(c) {
+      if (activeCat === 'all') { c.classList.remove('is-hidden'); cnt++; return; }
+      var cols = (c.getAttribute('data-collections') || '').split(',');
+      if (cols.indexOf(activeCat) > -1) { c.classList.remove('is-hidden'); cnt++; }
       else { c.classList.add('is-hidden'); }
     });
-    if (activeSort !== 'default') {
-      var vis = arr.filter(function(c) { return !c.classList.contains('is-hidden'); });
-      if (activeSort === 'price-asc') vis.sort(function(a,b) { return (parseInt(a.getAttribute('data-price'))||0)-(parseInt(b.getAttribute('data-price'))||0); });
-      else if (activeSort === 'price-desc') vis.sort(function(a,b) { return (parseInt(b.getAttribute('data-price'))||0)-(parseInt(a.getAttribute('data-price'))||0); });
-      else if (activeSort === 'name-asc') vis.sort(function(a,b) { return (a.getAttribute('data-title')||'').localeCompare(b.getAttribute('data-title')||'','sv'); });
-      vis.forEach(function(c) { grid.appendChild(c); });
-    }
     noResults.classList.toggle('is-visible', cnt === 0);
-    if (countDisplay) {
-      countDisplay.textContent = (activeCat !== 'all' || activeBrand !== 'all') ? t(S.showing, { count: cnt, total: arr.length }) : '';
-    }
-    var bs = document.getElementById('bundle-filter-brand');
-    if (bs) bs.classList.toggle('has-filter', activeBrand !== 'all');
-    var ss = document.getElementById('bundle-filter-sort');
-    if (ss) ss.classList.toggle('has-filter', activeSort !== 'default');
   }
 
-  /* ── Category tab clicks ── */
   document.querySelectorAll('[data-cat]').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
       activeCat = btn.getAttribute('data-cat');
       document.querySelectorAll('[data-cat]').forEach(function(b) { b.classList.remove('is-active'); });
       btn.classList.add('is-active');
-      applyFilters();
+      applyFilter();
     }, false);
   });
-
-  var brandSel = document.getElementById('bundle-filter-brand');
-  if (brandSel) brandSel.addEventListener('change', function() { activeBrand = brandSel.value; applyFilters(); }, false);
-  var sortSel = document.getElementById('bundle-filter-sort');
-  if (sortSel) sortSel.addEventListener('change', function() { activeSort = sortSel.value; applyFilters(); }, false);
 
   /* ── Cart refresh ── */
   function refreshCart() {
@@ -481,15 +405,9 @@
     { "type": "text", "id": "text_cta_go_to_cart", "label": "CTA (checkout)", "default": "Gå till kassan — {price}", "info": "{price} = pris med rabatt" },
     { "type": "text", "id": "text_decrease", "label": "Aria: minska", "default": "Minska antal" },
     { "type": "text", "id": "text_increase", "label": "Aria: öka", "default": "Öka antal" },
-    { "type": "header", "content": "Filter" },
+    { "type": "header", "content": "Kategorifilter" },
     { "type": "text", "id": "text_filter_all", "label": "Alla-knapp", "default": "Alla" },
-    { "type": "text", "id": "text_filter_brand", "label": "Varumärke placeholder", "default": "Alla varumärken" },
-    { "type": "text", "id": "text_filter_sort", "label": "Sortering placeholder", "default": "Sortera" },
-    { "type": "text", "id": "text_sort_price_asc", "label": "Pris lågt → högt", "default": "Pris ↑" },
-    { "type": "text", "id": "text_sort_price_desc", "label": "Pris högt → lågt", "default": "Pris ↓" },
-    { "type": "text", "id": "text_sort_name_asc", "label": "Namn A → Ö", "default": "A → Ö" },
-    { "type": "text", "id": "text_no_results", "label": "Inga resultat", "default": "Inga produkter matchar dina filter." },
-    { "type": "text", "id": "text_showing", "label": "Visar x av y", "default": "Visar {count} av {total}", "info": "{count} = synliga, {total} = alla" },
+    { "type": "text", "id": "text_no_results", "label": "Inga resultat", "default": "Inga produkter matchar ditt filter." },
     { "type": "header", "content": "Slutsålda produkter" },
     { "type": "select", "id": "soldout_behavior", "label": "Hantering", "options": [{ "value": "hide", "label": "Dölj helt" }, { "value": "show", "label": "Visa (gråad)" }], "default": "hide" },
     { "type": "text", "id": "text_soldout", "label": "Slutsåld-text", "default": "Slutsåld" },
