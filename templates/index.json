@@ -9,35 +9,69 @@
  */
 {
   "sections": {
-    "slideshow": {
-      "type": "slideshow",
+    "17776174390df7b094": {
+      "type": "_blocks",
       "blocks": {
-        "image_GpeHXQ": {
-          "type": "image",
+        "ai_gen_block_109d8be_j3zKXd": {
+          "type": "ai_gen_block_109d8be",
           "settings": {
-            "image": "shopify://shop_images/Finsklakritsheader.jpg",
-            "mobile_image": "shopify://shop_images/HeadermobileFl.jpg",
-            "content_max_width": 760,
-            "mobile_text_position": "place-self-end-start text-start",
-            "desktop_text_position": "sm:place-self-end-start sm:text-start",
-            "subheading": "",
-            "title": "Premiumlakrits från Finland.",
-            "heading_tag": "h1",
-            "button_text": "Köp nu",
-            "button_link": "shopify://pages/mix-match",
-            "text_color": "#ffffff",
-            "button_background": "#005dc6",
-            "button_text_color": "#ffffff",
+            "layout": "center",
+            "show_button": true,
+            "section_height_mobile": 500,
+            "section_height_desktop": 550,
             "overlay_color": "#000000",
-            "overlay_opacity": 15,
-            "background": "",
-            "background_gradient": ""
-          }
+            "overlay_opacity": 0.3,
+            "show_arrows": false,
+            "arrow_style": "circle",
+            "arrow_size": 36,
+            "arrow_background": "#ffffff",
+            "arrow_color": "#000000",
+            "eyebrow_color": "#ffffff",
+            "eyebrow_size_mobile": 12,
+            "eyebrow_size_desktop": 14,
+            "title_color": "#ffffff",
+            "title_size_mobile": 32,
+            "title_size_desktop": 56,
+            "title_button_spacing": 20,
+            "button_color": "#005dc6",
+            "button_text_color": "#ffffff",
+            "button_size_mobile": 14,
+            "button_size_desktop": 16,
+            "autoplay": true,
+            "autoplay_delay": 5,
+            "slide_1_image": "shopify://shop_images/Finsklakritsheader.jpg",
+            "slide_1_eyebrow": "Premium lakrits från Finland.",
+            "slide_1_title": "Upptäck vårt sortiment",
+            "slide_1_button_text": "Köp nu",
+            "slide_1_button_link": "shopify://collections/alla-produkter",
+            "slide_2_image": "shopify://shop_images/Finsklakritshero.jpg",
+            "slide_2_eyebrow": "Mix & Match",
+            "slide_2_title": "Upp till 10% rabatt",
+            "slide_2_button_text": "Köpt nu",
+            "slide_2_button_link": "shopify://pages/mix-match",
+            "slide_3_eyebrow": "",
+            "slide_3_title": "",
+            "slide_3_button_text": "",
+            "slide_3_button_link": "",
+            "slide_4_eyebrow": "",
+            "slide_4_title": "",
+            "slide_4_button_text": "",
+            "slide_4_button_link": "",
+            "slide_5_eyebrow": "",
+            "slide_5_title": "",
+            "slide_5_button_text": "",
+            "slide_5_button_link": ""
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "image_GpeHXQ"
+        "ai_gen_block_109d8be_j3zKXd"
       ],
+      "settings": {}
+    },
+    "slideshow": {
+      "type": "slideshow",
       "custom_css": [],
       "settings": {
         "full_width": true,
@@ -531,6 +565,7 @@
     }
   },
   "order": [
+    "17776174390df7b094",
     "slideshow",
     "featured_collection_wTPiPH",
     "image-with-text-overlay",
