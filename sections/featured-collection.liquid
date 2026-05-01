@@ -9,9 +9,6 @@
     {%- assign card_blends = true -%}
   {%- endunless -%}
 
-    #shopify-section-{{ section.id }} {
-    padding-top: 24px !important;
-  }
 
   #shopify-section-{{ section.id }} .product-list {
     --product-list-gap: {% if section.settings.stack_products and section.settings.products_per_row_mobile == '2' %}{% if card_blends %}var(--product-list-row-gap){% endif %} var(--spacing-2){% else %}var(--product-list-row-gap) var(--product-list-column-gap){% endif %};
