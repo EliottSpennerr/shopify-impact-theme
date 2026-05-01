@@ -86,6 +86,8 @@
             "text_color": "#00234a",
             "text_hover_color": "#005dc6",
             "shape_background_tint": "#ffffff",
+            "image_hover_color": "#005dc6",
+            "image_hover_opacity": 20,
             "text_size": 16,
             "text_weight": "700",
             "collection_1": "alla-produkter",
