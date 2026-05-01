@@ -37,7 +37,7 @@
             "button_text_color": "#ffffff",
             "button_size_mobile": 14,
             "button_size_desktop": 16,
-            "autoplay": true,
+            "autoplay": false,
             "autoplay_delay": 5,
             "slide_1_image": "shopify://shop_images/Finsklakritsheader.jpg",
             "slide_1_eyebrow": "Premium lakrits från Finland.",
