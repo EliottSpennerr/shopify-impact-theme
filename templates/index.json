@@ -70,6 +70,49 @@
       ],
       "settings": {}
     },
+    "17776209505af8f849": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_81e3cc7_9B3hP7": {
+          "type": "ai_gen_block_81e3cc7",
+          "settings": {
+            "alignment": "center",
+            "top_curve_radius": 40,
+            "image_size": 130,
+            "item_spacing": 30,
+            "use_global_shape": true,
+            "global_shape": "blob",
+            "background_color": "#f0f0f0",
+            "text_color": "#00234a",
+            "text_hover_color": "#005dc6",
+            "shape_background_tint": "#ffffff",
+            "text_size": 16,
+            "text_weight": "700",
+            "collection_1": "alla-produkter",
+            "shape_1": "circle",
+            "collection_2": "big-pack",
+            "shape_2": "circle",
+            "collection_3": "choklad",
+            "shape_3": "circle",
+            "collection_4": "saltlakrits",
+            "shape_4": "circle",
+            "collection_5": "sotlakrits",
+            "shape_5": "circle",
+            "collection_6": "blandat",
+            "shape_6": "circle",
+            "collection_7": "",
+            "shape_7": "circle",
+            "collection_8": "",
+            "shape_8": "circle"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_81e3cc7_9B3hP7"
+      ],
+      "settings": {}
+    },
     "slideshow": {
       "type": "slideshow",
       "custom_css": [],
@@ -566,6 +609,7 @@
   },
   "order": [
     "17776174390df7b094",
+    "17776209505af8f849",
     "slideshow",
     "featured_collection_wTPiPH",
     "image-with-text-overlay",
