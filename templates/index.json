@@ -79,7 +79,7 @@
             "alignment": "center",
             "top_curve_radius": 40,
             "image_size": 130,
-            "item_spacing": 30,
+            "item_spacing": 40,
             "use_global_shape": true,
             "global_shape": "blob",
             "background_color": "#f0f0f0",
