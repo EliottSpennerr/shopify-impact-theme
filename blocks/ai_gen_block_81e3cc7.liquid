@@ -5,6 +5,14 @@
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
 {% style %}
+
+.ai-collection-grid-container-{{ ai_gen_id }} {
+  scrollbar-width: none;
+}
+
+.ai-collection-grid-container-{{ ai_gen_id }}::-webkit-scrollbar {
+  display: none;
+}
   .ai-collection-grid-{{ ai_gen_id }} {
     position: relative;
     background-color: {{ block.settings.background_color }};
