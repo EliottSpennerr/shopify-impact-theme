@@ -7,12 +7,13 @@
 {% style %}
 
 .ai-collection-grid-container-{{ ai_gen_id }} {
-  scrollbar-width: none!important;
+  scrollbar-width: none !important;
 }
 
 .ai-collection-grid-container-{{ ai_gen_id }}::-webkit-scrollbar {
-  display: none!important;
+  display: none !important;
 }
+
   .ai-collection-grid-{{ ai_gen_id }} {
     position: relative;
     background-color: {{ block.settings.background_color }};
@@ -29,21 +30,6 @@
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: {{ block.settings.text_color }}33 transparent;
-  }
-
-  .ai-collection-grid-container-{{ ai_gen_id }}::-webkit-scrollbar {
-    height: 8px;
-  }
-
-  .ai-collection-grid-container-{{ ai_gen_id }}::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .ai-collection-grid-container-{{ ai_gen_id }}::-webkit-scrollbar-thumb {
-    background-color: {{ block.settings.text_color }}33;
-    border-radius: 4px;
   }
 
   .ai-collection-grid-row-{{ ai_gen_id }} {
@@ -73,6 +59,19 @@
     height: {{ block.settings.image_size }}px;
     overflow: hidden;
     background-color: {{ block.settings.shape_background_tint }};
+  }
+
+  .ai-collection-grid-image-wrapper-{{ ai_gen_id }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: {{ block.settings.image_hover_color }};
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-collection-grid-item-{{ ai_gen_id }}:hover .ai-collection-grid-image-wrapper-{{ ai_gen_id }}::after {
+    opacity: {{ block.settings.image_hover_opacity | divided_by: 100.0 }};
   }
 
   .ai-collection-grid-image-wrapper-{{ ai_gen_id }}.shape-circle {
@@ -379,6 +378,22 @@
       "default": "#ffffff"
     },
     {
+      "type": "color",
+      "id": "image_hover_color",
+      "label": "Image hover overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "image_hover_opacity",
+      "label": "Image hover overlay opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    },
+    {
       "type": "header",
       "content": "Typography"
     },
@@ -435,30 +450,12 @@
       "label": "Shape",
       "info": "Only applies if global shape is disabled",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "rounded-square",
-          "label": "Rounded square"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "pill",
-          "label": "Pill"
-        },
-        {
-          "value": "hexagon",
-          "label": "Hexagon"
-        },
-        {
-          "value": "blob",
-          "label": "Organic blob"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "rounded-square", "label": "Rounded square" },
+        { "value": "square", "label": "Square" },
+        { "value": "pill", "label": "Pill" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "blob", "label": "Organic blob" }
       ],
       "default": "circle"
     },
@@ -477,30 +474,12 @@
       "label": "Shape",
       "info": "Only applies if global shape is disabled",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "rounded-square",
-          "label": "Rounded square"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "pill",
-          "label": "Pill"
-        },
-        {
-          "value": "hexagon",
-          "label": "Hexagon"
-        },
-        {
-          "value": "blob",
-          "label": "Organic blob"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "rounded-square", "label": "Rounded square" },
+        { "value": "square", "label": "Square" },
+        { "value": "pill", "label": "Pill" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "blob", "label": "Organic blob" }
       ],
       "default": "circle"
     },
@@ -519,30 +498,12 @@
       "label": "Shape",
       "info": "Only applies if global shape is disabled",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "rounded-square",
-          "label": "Rounded square"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "pill",
-          "label": "Pill"
-        },
-        {
-          "value": "hexagon",
-          "label": "Hexagon"
-        },
-        {
-          "value": "blob",
-          "label": "Organic blob"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "rounded-square", "label": "Rounded square" },
+        { "value": "square", "label": "Square" },
+        { "value": "pill", "label": "Pill" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "blob", "label": "Organic blob" }
       ],
       "default": "circle"
     },
@@ -561,30 +522,12 @@
       "label": "Shape",
       "info": "Only applies if global shape is disabled",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "rounded-square",
-          "label": "Rounded square"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "pill",
-          "label": "Pill"
-        },
-        {
-          "value": "hexagon",
-          "label": "Hexagon"
-        },
-        {
-          "value": "blob",
-          "label": "Organic blob"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "rounded-square", "label": "Rounded square" },
+        { "value": "square", "label": "Square" },
+        { "value": "pill", "label": "Pill" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "blob", "label": "Organic blob" }
       ],
       "default": "circle"
     },
@@ -603,30 +546,12 @@
       "label": "Shape",
       "info": "Only applies if global shape is disabled",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "rounded-square",
-          "label": "Rounded square"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "pill",
-          "label": "Pill"
-        },
-        {
-          "value": "hexagon",
-          "label": "Hexagon"
-        },
-        {
-          "value": "blob",
-          "label": "Organic blob"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "rounded-square", "label": "Rounded square" },
+        { "value": "square", "label": "Square" },
+        { "value": "pill", "label": "Pill" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "blob", "label": "Organic blob" }
       ],
       "default": "circle"
     },
@@ -645,30 +570,12 @@
       "label": "Shape",
       "info": "Only applies if global shape is disabled",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "rounded-square",
-          "label": "Rounded square"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "pill",
-          "label": "Pill"
-        },
-        {
-          "value": "hexagon",
-          "label": "Hexagon"
-        },
-        {
-          "value": "blob",
-          "label": "Organic blob"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "rounded-square", "label": "Rounded square" },
+        { "value": "square", "label": "Square" },
+        { "value": "pill", "label": "Pill" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "blob", "label": "Organic blob" }
       ],
       "default": "circle"
     },
@@ -687,30 +594,12 @@
       "label": "Shape",
       "info": "Only applies if global shape is disabled",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "rounded-square",
-          "label": "Rounded square"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "pill",
-          "label": "Pill"
-        },
-        {
-          "value": "hexagon",
-          "label": "Hexagon"
-        },
-        {
-          "value": "blob",
-          "label": "Organic blob"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "rounded-square", "label": "Rounded square" },
+        { "value": "square", "label": "Square" },
+        { "value": "pill", "label": "Pill" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "blob", "label": "Organic blob" }
       ],
       "default": "circle"
     },
@@ -729,30 +618,12 @@
       "label": "Shape",
       "info": "Only applies if global shape is disabled",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "rounded-square",
-          "label": "Rounded square"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "pill",
-          "label": "Pill"
-        },
-        {
-          "value": "hexagon",
-          "label": "Hexagon"
-        },
-        {
-          "value": "blob",
-          "label": "Organic blob"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "rounded-square", "label": "Rounded square" },
+        { "value": "square", "label": "Square" },
+        { "value": "pill", "label": "Pill" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "blob", "label": "Organic blob" }
       ],
       "default": "circle"
     }
