@@ -1,6 +1,6 @@
 {% doc %}
   @prompt
-    Create a hero banner section with a carousel/slideshow. Each slide should have a background image that fills the full width. On top of the image, display two text elements: a small eyebrow title above and a large bold title below. Both texts should be editable in the theme customizer. Add an option in the customizer to switch the layout so the large title appears centered in the middle of the image instead. Add another option to replace the large title with a CTA button — the button text and link should also be editable. The carousel should have manual navigation with previous and next arrows, and dot indicators showing which slide is active. The section height should be adjustable in the customizer. Text color, button color and button text color should all be customizable., No add cta button under title dont remove the title when enableing the cta, Autoplay fungerar inte om jag enablar den så fortsätter den ändå. Säkerställ att den fungerar samt ta bort eller gör så jag kan välja hur arrows storlek ska vara eller om dem ska visas alltså dem som är på sidorna som indikerar att man ska slidea , Gör så jag kan ändra färg på titel, lägga overlay ovanför bilden samt ändra färg och storlek på titel. och knapparna , Lägg cta precis ovanför bulletpoints så den är bottom., Låt mig avgöra avstånden från knapp från text distance. Drag-funktion för att slidea.
+    Create a hero banner section with a carousel/slideshow. Each slide should have a background image that fills the full width. On top of the image, display two text elements: a small eyebrow title above and a large bold title below. Both texts should be editable in the theme customizer. Add an option in the customizer to switch the layout so the large title appears centered in the middle of the image instead. Add another option to replace the large title with a CTA button — the button text and link should also be editable. The carousel should have manual navigation with previous and next arrows, and dot indicators showing which slide is active. The section height should be adjustable in the customizer. Text color, button color and button text color should all be customizable., No add cta button under title dont remove the title when enableing the cta, Autoplay fungerar inte om jag enablar den så fortsätter den ändå. Säkerställ att den fungerar samt ta bort eller gör så jag kan välja hur arrows storlek ska vara eller om dem ska visas alltså dem som är på sidorna som indikerar att man ska slidea , Gör så jag kan ändra färg på titel, lägga overlay ovanför bilden samt ändra färg och storlek på titel. och knapparna , Lägg cta precis ovanför bulletpoints så den är bottom., Låt mig avgöra avstånden från knapp från text distance. 
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
@@ -11,13 +11,6 @@
     width: 100%;
     height: {{ block.settings.section_height_mobile }}px;
     overflow: hidden;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-  .ai-hero-carousel-{{ ai_gen_id }}.is-dragging {
-    cursor: grabbing;
   }
 
   @media screen and (min-width: 750px) {
@@ -31,7 +24,6 @@
     width: 100%;
     height: 100%;
   }
-
   .ai-hero-carousel__slide-{{ ai_gen_id }} {
     position: absolute;
     top: 0;
@@ -52,8 +44,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    pointer-events: none;
-    draggable: false;
   }
 
   .ai-hero-carousel__slide-placeholder-{{ ai_gen_id }} {
@@ -92,16 +82,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     padding: 40px 20px 80px;
-    pointer-events: none;
   }
 
   .ai-hero-carousel__content-wrapper-{{ ai_gen_id }} {
     max-width: 800px;
     width: 100%;
     text-align: center;
-    pointer-events: auto;
   }
 
   .ai-hero-carousel__content-wrapper-{{ ai_gen_id }}--left {
@@ -210,7 +198,7 @@
 
   .ai-hero-carousel__dots-{{ ai_gen_id }} {
     position: absolute;
-    bottom: 20px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -266,7 +254,6 @@
               width="{{ slide_image.width }}"
               height="{{ slide_image.height }}"
               class="ai-hero-carousel__slide-image-{{ ai_gen_id }}"
-              draggable="false"
             >
           {% else %}
             <div class="ai-hero-carousel__slide-placeholder-{{ ai_gen_id }}">
@@ -320,17 +307,8 @@
         super();
         this.currentSlide = 0;
         this.slides = [];
-        this.dots = [];
         this.autoplayInterval = null;
         this.autoplayEnabled = false;
-        this.autoplayDelay = 5000;
-
-        // Drag state
-        this.dragStartX = 0;
-        this.dragStartY = 0;
-        this.isDragging = false;
-        this.dragThreshold = 50;
-        this.hasMoved = false;
       }
 
       connectedCallback() {
@@ -345,9 +323,8 @@
         this.autoplayDelay = {{ block.settings.autoplay_delay | json }} * 1000;
 
         this.createDots();
-        this.setupArrowListeners();
-        this.setupDragListeners();
-
+        this.setupEventListeners();
+        
         if (this.autoplayEnabled && this.slides.length > 1) {
           this.startAutoplay();
         }
@@ -355,12 +332,10 @@
 
       disconnectedCallback() {
         this.stopAutoplay();
-        window.removeEventListener('mousemove', this._onMouseMove);
-        window.removeEventListener('mouseup', this._onMouseUp);
       }
 
       createDots() {
-        this.slides.forEach((_, index) => {
+        this.slides.forEach((slide, index) => {
           const dot = document.createElement('button');
           dot.classList.add('ai-hero-carousel__dot-{{ ai_gen_id }}');
           if (index === 0) dot.classList.add('active');
@@ -368,116 +343,59 @@
           dot.addEventListener('click', () => {
             this.stopAutoplay();
             this.goToSlide(index);
-            if (this.autoplayEnabled) this.startAutoplay();
+            if (this.autoplayEnabled) {
+              this.startAutoplay();
+            }
           });
           this.dotsContainer.appendChild(dot);
         });
         this.dots = Array.from(this.dotsContainer.querySelectorAll('.ai-hero-carousel__dot-{{ ai_gen_id }}'));
       }
 
-      setupArrowListeners() {
+      setupEventListeners() {
         this.prevButton.addEventListener('click', () => {
           this.stopAutoplay();
           this.previousSlide();
-          if (this.autoplayEnabled) this.startAutoplay();
+          if (this.autoplayEnabled) {
+            this.startAutoplay();
+          }
         });
 
         this.nextButton.addEventListener('click', () => {
           this.stopAutoplay();
           this.nextSlide();
-          if (this.autoplayEnabled) this.startAutoplay();
-        });
-      }
-
-      setupDragListeners() {
-        // Mouse
-        this.addEventListener('mousedown', (e) => {
-          // Don't intercept clicks on buttons or links
-          if (e.target.closest('a, button')) return;
-          this.startDrag(e.clientX, e.clientY);
-        });
-
-        this._onMouseMove = (e) => {
-          if (!this.isDragging) return;
-          const dx = Math.abs(e.clientX - this.dragStartX);
-          if (dx > 5) this.hasMoved = true;
-        };
-
-        this._onMouseUp = (e) => {
-          if (!this.isDragging) return;
-          this.endDrag(e.clientX);
-        };
-
-        window.addEventListener('mousemove', this._onMouseMove);
-        window.addEventListener('mouseup', this._onMouseUp);
-
-        // Touch
-        this.addEventListener('touchstart', (e) => {
-          if (e.target.closest('a, button')) return;
-          this.startDrag(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: true });
-
-        this.addEventListener('touchmove', (e) => {
-          if (!this.isDragging) return;
-          const dx = Math.abs(e.touches[0].clientX - this.dragStartX);
-          if (dx > 5) this.hasMoved = true;
-        }, { passive: true });
-
-        this.addEventListener('touchend', (e) => {
-          if (!this.isDragging) return;
-          this.endDrag(e.changedTouches[0].clientX);
-        });
-      }
-
-      startDrag(x, y) {
-        this.isDragging = true;
-        this.hasMoved = false;
-        this.dragStartX = x;
-        this.dragStartY = y;
-        this.classList.add('is-dragging');
-        this.stopAutoplay();
-      }
-
-      endDrag(x) {
-        if (!this.isDragging) return;
-        this.isDragging = false;
-        this.classList.remove('is-dragging');
-
-        const deltaX = x - this.dragStartX;
-
-        if (this.hasMoved && Math.abs(deltaX) >= this.dragThreshold) {
-          if (deltaX < 0) {
-            this.nextSlide();
-          } else {
-            this.previousSlide();
+          if (this.autoplayEnabled) {
+            this.startAutoplay();
           }
-        }
-
-        if (this.autoplayEnabled) this.startAutoplay();
+        });
       }
 
       goToSlide(index) {
-        if (this.slides[this.currentSlide]) this.slides[this.currentSlide].classList.remove('active');
-        if (this.dots[this.currentSlide]) this.dots[this.currentSlide].classList.remove('active');
+        this.slides[this.currentSlide].classList.remove('active');
+        this.dots[this.currentSlide].classList.remove('active');
 
         this.currentSlide = index;
 
-        if (this.slides[this.currentSlide]) this.slides[this.currentSlide].classList.add('active');
-        if (this.dots[this.currentSlide]) this.dots[this.currentSlide].classList.add('active');
+        this.slides[this.currentSlide].classList.add('active');
+        this.dots[this.currentSlide].classList.add('active');
       }
 
       nextSlide() {
-        this.goToSlide((this.currentSlide + 1) % this.slides.length);
+        const nextIndex = (this.currentSlide + 1) % this.slides.length;
+        this.goToSlide(nextIndex);
       }
 
       previousSlide() {
-        this.goToSlide((this.currentSlide - 1 + this.slides.length) % this.slides.length);
+        const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+        this.goToSlide(prevIndex);
       }
 
       startAutoplay() {
         this.stopAutoplay();
         if (this.autoplayEnabled && this.slides.length > 1) {
-          this.autoplayInterval = setInterval(() => this.nextSlide(), this.autoplayDelay);
+          this.autoplayInterval = setInterval(() => {
+            this.nextSlide();
+          }, this.autoplayDelay);
         }
       }
 
@@ -489,9 +407,7 @@
       }
     }
 
-    if (!customElements.get('hero-carousel-{{ ai_gen_id }}')) {
-      customElements.define('hero-carousel-{{ ai_gen_id }}', HeroCarousel{{ ai_gen_id }});
-    }
+    customElements.define('hero-carousel-{{ ai_gen_id }}', HeroCarousel{{ ai_gen_id }});
   })();
 </script>
 
@@ -509,8 +425,14 @@
       "id": "layout",
       "label": "Content layout",
       "options": [
-        { "value": "center", "label": "Center" },
-        { "value": "left", "label": "Left" }
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
       ],
       "default": "left"
     },
@@ -574,8 +496,14 @@
       "id": "arrow_style",
       "label": "Arrow style",
       "options": [
-        { "value": "circle", "label": "Circle" },
-        { "value": "square", "label": "Square" }
+        {
+          "value": "circle",
+          "label": "Circle"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
       ],
       "default": "circle"
     },
