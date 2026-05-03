@@ -65,7 +65,7 @@
         "logo_mobile_max_width": 80,
         "search_placeholder": "Sök produkter...",
         "menu": "main-menu",
-        "desktop_nav_menu": "footer",
+        "desktop_nav_menu": "",
         "sidebar_menu": "main-menu",
         "secondary_menu": "",
         "menu_open_trigger": "click",
