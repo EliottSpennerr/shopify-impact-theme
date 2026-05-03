@@ -6,9 +6,20 @@
 
 {%- assign active_filters = search.filters | where: 'active_values' -%}
 
+{%- comment -%}
+  Dela upp resultat per typ så vi kan visa korrekta rakningar i pills.
+  search.results innehaller alla typer nar inget type-param skickas.
+{%- endcomment -%}
+{%- assign product_results = search.results | where: 'object_type', 'product' -%}
+{%- assign article_results = search.results | where: 'object_type', 'article' -%}
+{%- assign page_results    = search.results | where: 'object_type', 'page' -%}
+
 {%- capture search_form -%}
   <form class="main-search-form" action="{{ routes.search_url }}" method="get" role="search">
-    <input type="hidden" name="type" value="product">
+    {%- comment -%}
+      OBS: Inget dolt type-fallt har. Sokningen returnerar produkter,
+      artiklar och sidor — pills-navigeringen hanterar filtreringen i frontend.
+    {%- endcomment -%}
 
     <div class="v-stack gap-6 sm:gap-12">
       <div class="search-input">
@@ -39,6 +50,15 @@
     --product-list-grid: auto-flow dense / repeat(var(--product-list-items-per-row), minmax(0, 1fr));
 
     --content-over-media-gap: var(--spacing-8);
+
+    /* Titel: storlek och farg fran schemainstaellningar */
+    --search-title-size: {{ section.settings.search_title_size }}px;
+    --search-title-color: {{ section.settings.search_title_color }};
+
+    /* Pills: aktiv bakgrund och farg */
+    --pill-active-bg: {{ section.settings.pill_active_color }};
+    --pill-active-text: {{ section.settings.pill_active_text_color }};
+    --pill-border-color: {{ section.settings.pill_active_color }};
   }
 
   @media screen and (min-width: 700px) {
@@ -65,91 +85,261 @@
       --product-list-items-per-row: {{ section.settings.products_per_row_desktop }};
     }
   }
+
+  /* ─── Soktitel ─────────────────────────────────────────────────── */
+  .search-results-title {
+    font-size: var(--search-title-size, 2.5rem);
+    color: var(--search-title-color, currentColor);
+    text-align: center;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  /* ─── Type-filter pills ─────────────────────────────────────────── */
+  .search-type-pills {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .search-type-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 22px;
+    border-radius: 100px;
+    border: 2px solid var(--pill-border-color, #1a2e44);
+    background: transparent;
+    color: var(--pill-active-bg, #1a2e44);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+    white-space: nowrap;
+    font-family: inherit;
+    line-height: 1;
+  }
+
+  .search-type-pill[aria-selected="true"] {
+    background: var(--pill-active-bg, #1a2e44);
+    color: var(--pill-active-text, #ffffff);
+  }
+
+  .search-type-pill:hover:not([aria-selected="true"]) {
+    background: color-mix(in srgb, var(--pill-active-bg, #1a2e44) 8%, transparent);
+  }
+
+  /* ─── Resultatsektioner ─────────────────────────────────────────── */
+  .search-type-section {
+    display: none;
+  }
+
+  .search-type-section.is-active {
+    display: block;
+  }
+
+  /* Artikel- och sida-lista */
+  .search-secondary-results {
+    display: v-stack;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .search-secondary-result {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .search-secondary-result:last-child {
+    border-bottom: none;
+  }
+
+  .search-secondary-result__type {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.5;
+    margin-bottom: 4px;
+  }
+
+  .search-secondary-result__title {
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  .search-secondary-result__title:hover {
+    text-decoration: underline;
+  }
+
+  .search-secondary-result__excerpt {
+    font-size: 14px;
+    opacity: 0.65;
+    margin-top: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .search-empty-type {
+    text-align: center;
+    padding: 48px 0;
+    opacity: 0.45;
+    font-size: 15px;
+  }
 </style>
 
 <div class="container">
   {%- if search.performed and search.results_count > 0 or active_filters.size > 0 -%}
     <div class="page-spacer">
       <div class="v-stack gap-6 sm:gap-8">
-        <h1 class="h2 text-center">{{- 'search.results_count' | t: count: search.results_count, terms: search.terms -}}</h1>
+
+        {%- comment -%} Titel med schema-kontrollerad storlek och farg {%- endcomment -%}
+        <h1 class="search-results-title">
+          {{- 'search.results_count' | t: count: search.results_count, terms: search.terms -}}
+        </h1>
+
         {{- search_form -}}
+
+        {%- comment -%}
+          Type-filter pills. aria-selected="true" markerar aktiv pill.
+          JavaScript nedan hanterar switching och satter klassen is-active
+          pa ratt resultatsection.
+        {%- endcomment -%}
+        <div class="search-type-pills" role="tablist" aria-label="{{ 'search.general.title' | t }}">
+          <button
+            class="search-type-pill"
+            role="tab"
+            aria-selected="true"
+            aria-controls="search-section-products"
+            data-search-tab="products">
+            {{ section.settings.pill_label_products }} ({{ product_results.size }})
+          </button>
+
+          <button
+            class="search-type-pill"
+            role="tab"
+            aria-selected="false"
+            aria-controls="search-section-articles"
+            data-search-tab="articles">
+            {{ section.settings.pill_label_articles }} ({{ article_results.size }})
+          </button>
+
+          <button
+            class="search-type-pill"
+            role="tab"
+            aria-selected="false"
+            aria-controls="search-section-pages"
+            data-search-tab="pages">
+            {{ section.settings.pill_label_pages }} ({{ page_results.size }})
+          </button>
+        </div>
+
       </div>
 
-      {%- paginate search.results by section.settings.products_per_page -%}
-        <div class="collection {% if show_filters %}collection--filters-{{ section.settings.filter_layout | escape }}{% endif %}">
-          {%- if show_filters or section.settings.show_sort_by -%}
-            {%- comment -%}
-              IMPLEMENTATION NOTE: we have to output the drawer no matter what, as it is used on mobile (all the time) or desktop (when in drawer mode)
-            {%- endcomment -%}
+      {%- comment -%} ── PRODUKTER ──────────────────────────────────── {%- endcomment -%}
+      <div id="search-section-products" class="search-type-section is-active" role="tabpanel">
+        {%- paginate search.results by section.settings.products_per_page -%}
+          <div class="collection {% if show_filters %}collection--filters-{{ section.settings.filter_layout | escape }}{% endif %}">
+            {%- if show_filters or section.settings.show_sort_by -%}
+              <facet-drawer header-bordered id="facets-drawer" class="facets-drawer drawer" open-from="left">
+                <p class="h5" slot="title">{{ 'collection.faceting.filters' | t }}</p>
+                {%- render 'facets-vertical', results: search, show_filters: true, show_sort_by: section.settings.show_sort_by, update_on_change: false -%}
+              </facet-drawer>
 
-            <facet-drawer header-bordered id="facets-drawer" class="facets-drawer drawer" open-from="left">
-              <p class="h5" slot="title">{{ 'collection.faceting.filters' | t }}</p>
-              {%- render 'facets-vertical', results: search, show_filters: true, show_sort_by: section.settings.show_sort_by, update_on_change: false -%}
-            </facet-drawer>
+              {%- if section.settings.filter_layout == 'horizontal' -%}
+                {%- render 'collection-top-bar', results: search, show_filters: show_filters, show_active_filters: show_filters, show_sort_by: section.settings.show_sort_by -%}
+              {%- else -%}
+                {%- render 'collection-top-bar', results: search, show_filters: false, show_active_filters: show_filters, show_sort_by: section.settings.show_sort_by -%}
+              {%- endif -%}
 
-            {%- if section.settings.filter_layout == 'horizontal' -%}
-              {%- render 'collection-top-bar', results: search, show_filters: show_filters, show_active_filters: show_filters, show_sort_by: section.settings.show_sort_by -%}
-            {%- else -%}
-              {%- render 'collection-top-bar', results: search, show_filters: false, show_active_filters: show_filters, show_sort_by: section.settings.show_sort_by -%}
+              <facet-floating-filter class="facets__floating-filter md:hidden">
+                {%- assign filter_label = 'collection.faceting.filter_and_sort' | t -%}
+                {%- render 'button', size: 'xl', content: filter_label, icon: 'filter', style: 'fill', background: settings.text_color, text_color: settings.background, aria_controls: 'facets-drawer' -%}
+              </facet-floating-filter>
             {%- endif -%}
 
-            {%- comment -%}We also need to render the button, that is floating on mobile{%- endcomment -%}
-            <facet-floating-filter class="facets__floating-filter md:hidden">
-              {%- assign filter_label = 'collection.faceting.filter_and_sort' | t -%}
-              {%- render 'button', size: 'xl', content: filter_label, icon: 'filter', style: 'fill', background: settings.text_color, text_color: settings.background, aria_controls: 'facets-drawer' -%}
-            </facet-floating-filter>
-          {%- endif -%}
+            {%- if show_filters and section.settings.filter_layout == 'sidebar' -%}
+              <div class="collection__facets">
+                <safe-sticky class="collection__facets-scroller">
+                  {%- render 'facets-vertical', results: search, show_filters: true, show_sort_by: false, update_on_change: true -%}
+                </safe-sticky>
+              </div>
+            {%- endif -%}
 
-          {%- if show_filters and section.settings.filter_layout == 'sidebar' -%}
-            <div class="collection__facets">
-              <safe-sticky class="collection__facets-scroller">
-                {%- render 'facets-vertical', results: search, show_filters: true, show_sort_by: false, update_on_change: true -%}
-              </safe-sticky>
+            <div class="collection__results">
+              {%- if product_results.size == 0 -%}
+                <p class="search-empty-type">{{ 'collection.faceting.no_results' | t }}</p>
+              {%- else -%}
+                <div class="v-stack gap-6">
+                  <div class="v-stack gap-4 md:hidden">
+                    {%- render 'active-facets', results: search -%}
+                  </div>
+
+                  <reveal-items selector=".product-list > *">
+                    <product-list class="product-list" role="region" aria-live="polite">
+                      {%- for product in product_results -%}
+                        {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
+                      {%- endfor -%}
+                    </product-list>
+                  </reveal-items>
+                </div>
+              {%- endif -%}
             </div>
-          {%- endif -%}
 
-          <div class="collection__results">
-            {%- if search.results_count == 0 -%}
-              <div class="empty-state">
-                <div class="empty-state__icon-wrapper">
-                  {%- render 'icon' with 'picto-stop', width: 32, height: 32, stroke_width: 1 -%}
-                  <span class="count-bubble count-bubble--lg">0</span>
-                </div>
-
-                <div class="prose">
-                  <p class="h5">{{ 'collection.faceting.no_results' | t }}</p>
-
-                  {%- assign button_content = 'collection.faceting.clear_filters' | t -%}
-                  {%- render 'button', href: collection.url, is: 'facet-link', size: 'xl', content: button_content -%}
-                </div>
-              </div>
-            {%- else -%}
-              <div class="v-stack gap-6">
-                <div class="v-stack gap-4 md:hidden">
-                  {%- comment -%}We have to duplicate some information on mobile and tablet here{%- endcomment -%}
-                  {%- render 'active-facets', results: search -%}
-                </div>
-
-                <reveal-items selector=".product-list > *">
-                  <product-list class="product-list" role="region" aria-live="polite">
-                    {%- assign product_results = search.results | where: 'object_type', 'product' -%}
-
-                    {%- for product in product_results -%}
-                      {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
-                    {%- endfor -%}
-                  </product-list>
-                </reveal-items>
-              </div>
-            {%- endif -%}
+            {%- render 'pagination', paginate: paginate, facet: true, class: 'collection__pagination' -%}
           </div>
+        {%- endpaginate -%}
+      </div>
 
-          {%- render 'pagination', paginate: paginate, facet: true, class: 'collection__pagination' -%}
-        </div>
-      {%- endpaginate -%}
+      {%- comment -%} ── ARTIKLAR ──────────────────────────────────── {%- endcomment -%}
+      <div id="search-section-articles" class="search-type-section" role="tabpanel">
+        {%- if article_results.size == 0 -%}
+          <p class="search-empty-type">{{ 'collection.faceting.no_results' | t }}</p>
+        {%- else -%}
+          <ul class="search-secondary-results">
+            {%- for item in article_results -%}
+              <li class="search-secondary-result">
+                <p class="search-secondary-result__type">{{ section.settings.pill_label_articles }}</p>
+                <a href="{{ item.url }}" class="search-secondary-result__title">{{ item.title }}</a>
+                {%- if item.excerpt_or_content != blank -%}
+                  <p class="search-secondary-result__excerpt">{{ item.excerpt_or_content | strip_html }}</p>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ── SIDOR ─────────────────────────────────────── {%- endcomment -%}
+      <div id="search-section-pages" class="search-type-section" role="tabpanel">
+        {%- if page_results.size == 0 -%}
+          <p class="search-empty-type">{{ 'collection.faceting.no_results' | t }}</p>
+        {%- else -%}
+          <ul class="search-secondary-results">
+            {%- for item in page_results -%}
+              <li class="search-secondary-result">
+                <p class="search-secondary-result__type">{{ section.settings.pill_label_pages }}</p>
+                <a href="{{ item.url }}" class="search-secondary-result__title">{{ item.title }}</a>
+                {%- if item.content != blank -%}
+                  <p class="search-secondary-result__excerpt">{{ item.content | strip_html }}</p>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
     </div>
+
   {%- else -%}
     <div class="empty-state">
-      <h1 class="h2">
+      <h1 class="search-results-title">
         {%- if search.performed -%}
           {{- 'search.general.no_results' | t -}}
         {%- else -%}
@@ -162,13 +352,95 @@
   {%- endif -%}
 </div>
 
+<script>
+  (function () {
+    var pills    = document.querySelectorAll('[data-search-tab]');
+    var sections = document.querySelectorAll('.search-type-section');
+
+    if (!pills.length) return;
+
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        var target = pill.dataset.searchTab;
+
+        // Uppdatera pills
+        pills.forEach(function (p) { p.setAttribute('aria-selected', 'false'); });
+        pill.setAttribute('aria-selected', 'true');
+
+        // Visa ratt sektion
+        sections.forEach(function (s) {
+          s.classList.toggle('is-active', s.id === 'search-section-' + target);
+        });
+      });
+    });
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Search",
   "class": "shopify-section--main-search",
   "tag": "section",
   "settings": [
-      {
+    {
+      "type": "header",
+      "content": "Search title"
+    },
+    {
+      "type": "range",
+      "id": "search_title_size",
+      "min": 20,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "search_title_color",
+      "label": "Title color",
+      "default": "#1a2e44"
+    },
+    {
+      "type": "header",
+      "content": "Type filter pills"
+    },
+    {
+      "type": "color",
+      "id": "pill_active_color",
+      "label": "Active pill background",
+      "default": "#1a2e44"
+    },
+    {
+      "type": "color",
+      "id": "pill_active_text_color",
+      "label": "Active pill text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "pill_label_products",
+      "label": "Products pill label",
+      "default": "Produkter"
+    },
+    {
+      "type": "text",
+      "id": "pill_label_articles",
+      "label": "Articles pill label",
+      "default": "Artiklar"
+    },
+    {
+      "type": "text",
+      "id": "pill_label_pages",
+      "label": "Pages pill label",
+      "default": "Sidor"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
       "type": "range",
       "id": "products_per_page",
       "label": "Products per page",
@@ -182,14 +454,8 @@
       "id": "products_per_row_mobile",
       "label": "Products per row (mobile)",
       "options": [
-        {
-          "value": "1",
-          "label": "1"
-        },
-        {
-          "value": "2",
-          "label": "2"
-        }
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
       ],
       "default": "2"
     },
@@ -211,18 +477,9 @@
       "id": "filter_layout",
       "label": "Desktop layout",
       "options": [
-        {
-          "value": "sidebar",
-          "label": "Sidebar"
-        },
-        {
-          "value": "horizontal",
-          "label": "Horizontal"
-        },
-        {
-          "value": "drawer",
-          "label": "Drawer"
-        }
+        { "value": "sidebar", "label": "Sidebar" },
+        { "value": "horizontal", "label": "Horizontal" },
+        { "value": "drawer", "label": "Drawer" }
       ],
       "default": "sidebar"
     },
