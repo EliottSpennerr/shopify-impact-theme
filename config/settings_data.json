@@ -39,7 +39,7 @@
     "currency_code_enabled": true,
     "show_page_transition": true,
     "heading_apparition": "none",
-    "show_product_rating": false,
+    "show_product_rating": true,
     "discount_mode": "percentage",
     "product_color_display": "variant",
     "product_info_alignment": "start",
