@@ -309,6 +309,10 @@
         this.slides = [];
         this.autoplayInterval = null;
         this.autoplayEnabled = false;
+        this.dragStartX = 0;
+this.isDragging = false;
+this.dragThreshold = 50;
+this.hasMoved = false;
       }
 
       connectedCallback() {
@@ -324,7 +328,58 @@
 
         this.createDots();
         this.setupEventListeners();
-        
+        setupDragListeners() {
+  this.addEventListener('mousedown', (e) => {
+    if (e.target.closest('a, button')) return;
+    this.isDragging = true;
+    this.hasMoved = false;
+    this.dragStartX = e.clientX;
+    this.stopAutoplay();
+  });
+
+  this._onMouseUp = (e) => {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    const deltaX = e.clientX - this.dragStartX;
+    if (this.hasMoved && Math.abs(deltaX) >= this.dragThreshold) {
+      deltaX < 0 ? this.nextSlide() : this.previousSlide();
+    }
+    if (this.autoplayEnabled) this.startAutoplay();
+  };
+
+  this._onMouseMove = (e) => {
+    if (!this.isDragging) return;
+    if (Math.abs(e.clientX - this.dragStartX) > 5) this.hasMoved = true;
+  };
+
+  window.addEventListener('mousemove', this._onMouseMove);
+  window.addEventListener('mouseup', this._onMouseUp);
+
+  this.addEventListener('touchstart', (e) => {
+    if (e.target.closest('a, button')) return;
+    this.isDragging = true;
+    this.hasMoved = false;
+    this.dragStartX = e.touches[0].clientX;
+    this.stopAutoplay();
+  }, { passive: true });
+
+  this.addEventListener('touchmove', (e) => {
+    if (!this.isDragging) return;
+    if (Math.abs(e.touches[0].clientX - this.dragStartX) > 5) this.hasMoved = true;
+  }, { passive: true });
+
+  this.addEventListener('touchend', (e) => {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    const deltaX = e.changedTouches[0].clientX - this.dragStartX;
+    if (this.hasMoved && Math.abs(deltaX) >= this.dragThreshold) {
+      deltaX < 0 ? this.nextSlide() : this.previousSlide();
+    }
+    if (this.autoplayEnabled) this.startAutoplay();
+  });
+}
+        this.setupDragListeners();
+
         if (this.autoplayEnabled && this.slides.length > 1) {
           this.startAutoplay();
         }
