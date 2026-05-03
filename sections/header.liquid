@@ -65,7 +65,7 @@ the underlying logic of the menu.
     grid-area: logo;
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 12px;
   }
 
   .header__logo-with-hamburger .header__logo {
@@ -132,7 +132,7 @@ the underlying logic of the menu.
       /* Solid bakgrundsfarg som matchar sidans bakgrund.
          rgb(var(--color-background)) ar Impact-temats standard-variabel.
          Fallback #fff ifall variabeln inte finns. */
-      background-color: rgb(var(--background) / var(--header-background-opacity));
+      background-color: rgb(var(--color-background, 255 255 255));
       /* overflow: hidden forhindrar att lanka-raden skapar horisontell scroll */
       overflow: hidden;
     }
@@ -158,10 +158,29 @@ the underlying logic of the menu.
       opacity: 0.85;
       transition: opacity 0.15s ease;
       white-space: nowrap;
+      /* Underline-animation via pseudo-element */
+      position: relative;
+    }
+
+    .header__desktop-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: calc(100% - 24px); /* matchar lankens text-bredd, exkl. hogerpaddning */
+      height: 1px;
+      background-color: currentColor;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .header__desktop-nav-link:hover {
       opacity: 1;
+    }
+
+    .header__desktop-nav-link:hover::after {
+      transform: scaleX(1);
     }
   }
 
