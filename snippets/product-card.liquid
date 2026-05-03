@@ -58,15 +58,26 @@ Typography CSS variables (set by calling section):
 
 {%- comment -%}
   ─── STJÄRNBETYG: förberäkning ──────────────────────────────────────
-  Shopifys rating-metafält returnerar ett Rating-objekt. floor-jämförelser
-  på det objektet kan ge fel resultat. Säkrare metod: multiplicera med 2,
-  runda till närmaste heltal → halvstjärneenheter (0–10).
-  I loopen: i_x2 = i*2. Fylld om pc_x2 >= i_x2. Halv om pc_x2 == i_x2-1.
-  Tom annars. Gradient-ID: product.id + i = inga krockar.
+  Läser Shopifys inbyggda reviews-metafält.
+  Logik: floor(rating) ger hela stjärnor. Decimaldelen avgör halvstjärna.
+  ≥ 0.75 → avrundas upp till nästa hela stjärna.
+  0.25–0.74 → halvstjärna.
+  < 0.25 → tom.
+  Gradient-ID inkluderar product.id + stjärnposition = inga ID-krockar.
 {%- endcomment -%}
 {%- assign pc_rv = product.metafields.reviews.rating.value | plus: 0.0 -%}
 {%- assign pc_rc = product.metafields.reviews.rating_count.value | plus: 0 -%}
-{%- assign pc_x2 = pc_rv | times: 2 | round -%}
+{%- assign pc_full = pc_rv | floor -%}
+{%- assign pc_full_f = pc_full | times: 1.0 -%}
+{%- assign pc_rem = pc_rv | minus: pc_full_f -%}
+{%- assign pc_half = false -%}
+{%- assign pc_half_pos = 0 -%}
+{%- if pc_rem >= 0.75 -%}
+  {%- assign pc_full = pc_full | plus: 1 -%}
+{%- elsif pc_rem >= 0.25 -%}
+  {%- assign pc_half = true -%}
+  {%- assign pc_half_pos = pc_full | plus: 1 -%}
+{%- endif -%}
 
 <style>
   /* ── Produktkort: info-layout ──────────────────────────────────────── */
@@ -179,7 +190,7 @@ Typography CSS variables (set by calling section):
     min-width: 64px;
   }
 
-  .product-card__buy-btn:hover { opacity: 0.82; }
+  .product-card__buy-btn:hover { background: #025dc6; }
 
   .product-card__buy-btn--disabled {
     opacity: 0.35;
@@ -229,7 +240,7 @@ Typography CSS variables (set by calling section):
 
   /* ── Succéläge ─────────────────────────────────────────────────────── */
   .product-card__buy-btn.is-success {
-    background: #3d8fd4;
+    background: #025DC6;
     pointer-events: none;
   }
 
@@ -363,18 +374,16 @@ Typography CSS variables (set by calling section):
         pc_half       = true/false, halvstjärna behövs
         pc_half_pos   = position (1-5) för halvstjärnan
     {%- endcomment -%}
-    {%- if show_rating and pc_x2 > 0 -%}
+    {%- if show_rating and pc_rv > 0 -%}
       <div class="product-card__stars" aria-label="Betyg {{ pc_rv | round: 1 }} av 5">
 
         {%- for i in (1..5) -%}
-          {%- assign i_x2 = i | times: 2 -%}
-          {%- assign i_x2h = i_x2 | minus: 1 -%}
-          {%- if pc_x2 >= i_x2 -%}
+          {%- if i <= pc_full -%}
             {%- comment -%}Fylld stjärna{%- endcomment -%}
             <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#025dc6"/>
             </svg>
-          {%- elsif pc_x2 == i_x2h -%}
+          {%- elsif pc_half and i == pc_half_pos -%}
             {%- comment -%}Halvfylld: vänster 50% #025dc6, höger 50% grå{%- endcomment -%}
             <svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
