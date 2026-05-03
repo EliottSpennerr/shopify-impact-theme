@@ -23,7 +23,7 @@
     --bundle-accent-hover: {{ section.settings.color_button_hover }};
     --bundle-success: {{ section.settings.color_success }};
     --bundle-border: {{ section.settings.color_border }};
-    --bundle-radius: 10px;
+    --bundle-radius: 12px;
     --bundle-radius-sm: 6px;
     --bundle-font: inherit;
     --bundle-progress-bg: {{ section.settings.color_border }};
@@ -32,13 +32,24 @@
     --bundle-sticky-bg: {{ section.settings.color_card_bg }};
     --bundle-badge-bg: {{ section.settings.color_badge_bg }};
     --bundle-badge-text: {{ section.settings.color_badge_text }};
+
+    /* Matchar product-card */
+    --bundle-btn-bg: #1a2e44;
+    --bundle-btn-bg-success: #3d8fd4;
+    --bundle-star-color: #025dc6;
   }
+
+  /* ── Sektion ── */
   .bundle-section { font-family: var(--bundle-font); background: var(--bundle-bg); padding: 48px 0 160px; color: var(--bundle-text); }
   .bundle-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── Header ── */
   .bundle-header { text-align: center; margin-bottom: 32px; }
   .bundle-header__title { font-size: clamp(1.75rem,4vw,2.5rem); font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; line-height: 1.15; }
   .bundle-header__subtitle { font-size: clamp(0.95rem,2vw,1.125rem); color: var(--bundle-text-muted); margin: 0; line-height: 1.5; }
   .bundle-header__badge { display: inline-block; background: var(--bundle-badge-bg); color: var(--bundle-badge-text); font-size: 0.8rem; font-weight: 600; padding: 6px 16px; border-radius: 50px; margin-bottom: 16px; letter-spacing: 0.03em; text-transform: uppercase; }
+
+  /* ── Progressbar ── */
   .bundle-progress-top { max-width: 480px; margin: 0 auto 32px; text-align: center; }
   .bundle-progress-top__text { font-size: 0.9rem; color: var(--bundle-text-muted); margin-bottom: 10px; transition: color 0.3s ease; }
   .bundle-progress-top__text.is-complete { color: var(--bundle-success); font-weight: 600; }
@@ -52,9 +63,9 @@
   .bundle-filters { margin-bottom: 24px; }
   .bundle-filters__tabs { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 0 4px; }
   .bundle-filters__tabs::-webkit-scrollbar { display: none; }
-  .bundle-filters__tab { flex-shrink: 0; padding: 9px 20px; border-radius: 8px; border: none; background: transparent; color: var(--bundle-text-muted); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; -webkit-appearance: none; touch-action: manipulation; line-height: 1.3; }
-  .bundle-filters__tab:hover { color: var(--bundle-text); background: rgba(0,0,0,0.03); }
-  .bundle-filters__tab.is-active { background: var(--bundle-accent); color: #fff; font-weight: 600; }
+  .bundle-filters__tab { flex-shrink: 0; padding: 9px 20px; border-radius: 100px; border: none; background: transparent; color: var(--bundle-text-muted); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; -webkit-appearance: none; touch-action: manipulation; line-height: 1.3; }
+  .bundle-filters__tab:hover { color: var(--bundle-text); background: rgba(0,0,0,0.05); }
+  .bundle-filters__tab.is-active { background: var(--bundle-btn-bg); color: #fff; font-weight: 600; }
   .bundle-filters__no-results { text-align: center; padding: 48px 20px; color: var(--bundle-text-muted); font-size: 0.95rem; grid-column: 1/-1; display: none; }
   .bundle-filters__no-results.is-visible { display: block; }
   @media (max-width: 640px) {
@@ -65,53 +76,206 @@
   .bundle-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
   @media (max-width: 960px) { .bundle-grid { grid-template-columns: repeat(3,1fr); } }
   @media (max-width: 640px) { .bundle-grid { grid-template-columns: repeat(2,1fr); gap: 12px; } }
-  .bundle-card { background: var(--bundle-card-bg); border-radius: var(--bundle-radius); border: 1.5px solid var(--bundle-border); overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease; position: relative; display: flex; flex-direction: column; }
+
+  /* ── Kort — wrapper ── */
+  .bundle-card {
+    background: var(--bundle-card-bg);
+    border-radius: var(--bundle-radius);
+    border: 1.5px solid var(--bundle-border);
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
   .bundle-card.is-hidden { display: none; }
   .bundle-card:hover { border-color: #ccc; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
   .bundle-card.is-selected { border-color: var(--bundle-success); box-shadow: 0 0 0 2px rgba(45,122,79,0.15); }
-  .bundle-card__img-wrap { aspect-ratio: 1/1; overflow: hidden; background: #f5f3f0; position: relative; }
+
+  /* ── Bild ── */
+  .bundle-card__img-wrap {
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #f5f3f0;
+    position: relative;
+    border-radius: var(--bundle-radius);  /* matchar product-card__figure */
+  }
   .bundle-card__img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; pointer-events: none; }
   .bundle-card:hover .bundle-card__img { transform: scale(1.04); }
   .bundle-card__img-btn { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent; border: none; cursor: pointer; z-index: 1; padding: 0; -webkit-appearance: none; -webkit-tap-highlight-color: rgba(0,0,0,0.05); touch-action: manipulation; }
-  .bundle-card__qty-badge { position: absolute; top: 10px; right: 10px; background: var(--bundle-badge-bg); color: var(--bundle-badge-text); font-size: 0.75rem; font-weight: 700; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.5); transition: opacity 0.25s ease, transform 0.25s ease; z-index: 2; pointer-events: none; }
+
+  /* Antal-badge på bild */
+  .bundle-card__qty-badge { position: absolute; top: 10px; right: 10px; background: var(--bundle-btn-bg); color: #fff; font-size: 0.75rem; font-weight: 700; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.5); transition: opacity 0.25s ease, transform 0.25s ease; z-index: 2; pointer-events: none; }
   .bundle-card.is-selected .bundle-card__qty-badge { opacity: 1; transform: scale(1); }
-  .bundle-card__added-flash { position: absolute; inset: 0; background: rgba(45,122,79,0.15); z-index: 4; pointer-events: none; opacity: 0; transition: opacity 0.15s ease; }
+
+  /* Flash-overlay */
+  .bundle-card__added-flash { position: absolute; inset: 0; background: rgba(45,122,79,0.15); z-index: 4; pointer-events: none; opacity: 0; transition: opacity 0.15s ease; border-radius: var(--bundle-radius); }
   .bundle-card__added-flash.is-visible { opacity: 1; }
-  .bundle-card__add-icon { position: absolute; bottom: 10px; right: 10px; width: 36px; height: 36px; background: var(--bundle-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 3; pointer-events: none; transition: transform 0.2s ease, opacity 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+
+  /* Plus-ikon på bild */
+  .bundle-card__add-icon { position: absolute; bottom: 10px; right: 10px; width: 36px; height: 36px; background: var(--bundle-btn-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 3; pointer-events: none; transition: transform 0.2s ease, opacity 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
   .bundle-card.is-selected .bundle-card__add-icon { opacity: 0.7; transform: scale(0.85); }
-  .bundle-card__body { padding: 14px 14px 16px; flex: 1; display: flex; flex-direction: column; }
-  .bundle-card__title { font-size: 0.875rem; font-weight: 600; margin: 0 0 4px; line-height: 1.3; }
-  .bundle-card__price { font-size: 0.825rem; color: var(--bundle-text-muted); margin: 0 0 12px; }
-  .bundle-card__controls { margin-top: auto; display: flex; align-items: center; }
-  .bundle-card__btn { width: 44px; height: 44px; border: 1.5px solid var(--bundle-border); background: var(--bundle-card-bg); color: var(--bundle-text); font-size: 1.25rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; padding: 0; -webkit-appearance: none; touch-action: manipulation; line-height: 1; }
-  .bundle-card__btn:first-child { border-radius: var(--bundle-radius-sm) 0 0 var(--bundle-radius-sm); border-right: none; }
-  .bundle-card__btn:last-child { border-radius: 0 var(--bundle-radius-sm) var(--bundle-radius-sm) 0; border-left: none; }
-  .bundle-card__btn:hover { background: var(--bundle-accent); color: #fff; border-color: var(--bundle-accent); }
-  .bundle-card__btn:active { transform: scale(0.92); }
-  .bundle-card__qty { width: 44px; height: 44px; border: 1.5px solid var(--bundle-border); background: #fafafa; font-size: 0.95rem; font-weight: 600; color: var(--bundle-text); display: flex; align-items: center; justify-content: center; }
+
+  /* Slutsåld */
+  .bundle-card.is-soldout { opacity: 0.5; pointer-events: none; }
+  .bundle-card.is-soldout .bundle-card__img-wrap::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.4); z-index: 5; }
+  .bundle-card__soldout-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--bundle-text); color: var(--bundle-card-bg); font-size: 0.7rem; font-weight: 700; padding: 6px 14px; border-radius: 100px; z-index: 6; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+
+  /* ── Info-sektion — matchar product-card__info-stack ── */
+  .bundle-card__body {
+    padding: 12px 12px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  /* Vendor */
+  .bundle-card__vendor {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    display: block;
+  }
+
+  /* Titel */
+  .bundle-card__title {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+    color: var(--bundle-text);
+  }
+
+  /* Lagerstatus */
+  .bundle-card__stock {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 1px;
+  }
+  .bundle-card__stock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .bundle-card__stock-dot--in  { background: #22c55e; }
+  .bundle-card__stock-dot--out { background: #ef4444; }
+  .bundle-card__stock-text {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+
+  /* Stjärnor */
+  .bundle-card__stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: nowrap;
+    margin-top: 1px;
+  }
+  .bundle-card__stars svg { display: block; flex-shrink: 0; }
+  .bundle-card__rating-text {
+    font-size: 11px;
+    opacity: 0.55;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+
+  /* ── Pris + stepper-rad ── */
+  .bundle-card__price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .bundle-card__price {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--bundle-text);
+    margin: 0;
+  }
+
+  /* ── Pill-stepper ── */
+  .bundle-card__stepper {
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    overflow: hidden;
+    border: 1.5px solid var(--bundle-border);
+    flex-shrink: 0;
+  }
+
+  .bundle-card__btn {
+    width: 36px;
+    height: 34px;
+    background: var(--bundle-card-bg);
+    color: var(--bundle-text);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: background 0.15s ease, color 0.15s ease;
+    padding: 0;
+    -webkit-appearance: none;
+    touch-action: manipulation;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .bundle-card__btn:hover { background: var(--bundle-btn-bg); color: #fff; }
+  .bundle-card__btn:active { opacity: 0.8; }
+
+  .bundle-card__qty {
+    width: 32px;
+    height: 34px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--bundle-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f7f7f7;
+    border-left: 1.5px solid var(--bundle-border);
+    border-right: 1.5px solid var(--bundle-border);
+    flex-shrink: 0;
+  }
+
   @media (max-width: 640px) {
     .bundle-card__body { padding: 10px 10px 12px; }
     .bundle-card__title { font-size: 0.8rem; }
-    .bundle-card__price { font-size: 0.75rem; margin-bottom: 8px; }
     .bundle-card__add-icon { width: 32px; height: 32px; bottom: 8px; right: 8px; }
     .bundle-card__add-icon svg { width: 12px; height: 12px; }
+    .bundle-card__btn { width: 32px; height: 30px; }
+    .bundle-card__qty { width: 28px; height: 30px; font-size: 0.8rem; }
   }
-  .bundle-card.is-soldout { opacity: 0.5; pointer-events: none; }
-  .bundle-card.is-soldout .bundle-card__img-wrap::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.4); z-index: 5; }
-  .bundle-card__soldout-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--bundle-text); color: var(--bundle-card-bg); font-size: 0.7rem; font-weight: 700; padding: 6px 14px; border-radius: 4px; z-index: 6; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
 
-  /* ── Sticky ── */
+  /* ── Sticky footer ── */
   .bundle-sticky { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bundle-sticky-bg); border-top: 1px solid var(--bundle-border); box-shadow: 0 -4px 20px rgba(0,0,0,0.08); z-index: 999; }
   .bundle-sticky__inner { max-width: 1200px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .bundle-sticky__count { font-size: 0.875rem; font-weight: 600; white-space: nowrap; }
   .bundle-sticky__count span { color: var(--bundle-success); }
-  .bundle-sticky__cta { display: inline-block; background: var(--bundle-accent); color: #fff; border: none; padding: 14px 32px; border-radius: var(--bundle-radius); font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; text-decoration: none; text-align: center; flex-shrink: 0; }
-  .bundle-sticky__cta:hover { background: var(--bundle-accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); color: #fff; }
+  .bundle-sticky__cta { display: inline-block; background: var(--bundle-btn-bg); color: #fff; border: none; padding: 14px 32px; border-radius: 100px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; text-decoration: none; text-align: center; flex-shrink: 0; }
+  .bundle-sticky__cta:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); color: #fff; }
+
   @media (max-width: 640px) {
     .bundle-sticky__inner { padding: 12px 16px; }
     .bundle-sticky__cta { padding: 12px 20px; font-size: 0.875rem; }
     .bundle-section { padding: 32px 0 140px; }
   }
+
+  /* ── Animationer ── */
   @keyframes bundle-pop { 0%{transform:scale(1)} 50%{transform:scale(1.15)} 100%{transform:scale(1)} }
   .bundle-card__qty-badge.pop { animation: bundle-pop 0.3s ease; }
   @keyframes bundle-flash { 0%{box-shadow:0 0 0 0 rgba(45,122,79,0.4)} 70%{box-shadow:0 0 0 8px rgba(45,122,79,0)} 100%{box-shadow:0 0 0 0 rgba(45,122,79,0)} }
@@ -170,6 +334,11 @@
         {%- assign is_soldout = false -%}
         {%- unless product.available -%}{%- assign is_soldout = true -%}{%- endunless -%}
 
+        {%- comment -%} Stjärnbetyg: halvstjärneenheter (x2) {%- endcomment -%}
+        {%- assign bc_rv = product.metafields.reviews.rating.value.rating | plus: 0.0 -%}
+        {%- assign bc_rc = product.metafields.reviews.rating_count.value | plus: 0 -%}
+        {%- assign bc_x2 = bc_rv | times: 2 | round -%}
+
         <div class="bundle-card{% if is_soldout %} is-soldout{% endif %}"
              data-bundle-card
              data-variant-id="{{ first_variant.id }}"
@@ -178,6 +347,8 @@
              data-collections="{% for col in product.collections %}{{ col.handle }}{% unless forloop.last %},{% endunless %}{% endfor %}"
              data-qty="0"
              {% if is_soldout %}data-soldout="true"{% endif %}>
+
+          {%- comment -%} PRODUKTBILD {%- endcomment -%}
           <div class="bundle-card__img-wrap">
             <div class="bundle-card__qty-badge" data-qty-badge>0</div>
             {%- if product.featured_image -%}
@@ -189,23 +360,87 @@
               <div class="bundle-card__soldout-label">{{ section.settings.text_soldout }}</div>
             {%- else -%}
               <button type="button" class="bundle-card__img-btn" data-add-btn aria-label="{{ section.settings.text_quick_add }}"></button>
-              <div class="bundle-card__add-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="1" x2="7" y2="13" stroke="#fff" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="7" x2="13" y2="7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+              <div class="bundle-card__add-icon">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <line x1="7" y1="1" x2="7" y2="13" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="1" y1="7" x2="13" y2="7" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
               <div class="bundle-card__added-flash" data-flash></div>
             {%- endif -%}
           </div>
+
+          {%- comment -%}
+            INFO — ordning matchar product-card:
+            vendor → titel → lagerstatus → stjärnor → pris + stepper
+          {%- endcomment -%}
           <div class="bundle-card__body">
+
+            {%- comment -%} VENDOR {%- endcomment -%}
+            {%- if product.vendor != blank -%}
+              <span class="bundle-card__vendor">{{ product.vendor }}</span>
+            {%- endif -%}
+
+            {%- comment -%} TITEL {%- endcomment -%}
             <h3 class="bundle-card__title">{{ product.title }}</h3>
-            <p class="bundle-card__price">{{ first_variant.price | money }}</p>
+
+            {%- comment -%} LAGERSTATUS {%- endcomment -%}
+            <div class="bundle-card__stock">
+              {%- if product.available -%}
+                <span class="bundle-card__stock-dot bundle-card__stock-dot--in"></span>
+                <span class="bundle-card__stock-text">Finns i lager</span>
+              {%- else -%}
+                <span class="bundle-card__stock-dot bundle-card__stock-dot--out"></span>
+                <span class="bundle-card__stock-text">Slutsåld</span>
+              {%- endif -%}
+            </div>
+
+            {%- comment -%} STJÄRNBETYG {%- endcomment -%}
+            {%- if bc_x2 > 0 -%}
+              <div class="bundle-card__stars" aria-label="Betyg {{ bc_rv | round: 1 }} av 5">
+                {%- for i in (1..5) -%}
+                  {%- assign i_x2  = i | times: 2 -%}
+                  {%- assign i_x2h = i_x2 | minus: 1 -%}
+                  {%- if bc_x2 >= i_x2 -%}
+                    <svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#025dc6"/>
+                    </svg>
+                  {%- elsif bc_x2 == i_x2h -%}
+                    <svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="bc-hsg-{{ product.id }}-{{ i }}" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="50%" stop-color="#025dc6"/>
+                          <stop offset="50%" stop-color="#d1d5db"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#bc-hsg-{{ product.id }}-{{ i }})"/>
+                    </svg>
+                  {%- else -%}
+                    <svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#d1d5db"/>
+                    </svg>
+                  {%- endif -%}
+                {%- endfor -%}
+                <span class="bundle-card__rating-text">{{ bc_rv | round: 1 }}/5{% if bc_rc > 0 %} ({{ bc_rc }}){% endif %}</span>
+              </div>
+            {%- endif -%}
+
+            {%- comment -%} PRIS + PILL-STEPPER {%- endcomment -%}
             {%- unless is_soldout -%}
-              <div class="bundle-card__controls">
-                <button type="button" class="bundle-card__btn" data-minus-btn aria-label="{{ section.settings.text_decrease }}">−</button>
-                <div class="bundle-card__qty" data-qty-display>0</div>
-                <button type="button" class="bundle-card__btn" data-plus-btn aria-label="{{ section.settings.text_increase }}">+</button>
+              <div class="bundle-card__price-row">
+                <p class="bundle-card__price">{{ first_variant.price | money }}</p>
+                <div class="bundle-card__stepper">
+                  <button type="button" class="bundle-card__btn" data-minus-btn aria-label="{{ section.settings.text_decrease }}">−</button>
+                  <div class="bundle-card__qty" data-qty-display>0</div>
+                  <button type="button" class="bundle-card__btn" data-plus-btn aria-label="{{ section.settings.text_increase }}">+</button>
+                </div>
               </div>
             {%- endunless -%}
+
           </div>
         </div>
       {%- endfor -%}
+
       <div class="bundle-filters__no-results" id="bundle-no-results">{{ section.settings.text_no_results }}</div>
     </div>
   </div>
@@ -416,8 +651,8 @@
     { "type": "color", "id": "color_card_bg", "label": "Bakgrund (kort)", "default": "#ffffff" },
     { "type": "color", "id": "color_text", "label": "Text", "default": "#1a1a1a" },
     { "type": "color", "id": "color_text_muted", "label": "Text (sekundär)", "default": "#6b6b6b" },
-    { "type": "color", "id": "color_button", "label": "Knappar & CTA", "default": "#1a1a1a" },
-    { "type": "color", "id": "color_button_hover", "label": "Knappar hover", "default": "#333333" },
+    { "type": "color", "id": "color_button", "label": "Knappar & CTA", "default": "#1a2e44" },
+    { "type": "color", "id": "color_button_hover", "label": "Knappar hover", "default": "#2a3e54" },
     { "type": "color", "id": "color_success", "label": "Rabatt & framgång", "default": "#2d7a4f" },
     { "type": "color", "id": "color_border", "label": "Kanter", "default": "#e5e2dd" },
     { "type": "color", "id": "color_badge_bg", "label": "Badge bakgrund", "default": "#2d7a4f" },
