@@ -19,8 +19,6 @@ the underlying logic of the menu.
   }
 
   #shopify-section-{{ section.id }} {
-    --header-grid-template: "logo search secondary-nav" / auto 1fr auto;
-    --header-padding-block: {% if section.settings.reduce_padding %}var(--spacing-3){% else %}var(--spacing-4-5){% endif %};
     --header-background-opacity: {{ section.settings.background_opacity | divided_by: 100.0 }};
     --header-background-blur-radius: {{ section.settings.background_blur_radius }}px;
     --header-transparent-text-color: {{ section.settings.transparent_header_text_color.rgb }};
@@ -49,55 +47,88 @@ the underlying logic of the menu.
     }
   {%- endif -%}
 
-  @media screen and (min-width: 700px) {
-    #shopify-section-{{ section.id }} {
-      {%- if section.settings.logo != blank -%}
-        --header-logo-width: {{ section.settings.logo_max_width }}px;
-        --header-logo-height: {{ section.settings.logo_max_width | divided_by: section.settings.logo.aspect_ratio | round }}px;
-      {%- endif -%}
-
-      --header-padding-block: {% if section.settings.reduce_padding %}var(--spacing-6){% else %}var(--spacing-8-5){% endif %};
-    }
+  /* =============================================
+     SHARED WRAPPER — replaces theme's header__wrapper grid
+  ============================================= */
+  .header-custom__outer {
+    display: flex;
+    flex-direction: column;
+    padding-block: {% if section.settings.reduce_padding %}var(--spacing-3){% else %}var(--spacing-4-5){% endif %};
   }
 
-  /* Logo + hamburger wrapper */
-  .header__logo-with-hamburger {
-    grid-area: logo;
+  /* Top row */
+  .header-custom__top {
     display: flex;
     align-items: center;
+    width: 100%;
     gap: 12px;
+    padding-inline: var(--container-gutter, 20px);
   }
 
-  .header__logo-with-hamburger .header__logo {
-    flex-shrink: 0;
-  }
-
-  /* Search field in center */
-  .header__search-center {
-    grid-area: search;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-  }
-
-.header__search-center-form {
+  /* Left zone */
+  .header-custom__left {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #E5E6E7;
+    flex-shrink: 0;
+  }
+
+  /* Center zone */
+  .header-custom__center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Right zone */
+  .header-custom__right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  /* Logo */
+  .header-custom__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .header-custom__logo-image {
+    display: block;
+    width: {{ section.settings.logo_mobile_max_width }}px;
+    height: auto;
+  }
+
+  .header-custom__logo-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: currentColor;
+  }
+
+  /* Search */
+  .header-custom__search-wrap {
+    width: 100%;
+    padding-inline: var(--container-gutter, 20px);
+  }
+
+  .header-custom__search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f2f2f2;
     border-radius: 100px;
     padding: 10px 18px;
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-}
+  }
 
-  .header__search-center-form svg {
+  .header-custom__search-form svg {
     flex-shrink: 0;
     opacity: 0.45;
   }
 
-  .header__search-center-input {
+  .header-custom__search-input {
     border: none;
     background: none;
     outline: none;
@@ -106,95 +137,182 @@ the underlying logic of the menu.
     color: currentColor;
   }
 
-  .header__search-center-input::placeholder {
+  .header-custom__search-input::placeholder {
     color: #999;
   }
 
-  /* Hide the old search icon on desktop since search is now inline */
-  @media screen and (min-width: 750px) {
-    .header__search-icon-hide {
-      display: none !important;
+  /* =============================================
+     MOBILE  (< 750px)
+     Top row: hamburger | logo center | icons
+     Search: own row below
+  ============================================= */
+  @media screen and (max-width: 749px) {
+    .header-custom__outer {
+      padding-block: {% if section.settings.reduce_padding %}var(--spacing-3){% else %}var(--spacing-4-5){% endif %};
+      gap: 10px;
     }
+
+    /* Logo centered on mobile */
+    .header-custom__center {
+      flex: 1;
+      justify-content: center;
+    }
+
+    .header-custom__logo-image {
+      width: {{ section.settings.logo_mobile_max_width }}px;
+    }
+
+    /* Search row below on mobile */
+    .header-custom__search-wrap {
+      display: flex;
+    }
+
+    /* Hide desktop-only account icon on mobile */
+    .header-custom__icon--account {
+      display: none;
+    }
+  }
+
+  /* =============================================
+     DESKTOP  (>= 750px)
+     Top row: logo + hamburger | search center | icons
+     No separate search row
+  ============================================= */
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      {%- if section.settings.logo != blank -%}
+        --header-logo-width: {{ section.settings.logo_max_width }}px;
+        --header-logo-height: {{ section.settings.logo_max_width | divided_by: section.settings.logo.aspect_ratio | round }}px;
+      {%- endif -%}
+    }
+
+    .header-custom__outer {
+      padding-block: {% if section.settings.reduce_padding %}var(--spacing-6){% else %}var(--spacing-8-5){% endif %};
+      gap: 0;
+    }
+
+    /* On desktop left zone has logo + hamburger side by side */
+    .header-custom__left {
+      flex-direction: row;
+    }
+
+    .header-custom__logo-image {
+      width: {{ section.settings.logo_max_width }}px;
+    }
+
+    /* Search sits inline in top row on desktop */
+    .header-custom__center {
+      flex: 1;
+      padding-inline: 20px;
+      justify-content: center;
+    }
+
+    .header-custom__search-form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Hide the separate search row on desktop */
+    .header-custom__search-wrap {
+      display: none;
+    }
+
+    .header-custom__icon--account {
+      display: flex;
+    }
+  }
+
+  /* Icon button base */
+  .header-custom__icon-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: currentColor;
+    text-decoration: none;
+    padding: 4px 6px;
+    gap: 2px;
+  }
+
+  .header-custom__icon-label {
+    font-size: 11px;
+    white-space: nowrap;
+    color: currentColor;
+  }
+
+  .header-custom__cart-count {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 </style>
 
 <height-observer variable="header">
   <store-header class="header" {% if section.settings.hide_on_scroll %}hide-on-scroll="100"{% endif %} {% if section.settings.enable_sticky %}sticky{% endif %}>
-    <div class="header__wrapper">
 
-      {%- comment -%}
-      LOGO + HAMBURGER — left grid area
-      {%- endcomment -%}
+    <div class="header-custom__outer">
 
-      {%- capture logo_content -%}
-        {%- if section.settings.logo -%}
-          {%- capture sizes -%}{{ section.settings.logo_max_width }}px{%- endcapture -%}
-          {%- capture widths -%}{{ section.settings.logo_max_width | times: 2 | at_most: section.settings.logo.width }}, {{ section.settings.logo_max_width | times: 3 | at_most: section.settings.logo.width }}{%- endcapture -%}
-          <span class="sr-only">{{ shop.name }}</span>
-          {{- section.settings.logo | image_url: width: section.settings.logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image' -}}
-          {%- if section.settings.transparent_logo -%}
-            {{- section.settings.transparent_logo | image_url: width: section.settings.transparent_logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image header__logo-image--transparent' -}}
+      {%- comment -%} TOP ROW {%- endcomment -%}
+      <div class="header-custom__top">
+
+        {%- comment -%} LEFT: hamburger (always) + logo (desktop only beside hamburger) {%- endcomment -%}
+        <div class="header-custom__left">
+          <button type="button" class="tap-area header-custom__icon-btn" aria-controls="header-sidebar-menu">
+            <span class="sr-only">{{ 'header.general.open_menu' | t }}</span>
+            {%- render 'icon' with 'hamburger' -%}
+            <span class="header-custom__icon-label" aria-hidden="true">{{ section.settings.menu_label | default: 'Meny' }}</span>
+          </button>
+        </div>
+
+        {%- comment -%} CENTER: logo on mobile, search on desktop {%- endcomment -%}
+        <div class="header-custom__center">
+          {%- capture logo_content -%}
+            {%- if section.settings.logo -%}
+              {%- capture sizes -%}{{ section.settings.logo_max_width }}px{%- endcapture -%}
+              {%- capture widths -%}{{ section.settings.logo_max_width | times: 2 | at_most: section.settings.logo.width }}, {{ section.settings.logo_max_width | times: 3 | at_most: section.settings.logo.width }}{%- endcapture -%}
+              <span class="sr-only">{{ shop.name }}</span>
+              {{- section.settings.logo | image_url: width: section.settings.logo.width | image_tag: sizes: sizes, widths: widths, class: 'header-custom__logo-image' -}}
+              {%- if section.settings.transparent_logo -%}
+                {{- section.settings.transparent_logo | image_url: width: section.settings.transparent_logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image header__logo-image--transparent' -}}
+              {%- endif -%}
+            {%- else -%}
+              <span class="header-custom__logo-text">{{ shop.name }}</span>
+            {%- endif -%}
+          {%- endcapture -%}
+
+          {%- comment -%} Logo — shown on mobile via center, shown on desktop via left (CSS swaps) {%- endcomment -%}
+          {%- if request.page_type == 'index' -%}
+            <h1 style="margin:0;line-height:1;">
+              <a href="{{ routes.root_url }}" class="header-custom__logo">{{ logo_content }}</a>
+            </h1>
+          {%- else -%}
+            <a href="{{ routes.root_url }}" class="header-custom__logo">{{ logo_content }}</a>
           {%- endif -%}
-        {%- else -%}
-          <span class="header__logo-text h4">{{ shop.name }}</span>
-        {%- endif -%}
-      {%- endcapture -%}
 
-      <div class="header__logo-with-hamburger">
-        {%- if request.page_type == 'index' -%}
-          <h1 class="header__logo" style="margin:0;">
-            <a href="{{ routes.root_url }}">{{ logo_content }}</a>
-          </h1>
-        {%- else -%}
-          <a href="{{ routes.root_url }}" class="header__logo">{{ logo_content }}</a>
-        {%- endif -%}
+          {%- comment -%} Search — shown on desktop in center via CSS {%- endcomment -%}
+          <form action="{{ routes.search_url }}" method="get" class="header-custom__search-form" role="search" style="display:none;" id="search-form-desktop-{{ section.id }}">
+            <input type="hidden" name="type" value="product">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              class="header-custom__search-input"
+              type="search"
+              name="q"
+              placeholder="{{ section.settings.search_placeholder | default: 'Sök produkter...' }}"
+              aria-label="{{ 'general.search.search' | t }}"
+              autocomplete="off"
+            >
+          </form>
+        </div>
 
-        <button type="button" class="tap-area {% if section.settings.layout != 'drawer' %}lg:hidden{% endif %}" aria-controls="header-sidebar-menu">
-          <span class="sr-only">{{ 'header.general.open_menu' | t }}</span>
-          {%- render 'icon' with 'hamburger' -%}
-        </button>
-      </div>
-
-      {%- comment -%}
-      SEARCH — center grid area
-      {%- endcomment -%}
-
-      <div class="header__search-center">
-        <form action="{{ routes.search_url }}" method="get" class="header__search-center-form" role="search">
-          <input type="hidden" name="type" value="product">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input
-            class="header__search-center-input"
-            type="search"
-            name="q"
-            placeholder="{{ section.settings.search_placeholder | default: 'Sök produkter...' }}"
-            aria-label="{{ 'general.search.search' | t }}"
-            autocomplete="off"
-          >
-        </form>
-      </div>
-
-      {%- comment -%}
-      SECONDARY NAV AREA — unchanged from original
-      {%- endcomment -%}
-
-      <div class="header__secondary-nav">
-        {%- if section.settings.header != 'drawer' and section.settings.secondary_menu.links.size > 0 -%}
-          <nav class="header__link-list" role="navigation">
-            <ul class="contents">
-              {%- for link in section.settings.secondary_menu.links -%}
-                <li>
-                  <a href="{{ link.url }}" class="bold link-faded-reverse">{{ link.title }}</a>
-                </li>
-              {%- endfor -%}
-            </ul>
-          </nav>
-        {%- endif -%}
-
-        <div class="header__icon-list">
+        {%- comment -%} RIGHT: icons {%- endcomment -%}
+        <div class="header-custom__right">
           {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
             <div class="hidden md:block shrink-0">
               {%- render 'localization-selector', type: 'country', show_country_name: section.settings.show_country_name, show_country_flag: section.settings.show_country_flag, popover_vertical_position: 'end' -%}
@@ -207,34 +325,100 @@ the underlying logic of the menu.
             </div>
           {%- endif -%}
 
-          <a href="{{ routes.search_url }}" class="hidden tap-area sm:block header__search-icon-hide" aria-controls="search-drawer">
-            <span class="sr-only">{{ 'header.general.open_search' | t }}</span>
-            {%- render 'icon' with 'search' -%}
-          </a>
-
-          {%- if shop.customer_accounts_enabled -%}
-            <a href="{{ routes.account_url }}" class="hidden tap-area sm:block">
-              <span class="sr-only">{{ 'header.general.open_account' | t }}</span>
-              {%- render 'icon' with 'account' -%}
+          {%- if section.settings.show_recipe_icon -%}
+            <a href="{{ section.settings.recipe_url | default: '#' }}" class="header-custom__icon-btn">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+              </svg>
+              <span class="header-custom__icon-label">{{ section.settings.recipe_label | default: 'Recept' }}</span>
             </a>
           {%- endif -%}
 
-          <a href="{{ routes.cart_url }}" data-no-instant class="relative tap-area" {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}>
+          {%- if shop.customer_accounts_enabled -%}
+            <a href="{{ routes.account_url }}" class="header-custom__icon-btn header-custom__icon--account">
+              <span class="sr-only">{{ 'header.general.open_account' | t }}</span>
+              {%- render 'icon' with 'account' -%}
+              <span class="header-custom__icon-label">{{ section.settings.account_label | default: 'Profil' }}</span>
+            </a>
+          {%- endif -%}
+
+          {%- if section.settings.show_wishlist_icon -%}
+            <a href="{{ section.settings.wishlist_url | default: '/pages/wishlist' }}" class="header-custom__icon-btn">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+              <span class="header-custom__icon-label">{{ section.settings.wishlist_label | default: 'Favoriter' }}</span>
+            </a>
+          {%- endif -%}
+
+          <a href="{{ routes.cart_url }}" data-no-instant class="header-custom__icon-btn" {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}>
             <span class="sr-only">{{ 'header.general.open_cart' | t }}</span>
             {%- render 'icon' with 'cart' -%}
-
-            <div class="header__cart-count">
+            <span class="header-custom__icon-label">{{ section.settings.cart_label | default: 'Kassa' }}</span>
+            <div class="header-custom__cart-count">
               <cart-count class="count-bubble {% if cart.item_count == 0 %}opacity-0{% endif %}" aria-hidden="true">
                 {{- cart.item_count -}}
               </cart-count>
             </div>
           </a>
         </div>
+
+      </div>
+
+      {%- comment -%} SEARCH ROW — mobile only, shown below top row {%- endcomment -%}
+      <div class="header-custom__search-wrap">
+        <form action="{{ routes.search_url }}" method="get" class="header-custom__search-form" role="search">
+          <input type="hidden" name="type" value="product">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            class="header-custom__search-input"
+            type="search"
+            name="q"
+            placeholder="{{ section.settings.search_placeholder | default: 'Sök produkter...' }}"
+            aria-label="{{ 'general.search.search' | t }}"
+            autocomplete="off"
+          >
+          <button type="submit" style="background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </form>
       </div>
 
     </div>
+
   </store-header>
 </height-observer>
+
+<style>
+  /* Desktop: swap center content — hide logo, show search */
+  @media screen and (min-width: 750px) {
+    .header-custom__center > a,
+    .header-custom__center > h1 {
+      display: none;
+    }
+    #search-form-desktop-{{ section.id }} {
+      display: flex !important;
+      width: 100%;
+    }
+  }
+
+  /* Mobile: show logo in center, hide desktop search form */
+  @media screen and (max-width: 749px) {
+    #search-form-desktop-{{ section.id }} {
+      display: none !important;
+    }
+    .header-custom__center > a,
+    .header-custom__center > h1 {
+      display: flex;
+    }
+  }
+</style>
 
 {%- comment -%}
   NAVIGATION MENU DRAWER — unchanged from original
@@ -343,14 +527,12 @@ the underlying logic of the menu.
     {
       "type": "link_list",
       "id": "secondary_menu",
-      "label": "Secondary menu",
-      "info": "This menu won't show dropdown items. For best results, limit the number of links to 1 or 2."
+      "label": "Secondary menu"
     },
     {
       "type": "select",
       "id": "menu_open_trigger",
       "label": "Open dropdown items on...",
-      "info": "Click mode is forced on touch devices.",
       "options": [
         { "value": "hover", "label": "Hover" },
         { "value": "click", "label": "Click" }
@@ -369,7 +551,7 @@ the underlying logic of the menu.
         { "value": "bottom", "label": "Bottom" },
         { "value": "left", "label": "Left" }
       ],
-      "default": "bottom"
+      "default": "left"
     },
     {
       "type": "header",
@@ -379,7 +561,6 @@ the underlying logic of the menu.
       "type": "select",
       "id": "layout",
       "label": "Layout",
-      "info": "When centering navigation, you should limit your links to 5.",
       "options": [
         { "value": "logo_left_navigation_inline", "label": "Logo left, navigation inline" },
         { "value": "logo_left_navigation_center", "label": "Logo left, navigation center" },
@@ -390,8 +571,72 @@ the underlying logic of the menu.
     },
     {
       "type": "header",
+      "content": "Icon labels"
+    },
+    {
+      "type": "text",
+      "id": "menu_label",
+      "label": "Menu label",
+      "default": "Meny"
+    },
+    {
+      "type": "text",
+      "id": "account_label",
+      "label": "Account label",
+      "default": "Profil"
+    },
+    {
+      "type": "text",
+      "id": "cart_label",
+      "label": "Cart label",
+      "default": "Kassa"
+    },
+    {
+      "type": "header",
+      "content": "Wishlist icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist_icon",
+      "label": "Show wishlist icon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "wishlist_label",
+      "label": "Wishlist label",
+      "default": "Favoriter"
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist page URL"
+    },
+    {
+      "type": "header",
+      "content": "Recipe icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_recipe_icon",
+      "label": "Show recipe icon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "recipe_label",
+      "label": "Recipe label",
+      "default": "Recept"
+    },
+    {
+      "type": "url",
+      "id": "recipe_url",
+      "label": "Recipe page URL"
+    },
+    {
+      "type": "header",
       "content": "Social media",
-      "info": "This will only show in the drawer navigation."
+      "info": "Only shows in drawer navigation."
     },
     {
       "type": "checkbox",
@@ -413,7 +658,7 @@ the underlying logic of the menu.
     {
       "type": "header",
       "content": "Country/region selector",
-      "info": "To add a country/region, go to your [markets settings.](/admin/settings/markets). For best user experience, we recommend to keep this setting off and to use the free [Shopify Geolocation app](https://apps.shopify.com/geolocation)."
+      "info": "To add a country/region, go to your [markets settings.](/admin/settings/markets)."
     },
     {
       "type": "checkbox",
@@ -435,8 +680,7 @@ the underlying logic of the menu.
     },
     {
       "type": "header",
-      "content": "Transparent header",
-      "info": "Add a section on first position which allows transparent header such as slideshow or image with text overlay."
+      "content": "Transparent header"
     },
     {
       "type": "color",
