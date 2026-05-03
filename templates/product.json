@@ -12,14 +12,25 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "vendor_RAVQEt": {
+          "type": "vendor",
+          "settings": {}
+        },
         "title": {
           "type": "title",
           "settings": {
             "heading_tag": "h2"
           }
         },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false
+          }
+        },
         "judge_me_reviews_preview_badge_BkceGL": {
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
           "settings": {}
         },
         "badges": {
@@ -32,31 +43,25 @@
             "show_taxes_notice": false
           }
         },
+        "inventory_WqNJfM": {
+          "type": "inventory",
+          "settings": {
+            "low_inventory_threshold": 0
+          }
+        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
+          "disabled": true,
           "settings": {
             "hide_sold_out_variants": false,
             "stack_blocks": true,
             "selector_mode": "block",
             "color_mode": "color",
             "size_chart_page": ""
-          }
-        },
-        "rating": {
-          "type": "rating",
-          "disabled": true,
-          "settings": {
-            "show_empty": false
-          }
-        },
-        "inventory_WqNJfM": {
-          "type": "inventory",
-          "settings": {
-            "low_inventory_threshold": 0
           }
         },
         "buy_buttons": {
@@ -94,14 +99,15 @@
         }
       },
       "block_order": [
+        "vendor_RAVQEt",
         "title",
+        "rating",
         "judge_me_reviews_preview_badge_BkceGL",
         "badges",
         "price",
+        "inventory_WqNJfM",
         "quantity_selector",
         "variant_picker",
-        "rating",
-        "inventory_WqNJfM",
         "buy_buttons",
         "payment_terms",
         "separator",
@@ -111,10 +117,10 @@
       "settings": {
         "full_width": true,
         "show_fixed_add_to_cart": true,
-        "desktop_media_width": 40,
+        "desktop_media_width": 50,
         "desktop_media_layout": "carousel_thumbnails_bottom",
-        "mobile_media_size": "contained",
-        "mobile_carousel_control": "free_scroll",
+        "mobile_media_size": "expanded",
+        "mobile_carousel_control": "floating_dots",
         "enable_video_autoplay": false,
         "enable_video_looping": true,
         "enable_image_zoom": true,
