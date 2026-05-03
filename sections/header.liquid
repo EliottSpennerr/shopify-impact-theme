@@ -19,15 +19,12 @@ the underlying logic of the menu.
   }
 
   #shopify-section-{{ section.id }} {
-    --header-grid-template: "main-nav logo secondary-nav" / minmax(0, 1fr) auto minmax(0, 1fr);
-    --header-padding-block: {% if section.settings.reduce_padding %}var(--spacing-3){% else %}var(--spacing-4-5){% endif %};
     --header-background-opacity: {{ section.settings.background_opacity | divided_by: 100.0 }};
     --header-background-blur-radius: {{ section.settings.background_blur_radius }}px;
     --header-transparent-text-color: {{ section.settings.transparent_header_text_color.rgb }};
 
     {%- if section.settings.logo != blank -%}
       --header-logo-width: {{ section.settings.logo_mobile_max_width }}px;
-      --header-logo-height: {{ section.settings.logo_mobile_max_width | divided_by: section.settings.logo.aspect_ratio | round }}px;
     {%- endif -%}
 
     position: {% if section.settings.enable_sticky %}sticky{% else %}relative{% endif %};
@@ -41,257 +38,387 @@ the underlying logic of the menu.
     }
   {%- endif -%}
 
-  {%- if section.settings.opening_from == 'left' -%}
-    @media screen and (max-width: 699px) {
-      .navigation-drawer {
-        --drawer-content-max-height: calc(100vh - (var(--spacing-2) * 2));
-      }
-    }
-  {%- endif -%}
+  /* ---- Top bar ---- */
+  .header-v2__top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: {% if section.settings.reduce_padding %}10px 20px{% else %}16px 24px{% endif %};
+    background: var(--header-background, var(--color-background));
+  }
 
-  @media screen and (min-width: 700px) {
-    #shopify-section-{{ section.id }} {
-      {%- if section.settings.logo != blank -%}
-        --header-logo-width: {{ section.settings.logo_max_width }}px;
-        --header-logo-height: {{ section.settings.logo_max_width | divided_by: section.settings.logo.aspect_ratio | round }}px;
-      {%- endif -%}
+  /* Left zone: hamburger + logo */
+  .header-v2__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
 
-      --header-padding-block: {% if section.settings.reduce_padding %}var(--spacing-6){% else %}var(--spacing-8-5){% endif %};
+  .header-v2__hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    color: currentColor;
+  }
+
+  .header-v2__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .header-v2__logo-image {
+    display: block;
+    width: {{ section.settings.logo_mobile_max_width }}px;
+    height: auto;
+  }
+
+  @media screen and (min-width: 750px) {
+    .header-v2__logo-image {
+      width: {{ section.settings.logo_max_width }}px;
     }
   }
 
-  {%- if section.settings.layout contains 'logo_left' -%}
-    @media screen and (min-width: 1150px) {
-      {%- if section.settings.secondary_menu != blank or will_show_country_selector or will_show_locale_selector -%}
-        {%- assign max_percent = '55%' -%}
-      {%- else -%}
-        {%- assign max_percent = '70%' -%}
-      {%- endif -%}
+  .header-v2__logo-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: currentColor;
+    text-decoration: none;
+  }
 
-      #shopify-section-{{ section.id }} {
-        --header-grid-template: "logo main-nav secondary-nav" / {% if section.settings.layout == 'logo_left_navigation_inline' %}auto minmax(0, 1fr) minmax(0, max-content){% else %}minmax(0, 1fr) fit-content({{ max_percent }}) minmax(0, 1fr){% endif %};
-      }
+  /* Center zone: search */
+  .header-v2__search {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header-v2__search-form {
+    display: flex;
+    align-items: center;
+    background: #f2f2f2;
+    border-radius: 100px;
+    padding: 10px 18px;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .header-v2__search-form svg {
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  .header-v2__search-input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+    color: currentColor;
+  }
+
+  .header-v2__search-input::placeholder {
+    color: #999;
+  }
+
+  /* Right zone: icons */
+  .header-v2__icons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .header-v2__icon-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: currentColor;
+    text-decoration: none;
+    border-radius: 50%;
+    transition: background 0.2s;
+  }
+
+  .header-v2__icon-btn:hover {
+    background: rgba(0,0,0,0.05);
+  }
+
+  .header-v2__cart-count {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+  }
+
+  /* ---- Bottom nav bar ---- */
+  .header-v2__nav {
+    border-top: 1px solid rgba(0,0,0,0.07);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--header-background, var(--color-background));
+  }
+
+  .header-v2__nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-v2__nav-links li {
+    position: relative;
+  }
+
+  .header-v2__nav-link {
+    display: block;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: currentColor;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+
+  .header-v2__nav-link:hover,
+  .header-v2__nav-link[aria-current="page"] {
+    opacity: 1;
+    border-bottom-color: currentColor;
+  }
+
+  /* CTA button in nav */
+  .header-v2__nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: {{ section.settings.cta_button_color }};
+    color: {{ section.settings.cta_button_text_color }};
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+    margin-left: 16px;
+  }
+
+  .header-v2__nav-cta:hover {
+    opacity: 0.88;
+  }
+
+  {% unless section.settings.show_cta_button %}
+    .header-v2__nav-cta { display: none; }
+  {% endunless %}
+
+  /* Hide nav on mobile unless drawer */
+  @media screen and (max-width: 749px) {
+    .header-v2__nav {
+      display: none;
     }
-  {%- endif -%}
+    .header-v2__icon-btn--account {
+      display: none;
+    }
+  }
+
+  /* Dropdown menus */
+  .header-v2__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: var(--color-background, #fff);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 100;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+    list-style: none;
+    margin: 0;
+  }
+
+  .header-v2__nav-links li:hover > .header-v2__dropdown,
+  .header-v2__nav-links li:focus-within > .header-v2__dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .header-v2__dropdown a {
+    display: block;
+    padding: 10px 18px;
+    font-size: 14px;
+    color: currentColor;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .header-v2__dropdown a:hover {
+    background: rgba(0,0,0,0.04);
+  }
 </style>
 
 <height-observer variable="header">
   <store-header class="header" {% if section.settings.hide_on_scroll %}hide-on-scroll="100"{% endif %} {% if section.settings.enable_sticky %}sticky{% endif %}>
-    <div class="header__wrapper">
-      {%- comment -%}
-      --------------------------------------------------------------------------------------------------------------------
-      MAIN NAV AREA
-      --------------------------------------------------------------------------------------------------------------------
-      {%- endcomment -%}
 
-      <div class="header__main-nav">
-        <div class="header__icon-list">
-          <button type="button" class="tap-area {% if section.settings.layout != 'drawer' %}lg:hidden{% endif %}" aria-controls="header-sidebar-menu">
-            <span class="sr-only">{{ 'header.general.open_menu' | t }}</span>
-            {%- render 'icon' with 'hamburger' -%}
-          </button>
+    {%- comment -%} TOP BAR {%- endcomment -%}
+    <div class="header-v2__top">
 
-          <a href="{{ routes.search_url }}" class="tap-area sm:hidden" aria-controls="search-drawer">
-            <span class="sr-only">{{ 'header.general.open_search' | t }}</span>
-            {%- render 'icon' with 'search' -%}
+      {%- comment -%} LEFT: Hamburger + Logo {%- endcomment -%}
+      <div class="header-v2__left">
+        <button type="button" class="header-v2__hamburger tap-area" aria-controls="header-sidebar-menu">
+          <span class="sr-only">{{ 'header.general.open_menu' | t }}</span>
+          {%- render 'icon' with 'hamburger' -%}
+        </button>
+
+        {%- capture logo_content -%}
+          {%- if section.settings.logo -%}
+            {%- capture sizes -%}{{ section.settings.logo_max_width }}px{%- endcapture -%}
+            {%- capture widths -%}{{ section.settings.logo_max_width | times: 2 | at_most: section.settings.logo.width }}, {{ section.settings.logo_max_width | times: 3 | at_most: section.settings.logo.width }}{%- endcapture -%}
+            <span class="sr-only">{{ shop.name }}</span>
+            {{- section.settings.logo | image_url: width: section.settings.logo.width | image_tag: sizes: sizes, widths: widths, class: 'header-v2__logo-image' -}}
+            {%- if section.settings.transparent_logo -%}
+              {{- section.settings.transparent_logo | image_url: width: section.settings.transparent_logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image header__logo-image--transparent' -}}
+            {%- endif -%}
+          {%- else -%}
+            <span class="header-v2__logo-text">{{ shop.name }}</span>
+          {%- endif -%}
+        {%- endcapture -%}
+
+        {%- if request.page_type == 'index' -%}
+          <h1 style="margin:0;line-height:1;">
+            <a href="{{ routes.root_url }}" class="header-v2__logo">{{ logo_content }}</a>
+          </h1>
+        {%- else -%}
+          <a href="{{ routes.root_url }}" class="header-v2__logo">{{ logo_content }}</a>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} CENTER: Search {%- endcomment -%}
+      <div class="header-v2__search">
+        <form action="{{ routes.search_url }}" method="get" class="header-v2__search-form" role="search">
+          <input type="hidden" name="type" value="product">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            class="header-v2__search-input"
+            type="search"
+            name="q"
+            placeholder="{{ section.settings.search_placeholder | default: 'Sök produkter...' }}"
+            aria-label="{{ 'general.search.search' | t }}"
+            autocomplete="off"
+          >
+        </form>
+      </div>
+
+      {%- comment -%} RIGHT: Icons {%- endcomment -%}
+      <div class="header-v2__icons">
+        {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+          <div class="hidden md:block shrink-0">
+            {%- render 'localization-selector', type: 'country', show_country_name: section.settings.show_country_name, show_country_flag: section.settings.show_country_flag, popover_vertical_position: 'end' -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_locale_selector and localization.available_languages.size > 1 -%}
+          <div class="hidden md:block shrink-0">
+            {%- render 'localization-selector', type: 'locale', popover_vertical_position: 'end' -%}
+          </div>
+        {%- endif -%}
+
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}" class="header-v2__icon-btn header-v2__icon-btn--account">
+            <span class="sr-only">{{ 'header.general.open_account' | t }}</span>
+            {%- render 'icon' with 'account' -%}
           </a>
+        {%- endif -%}
 
-          {%- if section.settings.layout != 'drawer' and section.settings.menu.links.size > 0 -%}
-            <nav class="header__link-list {% if section.settings.layout == 'logo_left_navigation_center' %}justify-center{% endif %} wrap" role="navigation">
-              <ul class="contents" role="list">
-                {%- for link in section.settings.menu.links -%}
-                  {% liquid
-                    assign link_title_downcase = link.title | downcase
-                    assign mega_menu_block = ''
+        {%- if section.settings.show_wishlist_icon -%}
+          <a href="{{ section.settings.wishlist_url | default: '/pages/wishlist' }}" class="header-v2__icon-btn">
+            <span class="sr-only">Wishlist</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </a>
+        {%- endif -%}
 
-                    for block in section.blocks
-                      assign menu_item_downcase = block.settings.menu_item | strip | downcase
+        <a href="{{ routes.cart_url }}" data-no-instant class="header-v2__icon-btn" {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}>
+          <span class="sr-only">{{ 'header.general.open_cart' | t }}</span>
+          {%- render 'icon' with 'cart' -%}
+          <div class="header-v2__cart-count">
+            <cart-count class="count-bubble {% if cart.item_count == 0 %}opacity-0{% endif %}" aria-hidden="true">
+              {{- cart.item_count -}}
+            </cart-count>
+          </div>
+        </a>
+      </div>
+    </div>
 
-                      if menu_item_downcase == link_title_downcase
-                        assign mega_menu_block = block
-                        break
-                      endif
-
-                    endfor
-                  %}
-
+    {%- comment -%} BOTTOM NAV BAR {%- endcomment -%}
+    <div class="header-v2__nav">
+      <ul class="header-v2__nav-links" role="list">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            {%- if link.links.size > 0 -%}
+              <a href="{{ link.url }}" class="header-v2__nav-link" {% if link.current %}aria-current="page"{% endif %}>
+                {{- link.title -}}
+              </a>
+              <ul class="header-v2__dropdown" role="list">
+                {%- for sub_link in link.links -%}
                   <li>
-                    {%- if link.levels == 0 and mega_menu_block == '' -%}
-                      <a href="{{ link.url }}" class="bold link-faded-reverse" {% if link.current %}aria-current="page"{% endif %}>{{- link.title -}}</a>
-                    {%- else -%}
-                      {%- if mega_menu_block != '' -%}
-                        {%- comment -%}
-                        Implementation note: the designers had the desire to show a lot of different kind of menus in Impact: one standard
-                        mega menu but also a kind of "sidebar" mode when the mega-menu appears in a drawer. Unfortunately, this comes with
-                        a lot of extra complexity as we have to go through two different code path: a "details" element for the standard
-                        menu, and a full drawer for the other one.
-                        {%- endcomment -%}
-                        {%- unless mega_menu_block.settings.layout == 'drawer' -%}
-                          <details is="mega-menu-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}" {{ mega_menu_block.shopify_attributes }}>
-                            <summary class="text-with-icon gap-2.5 bold link-faded-reverse" {% if link.url != '#' %}data-url="{{ link.url | escape }}"{% endif %}>
-                              {{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}
-                            </summary>
-
-                           {%- render 'mega-menu-horizontal', link: link, mega_menu_block: mega_menu_block -%}
-                          </details>
-                        {%- else -%}
-                          <button aria-controls="navigation-drawer-{{ forloop.index }}" aria-expanded="false" class="text-with-icon gap-2.5 bold link-faded-reverse">
-                            {{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}
-                          </button>
-
-                          <navigation-drawer class="navigation-drawer drawer lg-max:hidden" id="navigation-drawer-{{ forloop.index }}" open-from="left" mega-menu>
-                            {%- render 'navigation-panel', navigation_layout: section.settings.layout, main_menu: link, is_mega_menu: true, mega_menu_block: mega_menu_block -%}
-                          </navigation-drawer>
-                        {%- endunless -%}
-                      {%- else -%}
-                        <details class="relative" is="dropdown-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}">
-                          <summary class="text-with-icon gap-2.5 bold link-faded-reverse" {% if link.url != '#' %}data-url="{{ link.url | escape }}"{% endif %}>
-                            {{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}
-                          </summary>
-
-                          <div class="dropdown-menu {% if link.levels <= 1 %}dropdown-menu--restrictable{% endif %}">
-                            <ul class="contents" role="list">
-                              {%- for sub_link in link.links -%}
-                                <li>
-                                  {%- if sub_link.levels == 0 -%}
-                                    <a href="{{ sub_link.url }}" class="dropdown-menu__item group" {% if sub_link.current %}aria-current="page"{% endif %}>
-                                      <span><span class="reversed-link">{{ sub_link.title }}</span></span>
-                                    </a>
-                                  {%- else -%}
-                                    <details class="relative" is="dropdown-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}">
-                                      <summary class="dropdown-menu__item group" {% if sub_link.url != '#' %}data-url="{{ sub_link.url | escape }}"{% endif %}>
-                                        <span><span class="reversed-link">{{- sub_link.title -}}</span></span>
-                                        {%- render 'icon' with 'chevron-right' -%}
-                                      </summary>
-
-                                      <div class="dropdown-menu">
-                                        <ul class="contents" role="list">
-                                          {%- for sub_sub_link in sub_link.links -%}
-                                            <li>
-                                              <a href="{{ sub_sub_link.url }}" class="dropdown-menu__item group" {% if sub_sub_link.current %}aria-current="page"{% endif %}>
-                                                <span><span class="reversed-link">{{ sub_sub_link.title }}</span></span>
-                                              </a>
-                                            </li>
-                                          {%- endfor -%}
-                                        </ul>
-                                      </div>
-                                    </details>
-                                  {%- endif -%}
-                                </li>
-                              {%- endfor -%}
-                            </ul>
-                          </div>
-                        </details>
-                      {%- endif -%}
-                    {%- endif -%}
+                    <a href="{{ sub_link.url }}" {% if sub_link.current %}aria-current="page"{% endif %}>
+                      {{ sub_link.title }}
+                    </a>
                   </li>
                 {%- endfor -%}
               </ul>
-            </nav>
+            {%- else -%}
+              <a href="{{ link.url }}" class="header-v2__nav-link" {% if link.current %}aria-current="page"{% endif %}>
+                {{- link.title -}}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if section.settings.show_cta_button and section.settings.cta_button_label != blank -%}
+        <a href="{{ section.settings.cta_button_url }}" class="header-v2__nav-cta">
+          {%- if section.settings.cta_button_icon != blank -%}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
           {%- endif -%}
-        </div>
-      </div>
-
-      {%- comment -%}
-      --------------------------------------------------------------------------------------------------------------------
-      LOGO AREA
-      --------------------------------------------------------------------------------------------------------------------
-      {%- endcomment -%}
-
-      {%- capture logo_content -%}
-        {%- if section.settings.logo -%}
-          {%- capture sizes -%}{{ section.settings.logo_max_width }}px{%- endcapture -%}
-          {%- capture widths -%}{{ section.settings.logo_max_width | times: 2 | at_most: section.settings.logo.width }}, {{ section.settings.logo_max_width | times: 3 | at_most: section.settings.logo.width }}{%- endcapture -%}
-          <span class="sr-only">{{ shop.name }}</span>
-          {{- section.settings.logo | image_url: width: section.settings.logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image' -}}
-
-          {%- if section.settings.transparent_logo -%}
-            {{- section.settings.transparent_logo | image_url: width: section.settings.transparent_logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image header__logo-image--transparent' -}}
-          {%- endif -%}
-        {%- else -%}
-          <span class="header__logo-text h4">{{ shop.name }}</span>
-        {%- endif -%}
-      {%- endcapture -%}
-
-      {%- if request.page_type == 'index' -%}
-        <h1 class="header__logo">
-          <a href="{{ routes.root_url }}">{{ logo_content }}</a>
-        </h1>
-      {% else %}
-        <a href="{{ routes.root_url }}" class="header__logo">{{ logo_content }}</a>
-      {% endif %}
-
-      {%- comment -%}
-      --------------------------------------------------------------------------------------------------------------------
-      SECONDARY NAV AREA
-      --------------------------------------------------------------------------------------------------------------------
-      {%- endcomment -%}
-
-      <div class="header__secondary-nav">
-        {%- if section.settings.header != 'drawer' and section.settings.secondary_menu.links.size > 0 -%}
-          <nav class="header__link-list" role="navigation">
-            <ul class="contents">
-              {%- for link in section.settings.secondary_menu.links -%}
-                <li>
-                  <a href="{{ link.url }}" class="bold link-faded-reverse">{{ link.title }}</a>
-                </li>
-              {%- endfor -%}
-            </ul>
-          </nav>
-        {%- endif -%}
-
-        <div class="header__icon-list">
-          {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
-            <div class="hidden md:block shrink-0">
-              {%- render 'localization-selector', type: 'country', show_country_name: section.settings.show_country_name, show_country_flag: section.settings.show_country_flag, popover_vertical_position: 'end' -%}
-            </div>
-          {%- endif -%}
-
-          {%- if section.settings.show_locale_selector and localization.available_languages.size > 1 -%}
-            <div class="hidden md:block shrink-0">
-              {%- render 'localization-selector', type: 'locale', popover_vertical_position: 'end' -%}
-            </div>
-          {%- endif -%}
-
-          <a href="{{ routes.search_url }}" class="hidden tap-area sm:block" aria-controls="search-drawer">
-            <span class="sr-only">{{ 'header.general.open_search' | t }}</span>
-            {%- render 'icon' with 'search' -%}
-          </a>
-          
-          {%- if shop.customer_accounts_enabled -%}
-            <a href="{{ routes.account_url }}" class="hidden tap-area sm:block">
-              <span class="sr-only">{{ 'header.general.open_account' | t }}</span>
-              {%- render 'icon' with 'account' -%}
-            </a>
-          {%- endif -%}
-
-          <a href="{{ routes.cart_url }}" data-no-instant class="relative tap-area" {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}>
-            <span class="sr-only">{{ 'header.general.open_cart' | t }}</span>
-            {%- render 'icon' with 'cart' -%}
-
-            <div class="header__cart-count">
-              <cart-count class="count-bubble {% if cart.item_count == 0 %}opacity-0{% endif %}" aria-hidden="true">
-                {{- cart.item_count -}}
-              </cart-count>
-            </div>
-          </a>
-        </div>
-      </div>
+          {{ section.settings.cta_button_label }}
+        </a>
+      {%- endif -%}
     </div>
+
   </store-header>
 </height-observer>
 
-{%- comment -%}
-  --------------------------------------------------------------------------------------------------------------------
-  NAVIGATION MENU DRAWER
-  --------------------------------------------------------------------------------------------------------------------
-{%- endcomment -%}
-
+{%- comment -%} NAVIGATION DRAWER {%- endcomment -%}
 {%- assign main_menu = section.settings.sidebar_menu | default: section.settings.menu -%}
 {%- assign secondary_menu = section.settings.secondary_menu -%}
 
 {%- if main_menu.links.size > 0 or secondary_menu.links.size > 0 -%}
-  <navigation-drawer mobile-opening="{{ section.settings.opening_from }}" open-from="left" id="header-sidebar-menu" class="navigation-drawer drawer {% if section.settings.layout != 'drawer' %}lg:hidden{% endif %}" {% if request.design_mode %}handle-section-events{% endif %}>
+  <navigation-drawer mobile-opening="{{ section.settings.opening_from }}" open-from="left" id="header-sidebar-menu" class="navigation-drawer drawer" {% if request.design_mode %}handle-section-events{% endif %}>
     <button is="close-button" aria-label="{{ 'general.accessibility.close' | t | escape }}" {%- if section.settings.opening_from == 'bottom' -%}class="sm-max:hidden"{%- endif -%}>
       {%- render 'icon' with 'close', width: 19, height: 19 -%}
     </button>
@@ -364,6 +491,16 @@ the underlying logic of the menu.
     },
     {
       "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder text",
+      "default": "Sök produkter..."
+    },
+    {
+      "type": "header",
       "content": "Navigation"
     },
     {
@@ -380,25 +517,61 @@ the underlying logic of the menu.
     {
       "type": "link_list",
       "id": "secondary_menu",
-      "label": "Secondary menu",
-      "info": "This menu won't show dropdown items. For best results, limit the number of links to 1 or 2."
+      "label": "Secondary menu"
     },
     {
-      "type": "select",
-      "id": "menu_open_trigger",
-      "label": "Open dropdown items on...",
-      "info": "Click mode is forced on touch devices.",
-      "options": [
-        {
-          "value": "hover",
-          "label": "Hover"
-        },
-        {
-          "value": "click",
-          "label": "Click"
-        }
-      ],
-      "default": "click"
+      "type": "header",
+      "content": "CTA button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta_button",
+      "label": "Show CTA button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "Button label",
+      "default": "Hämta ut recept"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "cta_button_icon",
+      "label": "Show icon on button",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "cta_button_color",
+      "label": "Button background",
+      "default": "#1a9e5e"
+    },
+    {
+      "type": "color",
+      "id": "cta_button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist_icon",
+      "label": "Show wishlist icon",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist page URL"
     },
     {
       "type": "header",
@@ -409,50 +582,31 @@ the underlying logic of the menu.
       "id": "opening_from",
       "label": "Opening from",
       "options": [
-        {
-          "value": "bottom",
-          "label": "Bottom"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        }
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "left", "label": "Left" }
       ],
-      "default": "bottom"
+      "default": "left"
     },
     {
       "type": "header",
-      "content": "Desktop"
+      "content": "Desktop layout"
     },
     {
       "type": "select",
       "id": "layout",
-      "label": "Layout",
-      "info": "When centering navigation, you should limit your links to 5.",
+      "label": "Drawer layout fallback",
       "options": [
-        {
-          "value": "logo_left_navigation_inline",
-          "label": "Logo left, navigation inline"
-        },
-        {
-          "value": "logo_left_navigation_center",
-          "label": "Logo left, navigation center"
-        },
-        {
-          "value": "logo_center_navigation_inline",
-          "label": "Logo center, navigation inline"
-        },
-        {
-          "value": "drawer",
-          "label": "Drawer"
-        }
+        { "value": "logo_left_navigation_inline", "label": "Logo left, navigation inline" },
+        { "value": "logo_left_navigation_center", "label": "Logo left, navigation center" },
+        { "value": "logo_center_navigation_inline", "label": "Logo center, navigation inline" },
+        { "value": "drawer", "label": "Drawer" }
       ],
       "default": "logo_left_navigation_inline"
     },
     {
       "type": "header",
       "content": "Social media",
-      "info": "This will only show in the drawer navigation."
+      "info": "Only shows in drawer navigation."
     },
     {
       "type": "checkbox",
@@ -474,7 +628,7 @@ the underlying logic of the menu.
     {
       "type": "header",
       "content": "Country/region selector",
-      "info": "To add a country/region, go to your [markets settings.](/admin/settings/markets). For best user experience, we recommend to keep this setting off and to use the free [Shopify Geolocation app](https://apps.shopify.com/geolocation)."
+      "info": "To add a country/region, go to your [markets settings.](/admin/settings/markets)."
     },
     {
       "type": "checkbox",
@@ -496,8 +650,7 @@ the underlying logic of the menu.
     },
     {
       "type": "header",
-      "content": "Transparent header",
-      "info": "Add a section on first position which allows transparent header such as slideshow or image with text overlay."
+      "content": "Transparent header"
     },
     {
       "type": "color",
@@ -508,8 +661,7 @@ the underlying logic of the menu.
     {
       "type": "image_picker",
       "id": "transparent_logo",
-      "label": "Logo image",
-      "info": "Use the same dimensions as main logo."
+      "label": "Logo image for transparent header"
     },
     {
       "type": "header",
@@ -529,7 +681,7 @@ the underlying logic of the menu.
       "step": 1,
       "unit": "%",
       "label": "Background opacity",
-      "default": 1
+      "default": 100
     },
     {
       "type": "range",
@@ -539,7 +691,7 @@ the underlying logic of the menu.
       "step": 2,
       "unit": "px",
       "label": "Background blur radius",
-      "default": 4
+      "default": 0
     }
   ],
   "blocks": [
@@ -551,25 +703,16 @@ the underlying logic of the menu.
           "type": "text",
           "id": "menu_item",
           "label": "Menu item",
-          "info": "Enter menu item to apply a mega menu dropdown. [Learn more](https://support.maestrooo.com/article/180-navigation-enabling-and-configuring-mega-navigation)."
+          "info": "Enter menu item to apply a mega menu dropdown."
         },
         {
           "type": "select",
           "id": "layout",
           "label": "Layout",
           "options": [
-            {
-              "value": "horizontal",
-              "label": "Horizontal"
-            },
-            {
-              "value": "horizontal_center",
-              "label": "Horizontal (centered)"
-            },
-            {
-              "value": "drawer",
-              "label": "Drawer"
-            }
+            { "value": "horizontal", "label": "Horizontal" },
+            { "value": "horizontal_center", "label": "Horizontal (centered)" },
+            { "value": "drawer", "label": "Drawer" }
           ],
           "default": "horizontal"
         },
@@ -578,14 +721,8 @@ the underlying logic of the menu.
           "id": "submenu_style",
           "label": "Submenu",
           "options": [
-            {
-              "value": "bold_text",
-              "label": "Bold - text only"
-            },
-            {
-              "value": "bold_heading",
-              "label": "Bold - headings only"
-            }
+            { "value": "bold_text", "label": "Bold - text only" },
+            { "value": "bold_heading", "label": "Bold - headings only" }
           ],
           "default": "bold_heading"
         },
@@ -596,8 +733,7 @@ the underlying logic of the menu.
         {
           "type": "image_picker",
           "id": "image_1",
-          "label": "Image",
-          "info": "1200 x 1200px .jpg recommended"
+          "label": "Image"
         },
         {
           "type": "text",
@@ -612,7 +748,7 @@ the underlying logic of the menu.
         {
           "type": "color",
           "id": "image_text_color_1",
-          "label": "Heading",
+          "label": "Heading color",
           "default": "#ffffff"
         },
         {
@@ -622,8 +758,7 @@ the underlying logic of the menu.
         {
           "type": "image_picker",
           "id": "image_2",
-          "label": "Image",
-          "info": "1200 x 1200px .jpg recommended"
+          "label": "Image"
         },
         {
           "type": "text",
@@ -638,7 +773,7 @@ the underlying logic of the menu.
         {
           "type": "color",
           "id": "image_text_color_2",
-          "label": "Heading",
+          "label": "Heading color",
           "default": "#ffffff"
         },
         {
@@ -648,8 +783,7 @@ the underlying logic of the menu.
         {
           "type": "image_picker",
           "id": "image_3",
-          "label": "Image",
-          "info": "1200 x 1200px .jpg recommended"
+          "label": "Image"
         },
         {
           "type": "text",
@@ -664,7 +798,7 @@ the underlying logic of the menu.
         {
           "type": "color",
           "id": "image_text_color_3",
-          "label": "Heading",
+          "label": "Heading color",
           "default": "#ffffff"
         },
         {
@@ -694,20 +828,10 @@ the underlying logic of the menu.
           "type": "select",
           "id": "promo_content_layout",
           "label": "Promotional content layout",
-          "info": "To improve readability, layout can be changed automatically depending on the screen size, menu column count and promotional content. [Learn more](https://support.maestrooo.com/article/296-navigation-understanding-impact-mega-menu-strategy)",
           "options": [
-            {
-              "value": "grid",
-              "label": "Grid"
-            },
-            {
-              "value": "collage",
-              "label": "Collage"
-            },
-            {
-              "value": "carousel",
-              "label": "Carousel"
-            }
+            { "value": "grid", "label": "Grid" },
+            { "value": "collage", "label": "Collage" },
+            { "value": "carousel", "label": "Carousel" }
           ],
           "default": "grid"
         },
@@ -722,14 +846,8 @@ the underlying logic of the menu.
           "id": "drawer_link_image",
           "label": "Drawer link image",
           "options": [
-            {
-              "value": "hide",
-              "label": "Hide"
-            },
-            {
-              "value": "show",
-              "label": "Show product image"
-            }
+            { "value": "hide", "label": "Hide" },
+            { "value": "show", "label": "Show product image" }
           ],
           "default": "hide"
         }
