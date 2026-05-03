@@ -132,7 +132,7 @@ the underlying logic of the menu.
       /* Solid bakgrundsfarg som matchar sidans bakgrund.
          rgb(var(--color-background)) ar Impact-temats standard-variabel.
          Fallback #fff ifall variabeln inte finns. */
-      background-color: rgb(var(--color-background, 255 255 255));
+      background-color: rgb(var(--background) / var(--header-background-opacity))
       /* overflow: hidden forhindrar att lanka-raden skapar horisontell scroll */
       overflow: hidden;
     }
