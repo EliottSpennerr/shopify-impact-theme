@@ -46,22 +46,149 @@ Supported variables
   {%- assign card_class = card_class | append: 'product-card--show-secondary-media' -%}
 {%- endif -%}
 
+{%- comment -%}
+  Stjarnbetyg — lases fran Shopifys inbyggda reviews-metafallt.
+  Stodjer fulla, halva och tomma stjarnor baserat on ratingsvardet.
+  Fallback till temats eget product-rating-snippet om metafaltet saknas.
+{%- endcomment -%}
+{%- assign pc_rating_value = product.metafields.reviews.rating.value | plus: 0.0 -%}
+{%- assign pc_rating_count = product.metafields.reviews.rating_count.value -%}
+
+<style>
+  /* ── Produkt-kort: ny info-layout ─────────────────────────────────── */
+  .product-card__info-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 4px 4px;
+  }
+
+  .product-card__vendor-label {
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.55;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .product-card__title-link {
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    color: currentColor;
+    display: block;
+    line-height: 1.3;
+  }
+
+  .product-card__title-link:hover {
+    opacity: 0.8;
+  }
+
+  /* Lagerstatus */
+  .product-card__stock {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  .product-card__stock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .product-card__stock-dot--in {
+    background: #22c55e;
+  }
+
+  .product-card__stock-dot--out {
+    background: #ef4444;
+  }
+
+  .product-card__stock-text {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* Stjarnor */
+  .product-card__stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-wrap: nowrap;
+  }
+
+  .product-card__stars svg {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .product-card__stars-count {
+    font-size: 12px;
+    margin-left: 3px;
+    opacity: 0.6;
+  }
+
+  /* Pris + kop-rad */
+  .product-card__price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  /* Kop-knapp */
+  .product-card__buy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 100px;
+    background: #1a2e44;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.15s ease;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .product-card__buy-btn:hover {
+    opacity: 0.85;
+  }
+
+  .product-card__buy-btn:disabled,
+  .product-card__buy-btn--disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+</style>
+
 <product-card handle="{{ product.handle | escape }}" {% if reveal %}reveal-js{% endif %} {% render 'surface', class: card_class, background: card_background, text_color: card_text_color %}>
-  {%- comment -%}
-  --------------------------------------------------------------------------------------------------------------------
-  PRODUCT BADGES
-  --------------------------------------------------------------------------------------------------------------------
-  {%- endcomment -%}
+
+  {%- comment -%}──────────────────────────────────────────────────────
+    BADGES
+  ──────────────────────────────────────────────────────{%- endcomment -%}
 
   {%- if show_badges and product.media.size > 0 -%}
     {%- render 'product-badges', product: product, class: 'product-card__badge-list' -%}
   {%- endif -%}
 
-  {%- comment -%}
-  --------------------------------------------------------------------------------------------------------------------
-  PRODUCT MEDIA
-  --------------------------------------------------------------------------------------------------------------------
-  {%- endcomment -%}
+  {%- comment -%}──────────────────────────────────────────────────────
+    PRODUKTBILD
+  ──────────────────────────────────────────────────────{%- endcomment -%}
 
   {%- if product.media.size > 0 -%}
     <div class="product-card__figure">
@@ -90,30 +217,25 @@ Supported variables
           {%- if product.variants.size == 1 and product.selling_plan_groups.size == 0 -%}
             {%- form 'product', product, is: 'product-form' -%}
               <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-
               <div class="pointer-fine:hidden">
                 <button type="submit" is="custom-button" class="product-card__mobile-quick-buy-button" aria-label="{{ quick_add_label | escape }}">
                   {%- render 'icon' with 'quick-buy-cart' -%}
                 </button>
               </div>
-
               <div class="pointer-coarse:hidden">
                 {%- render 'button', type: 'submit', content: quick_add_label -%}
               </div>
             {%- endform -%}
           {%- else -%}
             {%- capture quick_buy_id -%}quick-buy-{{ section.id }}-{{ product.id }}{%- endcapture -%}
-
             <div class="pointer-fine:hidden">
               <button type="button" aria-controls="{{ quick_buy_id }}" aria-expanded="false" aria-label="{{ quick_add_label | escape }}" is="custom-button" class="product-card__mobile-quick-buy-button">
                 {%- render 'icon' with 'quick-buy-cart' -%}
               </button>
             </div>
-
             <div class="pointer-coarse:hidden">
               {%- render 'button', content: quick_add_label, aria_controls: quick_buy_id -%}
             </div>
-
             <quick-buy-drawer id="{{ quick_buy_id }}" header-bordered open-from="bottom" handle="{{ product.handle }}" role="region" aria-live="polite" class="quick-buy-drawer drawer">
               {%- comment -%}Quick buy content is filled on demand for performance reasons {%- endcomment -%}
             </quick-buy-drawer>
@@ -123,48 +245,131 @@ Supported variables
     </div>
   {%- endif -%}
 
-  {%- comment -%}
-  --------------------------------------------------------------------------------------------------------------------
-  PRODUCT INFO
-  --------------------------------------------------------------------------------------------------------------------
-  {%- endcomment -%}
+  {%- comment -%}──────────────────────────────────────────────────────
+    PRODUKTINFO — ny ordning:
+    1. Leverantör
+    2. Produktnamn (fetstil)
+    3. Lagerstatus
+    4. Stjärnbetyg (5 stjärnor, halvstjärnestöd, färg #025dc6)
+    5. Pris + Köp-knapp
+    6. Färgsvepare (om aktiverat i temainställningar)
+  ──────────────────────────────────────────────────────{%- endcomment -%}
 
-  <div class="product-card__info {% if text_alignment == 'center' %}product-card__info--center{% endif %}">
+  <div class="product-card__info-stack">
+
+    {%- comment -%} 1. LEVERANTÖR {%- endcomment -%}
     {%- if show_vendor and product.vendor != blank -%}
-      {%- if show_rating and text_alignment != 'center' -%}
-        <div class="rating-with-text w-full">
-          {%- render 'vendor' with product.vendor, class: 'text-xs' -%}
-
-          {%- capture rating_class -%}{% if mobile_reduced %}hidden sm:flex{% endif %}{%- endcapture -%}
-          {%- render 'product-rating', product: product, class: rating_class, display_mode: settings.product_rating_mode -%}
-        </div>
-      {%- else -%}
-        {%- render 'vendor' with product.vendor, class: 'text-xs' -%}
-      {%- endif -%}
+      <span class="product-card__vendor-label">{{ product.vendor }}</span>
     {%- endif -%}
 
-    <div class="v-stack gap-0.5 w-full {% if text_alignment == 'center' %}justify-items-center{% endif %}">
-      {%- if show_rating and show_vendor == false or product.vendor == blank -%}
-        <div class="rating-with-text">
-          <span class="product-card__title"><a href="{{ product.url }}" class="bold" data-instant>{{ product.title }}</a></span>
+    {%- comment -%} 2. PRODUKTNAMN {%- endcomment -%}
+    <a href="{{ product.url }}" class="product-card__title-link" data-instant>{{ product.title }}</a>
 
-          {%- if text_alignment != 'center' -%}
-            {%- capture rating_class -%}{% if mobile_reduced %}hidden sm:flex{% endif %}{%- endcapture -%}
-            {%- render 'product-rating', product: product, class: rating_class, display_mode: settings.product_rating_mode -%}
-          {%- endif -%}
-        </div>
+    {%- comment -%} 3. LAGERSTATUS {%- endcomment -%}
+    <div class="product-card__stock">
+      {%- if product.available -%}
+        <span class="product-card__stock-dot product-card__stock-dot--in"></span>
+        <span class="product-card__stock-text">{{ 'product.general.in_stock' | t | default: 'Finns i lager' }}</span>
       {%- else -%}
-        <span class="product-card__title"><a href="{{ product.url }}" class="bold" data-instant>{{ product.title }}</a></span>
+        <span class="product-card__stock-dot product-card__stock-dot--out"></span>
+        <span class="product-card__stock-text">{{ 'product.general.sold_out' | t | default: 'Slutsåld' }}</span>
       {%- endif -%}
-
-      {%- render 'price-list', product: product, text_alignment: text_alignment -%}
     </div>
 
-    {%- if show_rating and mobile_reduced or text_alignment == 'center' -%}
-      {%- capture rating_class -%}{% unless text_alignment == 'center' %}sm:hidden{% endunless %}{%- endcapture -%}
-      {%- render 'product-rating', product: product, class: rating_class, display_mode: settings.product_rating_mode -%}
+    {%- comment -%}
+      4. STJÄRNBETYG
+      Kollar forst efter Shopifys inbyggda reviews-metafallt.
+      Visar 5 SVG-stjärnor: fyllda (>= 0.75), halvfyllda (0.25–0.74),
+      tomma (< 0.25) baserat pa betyget. Färg: #025dc6.
+      Gradient-ID inkluderar produkt-ID for att undvika kollisioner
+      nar flera kort renderas pa samma sida.
+    {%- endcomment -%}
+
+    {%- if show_rating -%}
+      {%- if pc_rating_value > 0 -%}
+        <div class="product-card__stars" aria-label="Betyg: {{ pc_rating_value }} av 5">
+          {%- for i in (1..5) -%}
+            {%- assign prev = i | minus: 1 | times: 1.0 -%}
+            {%- assign fill = pc_rating_value | minus: prev -%}
+
+            {%- if fill >= 0.75 -%}
+              {%- comment -%}Fylld stjärna{%- endcomment -%}
+              <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#025dc6"/>
+              </svg>
+
+            {%- elsif fill >= 0.25 -%}
+              {%- comment -%}Halvfylld stjärna via SVG linearGradient{%- endcomment -%}
+              <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="hs-{{ product.id }}-{{ i }}" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="50%" stop-color="#025dc6"/>
+                    <stop offset="50%" stop-color="#d1d5db"/>
+                  </linearGradient>
+                </defs>
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#hs-{{ product.id }}-{{ i }})"/>
+              </svg>
+
+            {%- else -%}
+              {%- comment -%}Tom stjärna{%- endcomment -%}
+              <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#d1d5db"/>
+              </svg>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if pc_rating_count != blank and pc_rating_count > 0 -%}
+            <span class="product-card__stars-count">({{ pc_rating_count }})</span>
+          {%- endif -%}
+        </div>
+
+      {%- else -%}
+        {%- comment -%}
+          Fallback: metafaltet saknas, anvand temats inbyggda snippet.
+          Detta syns nar recensionsappen använder andra metafalt-sökvägar.
+        {%- endcomment -%}
+        {%- capture rating_class -%}{% if mobile_reduced %}hidden sm:flex{% endif %}{%- endcapture -%}
+        {%- render 'product-rating', product: product, class: rating_class, display_mode: settings.product_rating_mode -%}
+      {%- endif -%}
     {%- endif -%}
 
+    {%- comment -%}
+      5. PRIS + KÖP-KNAPP
+      Pris visas till vänster, Köp-knapp till höger.
+      Enkel variant: lagg i varukorg direkt.
+      Flera varianter: oppna quick-buy-drawer eller ga till produktsidan.
+    {%- endcomment -%}
+    <div class="product-card__price-row">
+      {%- render 'price-list', product: product, text_alignment: 'left' -%}
+
+      {%- if product.available -%}
+        {%- if product.variants.size == 1 and product.selling_plan_groups.size == 0 -%}
+          {%- form 'product', product, is: 'product-form' -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button type="submit" class="product-card__buy-btn" aria-label="{{ 'product.general.add_to_cart' | t | escape }}: {{ product.title | escape }}">
+              {{ 'product.general.add_to_cart_short' | t | default: 'Köp' }}
+            </button>
+          {%- endform -%}
+        {%- else -%}
+          {%- capture buy_quick_id -%}buy-btn-{{ section.id }}-{{ product.id }}{%- endcapture -%}
+          <button
+            type="button"
+            class="product-card__buy-btn"
+            aria-controls="{{ quick_buy_id | default: buy_quick_id }}"
+            aria-label="{{ 'product.general.add_to_cart' | t | escape }}: {{ product.title | escape }}">
+            {{ 'product.general.add_to_cart_short' | t | default: 'Köp' }}
+          </button>
+        {%- endif -%}
+      {%- else -%}
+        <span class="product-card__buy-btn product-card__buy-btn--disabled" aria-disabled="true">
+          {{ 'product.general.sold_out' | t | default: 'Slutsåld' }}
+        </span>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%}
+      6. FÄRGSVEPARE (bevarad funktionalitet, visas om aktiverat i temainst.)
+    {%- endcomment -%}
     {%- if settings.product_color_display != 'hide' and show_swatches != false -%}
       {%- assign color_label_list = 'general.label.color' | t | replace: ', ', ',' | downcase | split: ',' -%}
 
@@ -186,10 +391,8 @@ Supported variables
                     {%- else -%}
                       {% assign selected = false %}
                     {%- endif -%}
-
                     {%- render 'swatch' with 'color', value: option_value, name: name, size: 'sm', selected: selected -%}
                   {%- endfor -%}
-
                   {% if product_option.values.size > 4 %}
                     <a href="{{ product.url }}" data-instant class="color-swatch__view-more {% if settings.color_swatch_style == 'round' %}rounded-full{% endif %} text-xxs text-subdued">+{{ product_option.values.size | minus: 4 }}</a>
                   {% endif %}
@@ -200,26 +403,24 @@ Supported variables
                   {%- for option_value in product_option.values limit: 4 -%}
                     {%- assign variant_option = 'option' | append: product_option.position -%}
                     {%- assign variant_for_value = product.variants | where: variant_option, option_value | first -%}
-
                     {%- if forloop.first or variant_for_value.matched and option_value == product_option.selected_value -%}
                       {%- assign selected = true -%}
                     {%- else -%}
                       {% assign selected = false %}
                     {%- endif -%}
-
                     {%- render 'swatch' with 'media', media: variant_for_value.featured_media, value: option_value, name: name, size: 'sm', selected: selected -%}
                   {%- endfor -%}
-
                   {%- if product_option.values.size > 4 -%}
                     <a href="{{ product.url }}" data-instant class="media-swatch__view-more text-xs text-subdued">+{{ product_option.values.size | minus: 4 }}</a>
                   {%- endif -%}
                 </fieldset>
-              {%- endcase -%}
+            {%- endcase -%}
           </div>
 
           {%- break -%}
         {%- endif -%}
       {%- endfor -%}
     {%- endif -%}
+
   </div>
 </product-card>
