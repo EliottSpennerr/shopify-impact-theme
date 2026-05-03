@@ -65,7 +65,7 @@ the underlying logic of the menu.
     grid-area: logo;
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 12px;
   }
 
   .header__logo-with-hamburger .header__logo {
@@ -129,6 +129,10 @@ the underlying logic of the menu.
   @media screen and (min-width: 750px) {
     .header__desktop-nav {
       display: block;
+      /* Samma bakgrundsfarg som headern (arver fran store-header/.header) */
+      background: inherit;
+      /* overflow: hidden forhindrar att lanka-raden skapar horisontell scroll */
+      overflow: hidden;
     }
 
     .header__desktop-nav-list {
@@ -137,7 +141,9 @@ the underlying logic of the menu.
       flex-wrap: wrap;
       list-style: none;
       margin: 0;
-      padding: 0 0 var(--spacing-3, 12px);
+      /* 24px vänster-padding for att matcha headerns containergutter,
+         12px padding-bottom under lankarna */
+      padding: 0 0 var(--spacing-3, 12px) 24px;
     }
 
     .header__desktop-nav-link {
@@ -394,7 +400,23 @@ the underlying logic of the menu.
 {%- endif -%}
 
 <script>
-  document.documentElement.style.setProperty('--header-height', Math.round(document.getElementById('shopify-section-{{ section.id }}').clientHeight) + 'px');
+  (function () {
+    var section = document.getElementById('shopify-section-{{ section.id }}');
+    if (!section) return;
+
+    function updateHeaderHeight() {
+      document.documentElement.style.setProperty('--header-height', Math.round(section.clientHeight) + 'px');
+    }
+
+    // Satt direkt vid laddning
+    updateHeaderHeight();
+
+    // Rakna om varje gang headerens storlek andras (t.ex. nar desktop-nav-raden
+    // laggs till/tas bort i temat-editorn eller vid fonstanderstorleksfonsterbyte)
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(updateHeaderHeight).observe(section);
+    }
+  })();
 </script>
 
 {% schema %}
