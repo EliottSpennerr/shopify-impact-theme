@@ -54,8 +54,7 @@
         "richtext_iNBJGQ"
       ],
       "custom_css": [
-        ".section-blends {padding-bottom: 0px; padding-top: 40px;}",
-        ".h1 {font-family: balloon; font-weight: 100;}"
+        ".section-blends {padding-bottom: 0px; padding-top: 40px;}"
       ],
       "name": "Rich text",
       "settings": {
