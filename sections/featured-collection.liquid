@@ -9,7 +9,6 @@
     {%- assign card_blends = true -%}
   {%- endunless -%}
 
-
   #shopify-section-{{ section.id }} .product-list {
     --product-list-gap: {% if section.settings.stack_products and section.settings.products_per_row_mobile == '2' %}{% if card_blends %}var(--product-list-row-gap){% endif %} var(--spacing-2){% else %}var(--product-list-row-gap) var(--product-list-column-gap){% endif %};
     --product-list-items-per-row: {{ section.settings.products_per_row_mobile | times: 1 }};
@@ -32,10 +31,23 @@
     }
   }
 
+  /* ── Produktkort typografi-variabler ─────────────────────────────
+     Sätts här av sektionsinställningarna, läses av product-card.liquid
+     via CSS custom properties som kaskaderar ner till korten.
+  ───────────────────────────────────────────────────────────────── */
+  #shopify-section-{{ section.id }} {
+    --pc-vendor-size:   {{ section.settings.pc_vendor_size }}px;
+    --pc-vendor-weight: {{ section.settings.pc_vendor_weight }};
+    --pc-vendor-family: {{ section.settings.pc_vendor_family }};
+    --pc-title-size:    {{ section.settings.pc_title_size }}px;
+    --pc-title-weight:  {{ section.settings.pc_title_weight }};
+    --pc-title-family:  {{ section.settings.pc_title_family }};
+    --pc-stock-size:    {{ section.settings.pc_stock_size }}px;
+    --pc-stock-weight:  {{ section.settings.pc_stock_weight }};
+  }
 </style>
 
 <div {% render 'section-properties' %} style="padding-top: 24px;">
-
   <div class="section-stack">
     {%- assign link_url = section.settings.link_url | default: section.settings.collection.url -%}
     {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, heading_color: section.settings.heading_color, heading_gradient: section.settings.heading_gradient, content: section.settings.content, link_text: section.settings.link_text, link_url: link_url -%}
@@ -69,7 +81,6 @@
             <span class="sr-only">{{ 'general.accessibility.previous' | t }}</span>
             <span class="animated-arrow animated-arrow--reverse"></span>
           </button>
-
           <button is="next-button" class="circle-button circle-button--lg circle-button--fill border group" aria-controls="{{ scroll_area_id }}">
             <span class="sr-only">{{ 'general.accessibility.next' | t }}</span>
             <span class="animated-arrow"></span>
@@ -132,14 +143,8 @@
       "id": "products_per_row_mobile",
       "label": "Products per row (mobile)",
       "options": [
-        {
-          "value": "1",
-          "label": "1"
-        },
-        {
-          "value": "2",
-          "label": "2"
-        }
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
       ],
       "default": "2"
     },
@@ -178,6 +183,103 @@
       "id": "link_text",
       "label": "Link text",
       "default": "View all"
+    },
+    {
+      "type": "header",
+      "content": "Produktkort – typografi"
+    },
+    {
+      "type": "range",
+      "id": "pc_vendor_size",
+      "label": "Leverantör – storlek",
+      "min": 9,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "pc_vendor_weight",
+      "label": "Leverantör – tjocklek",
+      "options": [
+        { "value": "300", "label": "Tunn (300)" },
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Halvfet (600)" },
+        { "value": "700", "label": "Fet (700)" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "pc_vendor_family",
+      "label": "Leverantör – typsnitt",
+      "options": [
+        { "value": "inherit", "label": "Temats typsnitt" },
+        { "value": "system-ui, -apple-system, sans-serif", "label": "System sans-serif" },
+        { "value": "Georgia, 'Times New Roman', serif", "label": "Serif" },
+        { "value": "'Courier New', monospace", "label": "Monospace" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "pc_title_size",
+      "label": "Produkttitel – storlek",
+      "min": 11,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "pc_title_weight",
+      "label": "Produkttitel – tjocklek",
+      "options": [
+        { "value": "300", "label": "Tunn (300)" },
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Halvfet (600)" },
+        { "value": "700", "label": "Fet (700)" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "pc_title_family",
+      "label": "Produkttitel – typsnitt",
+      "options": [
+        { "value": "inherit", "label": "Temats typsnitt" },
+        { "value": "system-ui, -apple-system, sans-serif", "label": "System sans-serif" },
+        { "value": "Georgia, 'Times New Roman', serif", "label": "Serif" },
+        { "value": "'Courier New', monospace", "label": "Monospace" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "pc_stock_size",
+      "label": "Lagerstatus – storlek",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "pc_stock_weight",
+      "label": "Lagerstatus – tjocklek",
+      "options": [
+        { "value": "300", "label": "Tunn (300)" },
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Halvfet (600)" },
+        { "value": "700", "label": "Fet (700)" }
+      ],
+      "default": "700"
     },
     {
       "type": "header",
