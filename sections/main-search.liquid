@@ -6,20 +6,14 @@
 
 {%- assign active_filters = search.filters | where: 'active_values' -%}
 
-{%- comment -%}
-  Dela upp resultat per typ så vi kan visa korrekta rakningar i pills.
-  search.results innehaller alla typer nar inget type-param skickas.
-{%- endcomment -%}
-{%- assign product_results = search.results | where: 'object_type', 'product' -%}
-{%- assign article_results = search.results | where: 'object_type', 'article' -%}
-{%- assign page_results    = search.results | where: 'object_type', 'page' -%}
-
 {%- capture search_form -%}
   <form class="main-search-form" action="{{ routes.search_url }}" method="get" role="search">
     {%- comment -%}
-      OBS: Inget dolt type-fallt har. Sokningen returnerar produkter,
-      artiklar och sidor — pills-navigeringen hanterar filtreringen i frontend.
+      type=product bevaras sa att produktsokningens pagination och filter
+      fungerar korrekt. Rakningar och resultat for artiklar/sidor hämtas
+      separat via Predictive Search API i JavaScript.
     {%- endcomment -%}
+    <input type="hidden" name="type" value="product">
 
     <div class="v-stack gap-6 sm:gap-12">
       <div class="search-input">
@@ -48,17 +42,12 @@
     --product-list-gap: {% if section.settings.products_per_row_mobile == '2' %}{% if card_blends %}var(--product-list-row-gap){% endif %} var(--spacing-2){% else %}var(--product-list-row-gap) var(--product-list-column-gap){% endif %};
     --product-list-items-per-row: {{ section.settings.products_per_row_mobile | times: 1 }};
     --product-list-grid: auto-flow dense / repeat(var(--product-list-items-per-row), minmax(0, 1fr));
-
     --content-over-media-gap: var(--spacing-8);
 
-    /* Titel: storlek och farg fran schemainstaellningar */
     --search-title-size: {{ section.settings.search_title_size }}px;
     --search-title-color: {{ section.settings.search_title_color }};
-
-    /* Pills: aktiv bakgrund och farg */
     --pill-active-bg: {{ section.settings.pill_active_color }};
     --pill-active-text: {{ section.settings.pill_active_text_color }};
-    --pill-border-color: {{ section.settings.pill_active_color }};
   }
 
   @media screen and (min-width: 700px) {
@@ -106,10 +95,9 @@
   .search-type-pill {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
     padding: 10px 22px;
     border-radius: 100px;
-    border: 2px solid var(--pill-border-color, #1a2e44);
+    border: 2px solid var(--pill-active-bg, #1a2e44);
     background: transparent;
     color: var(--pill-active-bg, #1a2e44);
     font-size: 15px;
@@ -141,10 +129,10 @@
 
   /* Artikel- och sida-lista */
   .search-secondary-results {
-    display: v-stack;
     list-style: none;
-    margin: 0;
+    margin: var(--spacing-8, 32px) 0 0;
     padding: 0;
+    max-width: 760px;
   }
 
   .search-secondary-result {
@@ -161,8 +149,8 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    opacity: 0.5;
-    margin-bottom: 4px;
+    opacity: 0.45;
+    margin: 0 0 4px;
   }
 
   .search-secondary-result__title {
@@ -170,6 +158,7 @@
     font-weight: 600;
     text-decoration: none;
     color: currentColor;
+    display: block;
   }
 
   .search-secondary-result__title:hover {
@@ -178,8 +167,8 @@
 
   .search-secondary-result__excerpt {
     font-size: 14px;
-    opacity: 0.65;
-    margin-top: 4px;
+    opacity: 0.6;
+    margin: 4px 0 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -189,8 +178,16 @@
   .search-empty-type {
     text-align: center;
     padding: 48px 0;
-    opacity: 0.45;
+    opacity: 0.4;
     font-size: 15px;
+  }
+
+  /* Laddnings-placeholder for sekundara tabbar */
+  .search-secondary-loading {
+    text-align: center;
+    padding: 32px 0;
+    opacity: 0.4;
+    font-size: 14px;
   }
 </style>
 
@@ -199,7 +196,6 @@
     <div class="page-spacer">
       <div class="v-stack gap-6 sm:gap-8">
 
-        {%- comment -%} Titel med schema-kontrollerad storlek och farg {%- endcomment -%}
         <h1 class="search-results-title">
           {{- 'search.results_count' | t: count: search.results_count, terms: search.terms -}}
         </h1>
@@ -207,42 +203,45 @@
         {{- search_form -}}
 
         {%- comment -%}
-          Type-filter pills. aria-selected="true" markerar aktiv pill.
-          JavaScript nedan hanterar switching och satter klassen is-active
-          pa ratt resultatsection.
+          Pills. Produkter-rakningen kommer fran Liquid (korrekt, server-side).
+          Artiklar/Sidor fylls i av JavaScript via Predictive Search API.
+          data-search-query anvands av JS for att bygga API-anropet.
         {%- endcomment -%}
-        <div class="search-type-pills" role="tablist" aria-label="{{ 'search.general.title' | t }}">
-          <button
-            class="search-type-pill"
-            role="tab"
-            aria-selected="true"
-            aria-controls="search-section-products"
-            data-search-tab="products">
-            {{ section.settings.pill_label_products }} ({{ product_results.size }})
+        <div class="search-type-pills"
+             role="tablist"
+             data-search-query="{{ search.terms | escape }}">
+
+          <button class="search-type-pill"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="search-section-products"
+                  data-search-tab="products">
+            {{ section.settings.pill_label_products }}
+            (<span id="count-products">{{ search.results_count }}</span>)
           </button>
 
-          <button
-            class="search-type-pill"
-            role="tab"
-            aria-selected="false"
-            aria-controls="search-section-articles"
-            data-search-tab="articles">
-            {{ section.settings.pill_label_articles }} ({{ article_results.size }})
+          <button class="search-type-pill"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="search-section-articles"
+                  data-search-tab="articles">
+            {{ section.settings.pill_label_articles }}
+            (<span id="count-articles">…</span>)
           </button>
 
-          <button
-            class="search-type-pill"
-            role="tab"
-            aria-selected="false"
-            aria-controls="search-section-pages"
-            data-search-tab="pages">
-            {{ section.settings.pill_label_pages }} ({{ page_results.size }})
+          <button class="search-type-pill"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="search-section-pages"
+                  data-search-tab="pages">
+            {{ section.settings.pill_label_pages }}
+            (<span id="count-pages">…</span>)
           </button>
+
         </div>
-
       </div>
 
-      {%- comment -%} ── PRODUKTER ──────────────────────────────────── {%- endcomment -%}
+      {%- comment -%} ── PRODUKTER (server-side, full pagination + filter) ── {%- endcomment -%}
       <div id="search-section-products" class="search-type-section is-active" role="tabpanel">
         {%- paginate search.results by section.settings.products_per_page -%}
           <div class="collection {% if show_filters %}collection--filters-{{ section.settings.filter_layout | escape }}{% endif %}">
@@ -273,16 +272,26 @@
             {%- endif -%}
 
             <div class="collection__results">
-              {%- if product_results.size == 0 -%}
-                <p class="search-empty-type">{{ 'collection.faceting.no_results' | t }}</p>
+              {%- if search.results_count == 0 -%}
+                <div class="empty-state">
+                  <div class="empty-state__icon-wrapper">
+                    {%- render 'icon' with 'picto-stop', width: 32, height: 32, stroke_width: 1 -%}
+                    <span class="count-bubble count-bubble--lg">0</span>
+                  </div>
+                  <div class="prose">
+                    <p class="h5">{{ 'collection.faceting.no_results' | t }}</p>
+                    {%- assign button_content = 'collection.faceting.clear_filters' | t -%}
+                    {%- render 'button', href: collection.url, is: 'facet-link', size: 'xl', content: button_content -%}
+                  </div>
+                </div>
               {%- else -%}
                 <div class="v-stack gap-6">
                   <div class="v-stack gap-4 md:hidden">
                     {%- render 'active-facets', results: search -%}
                   </div>
-
                   <reveal-items selector=".product-list > *">
                     <product-list class="product-list" role="region" aria-live="polite">
+                      {%- assign product_results = search.results | where: 'object_type', 'product' -%}
                       {%- for product in product_results -%}
                         {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
                       {%- endfor -%}
@@ -297,42 +306,14 @@
         {%- endpaginate -%}
       </div>
 
-      {%- comment -%} ── ARTIKLAR ──────────────────────────────────── {%- endcomment -%}
+      {%- comment -%} ── ARTIKLAR (fylls av JS) ─────────────────────── {%- endcomment -%}
       <div id="search-section-articles" class="search-type-section" role="tabpanel">
-        {%- if article_results.size == 0 -%}
-          <p class="search-empty-type">{{ 'collection.faceting.no_results' | t }}</p>
-        {%- else -%}
-          <ul class="search-secondary-results">
-            {%- for item in article_results -%}
-              <li class="search-secondary-result">
-                <p class="search-secondary-result__type">{{ section.settings.pill_label_articles }}</p>
-                <a href="{{ item.url }}" class="search-secondary-result__title">{{ item.title }}</a>
-                {%- if item.excerpt_or_content != blank -%}
-                  <p class="search-secondary-result__excerpt">{{ item.excerpt_or_content | strip_html }}</p>
-                {%- endif -%}
-              </li>
-            {%- endfor -%}
-          </ul>
-        {%- endif -%}
+        <p class="search-secondary-loading">{{ 'search.general.loading' | t | default: 'Laddar...' }}</p>
       </div>
 
-      {%- comment -%} ── SIDOR ─────────────────────────────────────── {%- endcomment -%}
+      {%- comment -%} ── SIDOR (fylls av JS) ───────────────────────── {%- endcomment -%}
       <div id="search-section-pages" class="search-type-section" role="tabpanel">
-        {%- if page_results.size == 0 -%}
-          <p class="search-empty-type">{{ 'collection.faceting.no_results' | t }}</p>
-        {%- else -%}
-          <ul class="search-secondary-results">
-            {%- for item in page_results -%}
-              <li class="search-secondary-result">
-                <p class="search-secondary-result__type">{{ section.settings.pill_label_pages }}</p>
-                <a href="{{ item.url }}" class="search-secondary-result__title">{{ item.title }}</a>
-                {%- if item.content != blank -%}
-                  <p class="search-secondary-result__excerpt">{{ item.content | strip_html }}</p>
-                {%- endif -%}
-              </li>
-            {%- endfor -%}
-          </ul>
-        {%- endif -%}
+        <p class="search-secondary-loading">{{ 'search.general.loading' | t | default: 'Laddar...' }}</p>
       </div>
 
     </div>
@@ -346,34 +327,88 @@
           {{- 'search.general.title' | t -}}
         {%- endif -%}
       </h1>
-
       {{- search_form -}}
     </div>
   {%- endif -%}
 </div>
 
 <script>
-  (function () {
-    var pills    = document.querySelectorAll('[data-search-tab]');
-    var sections = document.querySelectorAll('.search-type-section');
+(function () {
+  /* ── Tab switching ────────────────────────────────────────────── */
+  var pills    = document.querySelectorAll('[data-search-tab]');
+  var sections = document.querySelectorAll('.search-type-section');
 
-    if (!pills.length) return;
-
-    pills.forEach(function (pill) {
-      pill.addEventListener('click', function () {
-        var target = pill.dataset.searchTab;
-
-        // Uppdatera pills
-        pills.forEach(function (p) { p.setAttribute('aria-selected', 'false'); });
-        pill.setAttribute('aria-selected', 'true');
-
-        // Visa ratt sektion
-        sections.forEach(function (s) {
-          s.classList.toggle('is-active', s.id === 'search-section-' + target);
-        });
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      var target = pill.dataset.searchTab;
+      pills.forEach(function (p) { p.setAttribute('aria-selected', 'false'); });
+      pill.setAttribute('aria-selected', 'true');
+      sections.forEach(function (s) {
+        s.classList.toggle('is-active', s.id === 'search-section-' + target);
       });
     });
-  })();
+  });
+
+  /* ── Hämta artiklar och sidor via Predictive Search API ──────── */
+  var pillsWrapper = document.querySelector('[data-search-query]');
+  if (!pillsWrapper) return;
+
+  var query = pillsWrapper.dataset.searchQuery;
+  if (!query) return;
+
+  /* Etiketter fran Liquid for att anvandas i den genererade listan */
+  var labels = {
+    articles: {{ section.settings.pill_label_articles | json }},
+    pages:    {{ section.settings.pill_label_pages    | json }}
+  };
+
+  /* Tomplatta for tom-state */
+  var emptyHtml = '<p class="search-empty-type">{{ "collection.faceting.no_results" | t }}</p>';
+
+  function buildList(items, labelKey) {
+    if (!items || items.length === 0) return emptyHtml;
+
+    var html = '<ul class="search-secondary-results">';
+    items.forEach(function (item) {
+      var excerpt = item.body ? item.body.replace(/<[^>]+>/g, '').substring(0, 160) : '';
+      html += '<li class="search-secondary-result">'
+            + '<p class="search-secondary-result__type">' + labels[labelKey] + '</p>'
+            + '<a href="' + item.url + '" class="search-secondary-result__title">' + item.title + '</a>'
+            + (excerpt ? '<p class="search-secondary-result__excerpt">' + excerpt + '</p>' : '')
+            + '</li>';
+    });
+    html += '</ul>';
+    return html;
+  }
+
+  fetch(
+    '/search/suggest.json'
+    + '?q=' + encodeURIComponent(query)
+    + '&resources[type]=article,page'
+    + '&resources[limit]=50'
+  )
+  .then(function (res) { return res.json(); })
+  .then(function (data) {
+    var results  = (data.resources && data.resources.results) || {};
+    var articles = results.articles || [];
+    var pages    = results.pages    || [];
+
+    /* Uppdatera pill-rakningar */
+    document.getElementById('count-articles').textContent = articles.length;
+    document.getElementById('count-pages').textContent    = pages.length;
+
+    /* Rendera resultatlistor */
+    document.getElementById('search-section-articles').innerHTML = buildList(articles, 'articles');
+    document.getElementById('search-section-pages').innerHTML    = buildList(pages, 'pages');
+  })
+  .catch(function () {
+    /* Vid fel: visa 0 och tomt */
+    document.getElementById('count-articles').textContent = '0';
+    document.getElementById('count-pages').textContent    = '0';
+    document.getElementById('search-section-articles').innerHTML = emptyHtml;
+    document.getElementById('search-section-pages').innerHTML    = emptyHtml;
+  });
+})();
 </script>
 
 {% schema %}
