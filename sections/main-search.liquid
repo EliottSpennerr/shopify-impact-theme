@@ -197,7 +197,7 @@
       <div class="v-stack gap-6 sm:gap-8">
 
         <h1 class="search-results-title">
-          {{- 'search.results_count' | t: count: search.results_count, terms: search.terms -}}
+          {{- section.settings.search_title_prefix -}}&nbsp;&ldquo;{{- search.terms -}}&rdquo;
         </h1>
 
         {{- search_form -}}
@@ -420,6 +420,13 @@
     {
       "type": "header",
       "content": "Search title"
+    },
+    {
+      "type": "text",
+      "id": "search_title_prefix",
+      "label": "Title prefix text",
+      "default": "Visar resultat för",
+      "info": "Text som visas fore sokordet i rubriken, t.ex. 'Visar resultat for' eller 'Showing results for'."
     },
     {
       "type": "range",
