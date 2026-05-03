@@ -19,7 +19,7 @@ the underlying logic of the menu.
   }
 
   #shopify-section-{{ section.id }} {
-    --header-grid-template: "main-nav logo secondary-nav" / minmax(0, 1fr) auto minmax(0, 1fr);
+    --header-grid-template: "logo search secondary-nav" / auto 1fr auto;
     --header-padding-block: {% if section.settings.reduce_padding %}var(--spacing-3){% else %}var(--spacing-4-5){% endif %};
     --header-background-opacity: {{ section.settings.background_opacity | divided_by: 100.0 }};
     --header-background-blur-radius: {{ section.settings.background_blur_radius }}px;
@@ -60,142 +60,70 @@ the underlying logic of the menu.
     }
   }
 
-  {%- if section.settings.layout contains 'logo_left' -%}
-    @media screen and (min-width: 1150px) {
-      {%- if section.settings.secondary_menu != blank or will_show_country_selector or will_show_locale_selector -%}
-        {%- assign max_percent = '55%' -%}
-      {%- else -%}
-        {%- assign max_percent = '70%' -%}
-      {%- endif -%}
+  /* Logo + hamburger wrapper */
+  .header__logo-with-hamburger {
+    grid-area: logo;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-      #shopify-section-{{ section.id }} {
-        --header-grid-template: "logo main-nav secondary-nav" / {% if section.settings.layout == 'logo_left_navigation_inline' %}auto minmax(0, 1fr) minmax(0, max-content){% else %}minmax(0, 1fr) fit-content({{ max_percent }}) minmax(0, 1fr){% endif %};
-      }
+  .header__logo-with-hamburger .header__logo {
+    flex-shrink: 0;
+  }
+
+  /* Search field in center */
+  .header__search-center {
+    grid-area: search;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+  }
+
+  .header__search-center-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f2f2f2;
+    border-radius: 100px;
+    padding: 10px 18px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .header__search-center-form svg {
+    flex-shrink: 0;
+    opacity: 0.45;
+  }
+
+  .header__search-center-input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+    color: currentColor;
+  }
+
+  .header__search-center-input::placeholder {
+    color: #999;
+  }
+
+  /* Hide the old search icon on desktop since search is now inline */
+  @media screen and (min-width: 750px) {
+    .header__search-icon-hide {
+      display: none !important;
     }
-  {%- endif -%}
+  }
 </style>
 
 <height-observer variable="header">
   <store-header class="header" {% if section.settings.hide_on_scroll %}hide-on-scroll="100"{% endif %} {% if section.settings.enable_sticky %}sticky{% endif %}>
     <div class="header__wrapper">
-      {%- comment -%}
-      --------------------------------------------------------------------------------------------------------------------
-      MAIN NAV AREA
-      --------------------------------------------------------------------------------------------------------------------
-      {%- endcomment -%}
-
-      <div class="header__main-nav">
-        <div class="header__icon-list">
-          <button type="button" class="tap-area {% if section.settings.layout != 'drawer' %}lg:hidden{% endif %}" aria-controls="header-sidebar-menu">
-            <span class="sr-only">{{ 'header.general.open_menu' | t }}</span>
-            {%- render 'icon' with 'hamburger' -%}
-          </button>
-
-          <a href="{{ routes.search_url }}" class="tap-area sm:hidden" aria-controls="search-drawer">
-            <span class="sr-only">{{ 'header.general.open_search' | t }}</span>
-            {%- render 'icon' with 'search' -%}
-          </a>
-
-          {%- if section.settings.layout != 'drawer' and section.settings.menu.links.size > 0 -%}
-            <nav class="header__link-list {% if section.settings.layout == 'logo_left_navigation_center' %}justify-center{% endif %} wrap" role="navigation">
-              <ul class="contents" role="list">
-                {%- for link in section.settings.menu.links -%}
-                  {% liquid
-                    assign link_title_downcase = link.title | downcase
-                    assign mega_menu_block = ''
-
-                    for block in section.blocks
-                      assign menu_item_downcase = block.settings.menu_item | strip | downcase
-
-                      if menu_item_downcase == link_title_downcase
-                        assign mega_menu_block = block
-                        break
-                      endif
-
-                    endfor
-                  %}
-
-                  <li>
-                    {%- if link.levels == 0 and mega_menu_block == '' -%}
-                      <a href="{{ link.url }}" class="bold link-faded-reverse" {% if link.current %}aria-current="page"{% endif %}>{{- link.title -}}</a>
-                    {%- else -%}
-                      {%- if mega_menu_block != '' -%}
-                        {%- comment -%}
-                        Implementation note: the designers had the desire to show a lot of different kind of menus in Impact: one standard
-                        mega menu but also a kind of "sidebar" mode when the mega-menu appears in a drawer. Unfortunately, this comes with
-                        a lot of extra complexity as we have to go through two different code path: a "details" element for the standard
-                        menu, and a full drawer for the other one.
-                        {%- endcomment -%}
-                        {%- unless mega_menu_block.settings.layout == 'drawer' -%}
-                          <details is="mega-menu-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}" {{ mega_menu_block.shopify_attributes }}>
-                            <summary class="text-with-icon gap-2.5 bold link-faded-reverse" {% if link.url != '#' %}data-url="{{ link.url | escape }}"{% endif %}>
-                              {{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}
-                            </summary>
-
-                           {%- render 'mega-menu-horizontal', link: link, mega_menu_block: mega_menu_block -%}
-                          </details>
-                        {%- else -%}
-                          <button aria-controls="navigation-drawer-{{ forloop.index }}" aria-expanded="false" class="text-with-icon gap-2.5 bold link-faded-reverse">
-                            {{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}
-                          </button>
-
-                          <navigation-drawer class="navigation-drawer drawer lg-max:hidden" id="navigation-drawer-{{ forloop.index }}" open-from="left" mega-menu>
-                            {%- render 'navigation-panel', navigation_layout: section.settings.layout, main_menu: link, is_mega_menu: true, mega_menu_block: mega_menu_block -%}
-                          </navigation-drawer>
-                        {%- endunless -%}
-                      {%- else -%}
-                        <details class="relative" is="dropdown-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}">
-                          <summary class="text-with-icon gap-2.5 bold link-faded-reverse" {% if link.url != '#' %}data-url="{{ link.url | escape }}"{% endif %}>
-                            {{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}
-                          </summary>
-
-                          <div class="dropdown-menu {% if link.levels <= 1 %}dropdown-menu--restrictable{% endif %}">
-                            <ul class="contents" role="list">
-                              {%- for sub_link in link.links -%}
-                                <li>
-                                  {%- if sub_link.levels == 0 -%}
-                                    <a href="{{ sub_link.url }}" class="dropdown-menu__item group" {% if sub_link.current %}aria-current="page"{% endif %}>
-                                      <span><span class="reversed-link">{{ sub_link.title }}</span></span>
-                                    </a>
-                                  {%- else -%}
-                                    <details class="relative" is="dropdown-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}">
-                                      <summary class="dropdown-menu__item group" {% if sub_link.url != '#' %}data-url="{{ sub_link.url | escape }}"{% endif %}>
-                                        <span><span class="reversed-link">{{- sub_link.title -}}</span></span>
-                                        {%- render 'icon' with 'chevron-right' -%}
-                                      </summary>
-
-                                      <div class="dropdown-menu">
-                                        <ul class="contents" role="list">
-                                          {%- for sub_sub_link in sub_link.links -%}
-                                            <li>
-                                              <a href="{{ sub_sub_link.url }}" class="dropdown-menu__item group" {% if sub_sub_link.current %}aria-current="page"{% endif %}>
-                                                <span><span class="reversed-link">{{ sub_sub_link.title }}</span></span>
-                                              </a>
-                                            </li>
-                                          {%- endfor -%}
-                                        </ul>
-                                      </div>
-                                    </details>
-                                  {%- endif -%}
-                                </li>
-                              {%- endfor -%}
-                            </ul>
-                          </div>
-                        </details>
-                      {%- endif -%}
-                    {%- endif -%}
-                  </li>
-                {%- endfor -%}
-              </ul>
-            </nav>
-          {%- endif -%}
-        </div>
-      </div>
 
       {%- comment -%}
-      --------------------------------------------------------------------------------------------------------------------
-      LOGO AREA
-      --------------------------------------------------------------------------------------------------------------------
+      LOGO + HAMBURGER — left grid area
       {%- endcomment -%}
 
       {%- capture logo_content -%}
@@ -204,7 +132,6 @@ the underlying logic of the menu.
           {%- capture widths -%}{{ section.settings.logo_max_width | times: 2 | at_most: section.settings.logo.width }}, {{ section.settings.logo_max_width | times: 3 | at_most: section.settings.logo.width }}{%- endcapture -%}
           <span class="sr-only">{{ shop.name }}</span>
           {{- section.settings.logo | image_url: width: section.settings.logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image' -}}
-
           {%- if section.settings.transparent_logo -%}
             {{- section.settings.transparent_logo | image_url: width: section.settings.transparent_logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image header__logo-image--transparent' -}}
           {%- endif -%}
@@ -213,18 +140,45 @@ the underlying logic of the menu.
         {%- endif -%}
       {%- endcapture -%}
 
-      {%- if request.page_type == 'index' -%}
-        <h1 class="header__logo">
-          <a href="{{ routes.root_url }}">{{ logo_content }}</a>
-        </h1>
-      {% else %}
-        <a href="{{ routes.root_url }}" class="header__logo">{{ logo_content }}</a>
-      {% endif %}
+      <div class="header__logo-with-hamburger">
+        {%- if request.page_type == 'index' -%}
+          <h1 class="header__logo" style="margin:0;">
+            <a href="{{ routes.root_url }}">{{ logo_content }}</a>
+          </h1>
+        {%- else -%}
+          <a href="{{ routes.root_url }}" class="header__logo">{{ logo_content }}</a>
+        {%- endif -%}
+
+        <button type="button" class="tap-area {% if section.settings.layout != 'drawer' %}lg:hidden{% endif %}" aria-controls="header-sidebar-menu">
+          <span class="sr-only">{{ 'header.general.open_menu' | t }}</span>
+          {%- render 'icon' with 'hamburger' -%}
+        </button>
+      </div>
 
       {%- comment -%}
-      --------------------------------------------------------------------------------------------------------------------
-      SECONDARY NAV AREA
-      --------------------------------------------------------------------------------------------------------------------
+      SEARCH — center grid area
+      {%- endcomment -%}
+
+      <div class="header__search-center">
+        <form action="{{ routes.search_url }}" method="get" class="header__search-center-form" role="search">
+          <input type="hidden" name="type" value="product">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            class="header__search-center-input"
+            type="search"
+            name="q"
+            placeholder="{{ section.settings.search_placeholder | default: 'Sök produkter...' }}"
+            aria-label="{{ 'general.search.search' | t }}"
+            autocomplete="off"
+          >
+        </form>
+      </div>
+
+      {%- comment -%}
+      SECONDARY NAV AREA — unchanged from original
       {%- endcomment -%}
 
       <div class="header__secondary-nav">
@@ -253,11 +207,11 @@ the underlying logic of the menu.
             </div>
           {%- endif -%}
 
-          <a href="{{ routes.search_url }}" class="hidden tap-area sm:block" aria-controls="search-drawer">
+          <a href="{{ routes.search_url }}" class="hidden tap-area sm:block header__search-icon-hide" aria-controls="search-drawer">
             <span class="sr-only">{{ 'header.general.open_search' | t }}</span>
             {%- render 'icon' with 'search' -%}
           </a>
-          
+
           {%- if shop.customer_accounts_enabled -%}
             <a href="{{ routes.account_url }}" class="hidden tap-area sm:block">
               <span class="sr-only">{{ 'header.general.open_account' | t }}</span>
@@ -277,14 +231,13 @@ the underlying logic of the menu.
           </a>
         </div>
       </div>
+
     </div>
   </store-header>
 </height-observer>
 
 {%- comment -%}
-  --------------------------------------------------------------------------------------------------------------------
-  NAVIGATION MENU DRAWER
-  --------------------------------------------------------------------------------------------------------------------
+  NAVIGATION MENU DRAWER — unchanged from original
 {%- endcomment -%}
 
 {%- assign main_menu = section.settings.sidebar_menu | default: section.settings.menu -%}
@@ -364,6 +317,16 @@ the underlying logic of the menu.
     },
     {
       "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder text",
+      "default": "Sök produkter..."
+    },
+    {
+      "type": "header",
       "content": "Navigation"
     },
     {
@@ -389,14 +352,8 @@ the underlying logic of the menu.
       "label": "Open dropdown items on...",
       "info": "Click mode is forced on touch devices.",
       "options": [
-        {
-          "value": "hover",
-          "label": "Hover"
-        },
-        {
-          "value": "click",
-          "label": "Click"
-        }
+        { "value": "hover", "label": "Hover" },
+        { "value": "click", "label": "Click" }
       ],
       "default": "click"
     },
@@ -409,14 +366,8 @@ the underlying logic of the menu.
       "id": "opening_from",
       "label": "Opening from",
       "options": [
-        {
-          "value": "bottom",
-          "label": "Bottom"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        }
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "left", "label": "Left" }
       ],
       "default": "bottom"
     },
@@ -430,22 +381,10 @@ the underlying logic of the menu.
       "label": "Layout",
       "info": "When centering navigation, you should limit your links to 5.",
       "options": [
-        {
-          "value": "logo_left_navigation_inline",
-          "label": "Logo left, navigation inline"
-        },
-        {
-          "value": "logo_left_navigation_center",
-          "label": "Logo left, navigation center"
-        },
-        {
-          "value": "logo_center_navigation_inline",
-          "label": "Logo center, navigation inline"
-        },
-        {
-          "value": "drawer",
-          "label": "Drawer"
-        }
+        { "value": "logo_left_navigation_inline", "label": "Logo left, navigation inline" },
+        { "value": "logo_left_navigation_center", "label": "Logo left, navigation center" },
+        { "value": "logo_center_navigation_inline", "label": "Logo center, navigation inline" },
+        { "value": "drawer", "label": "Drawer" }
       ],
       "default": "logo_left_navigation_inline"
     },
@@ -558,18 +497,9 @@ the underlying logic of the menu.
           "id": "layout",
           "label": "Layout",
           "options": [
-            {
-              "value": "horizontal",
-              "label": "Horizontal"
-            },
-            {
-              "value": "horizontal_center",
-              "label": "Horizontal (centered)"
-            },
-            {
-              "value": "drawer",
-              "label": "Drawer"
-            }
+            { "value": "horizontal", "label": "Horizontal" },
+            { "value": "horizontal_center", "label": "Horizontal (centered)" },
+            { "value": "drawer", "label": "Drawer" }
           ],
           "default": "horizontal"
         },
@@ -578,14 +508,8 @@ the underlying logic of the menu.
           "id": "submenu_style",
           "label": "Submenu",
           "options": [
-            {
-              "value": "bold_text",
-              "label": "Bold - text only"
-            },
-            {
-              "value": "bold_heading",
-              "label": "Bold - headings only"
-            }
+            { "value": "bold_text", "label": "Bold - text only" },
+            { "value": "bold_heading", "label": "Bold - headings only" }
           ],
           "default": "bold_heading"
         },
@@ -696,18 +620,9 @@ the underlying logic of the menu.
           "label": "Promotional content layout",
           "info": "To improve readability, layout can be changed automatically depending on the screen size, menu column count and promotional content. [Learn more](https://support.maestrooo.com/article/296-navigation-understanding-impact-mega-menu-strategy)",
           "options": [
-            {
-              "value": "grid",
-              "label": "Grid"
-            },
-            {
-              "value": "collage",
-              "label": "Collage"
-            },
-            {
-              "value": "carousel",
-              "label": "Carousel"
-            }
+            { "value": "grid", "label": "Grid" },
+            { "value": "collage", "label": "Collage" },
+            { "value": "carousel", "label": "Carousel" }
           ],
           "default": "grid"
         },
@@ -722,14 +637,8 @@ the underlying logic of the menu.
           "id": "drawer_link_image",
           "label": "Drawer link image",
           "options": [
-            {
-              "value": "hide",
-              "label": "Hide"
-            },
-            {
-              "value": "show",
-              "label": "Show product image"
-            }
+            { "value": "hide", "label": "Hide" },
+            { "value": "show", "label": "Show product image" }
           ],
           "default": "hide"
         }
