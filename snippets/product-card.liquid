@@ -166,7 +166,7 @@ Typography CSS variables (set by calling section):
     margin-top: 3px;
   }
 
-  /* Köp-knapp */
+  /* ── Köp-knapp ─────────────────────────────────────────────────────── */
   .product-card__buy-btn {
     display: inline-flex;
     align-items: center;
@@ -182,9 +182,12 @@ Typography CSS variables (set by calling section):
     cursor: pointer;
     text-decoration: none;
     white-space: nowrap;
-    transition: opacity 0.15s ease;
+    transition: opacity 0.15s ease, background 0.3s ease;
     flex-shrink: 0;
     line-height: 1;
+    position: relative;
+    overflow: hidden;
+    min-width: 64px;
   }
 
   .product-card__buy-btn:hover { opacity: 0.82; }
@@ -193,6 +196,71 @@ Typography CSS variables (set by calling section):
     opacity: 0.35;
     cursor: default;
     pointer-events: none;
+  }
+
+  /* ── Knappens inre element ─────────────────────────────────────────── */
+  .product-card__buy-btn .btn-label,
+  .product-card__buy-btn .btn-spinner,
+  .product-card__buy-btn .btn-check {
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  .product-card__buy-btn .btn-spinner,
+  .product-card__buy-btn .btn-check {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── Laddningsläge ─────────────────────────────────────────────────── */
+  .product-card__buy-btn.is-loading {
+    pointer-events: none;
+  }
+
+  .product-card__buy-btn.is-loading .btn-label {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  .product-card__buy-btn.is-loading .btn-spinner {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  @keyframes pc-btn-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .product-card__buy-btn.is-loading .btn-spinner {
+    animation: pc-btn-spin 0.65s linear infinite;
+  }
+
+  /* ── Succéläge ─────────────────────────────────────────────────────── */
+  .product-card__buy-btn.is-success {
+    background: #3d8fd4;
+    pointer-events: none;
+  }
+
+  .product-card__buy-btn.is-success .btn-label {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  .product-card__buy-btn.is-success .btn-check {
+    opacity: 1;
+  }
+
+  @keyframes pc-check-pop {
+    0%   { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    60%  { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
+
+  .product-card__buy-btn.is-success .btn-check {
+    animation: pc-check-pop 0.3s ease forwards;
   }
 
   /* ── Produktbild: border-radius alla hörn ──────────────────────────
@@ -358,11 +426,29 @@ Typography CSS variables (set by calling section):
         {%- if product.variants.size == 1 and product.selling_plan_groups.size == 0 -%}
           {%- form 'product', product, is: 'product-form' -%}
             <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-            <button type="submit" class="product-card__buy-btn" aria-label="Köp {{ product.title | escape }}">Köp</button>
+            <button type="submit" class="product-card__buy-btn" aria-label="Köp {{ product.title | escape }}">
+              <span class="btn-label">Köp</span>
+              <svg class="btn-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.25)" stroke-width="2.5"/>
+                <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <svg class="btn-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M4 12l5 5 11-10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
           {%- endform -%}
         {%- else -%}
           {%- capture qb_id -%}quick-buy-{{ section.id }}-{{ product.id }}{%- endcapture -%}
-          <button type="button" class="product-card__buy-btn" aria-controls="{{ qb_id }}" aria-label="Köp {{ product.title | escape }}">Köp</button>
+          <button type="button" class="product-card__buy-btn" aria-controls="{{ qb_id }}" aria-label="Köp {{ product.title | escape }}">
+            <span class="btn-label">Köp</span>
+            <svg class="btn-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.25)" stroke-width="2.5"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <svg class="btn-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 12l5 5 11-10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         {%- endif -%}
       {%- else -%}
         <span class="product-card__buy-btn product-card__buy-btn--disabled">Slutsåld</span>
@@ -407,3 +493,37 @@ Typography CSS variables (set by calling section):
 
   </div>
 </product-card>
+
+{%- comment -%}
+  ── KÖP-KNAPP ANIMATION ──────────────────────────────────────────────
+  Körs en gång per snippet-render. Använder ett guard-attribut på
+  document.documentElement så att lyssnaren bara registreras en gång
+  även om snippet renderas flera gånger på samma sida (t.ex. i ett
+  kollektionsgrid med många kort).
+{%- endcomment -%}
+<script>
+  (function () {
+    if (document.documentElement.hasAttribute('data-pc-buy-init')) return;
+    document.documentElement.setAttribute('data-pc-buy-init', '');
+
+    var SPINNER_MS = 900;   // hur länge spinnern visas
+    var SUCCESS_MS = 1800;  // hur länge checkmarken visas
+
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.product-card__buy-btn');
+      if (!btn || btn.classList.contains('product-card__buy-btn--disabled')) return;
+      if (btn.classList.contains('is-loading') || btn.classList.contains('is-success')) return;
+
+      btn.classList.add('is-loading');
+
+      setTimeout(function () {
+        btn.classList.remove('is-loading');
+        btn.classList.add('is-success');
+
+        setTimeout(function () {
+          btn.classList.remove('is-success');
+        }, SUCCESS_MS);
+      }, SPINNER_MS);
+    });
+  })();
+</script>
