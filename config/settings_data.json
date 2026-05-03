@@ -189,8 +189,6 @@
     }
   },
   "platform_customizations": {
-    "custom_css": [
-      ".rating__star {color: #025dc6 !important;}"
-    ]
+    "custom_css": []
   }
 }
