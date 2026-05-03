@@ -25,6 +25,14 @@ the underlying logic of the menu.
     --header-background-blur-radius: {{ section.settings.background_blur_radius }}px;
     --header-transparent-text-color: {{ section.settings.transparent_header_text_color.rgb }};
 
+    /* Searchbar: storlek och farg fran schemainstaellningar */
+    --search-text-size: {{ section.settings.search_text_size }}px;
+    --search-text-color: {{ section.settings.search_text_color }};
+
+    /* Desktop nav-rad: storlek och farg fran schemainstaellningar */
+    --desktop-nav-text-size: {{ section.settings.desktop_nav_text_size }}px;
+    --desktop-nav-text-color: {{ section.settings.desktop_nav_text_color }};
+
     {%- if section.settings.logo != blank -%}
       --header-logo-width: {{ section.settings.logo_mobile_max_width }}px;
       --header-logo-height: {{ section.settings.logo_mobile_max_width | divided_by: section.settings.logo.aspect_ratio | round }}px;
@@ -95,19 +103,21 @@ the underlying logic of the menu.
   .header__search-center-form svg {
     flex-shrink: 0;
     opacity: 0.45;
+    color: var(--search-text-color, currentColor);
   }
 
   .header__search-center-input {
     border: none;
     background: none;
     outline: none;
-    font-size: 14px;
+    font-size: var(--search-text-size, 14px);
+    color: var(--search-text-color, currentColor);
     width: 100%;
-    color: currentColor;
   }
 
   .header__search-center-input::placeholder {
-    color: #999;
+    color: var(--search-text-color, #999);
+    opacity: 0.55;
   }
 
   /* Hide the old search icon on desktop since search is now inline */
@@ -118,7 +128,7 @@ the underlying logic of the menu.
   }
 
   /* ─────────────────────────────────────────────────────────────────
-     DESKTOP NAVIGATION ROW — visas enbart på desktop (>=750px)
+     DESKTOP NAVIGATION ROW — visas enbart pa desktop (>=750px)
      En andra rad under header-wrappern med utvalda sidor som
      horisontella textlankar. Ingen avdelare, bara lankar direkt.
      ───────────────────────────────────────────────────────────────── */
@@ -129,11 +139,7 @@ the underlying logic of the menu.
   @media screen and (min-width: 750px) {
     .header__desktop-nav {
       display: block;
-      /* Solid bakgrundsfarg som matchar sidans bakgrund.
-         rgb(var(--color-background)) ar Impact-temats standard-variabel.
-         Fallback #fff ifall variabeln inte finns. */
-      background-color: rgb(var(--background) / var(--header-background-opacity))
-      /* overflow: hidden forhindrar att lanka-raden skapar horisontell scroll */
+      background-color: rgb(var(--color-background, 255 255 255));
       overflow: hidden;
     }
 
@@ -143,22 +149,19 @@ the underlying logic of the menu.
       flex-wrap: wrap;
       list-style: none;
       margin: 0;
-      /* 24px vänster-padding for att matcha headerns containergutter,
-         12px padding-bottom under lankarna */
       padding: 0 0 var(--spacing-3, 12px) 24px;
     }
 
     .header__desktop-nav-link {
       display: inline-block;
       padding: 2px 24px 2px 0;
-      font-size: 14px;
+      font-size: var(--desktop-nav-text-size, 14px);
       font-weight: 400;
       text-decoration: none;
-      color: currentColor;
+      color: var(--desktop-nav-text-color, currentColor);
       opacity: 0.85;
       transition: opacity 0.15s ease;
       white-space: nowrap;
-      /* Underline-animation via pseudo-element */
       position: relative;
     }
 
@@ -167,9 +170,9 @@ the underlying logic of the menu.
       position: absolute;
       bottom: 0;
       left: 0;
-      width: calc(100% - 24px); /* matchar lankens text-bredd, exkl. hogerpaddning */
+      width: calc(100% - 24px);
       height: 1px;
-      background-color: currentColor;
+      background-color: var(--desktop-nav-text-color, currentColor);
       transform: scaleX(0);
       transform-origin: left center;
       transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -185,20 +188,19 @@ the underlying logic of the menu.
   }
 
   /* ─────────────────────────────────────────────────────────────────
-     MOBILE LAYOUT (≤ 749px): 2-rad header
-     Rad 1: hamburger (vänster) | logga (ÄKTA MITTEN) | kundvagn (höger)
-     Rad 2: sökfält (full bredd, visuellt avgränsat)
+     MOBILE LAYOUT (749px): 2-rad header
+     Rad 1: hamburger (vanster) | logga (AKTA MITTEN) | kundvagn (hoger)
+     Rad 2: sokfalt (full bredd, visuellt avgransat)
 
-     TEKNIK: display: contents på .header__logo-with-hamburger gör att
+     TEKNIK: display: contents pa .header__logo-with-hamburger gor att
      hamburgaren och loggan behandlas som direkta grid-barn i wrappern.
      grid-template-columns: 1fr auto 1fr placerar loggan i en auto-kolumn
-     flankerad av lika stora 1fr-kolumner — matematisk skärmcentrering
-     oavsett bredd på hamburger eller kundvagn. DOM, aria och JS påverkas
-     inte av display: contents eftersom elementet finns kvar i trädet.
+     flankerad av lika stora 1fr-kolumner - matematisk skarmcentrering
+     oavsett bredd pa hamburger eller kundvagn. DOM, aria och JS paverkas
+     inte av display: contents eftersom elementet finns kvar i tradet.
      ───────────────────────────────────────────────────────────────── */
   @media screen and (max-width: 749px) {
 
-    /* 3-kolumners övre rad + söksrad som spänner hela bredden */
     #shopify-section-{{ section.id }} .header__wrapper {
       display: grid;
       grid-template-areas:
@@ -210,21 +212,16 @@ the underlying logic of the menu.
       padding-bottom: 0;
     }
 
-    /* display: contents tar bort wrappar-boxen visuellt men bevarar
-       DOM-strukturen. Hamburgaren och loggan blir direkta grid-barn
-       och kan tilldelas egna grid-areas för äkta skärmcentrering. */
     #shopify-section-{{ section.id }} .header__logo-with-hamburger {
       display: contents;
     }
 
-    /* Hamburgaren: vänster kolumn */
     #shopify-section-{{ section.id }} .header__logo-with-hamburger > button {
       grid-area: hamburger;
       justify-self: start;
       align-self: center;
     }
 
-    /* Loggan: mittkolumn — äkta centrerad på skärmen */
     #shopify-section-{{ section.id }} .header__logo-with-hamburger .header__logo {
       grid-area: logo;
       justify-self: center;
@@ -232,21 +229,18 @@ the underlying logic of the menu.
       margin: 0;
     }
 
-    /* Kundvagn (secondary-nav): höger kolumn */
     #shopify-section-{{ section.id }} .header__secondary-nav {
       grid-area: cart;
       justify-self: end;
       align-self: center;
     }
 
-    /* Sökrad: full bredd, subtil border-top som visuell avgränsning */
     #shopify-section-{{ section.id }} .header__search-center {
       grid-area: search;
       padding: 8px 12px 14px;
       border-top: 1px solid rgba(0, 0, 0, 0.07);
     }
 
-    /* Sökfält: ta bort max-width-begränsningen på mobil */
     #shopify-section-{{ section.id }} .header__search-center .header__search-center-form {
       max-width: 100%;
     }
@@ -370,7 +364,7 @@ the underlying logic of the menu.
     </div>
 
     {%- comment -%}
-    DESKTOP NAVIGATION ROW — syns endast på desktop (>= 750px)
+    DESKTOP NAVIGATION ROW — syns endast pa desktop (>= 750px)
     Renderar utvalda sidor som horisontella textlankar under huvudraden.
     {%- endcomment -%}
 
@@ -429,11 +423,8 @@ the underlying logic of the menu.
       document.documentElement.style.setProperty('--header-height', Math.round(section.clientHeight) + 'px');
     }
 
-    // Satt direkt vid laddning
     updateHeaderHeight();
 
-    // Rakna om varje gang headerens storlek andras (t.ex. nar desktop-nav-raden
-    // laggs till/tas bort i temat-editorn eller vid fonstanderstorleksfonsterbyte)
     if (typeof ResizeObserver !== 'undefined') {
       new ResizeObserver(updateHeaderHeight).observe(section);
     }
@@ -490,13 +481,29 @@ the underlying logic of the menu.
     },
     {
       "type": "header",
-      "content": "Search"
+      "content": "Search bar"
     },
     {
       "type": "text",
       "id": "search_placeholder",
-      "label": "Search placeholder text",
+      "label": "Placeholder text",
       "default": "Sök produkter..."
+    },
+    {
+      "type": "range",
+      "id": "search_text_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "search_text_color",
+      "label": "Text color",
+      "default": "#111111"
     },
     {
       "type": "header",
@@ -513,6 +520,22 @@ the underlying logic of the menu.
       "id": "desktop_nav_menu",
       "label": "Desktop navigation bar",
       "info": "Valda sidor som visas som en rad lankar direkt under headern pa desktop. Syns inte pa mobil."
+    },
+    {
+      "type": "range",
+      "id": "desktop_nav_text_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Navigation bar text size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "desktop_nav_text_color",
+      "label": "Navigation bar text color",
+      "default": "#111111"
     },
     {
       "type": "link_list",
