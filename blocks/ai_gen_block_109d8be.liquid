@@ -1,6 +1,6 @@
 {% doc %}
   @prompt
-    Create a hero banner section with a carousel/slideshow. Each slide should have a background image that fills the full width. On top of the image, display two text elements: a small eyebrow title above and a large bold title below. Both texts should be editable in the theme customizer. Add an option in the customizer to switch the layout so the large title appears centered in the middle of the image instead. Add another option to replace the large title with a CTA button — the button text and link should also be editable. The carousel should have manual navigation with previous and next arrows, and dot indicators showing which slide is active. The section height should be adjustable in the customizer. Text color, button color and button text color should all be customizable., No add cta button under title dont remove the title when enableing the cta, Autoplay fungerar inte om jag enablar den så fortsätter den ändå. Säkerställ att den fungerar samt ta bort eller gör så jag kan välja hur arrows storlek ska vara eller om dem ska visas alltså dem som är på sidorna som indikerar att man ska slidea , Gör så jag kan ändra färg på titel, lägga overlay ovanför bilden samt ändra färg och storlek på titel. och knapparna , Lägg cta precis ovanför bulletpoints så den är bottom., Låt mig avgöra avstånden från knapp från text distance. 
+    Hero carousel with physical drag - slides follow cursor/finger in real time, snap on release.
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
@@ -11,13 +11,7 @@
     width: 100%;
     height: {{ block.settings.section_height_mobile }}px;
     overflow: hidden;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-  .ai-hero-carousel-{{ ai_gen_id }}.is-dragging {
-    cursor: grabbing;
+    touch-action: pan-y;
   }
 
   @media screen and (min-width: 750px) {
@@ -26,26 +20,30 @@
     }
   }
 
-  .ai-hero-carousel__slides-{{ ai_gen_id }} {
-    position: relative;
+  .ai-hero-carousel__track-{{ ai_gen_id }} {
+    display: flex;
     width: 100%;
     height: 100%;
+    will-change: transform;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .ai-hero-carousel__track-{{ ai_gen_id }}.is-snapping {
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .ai-hero-carousel__track-{{ ai_gen_id }}.is-dragging {
+    cursor: grabbing;
   }
 
   .ai-hero-carousel__slide-{{ ai_gen_id }} {
-    position: absolute;
-    top: 0;
-    left: 0;
+    flex: 0 0 100%;
     width: 100%;
     height: 100%;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-  }
-
-  .ai-hero-carousel__slide-{{ ai_gen_id }}.active {
-    opacity: 1;
-    visibility: visible;
+    position: relative;
+    overflow: hidden;
   }
 
   .ai-hero-carousel__slide-image-{{ ai_gen_id }} {
@@ -53,6 +51,7 @@
     height: 100%;
     object-fit: cover;
     pointer-events: none;
+    draggable: false;
   }
 
   .ai-hero-carousel__slide-placeholder-{{ ai_gen_id }} {
@@ -215,6 +214,7 @@
     display: flex;
     gap: 12px;
     z-index: 10;
+    pointer-events: auto;
   }
 
   .ai-hero-carousel__dot-{{ ai_gen_id }} {
@@ -239,7 +239,7 @@
 {% endstyle %}
 
 <hero-carousel-{{ ai_gen_id }} class="ai-hero-carousel-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
-  <div class="ai-hero-carousel__slides-{{ ai_gen_id }}">
+  <div class="ai-hero-carousel__track-{{ ai_gen_id }}" id="track-{{ ai_gen_id }}">
     {% for i in (1..5) %}
       {% liquid
         assign slide_image_key = 'slide_' | append: i | append: '_image'
@@ -256,7 +256,7 @@
       %}
 
       {% if slide_image != blank or slide_eyebrow != blank or slide_title != blank %}
-        <div class="ai-hero-carousel__slide-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.index }}">
+        <div class="ai-hero-carousel__slide-{{ ai_gen_id }}" data-slide="{{ forloop.index }}">
           {% if slide_image %}
             <img
               src="{{ slide_image | image_url: width: 2000 }}"
@@ -313,176 +313,226 @@
 </hero-carousel-{{ ai_gen_id }}>
 
 <script>
-  (function() {
-    class HeroCarousel{{ ai_gen_id }} extends HTMLElement {
-      constructor() {
-        super();
-        this.currentSlide = 0;
-        this.slides = [];
-        this.autoplayInterval = null;
-        this.autoplayEnabled = false;
-        this.dragStartX = 0;
-        this.isDragging = false;
-        this.hasMoved = false;
-        this.dragThreshold = 50;
-      }
+(function() {
+  class HeroCarousel{{ ai_gen_id }} extends HTMLElement {
+    constructor() {
+      super();
+      this.currentSlide = 0;
+      this.slideCount = 0;
+      this.autoplayInterval = null;
+      this.autoplayEnabled = false;
+      this.autoplayDelay = 5000;
 
-      connectedCallback() {
-        this.slides = Array.from(this.querySelectorAll('.ai-hero-carousel__slide-{{ ai_gen_id }}'));
-        this.prevButton = this.querySelector('.ai-hero-carousel__nav-{{ ai_gen_id }}--prev');
-        this.nextButton = this.querySelector('.ai-hero-carousel__nav-{{ ai_gen_id }}--next');
-        this.dotsContainer = this.querySelector('.ai-hero-carousel__dots-{{ ai_gen_id }}');
+      // Drag state
+      this.isDragging = false;
+      this.startX = 0;
+      this.currentX = 0;
+      this.dragDelta = 0;
+      this.snapThreshold = 80; // px needed to trigger slide change
+    }
 
-        if (this.slides.length === 0) return;
+    connectedCallback() {
+      this.track = this.querySelector('.ai-hero-carousel__track-{{ ai_gen_id }}');
+      this.slides = Array.from(this.querySelectorAll('.ai-hero-carousel__slide-{{ ai_gen_id }}'));
+      this.prevButton = this.querySelector('.ai-hero-carousel__nav-{{ ai_gen_id }}--prev');
+      this.nextButton = this.querySelector('.ai-hero-carousel__nav-{{ ai_gen_id }}--next');
+      this.dotsContainer = this.querySelector('.ai-hero-carousel__dots-{{ ai_gen_id }}');
 
-        this.autoplayEnabled = {{ block.settings.autoplay | json }};
-        this.autoplayDelay = {{ block.settings.autoplay_delay | json }} * 1000;
+      if (this.slides.length === 0) return;
 
-        this.createDots();
-        this.setupEventListeners();
-        this.setupDragListeners();
+      this.slideCount = this.slides.length;
+      this.autoplayEnabled = {{ block.settings.autoplay | json }};
+      this.autoplayDelay = {{ block.settings.autoplay_delay | json }} * 1000;
 
-        if (this.autoplayEnabled && this.slides.length > 1) {
-          this.startAutoplay();
-        }
-      }
+      this.createDots();
+      this.setupArrows();
+      this.setupDrag();
+      this.setPosition(0, false);
 
-      disconnectedCallback() {
-        this.stopAutoplay();
-        window.removeEventListener('mousemove', this._onMouseMove);
-        window.removeEventListener('mouseup', this._onMouseUp);
-      }
-
-      createDots() {
-        this.slides.forEach((slide, index) => {
-          const dot = document.createElement('button');
-          dot.classList.add('ai-hero-carousel__dot-{{ ai_gen_id }}');
-          if (index === 0) dot.classList.add('active');
-          dot.setAttribute('aria-label', 'Go to slide ' + (index + 1));
-          dot.addEventListener('click', () => {
-            this.stopAutoplay();
-            this.goToSlide(index);
-            if (this.autoplayEnabled) {
-              this.startAutoplay();
-            }
-          });
-          this.dotsContainer.appendChild(dot);
-        });
-        this.dots = Array.from(this.dotsContainer.querySelectorAll('.ai-hero-carousel__dot-{{ ai_gen_id }}'));
-      }
-
-      setupEventListeners() {
-        this.prevButton.addEventListener('click', () => {
-          this.stopAutoplay();
-          this.previousSlide();
-          if (this.autoplayEnabled) {
-            this.startAutoplay();
-          }
-        });
-
-        this.nextButton.addEventListener('click', () => {
-          this.stopAutoplay();
-          this.nextSlide();
-          if (this.autoplayEnabled) {
-            this.startAutoplay();
-          }
-        });
-      }
-
-      setupDragListeners() {
-        // Mouse drag
-        this.addEventListener('mousedown', (e) => {
-          if (e.target.closest('a, button')) return;
-          this.isDragging = true;
-          this.hasMoved = false;
-          this.dragStartX = e.clientX;
-          this.classList.add('is-dragging');
-          this.stopAutoplay();
-        });
-
-        this._onMouseMove = (e) => {
-          if (!this.isDragging) return;
-          if (Math.abs(e.clientX - this.dragStartX) > 5) this.hasMoved = true;
-        };
-
-        this._onMouseUp = (e) => {
-          if (!this.isDragging) return;
-          this.isDragging = false;
-          this.classList.remove('is-dragging');
-          const deltaX = e.clientX - this.dragStartX;
-          if (this.hasMoved && Math.abs(deltaX) >= this.dragThreshold) {
-            deltaX < 0 ? this.nextSlide() : this.previousSlide();
-          }
-          if (this.autoplayEnabled) this.startAutoplay();
-        };
-
-        window.addEventListener('mousemove', this._onMouseMove);
-        window.addEventListener('mouseup', this._onMouseUp);
-
-        // Touch swipe
-        this.addEventListener('touchstart', (e) => {
-          if (e.target.closest('a, button')) return;
-          this.isDragging = true;
-          this.hasMoved = false;
-          this.dragStartX = e.touches[0].clientX;
-          this.stopAutoplay();
-        }, { passive: true });
-
-        this.addEventListener('touchmove', (e) => {
-          if (!this.isDragging) return;
-          if (Math.abs(e.touches[0].clientX - this.dragStartX) > 5) this.hasMoved = true;
-        }, { passive: true });
-
-        this.addEventListener('touchend', (e) => {
-          if (!this.isDragging) return;
-          this.isDragging = false;
-          const deltaX = e.changedTouches[0].clientX - this.dragStartX;
-          if (this.hasMoved && Math.abs(deltaX) >= this.dragThreshold) {
-            deltaX < 0 ? this.nextSlide() : this.previousSlide();
-          }
-          if (this.autoplayEnabled) this.startAutoplay();
-        });
-      }
-
-      goToSlide(index) {
-        this.slides[this.currentSlide].classList.remove('active');
-        this.dots[this.currentSlide].classList.remove('active');
-
-        this.currentSlide = index;
-
-        this.slides[this.currentSlide].classList.add('active');
-        this.dots[this.currentSlide].classList.add('active');
-      }
-
-      nextSlide() {
-        const nextIndex = (this.currentSlide + 1) % this.slides.length;
-        this.goToSlide(nextIndex);
-      }
-
-      previousSlide() {
-        const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-        this.goToSlide(prevIndex);
-      }
-
-      startAutoplay() {
-        this.stopAutoplay();
-        if (this.autoplayEnabled && this.slides.length > 1) {
-          this.autoplayInterval = setInterval(() => {
-            this.nextSlide();
-          }, this.autoplayDelay);
-        }
-      }
-
-      stopAutoplay() {
-        if (this.autoplayInterval) {
-          clearInterval(this.autoplayInterval);
-          this.autoplayInterval = null;
-        }
+      if (this.autoplayEnabled && this.slideCount > 1) {
+        this.startAutoplay();
       }
     }
 
+    disconnectedCallback() {
+      this.stopAutoplay();
+      window.removeEventListener('mousemove', this._mousemove);
+      window.removeEventListener('mouseup', this._mouseup);
+    }
+
+    // ---- Position ----
+    setPosition(x, animate) {
+      if (animate) {
+        this.track.classList.add('is-snapping');
+        this.track.addEventListener('transitionend', () => {
+          this.track.classList.remove('is-snapping');
+        }, { once: true });
+      }
+      this.track.style.transform = `translateX(${x}px)`;
+    }
+
+    getBaseX() {
+      return -(this.currentSlide * this.offsetWidth);
+    }
+
+    // ---- Slide logic ----
+    goToSlide(index, animate = true) {
+      this.currentSlide = Math.max(0, Math.min(index, this.slideCount - 1));
+      this.setPosition(this.getBaseX(), animate);
+      this.updateDots();
+    }
+
+    nextSlide() {
+      this.goToSlide((this.currentSlide + 1) % this.slideCount);
+    }
+
+    previousSlide() {
+      this.goToSlide((this.currentSlide - 1 + this.slideCount) % this.slideCount);
+    }
+
+    // ---- Dots ----
+    createDots() {
+      this.slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('ai-hero-carousel__dot-{{ ai_gen_id }}');
+        if (index === 0) dot.classList.add('active');
+        dot.setAttribute('aria-label', 'Go to slide ' + (index + 1));
+        dot.addEventListener('click', () => {
+          this.stopAutoplay();
+          this.goToSlide(index);
+          if (this.autoplayEnabled) this.startAutoplay();
+        });
+        this.dotsContainer.appendChild(dot);
+      });
+      this.dots = Array.from(this.dotsContainer.querySelectorAll('.ai-hero-carousel__dot-{{ ai_gen_id }}'));
+    }
+
+    updateDots() {
+      this.dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === this.currentSlide);
+      });
+    }
+
+    // ---- Arrows ----
+    setupArrows() {
+      this.prevButton.addEventListener('click', () => {
+        this.stopAutoplay();
+        this.previousSlide();
+        if (this.autoplayEnabled) this.startAutoplay();
+      });
+      this.nextButton.addEventListener('click', () => {
+        this.stopAutoplay();
+        this.nextSlide();
+        if (this.autoplayEnabled) this.startAutoplay();
+      });
+    }
+
+    // ---- Drag ----
+    setupDrag() {
+      // Mouse
+      this.track.addEventListener('mousedown', (e) => {
+        if (e.target.closest('a, button')) return;
+        this.dragStart(e.clientX);
+        e.preventDefault();
+      });
+
+      this._mousemove = (e) => {
+        if (!this.isDragging) return;
+        this.dragMove(e.clientX);
+      };
+
+      this._mouseup = (e) => {
+        if (!this.isDragging) return;
+        this.dragEnd(e.clientX);
+      };
+
+      window.addEventListener('mousemove', this._mousemove);
+      window.addEventListener('mouseup', this._mouseup);
+
+      // Touch
+      this.track.addEventListener('touchstart', (e) => {
+        if (e.target.closest('a, button')) return;
+        this.dragStart(e.touches[0].clientX);
+      }, { passive: true });
+
+      this.track.addEventListener('touchmove', (e) => {
+        if (!this.isDragging) return;
+        this.dragMove(e.touches[0].clientX);
+      }, { passive: true });
+
+      this.track.addEventListener('touchend', (e) => {
+        if (!this.isDragging) return;
+        this.dragEnd(e.changedTouches[0].clientX);
+      });
+    }
+
+    dragStart(x) {
+      this.isDragging = true;
+      this.startX = x;
+      this.dragDelta = 0;
+      this.track.classList.add('is-dragging');
+      this.stopAutoplay();
+    }
+
+    dragMove(x) {
+      if (!this.isDragging) return;
+      this.dragDelta = x - this.startX;
+
+      // Resist at edges
+      if (
+        (this.currentSlide === 0 && this.dragDelta > 0) ||
+        (this.currentSlide === this.slideCount - 1 && this.dragDelta < 0)
+      ) {
+        this.dragDelta = this.dragDelta * 0.2; // rubber-band resistance
+      }
+
+      this.setPosition(this.getBaseX() + this.dragDelta, false);
+    }
+
+    dragEnd(x) {
+      if (!this.isDragging) return;
+      this.isDragging = false;
+      this.track.classList.remove('is-dragging');
+
+      const delta = x - this.startX;
+
+      if (Math.abs(delta) >= this.snapThreshold) {
+        if (delta < 0 && this.currentSlide < this.slideCount - 1) {
+          this.goToSlide(this.currentSlide + 1);
+        } else if (delta > 0 && this.currentSlide > 0) {
+          this.goToSlide(this.currentSlide - 1);
+        } else {
+          // At edge — snap back
+          this.goToSlide(this.currentSlide);
+        }
+      } else {
+        // Not enough — snap back
+        this.goToSlide(this.currentSlide);
+      }
+
+      if (this.autoplayEnabled) this.startAutoplay();
+    }
+
+    // ---- Autoplay ----
+    startAutoplay() {
+      this.stopAutoplay();
+      if (this.autoplayEnabled && this.slideCount > 1) {
+        this.autoplayInterval = setInterval(() => this.nextSlide(), this.autoplayDelay);
+      }
+    }
+
+    stopAutoplay() {
+      if (this.autoplayInterval) {
+        clearInterval(this.autoplayInterval);
+        this.autoplayInterval = null;
+      }
+    }
+  }
+
+  if (!customElements.get('hero-carousel-{{ ai_gen_id }}')) {
     customElements.define('hero-carousel-{{ ai_gen_id }}', HeroCarousel{{ ai_gen_id }});
-  })();
+  }
+})();
 </script>
 
 {% schema %}
@@ -499,14 +549,8 @@
       "id": "layout",
       "label": "Content layout",
       "options": [
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        }
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" }
       ],
       "default": "left"
     },
@@ -570,14 +614,8 @@
       "id": "arrow_style",
       "label": "Arrow style",
       "options": [
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        }
+        { "value": "circle", "label": "Circle" },
+        { "value": "square", "label": "Square" }
       ],
       "default": "circle"
     },
