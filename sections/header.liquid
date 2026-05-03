@@ -80,7 +80,7 @@ the underlying logic of the menu.
     padding: 0 16px;
   }
 
-.header__search-center-form {
+  .header__search-center-form {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -90,7 +90,7 @@ the underlying logic of the menu.
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-}
+  }
 
   .header__search-center-form svg {
     flex-shrink: 0;
@@ -114,6 +114,72 @@ the underlying logic of the menu.
   @media screen and (min-width: 750px) {
     .header__search-icon-hide {
       display: none !important;
+    }
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     MOBILE LAYOUT (≤ 749px): 2-rad header
+     Rad 1: hamburger (vänster) | logga (mitten) | kundvagn (höger)
+     Rad 2: sökfält (full bredd, visuellt avgränsat)
+     ───────────────────────────────────────────────────────────────── */
+  @media screen and (max-width: 749px) {
+
+    /* Skriv om grid till 2 rader.
+       Kolumn 1 (1fr) täcker hamburger + logga.
+       Kolumn 2 (auto) täcker kundvagnen i secondary-nav.
+       Sökraden spänner båda kolumnerna ("search search"). */
+    #shopify-section-{{ section.id }} .header__wrapper {
+      display: grid;
+      grid-template-areas:
+        "logo secondary-nav"
+        "search search";
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      align-items: center;
+      padding-bottom: 0;
+    }
+
+    /* Tilldela explicita grid-areas så de inte förlitar sig enbart
+       på CSS-variabeln från temats basklass */
+    #shopify-section-{{ section.id }} .header__logo-with-hamburger {
+      grid-area: logo;
+    }
+
+    #shopify-section-{{ section.id }} .header__search-center {
+      grid-area: search;
+    }
+
+    #shopify-section-{{ section.id }} .header__secondary-nav {
+      grid-area: secondary-nav;
+    }
+
+    /* Hamburger stannar vänster, loggan får flex: 1 och centreras
+       i det återstående utrymmet inom logo-kolumnen.
+       gap nollställs här och ersätts av logo-elementets egen margin. */
+    #shopify-section-{{ section.id }} .header__logo-with-hamburger {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    #shopify-section-{{ section.id }} .header__logo-with-hamburger .header__logo {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+    }
+
+    /* Sökrad: full bredd, subtil border-top som visuell avgränsning
+       mot rad 1, egen vertikal padding. */
+    #shopify-section-{{ section.id }} .header__search-center {
+      padding: 8px 12px 14px;
+      border-top: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    /* Sökfält: ta bort max-width-begränsningen på mobil
+       så formuläret fyller hela radens bredd. */
+    #shopify-section-{{ section.id }} .header__search-center .header__search-center-form {
+      max-width: 100%;
     }
   }
 </style>
@@ -156,7 +222,7 @@ the underlying logic of the menu.
       </div>
 
       {%- comment -%}
-      SEARCH — center grid area
+      SEARCH — center grid area (desktop) / full-width row 2 (mobile)
       {%- endcomment -%}
 
       <div class="header__search-center">
