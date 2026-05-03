@@ -119,65 +119,67 @@ the underlying logic of the menu.
 
   /* ─────────────────────────────────────────────────────────────────
      MOBILE LAYOUT (≤ 749px): 2-rad header
-     Rad 1: hamburger (vänster) | logga (mitten) | kundvagn (höger)
+     Rad 1: hamburger (vänster) | logga (ÄKTA MITTEN) | kundvagn (höger)
      Rad 2: sökfält (full bredd, visuellt avgränsat)
+
+     TEKNIK: display: contents på .header__logo-with-hamburger gör att
+     hamburgaren och loggan behandlas som direkta grid-barn i wrappern.
+     grid-template-columns: 1fr auto 1fr placerar loggan i en auto-kolumn
+     flankerad av lika stora 1fr-kolumner — matematisk skärmcentrering
+     oavsett bredd på hamburger eller kundvagn. DOM, aria och JS påverkas
+     inte av display: contents eftersom elementet finns kvar i trädet.
      ───────────────────────────────────────────────────────────────── */
   @media screen and (max-width: 749px) {
 
-    /* Skriv om grid till 2 rader.
-       Kolumn 1 (1fr) täcker hamburger + logga.
-       Kolumn 2 (auto) täcker kundvagnen i secondary-nav.
-       Sökraden spänner båda kolumnerna ("search search"). */
+    /* 3-kolumners övre rad + söksrad som spänner hela bredden */
     #shopify-section-{{ section.id }} .header__wrapper {
       display: grid;
       grid-template-areas:
-        "logo secondary-nav"
-        "search search";
-      grid-template-columns: 1fr auto;
+        "hamburger logo cart"
+        "search    search search";
+      grid-template-columns: 1fr auto 1fr;
       grid-template-rows: auto auto;
       align-items: center;
       padding-bottom: 0;
     }
 
-    /* Tilldela explicita grid-areas så de inte förlitar sig enbart
-       på CSS-variabeln från temats basklass */
+    /* display: contents tar bort wrappar-boxen visuellt men bevarar
+       DOM-strukturen. Hamburgaren och loggan blir direkta grid-barn
+       och kan tilldelas egna grid-areas för äkta skärmcentrering. */
     #shopify-section-{{ section.id }} .header__logo-with-hamburger {
-      grid-area: logo;
+      display: contents;
     }
 
-    #shopify-section-{{ section.id }} .header__search-center {
-      grid-area: search;
+    /* Hamburgaren: vänster kolumn */
+    #shopify-section-{{ section.id }} .header__logo-with-hamburger > button {
+      grid-area: hamburger;
+      justify-self: start;
+      align-self: center;
     }
 
-    #shopify-section-{{ section.id }} .header__secondary-nav {
-      grid-area: secondary-nav;
-    }
-
-    /* Hamburger stannar vänster, loggan får flex: 1 och centreras
-       i det återstående utrymmet inom logo-kolumnen.
-       gap nollställs här och ersätts av logo-elementets egen margin. */
-    #shopify-section-{{ section.id }} .header__logo-with-hamburger {
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-
+    /* Loggan: mittkolumn — äkta centrerad på skärmen */
     #shopify-section-{{ section.id }} .header__logo-with-hamburger .header__logo {
-      flex: 1;
-      display: flex;
-      justify-content: center;
+      grid-area: logo;
+      justify-self: center;
+      align-self: center;
       margin: 0;
     }
 
-    /* Sökrad: full bredd, subtil border-top som visuell avgränsning
-       mot rad 1, egen vertikal padding. */
+    /* Kundvagn (secondary-nav): höger kolumn */
+    #shopify-section-{{ section.id }} .header__secondary-nav {
+      grid-area: cart;
+      justify-self: end;
+      align-self: center;
+    }
+
+    /* Sökrad: full bredd, subtil border-top som visuell avgränsning */
     #shopify-section-{{ section.id }} .header__search-center {
+      grid-area: search;
       padding: 8px 12px 14px;
       border-top: 1px solid rgba(0, 0, 0, 0.07);
     }
 
-    /* Sökfält: ta bort max-width-begränsningen på mobil
-       så formuläret fyller hela radens bredd. */
+    /* Sökfält: ta bort max-width-begränsningen på mobil */
     #shopify-section-{{ section.id }} .header__search-center .header__search-center-form {
       max-width: 100%;
     }
