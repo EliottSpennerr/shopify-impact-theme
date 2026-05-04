@@ -28,6 +28,11 @@
             "image_width": 300,
             "content": "<p>Get 10% off your first order when you subscribe to our newsletter!</p>"
           }
+        },
+        "text": {
+          "settings": {
+            "content": "<p>Vi gör färskt godis för folk med smak. Inget tjafs. Bara riktigt bra godis, gjort med stolthet, sälta och finsk envishet.</p>"
+          }
         }
       }
     }
