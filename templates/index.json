@@ -178,7 +178,7 @@
           "type": "heading",
           "settings": {
             "text": "Vi gör lakrits som smakar.",
-            "heading_tag": "h1"
+            "heading_tag": "h0"
           }
         },
         "1664424230c4756b0e-2": {
@@ -193,9 +193,7 @@
         "1664424230c4756b0e-1",
         "1664424230c4756b0e-2"
       ],
-      "custom_css": [
-        ".h1 {font-family: balloon; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "settings": {
         "full_width": true,
         "allow_transparent_header": false,
@@ -445,9 +443,7 @@
         "logo_XN4zFn",
         "logo_UJ83tN"
       ],
-      "custom_css": [
-        ".h2 {font-family: balloon; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "name": "Logo list",
       "settings": {
         "full_width": true,
