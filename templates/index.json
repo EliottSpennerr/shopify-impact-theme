@@ -523,15 +523,13 @@
         "item_mcMBrg",
         "item_PHnCna"
       ],
-      "custom_css": [
-        ".h2 {font-family: balloon; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "name": "FAQ",
       "settings": {
         "full_width": true,
         "subheading": "",
         "title": "FAQ",
-        "content": "<p>För dig som undrar lite.</p>",
+        "content": "<h5>För dig som undrar lite.</h5>",
         "team_avatar_width": 160,
         "support_hours": "",
         "answer_time": "",
