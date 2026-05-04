@@ -576,9 +576,7 @@
       "block_order": [
         "image_gNxLg3"
       ],
-      "custom_css": [
-        ".h0 {font-family: balloon; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "name": "Slideshow",
       "settings": {
         "full_width": true,
