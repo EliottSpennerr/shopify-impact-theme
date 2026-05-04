@@ -64,7 +64,44 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
     font-display: swap;
   }
 
-  
+  @font-face {
+    font-family: 'Cadiz';
+    src: url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Light.woff2?v=1777874525') format('woff2'),
+         url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Light.woff?v=1777874525') format('woff');
+    font-weight: 300; font-style: normal;
+  }
+  @font-face {
+    font-family: 'Cadiz';
+    src: url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Regular.woff2?v=1777874526') format('woff2'),
+         url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Regular.woff?v=1777874525') format('woff');
+    font-weight: 400; font-style: normal;
+  }
+  @font-face {
+    font-family: 'Cadiz';
+    src: url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Medium.woff2?v=1777874525') format('woff2'),
+         url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Medium.woff?v=1777874525') format('woff');
+    font-weight: 500; font-style: normal;
+  }
+  @font-face {
+    font-family: 'Cadiz';
+    src: url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-SemiBold.woff2?v=1777874526') format('woff2'),
+         url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-SemiBold.woff?v=1777874525') format('woff');
+    font-weight: 600; font-style: normal;
+  }
+  @font-face {
+    font-family: 'Cadiz';
+    src: url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Bold.woff2?v=1777874525') format('woff2'),
+         url('https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Bold.woff?v=1777874525') format('woff');
+    font-weight: 700; font-style: normal;
+  }
+
+  {% if settings.heading_custom_font == 'cadiz' %}
+    h1, h2, h3, h4, h5, h6 { font-family: 'Cadiz', sans-serif; }
+  {% endif %}
+
+  {% if settings.body_custom_font == 'cadiz' %}
+    body { font-family: 'Cadiz', sans-serif; }
+  {% endif %}
 </style>
 
   </head>
