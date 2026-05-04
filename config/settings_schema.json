@@ -33,22 +33,10 @@
         "id": "section_vertical_spacing",
         "label": "Vertical space between sections",
         "options": [
-          {
-            "value": "xsmall",
-            "label": "X-Small"
-          },
-          {
-            "value": "small",
-            "label": "Small"
-          },
-          {
-            "value": "medium",
-            "label": "Medium"
-          },
-          {
-            "value": "large",
-            "label": "Large"
-          }
+          { "value": "xsmall", "label": "X-Small" },
+          { "value": "small", "label": "Small" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "large", "label": "Large" }
         ],
         "default": "medium"
       },
@@ -57,22 +45,10 @@
         "id": "section_boxed_horizontal_spacing",
         "label": "Horizontal space inside sections",
         "options": [
-          {
-            "value": "xsmall",
-            "label": "X-Small"
-          },
-          {
-            "value": "small",
-            "label": "Small"
-          },
-          {
-            "value": "medium",
-            "label": "Medium"
-          },
-          {
-            "value": "large",
-            "label": "Large"
-          }
+          { "value": "xsmall", "label": "X-Small" },
+          { "value": "small", "label": "Small" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "large", "label": "Large" }
         ],
         "default": "medium"
       },
@@ -173,14 +149,8 @@
         "label": "Icon style",
         "info": "Not all icons have duo-tone style.",
         "options": [
-          {
-            "value": "mono",
-            "label": "Monochrome"
-          },
-          {
-            "value": "duo",
-            "label": "Duo-tone"
-          }
+          { "value": "mono", "label": "Monochrome" },
+          { "value": "duo", "label": "Duo-tone" }
         ],
         "default": "duo"
       },
@@ -193,14 +163,8 @@
         "id": "button_style",
         "label": "Button style",
         "options": [
-          {
-            "value": "fill",
-            "label": "Fill"
-          },
-          {
-            "value": "outline",
-            "label": "Outline"
-          }
+          { "value": "fill", "label": "Fill" },
+          { "value": "outline", "label": "Outline" }
         ],
         "default": "fill"
       },
@@ -210,18 +174,9 @@
         "label": "Hover effect",
         "info": "Hover is not available on touch devices (phone, tablet...).",
         "options": [
-          {
-            "value": "none",
-            "label": "None"
-          },
-          {
-            "value": "fade",
-            "label": "Fade"
-          },
-          {
-            "value": "reverse",
-            "label": "Reverse style"
-          }
+          { "value": "none", "label": "None" },
+          { "value": "fade", "label": "Fade" },
+          { "value": "reverse", "label": "Reverse style" }
         ],
         "default": "fade"
       }
@@ -398,21 +353,23 @@
       },
       {
         "type": "select",
+        "id": "heading_custom_font",
+        "label": "Använd anpassat typsnitt för rubriker",
+        "info": "Välj Cadiz för att åsidosätta font-väljaren ovan.",
+        "options": [
+          { "value": "default", "label": "Temats standard (font-väljaren ovan)" },
+          { "value": "cadiz", "label": "Cadiz" }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "select",
         "id": "heading_font_size",
         "label": "Heading size",
         "options": [
-          {
-            "value": "small",
-            "label": "Small"
-          },
-          {
-            "value": "medium",
-            "label": "Medium"
-          },
-          {
-            "value": "large",
-            "label": "Large"
-          }
+          { "value": "small", "label": "Small" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "large", "label": "Large" }
         ],
         "default": "medium"
       },
@@ -421,18 +378,9 @@
         "id": "heading_text_transform",
         "label": "Heading style",
         "options": [
-          {
-            "value": "normal",
-            "label": "Normal"
-          },
-          {
-            "value": "lowercase",
-            "label": "Lowercase"
-          },
-          {
-            "value": "uppercase",
-            "label": "Uppercase"
-          }
+          { "value": "normal", "label": "Normal" },
+          { "value": "lowercase", "label": "Lowercase" },
+          { "value": "uppercase", "label": "Uppercase" }
         ],
         "default": "normal"
       },
@@ -456,6 +404,17 @@
         "label": "Font",
         "info": "Selecting different fonts can affect the speed of your online store. Learn more about [system fonts.](https://help.shopify.com/en/manual/online-store/os/store-speed/improving-speed#fonts)",
         "default": "helvetica_n4"
+      },
+      {
+        "type": "select",
+        "id": "body_custom_font",
+        "label": "Använd anpassat typsnitt för brödtext",
+        "info": "Välj Cadiz för att åsidosätta font-väljaren ovan.",
+        "options": [
+          { "value": "default", "label": "Temats standard (font-väljaren ovan)" },
+          { "value": "cadiz", "label": "Cadiz" }
+        ],
+        "default": "default"
       },
       {
         "type": "range",
@@ -545,26 +504,11 @@
         "label": "Heading apparition",
         "info": "Line by line apparition can't be used for gradient heading. [Learn more](https://support.maestrooo.com/article/299-limitation-for-gradients-on-impact-theme)",
         "options": [
-          {
-            "value": "none",
-            "label": "None"
-          },
-          {
-            "value": "fade",
-            "label": "Fade"
-          },
-          {
-            "value": "split_fade",
-            "label": "Line by line, fade"
-          },
-          {
-            "value": "split_clip",
-            "label": "Line by line, clipped"
-          },
-          {
-            "value": "split_rotation",
-            "label": "Line by line, rotated"
-          }
+          { "value": "none", "label": "None" },
+          { "value": "fade", "label": "Fade" },
+          { "value": "split_fade", "label": "Line by line, fade" },
+          { "value": "split_clip", "label": "Line by line, clipped" },
+          { "value": "split_rotation", "label": "Line by line, rotated" }
         ],
         "default": "split_rotation"
       }
@@ -578,18 +522,9 @@
         "id": "color_swatch_style",
         "label": "Style",
         "options": [
-          {
-            "value": "square",
-            "label": "Square"
-          },
-          {
-            "value": "rectangle",
-            "label": "Rectangle"
-          },
-          {
-            "value": "round",
-            "label": "Round"
-          }
+          { "value": "square", "label": "Square" },
+          { "value": "rectangle", "label": "Rectangle" },
+          { "value": "round", "label": "Round" }
         ],
         "default": "round"
       },
@@ -635,14 +570,8 @@
         "id": "product_rating_mode",
         "label": "Show product rating as...",
         "options": [
-          {
-            "value": "rating",
-            "label": "Average rating (e.g. \"4.5\")"
-          },
-          {
-            "value": "count",
-            "label": "Count (e.g. \"3 reviews\")"
-          }
+          { "value": "rating", "label": "Average rating (e.g. \"4.5\")" },
+          { "value": "count", "label": "Count (e.g. \"3 reviews\")" }
         ],
         "default": "rating"
       },
@@ -663,14 +592,8 @@
         "id": "discount_mode",
         "label": "Show discount as...",
         "options": [
-          {
-            "value": "percentage",
-            "label": "Percentage"
-          },
-          {
-            "value": "saving",
-            "label": "Saving"
-          }
+          { "value": "percentage", "label": "Percentage" },
+          { "value": "saving", "label": "Saving" }
         ],
         "default": "saving"
       },
@@ -680,22 +603,10 @@
         "label": "Color display mode",
         "info": "Variant images are hidden on mobile and small screens.",
         "options": [
-          {
-            "value": "hide",
-            "label": "Hide"
-          },
-          {
-            "value": "count",
-            "label": "Count"
-          },
-          {
-            "value": "swatch",
-            "label": "Swatch"
-          },
-          {
-            "value": "variant",
-            "label": "Variant image"
-          }
+          { "value": "hide", "label": "Hide" },
+          { "value": "count", "label": "Count" },
+          { "value": "swatch", "label": "Swatch" },
+          { "value": "variant", "label": "Variant image" }
         ],
         "default": "count"
       },
@@ -704,34 +615,13 @@
         "id": "product_image_aspect_ratio",
         "label": "Product image size",
         "options": [
-          {
-            "value": "natural",
-            "label": "Natural"
-          },
-          {
-            "value": "short",
-            "label": "Short (4:3)"
-          },
-          {
-            "value": "square",
-            "label": "Square (1:1)"
-          },
-          {
-            "value": "tall",
-            "label": "Tall (2:3)"
-          },
-          {
-            "value": "short_crop",
-            "label": "Short (4:3) - fill card"
-          },
-          {
-            "value": "square_crop",
-            "label": "Square (1:1) - fill card"
-          },
-          {
-            "value": "tall_crop",
-            "label": "Tall (2:3) - fill card"
-          }
+          { "value": "natural", "label": "Natural" },
+          { "value": "short", "label": "Short (4:3)" },
+          { "value": "square", "label": "Square (1:1)" },
+          { "value": "tall", "label": "Tall (2:3)" },
+          { "value": "short_crop", "label": "Short (4:3) - fill card" },
+          { "value": "square_crop", "label": "Square (1:1) - fill card" },
+          { "value": "tall_crop", "label": "Tall (2:3) - fill card" }
         ],
         "default": "natural"
       },
@@ -740,14 +630,8 @@
         "id": "product_info_alignment",
         "label": "Product info alignment",
         "options": [
-          {
-            "value": "start",
-            "label": "Left"
-          },
-          {
-            "value": "center",
-            "label": "Center"
-          }
+          { "value": "start", "label": "Left" },
+          { "value": "center", "label": "Center" }
         ],
         "default": "start"
       }
@@ -761,18 +645,9 @@
         "id": "cart_type",
         "label": "Cart type",
         "options": [
-          {
-            "value": "drawer",
-            "label": "Drawer"
-          },
-          {
-            "value": "popover",
-            "label": "Confirmation popup"
-          },
-          {
-            "value": "page",
-            "label": "Page"
-          }
+          { "value": "drawer", "label": "Drawer" },
+          { "value": "popover", "label": "Confirmation popup" },
+          { "value": "page", "label": "Page" }
         ],
         "default": "popover"
       },
@@ -781,18 +656,9 @@
         "id": "cart_icon",
         "label": "Cart icon",
         "options": [
-          {
-            "value": "shopping_basket",
-            "label": "Shopping basket"
-          },
-          {
-            "value": "tote_bag",
-            "label": "Tote bag"
-          },
-          {
-            "value": "shopping_cart",
-            "label": "Shopping cart"
-          }
+          { "value": "shopping_basket", "label": "Shopping basket" },
+          { "value": "tote_bag", "label": "Tote bag" },
+          { "value": "shopping_cart", "label": "Shopping cart" }
         ],
         "default": "shopping_basket"
       },
@@ -829,96 +695,24 @@
         "type": "header",
         "content": "Accounts"
       },
-      {
-        "type": "url",
-        "id": "social_facebook",
-        "label": "Facebook"
-      },
-      {
-        "type": "url",
-        "id": "social_twitter",
-        "label": "X (formerly Twitter)"
-      },
-      {
-        "type": "url",
-        "id": "social_threads",
-        "label": "Threads"
-      },
-      {
-        "type": "url",
-        "id": "social_pinterest",
-        "label": "Pinterest"
-      },
-      {
-        "type": "url",
-        "id": "social_instagram",
-        "label": "Instagram"
-      },
-      {
-        "type": "url",
-        "id": "social_vimeo",
-        "label": "Vimeo"
-      },
-      {
-        "type": "url",
-        "id": "social_whatsapp",
-        "label": "WhatsApp"
-      },
-      {
-        "type": "url",
-        "id": "social_tumblr",
-        "label": "Tumblr"
-      },
-      {
-        "type": "url",
-        "id": "social_youtube",
-        "label": "YouTube"
-      },
-      {
-        "type": "url",
-        "id": "social_tiktok",
-        "label": "TikTok"
-      },
-      {
-        "type": "url",
-        "id": "social_linkedin",
-        "label": "LinkedIn"
-      },
-      {
-        "type": "url",
-        "id": "social_snapchat",
-        "label": "Snapchat"
-      },
-      {
-        "type": "url",
-        "id": "social_fancy",
-        "label": "Fancy"
-      },
-      {
-        "type": "url",
-        "id": "social_wechat",
-        "label": "WeChat"
-      },
-      {
-        "type": "url",
-        "id": "social_reddit",
-        "label": "Reddit"
-      },
-      {
-        "type": "url",
-        "id": "social_line",
-        "label": "LINE"
-      },
-      {
-        "type": "url",
-        "id": "social_spotify",
-        "label": "Spotify"
-      },
-      {
-        "type": "url",
-        "id": "social_21buttons",
-        "label": "21 Buttons"
-      }
+      { "type": "url", "id": "social_facebook", "label": "Facebook" },
+      { "type": "url", "id": "social_twitter", "label": "X (formerly Twitter)" },
+      { "type": "url", "id": "social_threads", "label": "Threads" },
+      { "type": "url", "id": "social_pinterest", "label": "Pinterest" },
+      { "type": "url", "id": "social_instagram", "label": "Instagram" },
+      { "type": "url", "id": "social_vimeo", "label": "Vimeo" },
+      { "type": "url", "id": "social_whatsapp", "label": "WhatsApp" },
+      { "type": "url", "id": "social_tumblr", "label": "Tumblr" },
+      { "type": "url", "id": "social_youtube", "label": "YouTube" },
+      { "type": "url", "id": "social_tiktok", "label": "TikTok" },
+      { "type": "url", "id": "social_linkedin", "label": "LinkedIn" },
+      { "type": "url", "id": "social_snapchat", "label": "Snapchat" },
+      { "type": "url", "id": "social_fancy", "label": "Fancy" },
+      { "type": "url", "id": "social_wechat", "label": "WeChat" },
+      { "type": "url", "id": "social_reddit", "label": "Reddit" },
+      { "type": "url", "id": "social_line", "label": "LINE" },
+      { "type": "url", "id": "social_spotify", "label": "Spotify" },
+      { "type": "url", "id": "social_21buttons", "label": "21 Buttons" }
     ]
   },
   {
