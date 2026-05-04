@@ -45,9 +45,7 @@
       "block_order": [
         "image_tg9iKy"
       ],
-      "custom_css": [
-        "p.h2 {font-family: balloon !important; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "name": "Media with text",
       "settings": {
         "full_width": false,
