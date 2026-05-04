@@ -166,7 +166,7 @@
     "related-products": {
       "type": "related-products",
       "custom_css": [
-        ".product-card__stock-text{font-weight: 100!important;}"
+        ".product-card__stock-text {font-weight: 100 !important;}"
       ],
       "settings": {
         "recommendations_count": 6,
@@ -209,9 +209,7 @@
         "heading_QLWAeP",
         "richtext_iEH44w"
       ],
-      "custom_css": [
-        ".h1 {font-family: balloon; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "settings": {
         "full_width": true,
         "allow_transparent_header": false,
@@ -288,9 +286,7 @@
         "item_rRqJWT",
         "item_jBkqxi"
       ],
-      "custom_css": [
-        ".h2 {font-family: balloon; font-weight: 100;}"
-      ],
+      "custom_css": [],
       "settings": {
         "full_width": true,
         "subheading": "",
