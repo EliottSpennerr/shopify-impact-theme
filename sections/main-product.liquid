@@ -1,6 +1,42 @@
 {%- render 'section-spacing-collapsing' -%}
 
 <style>
+  /* ── Breadcrumb — plain text, ingen bakgrund ────────────────────── */
+  .product-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .product-breadcrumb a,
+  .product-breadcrumb span {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.45);
+    text-decoration: none;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .product-breadcrumb a:hover {
+    color: rgba(0, 0, 0, 0.75);
+    text-decoration: underline;
+  }
+
+  .product-breadcrumb__sep {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 11px;
+    user-select: none;
+  }
+
+  .product-breadcrumb__current {
+    color: rgba(0, 0, 0, 0.65) !important;
+    font-weight: 500 !important;
+  }
+
+  /* ── Befintliga layout-variabler (oförändrade) ───────────────────── */
   #shopify-section-{{ section.id }} {
     --product-grid: auto / minmax(0, 1fr);
     --product-gallery-media-list-grid: auto / auto-flow {% if section.settings.mobile_carousel_control == 'free_scroll' %}{% if section.settings.mobile_media_size == 'expanded' %}84vw{% else %}73vw{% endif %}{% else %}100%{% endif %};
@@ -39,13 +75,47 @@
   }
 </style>
 
+{%- comment -%}
+  Breadcrumb-data förberäknas här uppe.
+  Plockar bort "all" och "frontpage", tar den samling som är mest
+  specifik (flest delar i handle).
+{%- endcomment -%}
+{%- assign bc_collection = nil -%}
+{%- assign bc_depth = -1 -%}
+{%- for col in product.collections -%}
+  {%- if col.handle == 'all' or col.handle == 'frontpage' -%}{%- continue -%}{%- endif -%}
+  {%- assign col_depth = col.handle | split: '-' | size -%}
+  {%- if col_depth > bc_depth -%}
+    {%- assign bc_depth = col_depth -%}
+    {%- assign bc_collection = col -%}
+  {%- endif -%}
+{%- endfor -%}
+
 <div {% render 'section-properties', tight: true %}>
   <div class="product">
     {%- if product.media.size > 0 -%}
       {%- render 'product-gallery', product: product -%}
     {%- endif -%}
 
-    {%- render 'product-info', product: product, update_url: true -%}
+    <div class="product-info-wrapper">
+      {%- comment -%}── BREADCRUMB — plain text, ovanför vendor ──{%- endcomment -%}
+      <nav class="product-breadcrumb" aria-label="Brödsmulor">
+        <a href="/">Hem</a>
+
+        {%- if bc_collection != nil -%}
+          <span class="product-breadcrumb__sep" aria-hidden="true">/</span>
+          <a href="{{ bc_collection.url }}">{{ bc_collection.title }}</a>
+        {%- elsif product.type != blank -%}
+          <span class="product-breadcrumb__sep" aria-hidden="true">/</span>
+          <span>{{ product.type }}</span>
+        {%- endif -%}
+
+        <span class="product-breadcrumb__sep" aria-hidden="true">/</span>
+        <span class="product-breadcrumb__current" aria-current="page">{{ product.title }}</span>
+      </nav>
+
+      {%- render 'product-info', product: product, update_url: true -%}
+    </div>
   </div>
 </div>
 
