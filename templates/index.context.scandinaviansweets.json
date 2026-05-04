@@ -12,5 +12,45 @@
     "market": "scandinaviansweets"
   },
   "parent": "index.json",
-  "sections": {}
+  "sections": {
+    "logo_list_CMeLpz": {
+      "disabled": true,
+      "settings": {},
+      "blocks": {}
+    },
+    "slideshow_e7THg7": {
+      "settings": {},
+      "blocks": {
+        "image_gNxLg3": {
+          "disabled": true,
+          "settings": {}
+        }
+      }
+    },
+    "17776174390df7b094": {
+      "settings": {},
+      "blocks": {
+        "ai_gen_block_109d8be_j3zKXd": {
+          "settings": {
+            "slide_1_eyebrow": "Premium godis från Scandinavien."
+          }
+        }
+      }
+    },
+    "image-with-text-overlay": {
+      "settings": {},
+      "blocks": {
+        "1664424230c4756b0e-1": {
+          "settings": {
+            "text": "Vi gör godis som smakar."
+          }
+        },
+        "1664424230c4756b0e-2": {
+          "settings": {
+            "content": "<p>Skandinaviskt godis , tillverkad med respekt för råvarorna – och för din smak. Inga onödigheter. Bara det som gör den värd att längta efter.</p>"
+          }
+        }
+      }
+    }
+  }
 }
