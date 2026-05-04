@@ -51,6 +51,23 @@
           }
         }
       }
+    },
+    "faq_yNQgm7": {
+      "settings": {},
+      "blocks": {
+        "item_LVqJTf": {
+          "settings": {
+            "title": "Vad är Scandinavian sweets, egentligen?",
+            "content": "<p>Det är premium godis till ett överkomligt pris. Vi gör färsk, kompromisslös godis för människor med god smak, utan att det behöver kosta en förmögenhet.</p>"
+          }
+        },
+        "item_JBrjtm": {
+          "settings": {
+            "title": "Är det verkligen färsk godis?",
+            "content": "<p>Ja. Vi tillverkar och köper in i små satser, packar ofta och levererar snabbt – så du får den när den smakar som bäst: mjuk, fyllig och nygjord.</p>"
+          }
+        }
+      }
     }
   }
 }
