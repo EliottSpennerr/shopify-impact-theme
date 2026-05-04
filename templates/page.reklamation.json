@@ -40,7 +40,6 @@
         "richtext_iRXjri"
       ],
       "custom_css": [
-        ".h1 {font-family: balloon; font-weight: 100;}",
         ".section-full {padding-bottom: 5px;}"
       ],
       "name": "Rich text",
