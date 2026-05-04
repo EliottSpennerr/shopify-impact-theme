@@ -8979,7 +8979,9 @@ split-lines {
 }
 
 .text-subdued {
-  color: rgb(var(--text-color) / .7);
+  color: rgb(var(--text-color));
+      font-size: 18px;
+    font-weight: 600;
 }
 
 .text-on-sale {
