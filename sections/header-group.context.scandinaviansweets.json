@@ -13,19 +13,6 @@
     "market": "scandinaviansweets"
   },
   "sections": {
-    "announcement-bar": {
-      "settings": {
-        "background": "#0021b6",
-        "text_color": "#f0f0f0"
-      },
-      "blocks": {
-        "message": {
-          "settings": {
-            "text": "FREE SHIPPING OVER 50$"
-          }
-        }
-      }
-    },
     "header": {
       "settings": {
         "logo": "shopify://shop_images/ScandinaviansweetsBLA.svg",
@@ -36,6 +23,12 @@
         "show_country_flag": false,
         "transparent_logo": "shopify://shop_images/ScandinaviansweetsVIT.svg",
         "background_opacity": 100
+      },
+      "blocks": {}
+    },
+    "announcement-bar": {
+      "settings": {
+        "background": "#0021b6"
       },
       "blocks": {}
     }
