@@ -185,8 +185,8 @@
   },
   "platform_customizations": {
     "custom_css": [
-      ".shopify-pc__banner__dialog {border-radius: 40px;}",
-      ".shopify-pc__banner__dialog button {border-radius: 20px!important;}"
+      ".shopify-pc__banner__dialog {border-radius: 40px; margin-bottom: 20px;}",
+      ".shopify-pc__banner__dialog button {border-radius: 20px !important;}"
     ]
   }
 }
