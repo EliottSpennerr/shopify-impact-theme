@@ -81,7 +81,9 @@
         "category_wfqhBn",
         "category_FqcVp6"
       ],
-      "custom_css": [],
+      "custom_css": [
+        ".bundle-card__stock-text{font-weight: 400!important;}"
+      ],
       "name": "Bundle Mix & Match",
       "settings": {
         "collection": "mixnmatch",
@@ -102,13 +104,7 @@
         "text_decrease": "Minska antal",
         "text_increase": "Öka antal",
         "text_filter_all": "Alla",
-        "text_filter_brand": "Alla varumärken",
-        "text_filter_sort": "Sortera",
-        "text_sort_price_asc": "Pris ↑",
-        "text_sort_price_desc": "Pris ↓",
-        "text_sort_name_asc": "A → Ö",
         "text_no_results": "Inga produkter matchar dina filter.",
-        "text_showing": "Visar {count} av {total}",
         "soldout_behavior": "hide",
         "text_soldout": "Slutsåld",
         "color_background": "#ffffff",
