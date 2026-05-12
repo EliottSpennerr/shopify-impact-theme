@@ -84,6 +84,12 @@
           "type": "separator",
           "settings": {}
         },
+        "liquid_4eL4eR": {
+          "type": "liquid",
+          "settings": {
+            "liquid": "{%- assign quickfact = product.metafields.custom.quickfact -%}\n{%- if quickfact != blank -%}\n  <div class=\"quickfact-box\">\n    <h3 class=\"quickfact-title\">Snabba fakta</h3>\n    <ul class=\"quickfact-list\">\n      {%- assign rader = quickfact | newline_to_br | split: '<br />' -%}\n      {%- for rad in rader -%}\n        {%- assign trimmed = rad | strip -%}\n        {%- if trimmed != blank -%}\n          <li class=\"quickfact-item\">\n            <svg class=\"quickfact-check\" xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n              <polyline points=\"20 6 9 17 4 12\"></polyline>\n            </svg>\n            <span>{{ trimmed }}</span>\n          </li>\n        {%- endif -%}\n      {%- endfor -%}\n    </ul>\n  </div>\n\n  <style>\n    .quickfact-box {\n      background-color: #e6f3f5;\n      border-radius: 12px;\n      padding: 22px 26px;\n      margin: 20px 0;\n      color: #0a3d62;\n      font-family: inherit;\n    }\n    .quickfact-title {\n      font-size: 1.05rem;\n      font-weight: 700;\n      margin: 0 0 14px 0;\n      color: #0a3d62;\n    }\n    .quickfact-list {\n      list-style: none;\n      padding: 0;\n      margin: 0;\n    }\n    .quickfact-item {\n      display: flex;\n      align-items: flex-start;\n      gap: 12px;\n      padding: 6px 0;\n      font-size: 0.98rem;\n      line-height: 1.45;\n    }\n    .quickfact-check {\n      flex-shrink: 0;\n      margin-top: 2px;\n      color: #0a3d62;\n    }\n  </style>\n{%- endif -%}"
+          }
+        },
         "description": {
           "type": "description",
           "settings": {
@@ -111,6 +117,7 @@
         "buy_buttons",
         "payment_terms",
         "separator",
+        "liquid_4eL4eR",
         "description",
         "collapsible_text_iGT7aB"
       ],
