@@ -82,13 +82,6 @@
           "button_vertical_position": "higher",
           "greeting_message": ""
         }
-      },
-      "14926935257333466880": {
-        "type": "shopify://apps/geos-geolocation/blocks/location-selector-core/3cd5a431-7aea-4ecd-a807-59b3321c525b",
-        "disabled": true,
-        "settings": {
-          "body_font": "sans_serif_n4"
-        }
       }
     }
   },
@@ -191,6 +184,9 @@
     }
   },
   "platform_customizations": {
-    "custom_css": []
+    "custom_css": [
+      ".shopify-pc__banner__dialog {border-radius: 40px;}",
+      ".shopify-pc__banner__dialog button {border-radius: 20px!important;}"
+    ]
   }
 }
