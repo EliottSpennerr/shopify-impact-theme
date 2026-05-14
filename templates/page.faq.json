@@ -402,6 +402,7 @@
         },
         "item_bdB46E": {
           "type": "item",
+          "disabled": true,
           "settings": {
             "title": "Säljer ni till restaurang, bageri eller HoReCa?",
             "content": "<p>Absolut. Många kockar, konditorer och baristor använder våra produkter som ingrediens eller komplement. Vill du köpa större volymer för matlagning eller servering, mejla info@finsklakrits.se så pratar vi villkor.</p>"
