@@ -274,7 +274,7 @@
           "type": "item",
           "settings": {
             "title": "Får jag kvitto?",
-            "content": "<p>Ja, en orderbekräftelse med kvitto skickas till din mejl direkt efter köpet, och fungerar som ditt underlag för köpet. Behöver du en kompletterande faktura med organisationsnummer, hör av dig till info@finsklakrits.se så fixar vi det.</p>"
+            "content": "<p>Ja, en orderbekräftelse med kvitto skickas till din mejl direkt efter köpet, och fungerar som ditt underlag för köpet. Behöver du en kompletterande faktura med organisationsnummer, hör av dig till support@finsklakrits.se så fixar vi det.</p>"
           }
         },
         "category_9Et9kV": {
@@ -349,7 +349,7 @@
           "type": "item",
           "settings": {
             "title": "Hur länge håller era produkter?",
-            "content": "<p>Det varierar mellan produkter och varumärken. Bäst före-datum står alltid tydligt på förpackningen, och de flesta livsmedel i vårt sortiment har en hållbarhet på 6–18 månader från tillverkningsdatum. Generellt smakar produkterna bäst nära tillverkningsdatum — öppna, njut och dela innan bäst före-datumet.</p>"
+            "content": "<p>Det varierar mellan produkter och varumärken. Bäst före-datum står alltid tydligt på förpackningen, och de flesta livsmedel i vårt sortiment har en hållbarhet på 6–12 månader från tillverkningsdatum. Generellt smakar produkterna bäst nära tillverkningsdatum — öppna, njut och dela innan bäst före-datumet.</p>"
           }
         },
         "item_fCXaVL": {
