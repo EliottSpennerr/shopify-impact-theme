@@ -78,6 +78,7 @@
         "item_PW3DfW",
         "item_bJCgCX"
       ],
+      "disabled": true,
       "custom_css": [],
       "name": "FAQ",
       "settings": {
@@ -101,10 +102,432 @@
         "accordion_background": "",
         "accordion_text_color": "#1a2533"
       }
+    },
+    "fullfaq_7HqwQW": {
+      "type": "Fullfaq",
+      "blocks": {
+        "category_jeNDG3": {
+          "type": "category",
+          "settings": {
+            "title": "Om oss"
+          }
+        },
+        "item_dzeMrB": {
+          "type": "item",
+          "settings": {
+            "title": "Vilka är ni?",
+            "content": "<p>Vi är ett ungt, nyfiket företag med fokus på riktigt bra livsmedel. Vi gör egna produkter under varumärket Finsk Lakrits, men vi säljer också ett brett urval av noga utvalda varumärken i vår webbshop — produkter vi själva älskar och som håller måttet på smak, kvalitet och färskhet. Vårt sortiment växer hela tiden. Målet är att lyfta hela kategorin \"riktigt gott\" och göra det enkelt för dig att hitta dina nya favoriter.</p>"
+          }
+        },
+        "item_9eWiwK": {
+          "type": "item",
+          "settings": {
+            "title": "Var håller ni till?",
+            "content": "<p>Vårt huvudkontor & Flagshipstore ligger på Kåkbrinken 11A och vi har flera lager runt om i landet som leveranserna utgår från. Med egna chaufförer, bilar och leveranssystem håller vi koll på hela kedjan från lager till dörr — vilket är skillnaden mellan färskt och inte färskt.</p>"
+          }
+        },
+        "item_q4AiUM": {
+          "type": "item",
+          "settings": {
+            "title": "Vad står Finsk Lakrits för?",
+            "content": "<p>Finsk Lakrits är vårt eget varumärke och hjärtat i vår filosofi: vi lägger pengarna där det räknas — i ingredienserna. Inga genvägar, inga onödigheter. Samma princip styr de varumärken vi tar in i sortimentet — vi väljer produkter med samma fokus på smak och kvalitet.</p>"
+          }
+        },
+        "category_yL7LeD": {
+          "type": "category",
+          "settings": {
+            "title": "Beställning och konto"
+          }
+        },
+        "item_q6Qbem": {
+          "type": "item",
+          "settings": {
+            "title": "Behöver jag konto för att handla?",
+            "content": "<p>Nej. Du kan handla som gäst utan att skapa konto. Men har du tänkt beställa fler gånger går det snabbare med ett konto — då slipper du fylla i adress och kontaktuppgifter på nytt varje gång, och du får tillgång till din orderhistorik.</p>"
+          }
+        },
+        "item_ecihae": {
+          "type": "item",
+          "settings": {
+            "title": "Hur vet jag att min beställning gått igenom?",
+            "content": "<p>Du får en orderbekräftelse till din mejl så fort vi tagit emot ordern. Saknar du den? Kolla skräpposten först. Om den inte är där heller har det förmodligen blivit fel på mejladressen i kassan — hör av dig till support@finsklakrits.se så reder vi ut det.</p>"
+          }
+        },
+        "item_htNrCV": {
+          "type": "item",
+          "settings": {
+            "title": "Kan jag ändra eller avbryta min order efter att jag lagt den?",
+            "content": "<p>Oftast går det, om du hör av dig snabbt. Vi packar och skickar så fort vi kan, så har ordern redan lämnat lagret är det tyvärr för sent. Mejla support@finsklakrits.se med ordernumret så gör vi vad vi kan.</p>"
+          }
+        },
+        "item_MrYDRj": {
+          "type": "item",
+          "settings": {
+            "title": "Kan jag beställa till en annan adress än min egen?",
+            "content": "<p>Ja. Ange leveransadressen i kassan under \"Annan leveransadress\" så skickar vi paketet dit. Det är en bra lösning för present, kontorsleverans eller om du till exempel bor någon annanstans en period.</p>"
+          }
+        },
+        "item_BHMHbT": {
+          "type": "item",
+          "settings": {
+            "title": "Kan jag beställa som företag?",
+            "content": "<p>Ja, och vi gör det enkelt. Mejla info@finsklakrits.se om du vill ha större volymer, fakturabetalning eller diskutera ett återkommande upplägg för kontor, event eller kundgåvor. Vi gör även B2B-leveranser till butiker — se mer under Återförsäljare och B2B.</p>"
+          }
+        },
+        "item_WL67BB": {
+          "type": "item",
+          "settings": {
+            "title": "Har ni minsta ordervärde?",
+            "content": "<p>Nej, beställ för precis vad du vill. Fri frakt kickar däremot in först över 599 kr. Under det dras en fraktavgift som visas tydligt i kassan innan du betalar — inga överraskningar.</p>"
+          }
+        },
+        "category_JYxQ8Q": {
+          "type": "category",
+          "settings": {
+            "title": "Frakt och leverans"
+          }
+        },
+        "item_Y6PJpp": {
+          "type": "item",
+          "settings": {
+            "title": "Hur lång tid tar leveransen?",
+            "content": "<p>2–5 vardagar efter att ordern lämnat vårt lager. Lägger du ordern på en helg eller röd dag börjar vi packa nästa vardag. Leveranser till Danmark, Tyskland och Nederländerna kan ta något längre tid beroende på destination och fraktbolag — exakt beräknad leveranstid visas i kassan innan du slutför köpet.</p>"
+          }
+        },
+        "item_pFFDHC": {
+          "type": "item",
+          "settings": {
+            "title": "Vart levererar ni?",
+            "content": "<p>Vi levererar till Sverige, Danmark, Tyskland och Nederländerna. Du hittar oss också i runt 1 200 dagligvarubutiker över hela Sverige om du föredrar att handla på plats. Vill du beställa från ett annat land än de fyra ovan, hör av dig till support@finsklakrits.se så återkommer vi med besked om vi kan lösa det.</p>"
+          }
+        },
+        "item_mW3PGG": {
+          "type": "item",
+          "settings": {
+            "title": "Vad kostar frakten?",
+            "content": "<p>Fri frakt över 599 kr. Under det dras en fraktavgift som du ser tydligt i kassan innan du slutför köpet. Fraktavgiften kan variera något beroende på leveransland och paketets storlek.</p><p>För leveranser inom EU (Sverige, Danmark, Tyskland, Nederländerna) tillkommer ingen tull eller extra moms — priset du ser i kassan är slutpriset.</p>"
+          }
+        },
+        "item_RBaxGg": {
+          "type": "item",
+          "settings": {
+            "title": "Vilket fraktbolag använder ni?",
+            "content": "<p>Vi skickar med våra ordinarie logistikpartners, och valet av bolag kan variera beroende på paketets storlek och destination. Du får alltid ett spårningsnummer per mejl när paketet lämnar oss, så att du kan följa det hela vägen hem.</p>"
+          }
+        },
+        "item_HcUBiM": {
+          "type": "item",
+          "settings": {
+            "title": "Hur spårar jag min beställning?",
+            "content": "<p>När paketet skickas från lagret får du ett leveransbesked till mejlen med ett spårningsnummer och en länk. Klicka där, eller använd numret direkt på fraktbolagets sajt. Det kan ta några timmar innan första statusen syns — det är helt normalt.</p>"
+          }
+        },
+        "item_D4Yntx": {
+          "type": "item",
+          "settings": {
+            "title": "Mitt paket har inte kommit fram — vad gör jag?",
+            "content": "<p>Kolla först spårningen och titta i mejlen efter avisering — paketet kan ligga hos ditt närmaste ombud utan att du fått sms. Har det gått mer än sju vardagar sedan vi skickade och spårningen inte uppdaterats, mejla support@finsklakrits.se med ditt ordernummer så reder vi ut det med fraktbolaget åt dig.</p>"
+          }
+        },
+        "item_wF3TPY": {
+          "type": "item",
+          "settings": {
+            "title": "Vad händer om paketet kommer skadat?",
+            "content": "<p>Hör av dig till support@finsklakrits.se inom några dagar med en bild på skadan och ditt ordernummer, så ordnar vi en ersättning eller en ny leverans. Spara emballaget och innehållet tills vi sagt att du kan slänga det — det behövs för fraktbolagets skadeärende.</p>"
+          }
+        },
+        "item_pzgcQx": {
+          "type": "item",
+          "settings": {
+            "title": "Vad händer om jag inte hämtar ut mitt paket?",
+            "content": "<p>Om paketet inte hämtas ut hos ombudet inom utlämningstiden (oftast 7–14 dagar) går det tillbaka till oss. Vi förbehåller oss då rätten att debitera dig för returfrakt och hanteringskostnad, normalt 149 kr. Det är därför smartare att hämta ut paketet och göra en eventuell retur på vanligt sätt om du ångrat dig — det blir billigare för dig.</p>"
+          }
+        },
+        "category_jxQDew": {
+          "type": "category",
+          "settings": {
+            "title": "Betalning"
+          }
+        },
+        "item_TeVgVj": {
+          "type": "item",
+          "settings": {
+            "title": "Vilka betalsätt erbjuder ni?",
+            "content": "<p>Vi tar kort (Visa, Mastercard), Klarna (faktura, delbetalning, direktbetalning), Swish och Apple Pay/Google Pay där det är tillgängligt.</p><p>Vid leverans till Danmark, Tyskland eller Nederländerna kan urvalet skilja sig något — kort och Klarna funkar i samtliga fyra länder, medan Swish bara fungerar för svenska kunder. Du ser de alternativ som gäller för just din leverans direkt i kassan.</p>"
+          }
+        },
+        "item_G6ApHp": {
+          "type": "item",
+          "settings": {
+            "title": "Är det säkert att betala på finsklakrits.se?",
+            "content": "<p>Ja. All betalning sker via krypterad anslutning (SSL) och hanteras av etablerade betalleverantörer som Klarna och vår kortinlösare. Vi sparar aldrig dina kortuppgifter — de hanteras direkt av betalleverantören enligt PCI DSS-standard.</p>"
+          }
+        },
+        "item_qRjzGP": {
+          "type": "item",
+          "settings": {
+            "title": "När dras pengarna?",
+            "content": "<p>Vid kortbetalning reserveras beloppet direkt och dras när vi skickar ordern. Vid Klarna faktura får du fakturan separat med betalningsvillkor, oftast 14 dagar. Vid Swish dras pengarna direkt vid köp.</p>"
+          }
+        },
+        "item_b4aGBr": {
+          "type": "item",
+          "settings": {
+            "title": "Får jag kvitto?",
+            "content": "<p>Ja, en orderbekräftelse med kvitto skickas till din mejl direkt efter köpet, och fungerar som ditt underlag för köpet. Behöver du en kompletterande faktura med organisationsnummer, hör av dig till info@finsklakrits.se så fixar vi det.</p>"
+          }
+        },
+        "category_9Et9kV": {
+          "type": "category",
+          "settings": {
+            "title": "Retur, ångerrätt och reklamation"
+          }
+        },
+        "item_bG7rAn": {
+          "type": "item",
+          "settings": {
+            "title": "Kan jag returnera produkter jag inte är nöjd med?",
+            "content": "<p>Här måste vi vara raka: våra produkter är livsmedel, och livsmedel är undantagna från den lagstadgade 14-dagars ångerrätten enligt distansavtalslagen. Vi kan därför inte ta tillbaka produkter av smakskäl, oavsett om förpackningen är öppnad eller inte. Anledningen är hygien — vi kan inte sälja vidare något som varit hos en annan kund.</p><p>Men hör av dig ändå om du inte är nöjd. Vi tar kundupplevelsen på allvar och vill att du ska gilla det du köpt. Är det något som inte håller måttet hittar vi en lösning tillsammans.</p>"
+          }
+        },
+        "item_LCidN9": {
+          "type": "item",
+          "settings": {
+            "title": "Vad gör jag om jag fått fel produkt?",
+            "content": "<p>Mejla support@finsklakrits.se med ordernumret och en kort beskrivning av vad som blivit fel, gärna med bild. Vi skickar antingen rätt produkt eller återbetalar dig — du väljer själv vad som passar bäst.</p>"
+          }
+        },
+        "item_CYrmz3": {
+          "type": "item",
+          "settings": {
+            "title": "Min produkt är skadad eller dålig — vad gäller?",
+            "content": "<p>Reklamationsrätt enligt konsumentköplagen gäller i tre år och täcker ursprungliga fel. Är produkten skadad vid leverans, bäst före-datumet passerat när den kommer fram, eller är det något annat fel på själva varan, så ersätter vi den. Mejla oss på support@finsklakrits.se med bild och ordernummer så löser vi det fort.</p>"
+          }
+        },
+        "item_AFfRJc": {
+          "type": "item",
+          "settings": {
+            "title": "Hur lång tid tar återbetalningen?",
+            "content": "<p>Vi betalar tillbaka inom 14 dagar från att vi godkänt reklamationen, oftast snabbare. Pengarna går tillbaka till samma betalsätt du använde — kort till samma kort, Klarna till din Klarna-faktura, Swish till samma konto.</p>"
+          }
+        },
+        "category_dJfTgm": {
+          "type": "category",
+          "settings": {
+            "title": "Produkter, ingredienser och innehåll"
+          }
+        },
+        "item_pimU6Y": {
+          "type": "item",
+          "settings": {
+            "title": "Var hittar jag fullständig produkt- och ingrediensinformation?",
+            "content": "<p>På varje produktsida och på själva förpackningen. Där hittar du ingrediensförteckning, näringsvärden, vikt, allergiinformation och förvaringsanvisningar för just den produkten. Är något oklart, hör av dig till support@finsklakrits.se så svarar vi.</p>"
+          }
+        },
+        "item_HBrpN7": {
+          "type": "item",
+          "settings": {
+            "title": "Innehåller era produkter allergener?",
+            "content": "<p>Det varierar mellan produkterna och varumärkena vi säljer. De vanligaste allergenerna att hålla koll på i vårt sortiment är gluten (vete), mjölk/laktos, gelatin, nötter och soja — vilka som finns i en specifik vara står alltid tydligt på produktsidan och på själva förpackningen.</p><p>Är du allergisk eller överkänslig, läs alltid ingrediensförteckningen innan du äter.</p>"
+          }
+        },
+        "item_MPMKFJ": {
+          "type": "item",
+          "settings": {
+            "title": "Är era produkter vegetariska eller veganska?",
+            "content": "<p>Det varierar. Vi har både veganska, vegetariska och produkter som innehåller animaliska ingredienser i sortimentet. På varje produktsida finns tydlig märkning så att du enkelt kan välja det som passar dig. Filtrera gärna sortimentet via våra kollektioner om du letar specifikt efter veganska eller vegetariska alternativ.</p>"
+          }
+        },
+        "item_m77WgM": {
+          "type": "item",
+          "settings": {
+            "title": "Är produkterna glutenfria?",
+            "content": "<p>Det beror på produkten. Vi har både glutenfria alternativ och produkter som innehåller gluten (oftast vete) i sortimentet. Allergiinformation och fullständig ingrediensförteckning står tydligt på varje produktsida och på själva förpackningen.</p><p>Är du glutenintolerant eller har celiaki, läs alltid ingrediensförteckningen innan köp.</p>"
+          }
+        },
+        "item_Bp8iWV": {
+          "type": "item",
+          "settings": {
+            "title": "Hur länge håller era produkter?",
+            "content": "<p>Det varierar mellan produkter och varumärken. Bäst före-datum står alltid tydligt på förpackningen, och de flesta livsmedel i vårt sortiment har en hållbarhet på 6–18 månader från tillverkningsdatum. Generellt smakar produkterna bäst nära tillverkningsdatum — öppna, njut och dela innan bäst före-datumet.</p>"
+          }
+        },
+        "item_fCXaVL": {
+          "type": "item",
+          "settings": {
+            "title": "Hur ska jag förvara produkterna?",
+            "content": "<p>Svalt, torrt och i rumstemperatur om inget annat står på förpackningen. Undvik direkt solljus och varma platser som ovanpå spisen eller i bilen på sommaren. När du öppnat förpackningen håller den sig bäst förseglad eller i en burk med tätt lock. För produkter som kräver kyl eller annan särskild förvaring står det tydligt på förpackningen.</p>"
+          }
+        },
+        "item_9aYV69": {
+          "type": "item",
+          "settings": {
+            "title": "Var tillverkas era produkter?",
+            "content": "<p>Vi säljer produkter från flera olika varumärken och tillverkare. Ursprung och tillverkningsland står alltid tydligt på produktsidan och på själva förpackningen. Många av våra lakritsprodukter — inklusive vårt eget varumärke Finsk Lakrits — tillverkas i Finland, men vi har även produkter från andra länder i sortimentet.</p>"
+          }
+        },
+        "item_DtaXGY": {
+          "type": "item",
+          "settings": {
+            "title": "Är era produkter lämpliga för barn och under graviditet?",
+            "content": "<p>Våra produkter är livsmedel och godis som ska konsumeras i lagom mängd. För lakritsprodukter specifikt rekommenderar Livsmedelsverket att barn och gravida undviker större mängder, eftersom glycyrrhizinet i äkta lakritsrot i höga doser kan påverka blodtrycket respektive fostret.</p><p>Läs alltid produktinformationen och vid frågor — prata med BVC, läkare eller barnmorska.</p>"
+          }
+        },
+        "category_KJNBNY": {
+          "type": "category",
+          "settings": {
+            "title": "Återförsäljare och B2B"
+          }
+        },
+        "item_t6wzcT": {
+          "type": "item",
+          "settings": {
+            "title": "Var hittar jag era produkter i butik?",
+            "content": "<p>Du hittar vårt eget varumärke Finsk Lakrits i runt 1 200 dagligvarubutiker över hela Sverige — bland annat hos ICA, Coop, Hemköp, City Gross, Eko Stormarknad och Tempo, samt hos flera mindre specialister.</p><p>Hittar du oss inte där du brukar handla? Säg till butikschefen att de borde ta in oss. Det är så vårt sortiment växer.</p>"
+          }
+        },
+        "item_n3YAm8": {
+          "type": "item",
+          "settings": {
+            "title": "Jag är butiksägare och vill ta in era produkter — hur gör jag?",
+            "content": "<p>Roligt. Mejla info@finsklakrits.se eller använd kontaktformuläret så återkommer vi med produktkatalog, priser och leveransvillkor. Med egna chaufförer och leveranssystem kan vi oftast erbjuda snabba leveranser med hög färskhet.</p>"
+          }
+        },
+        "item_zRDHEY": {
+          "type": "item",
+          "settings": {
+            "title": "Erbjuder ni produkter för konferens, kundgåvor eller event?",
+            "content": "<p>Ja. Vi gör företagslösningar för allt från enstaka kundgåvor till större volymer för event och kontor. Mejla info@finsklakrits.se med ditt behov så plockar vi fram något som passar — inklusive eventuell branding eller anpassad packning.</p>"
+          }
+        },
+        "item_bdB46E": {
+          "type": "item",
+          "settings": {
+            "title": "Säljer ni till restaurang, bageri eller HoReCa?",
+            "content": "<p>Absolut. Många kockar, konditorer och baristor använder våra produkter som ingrediens eller komplement. Vill du köpa större volymer för matlagning eller servering, mejla info@finsklakrits.se så pratar vi villkor.</p>"
+          }
+        },
+        "category_HBFkRw": {
+          "type": "category",
+          "settings": {
+            "title": "Kontakt och annat"
+          }
+        },
+        "item_wC7Aif": {
+          "type": "item",
+          "settings": {
+            "title": "Hur kommer jag i kontakt med er?",
+            "content": "<p>Det snabbaste sättet är via mejl. Vi har två adresser så att frågor hamnar rätt direkt:</p><p><strong>support@finsklakrits.se</strong> — för allt som rör beställningar, leveranser, retur, reklamation och kundsupport.</p><p><strong>info@finsklakrits.se</strong> — för sälj- och företagsärenden, B2B, återförsäljare, event och samarbeten.</p><p>Vi svarar oftast inom en arbetsdag, ofta snabbare. Du kan också använda kontaktformuläret på kontaktsidan.</p>"
+          }
+        },
+        "item_bmN6aj": {
+          "type": "item",
+          "settings": {
+            "title": "Har ni nyhetsbrev?",
+            "content": "<p>Ja. Anmäl dig längst ner på sajten så får du först veta när vi släpper nya produkter, kör kampanjer eller har något extra på gång. Inget spam — vi mejlar bara när vi har något att säga.</p>"
+          }
+        },
+        "item_zrt7DE": {
+          "type": "item",
+          "settings": {
+            "title": "Hur hanterar ni mina personuppgifter?",
+            "content": "<p>Allt enligt GDPR. Vi använder dina uppgifter för att hantera din beställning, leverera den och kommunicera med dig om den. Vi säljer aldrig vidare dina uppgifter. Hela vår integritetspolicy hittar du längst ner på sajten.</p>"
+          }
+        },
+        "item_HUN69p": {
+          "type": "item",
+          "settings": {
+            "title": "Hur jobbar ni med hållbarhet?",
+            "content": "<p>Vi gör det vi kan, ärligt. Vi distribuerar med egna chaufförer och leveranssystem för att minska onödiga mellanled och hålla färskheten uppe. Vi jobbar löpande med att minska plast i förpackningar och med fraktbolag som ställer om till fossilfria transporter. Vi har fortfarande bitar att jobba med — och vi säger det rakt ut istället för att låtsas att vi är klara.</p>"
+          }
+        },
+        "item_bNNPNk": {
+          "type": "item",
+          "settings": {
+            "title": "Har ni recept eller inspiration?",
+            "content": "<p>Ja. På sajtens receptsida hittar du våra favoriter, just nu med fokus på recept där lakrits spelar huvudrollen. Allteftersom sortimentet växer kommer även receptbiblioteket att göra det.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_jeNDG3",
+        "item_dzeMrB",
+        "item_9eWiwK",
+        "item_q4AiUM",
+        "category_yL7LeD",
+        "item_q6Qbem",
+        "item_ecihae",
+        "item_htNrCV",
+        "item_MrYDRj",
+        "item_BHMHbT",
+        "item_WL67BB",
+        "category_JYxQ8Q",
+        "item_Y6PJpp",
+        "item_pFFDHC",
+        "item_mW3PGG",
+        "item_RBaxGg",
+        "item_HcUBiM",
+        "item_D4Yntx",
+        "item_wF3TPY",
+        "item_pzgcQx",
+        "category_jxQDew",
+        "item_TeVgVj",
+        "item_G6ApHp",
+        "item_qRjzGP",
+        "item_b4aGBr",
+        "category_9Et9kV",
+        "item_bG7rAn",
+        "item_LCidN9",
+        "item_CYrmz3",
+        "item_AFfRJc",
+        "category_dJfTgm",
+        "item_pimU6Y",
+        "item_HBrpN7",
+        "item_MPMKFJ",
+        "item_m77WgM",
+        "item_Bp8iWV",
+        "item_fCXaVL",
+        "item_9aYV69",
+        "item_DtaXGY",
+        "category_KJNBNY",
+        "item_t6wzcT",
+        "item_n3YAm8",
+        "item_zRDHEY",
+        "item_bdB46E",
+        "category_HBFkRw",
+        "item_wC7Aif",
+        "item_bmN6aj",
+        "item_zrt7DE",
+        "item_HUN69p",
+        "item_bNNPNk"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "full_width": true,
+        "subheading": "Faq",
+        "title": "Vanliga frågor",
+        "content": "<p>För dig som undrar lite, och vet att det är helt rimligt att göra det.</p>",
+        "team_avatar_width": 160,
+        "support_hours": "Our customer support is available Monday to Friday: 8am-8:30pm.",
+        "answer_time": "Average answer time: 24h",
+        "button_text": "",
+        "button_url": "",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "button_background": "",
+        "button_text_color": "",
+        "accordion_background": "",
+        "accordion_text_color": ""
+      }
     }
   },
   "order": [
     "main",
-    "faq_66eHq3"
+    "faq_66eHq3",
+    "fullfaq_7HqwQW"
   ]
 }
