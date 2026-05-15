@@ -88,18 +88,19 @@ the underlying logic of the menu.
     padding: 0 16px;
   }
 
-  .header__search-center-form {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #E5E6E7;
-    border-radius: 100px;
-    padding: 10px 18px;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    position: relative; /* ankrar predictive-search-dropdown */
-  }
+.header__search-center-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #E5E6E7;
+  border-radius: 100px;
+  padding: 10px 18px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 5;
+}
 
   .header__search-center-form svg {
     flex-shrink: 0;
