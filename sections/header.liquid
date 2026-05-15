@@ -98,6 +98,7 @@ the underlying logic of the menu.
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    position: relative; /* ankrar predictive-search-dropdown */
   }
 
   .header__search-center-form svg {
@@ -124,6 +125,154 @@ the underlying logic of the menu.
   @media screen and (min-width: 750px) {
     .header__search-icon-hide {
       display: none !important;
+    }
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     PREDICTIVE SEARCH DROPDOWN
+     Visas under sokpillret nar anvandaren skriver minst 2 tecken.
+     Absolut-positionerad inuti formen, vilket innebar att den arver
+     formens bredd (600px max pa desktop, 100% pa mobil) automatiskt.
+     ───────────────────────────────────────────────────────────────── */
+  .predictive-search-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+    max-height: 70vh;
+    overflow-y: auto;
+    z-index: 50;
+  }
+
+  .predictive-search-dropdown[hidden] {
+    display: none;
+  }
+
+  .predictive-search__section {
+    padding: 10px 0 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .predictive-search__section:last-of-type {
+    border-bottom: none;
+  }
+
+  .predictive-search__heading {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.55;
+    padding: 6px 20px 8px;
+  }
+
+  .predictive-search__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .predictive-search__item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .predictive-search__link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.12s ease;
+  }
+
+  .predictive-search__link:hover,
+  .predictive-search__link:focus-visible {
+    background-color: rgba(0, 0, 0, 0.04);
+    outline: none;
+  }
+
+  .predictive-search__image {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #f5f5f5;
+    flex-shrink: 0;
+  }
+
+  .predictive-search__image--placeholder {
+    background: #f0f0f0;
+  }
+
+  .predictive-search__meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .predictive-search__title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #111;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .predictive-search__price {
+    font-size: 13px;
+    color: #555;
+    margin-top: 2px;
+  }
+
+  .predictive-search__link--simple {
+    padding: 9px 20px;
+    font-size: 14px;
+    color: #222;
+  }
+
+  .predictive-search__view-all {
+    display: block;
+    padding: 14px 20px;
+    background: rgba(0, 0, 0, 0.03);
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    color: #111;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    transition: background-color 0.12s ease;
+  }
+
+  .predictive-search__view-all:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  .predictive-search__empty {
+    padding: 28px 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .predictive-search__loading {
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+  }
+
+  /* Mobile: dropdown ar i row 2 (full bredd), justera skugga och radie */
+  @media screen and (max-width: 749px) {
+    .predictive-search-dropdown {
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+      max-height: calc(100vh - 180px);
     }
   }
 
@@ -287,6 +436,7 @@ the underlying logic of the menu.
 
       {%- comment -%}
       SEARCH — center grid area (desktop) / full-width row 2 (mobile)
+      Inkluderar nu predictive-search dropdown som visas vid input.
       {%- endcomment -%}
 
       <div class="header__search-center">
@@ -302,8 +452,19 @@ the underlying logic of the menu.
             name="q"
             placeholder="{{ section.settings.search_placeholder | default: 'Sök produkter...' }}"
             aria-label="{{ 'general.search.search' | t }}"
+            aria-autocomplete="list"
+            aria-controls="predictive-search-dropdown-{{ section.id }}"
             autocomplete="off"
           >
+
+          {%- comment -%} Predictive search dropdown — fylls dynamiskt av JS {%- endcomment -%}
+          <div
+            id="predictive-search-dropdown-{{ section.id }}"
+            class="predictive-search-dropdown"
+            role="listbox"
+            aria-label="Sökförslag"
+            hidden
+          ></div>
         </form>
       </div>
 
@@ -429,6 +590,232 @@ the underlying logic of the menu.
     if (typeof ResizeObserver !== 'undefined') {
       new ResizeObserver(updateHeaderHeight).observe(section);
     }
+  })();
+</script>
+
+{%- comment -%}
+  PREDICTIVE SEARCH SCRIPT
+  Lyssnar pa input i sokfaltet, anropar Shopify /search/suggest.json
+  och renderar produkter, kategorier och bloggartiklar i dropdown.
+  Debouncad 200ms, AbortController for att avbryta gamla requests.
+{%- endcomment -%}
+<script>
+  (function () {
+    var section = document.getElementById('shopify-section-{{ section.id }}');
+    if (!section) return;
+
+    var form = section.querySelector('.header__search-center-form');
+    var input = section.querySelector('.header__search-center-input');
+    var dropdown = section.querySelector('.predictive-search-dropdown');
+    if (!form || !input || !dropdown) return;
+
+    var MIN_CHARS = 2;
+    var DEBOUNCE_MS = 200;
+    var debounceTimer = null;
+    var currentController = null;
+
+    // Valuta- och lokalformatering hamtas fran Shopify-objektet via Liquid
+    var currencyCode = '{{ cart.currency.iso_code | default: shop.currency }}';
+    var localeCode = '{{ request.locale.iso_code | default: "sv-SE" | replace: "_", "-" }}';
+    var searchUrl = '{{ routes.search_url }}';
+    var predictiveUrl = '{{ routes.predictive_search_url }}';
+
+    var currencyFormatter;
+    try {
+      currencyFormatter = new Intl.NumberFormat(localeCode, {
+        style: 'currency',
+        currency: currencyCode,
+        maximumFractionDigits: 2
+      });
+    } catch (e) {
+      currencyFormatter = null;
+    }
+
+    function formatPrice(cents) {
+      if (cents == null) return '';
+      var amount = cents / 100;
+      if (currencyFormatter) return currencyFormatter.format(amount);
+      return amount.toFixed(2) + ' ' + currencyCode;
+    }
+
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function openDropdown() {
+      dropdown.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeDropdown() {
+      dropdown.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
+    }
+
+    function renderLoading() {
+      dropdown.innerHTML = '<div class="predictive-search__loading">Söker…</div>';
+      openDropdown();
+    }
+
+    function renderEmpty(query) {
+      dropdown.innerHTML = '<div class="predictive-search__empty">Inga träffar för "' + escapeHtml(query) + '"</div>'
+        + '<a href="' + searchUrl + '?q=' + encodeURIComponent(query) + '" class="predictive-search__view-all">Visa alla resultat</a>';
+      openDropdown();
+    }
+
+    function renderResults(data, query) {
+      var results = (data && data.resources && data.resources.results) || {};
+      var products = (results.products || []).slice(0, 6);
+      var collections = (results.collections || []).slice(0, 4);
+      var articles = (results.articles || []).slice(0, 4);
+
+      if (!products.length && !collections.length && !articles.length) {
+        renderEmpty(query);
+        return;
+      }
+
+      var html = '';
+
+      if (products.length) {
+        html += '<div class="predictive-search__section">';
+        html += '<div class="predictive-search__heading">Produkter</div>';
+        html += '<ul class="predictive-search__list" role="presentation">';
+        products.forEach(function (product) {
+          var img = '';
+          if (product.featured_image && product.featured_image.url) {
+            img = product.featured_image.url;
+          } else if (product.image) {
+            img = product.image;
+          }
+
+          var price = '';
+          if (typeof product.price === 'number') {
+            price = formatPrice(product.price);
+          } else if (typeof product.price === 'string' && product.price.length) {
+            // Shopify kan ibland returnera strang — visa direkt
+            price = product.price;
+          }
+
+          html += '<li class="predictive-search__item" role="option">';
+          html += '<a href="' + escapeHtml(product.url) + '" class="predictive-search__link">';
+          if (img) {
+            html += '<img class="predictive-search__image" src="' + escapeHtml(img) + '" alt="" loading="lazy" width="52" height="52">';
+          } else {
+            html += '<div class="predictive-search__image predictive-search__image--placeholder"></div>';
+          }
+          html += '<div class="predictive-search__meta">';
+          html += '<div class="predictive-search__title">' + escapeHtml(product.title) + '</div>';
+          if (price) html += '<div class="predictive-search__price">' + price + '</div>';
+          html += '</div></a></li>';
+        });
+        html += '</ul></div>';
+      }
+
+      if (collections.length) {
+        html += '<div class="predictive-search__section">';
+        html += '<div class="predictive-search__heading">Kategorier</div>';
+        html += '<ul class="predictive-search__list" role="presentation">';
+        collections.forEach(function (collection) {
+          html += '<li class="predictive-search__item" role="option">';
+          html += '<a href="' + escapeHtml(collection.url) + '" class="predictive-search__link predictive-search__link--simple">';
+          html += escapeHtml(collection.title);
+          html += '</a></li>';
+        });
+        html += '</ul></div>';
+      }
+
+      if (articles.length) {
+        html += '<div class="predictive-search__section">';
+        html += '<div class="predictive-search__heading">Bloggartiklar</div>';
+        html += '<ul class="predictive-search__list" role="presentation">';
+        articles.forEach(function (article) {
+          html += '<li class="predictive-search__item" role="option">';
+          html += '<a href="' + escapeHtml(article.url) + '" class="predictive-search__link predictive-search__link--simple">';
+          html += escapeHtml(article.title);
+          html += '</a></li>';
+        });
+        html += '</ul></div>';
+      }
+
+      html += '<a href="' + searchUrl + '?q=' + encodeURIComponent(query) + '" class="predictive-search__view-all">Visa alla resultat för "' + escapeHtml(query) + '"</a>';
+
+      dropdown.innerHTML = html;
+      openDropdown();
+    }
+
+    function fetchResults(query) {
+      if (currentController) {
+        try { currentController.abort(); } catch (e) {}
+      }
+      currentController = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+
+      var url = predictiveUrl + '.json'
+        + '?q=' + encodeURIComponent(query)
+        + '&resources[type]=product,collection,article'
+        + '&resources[limit]=6'
+        + '&resources[options][unavailable_products]=last';
+
+      var fetchOpts = currentController ? { signal: currentController.signal } : {};
+
+      fetch(url, fetchOpts)
+        .then(function (res) {
+          if (!res.ok) throw new Error('Predictive search request failed: ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          renderResults(data, query);
+        })
+        .catch(function (err) {
+          if (err && err.name === 'AbortError') return;
+          console.warn('Predictive search error:', err);
+        });
+    }
+
+    function handleInput() {
+      var query = input.value.trim();
+
+      clearTimeout(debounceTimer);
+
+      if (query.length < MIN_CHARS) {
+        closeDropdown();
+        dropdown.innerHTML = '';
+        return;
+      }
+
+      debounceTimer = setTimeout(function () {
+        fetchResults(query);
+      }, DEBOUNCE_MS);
+    }
+
+    input.addEventListener('input', handleInput);
+
+    input.addEventListener('focus', function () {
+      var query = input.value.trim();
+      if (query.length >= MIN_CHARS && dropdown.innerHTML.trim().length > 0) {
+        openDropdown();
+      }
+    });
+
+    // Klick utanfor sokomradet — stang dropdown
+    document.addEventListener('click', function (e) {
+      if (!form.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    // Escape — stang dropdown och blurra input
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !dropdown.hidden) {
+        closeDropdown();
+        input.blur();
+      }
+    });
   })();
 </script>
 
