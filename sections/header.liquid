@@ -98,7 +98,8 @@ the underlying logic of the menu.
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    position: relative; /* ankrar predictive-search-dropdown */
+    position: relative;
+    z-index: 5;
   }
 
   .header__search-center-form svg {
@@ -130,21 +131,19 @@ the underlying logic of the menu.
 
   /* ─────────────────────────────────────────────────────────────────
      PREDICTIVE SEARCH DROPDOWN
-     Visas under sokpillret nar anvandaren skriver minst 2 tecken.
-     Absolut-positionerad inuti formen, vilket innebar att den arver
-     formens bredd (600px max pa desktop, 100% pa mobil) automatiskt.
+     Skapas av JS och appenderas till <body> for att undvika ALLA
+     stacking-context-problem fran temats CSS. Position beraknas
+     dynamiskt via getBoundingClientRect pa sokformen.
      ───────────────────────────────────────────────────────────────── */
   .predictive-search-dropdown {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
+    position: fixed;
     background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
     max-height: 70vh;
     overflow-y: auto;
-    z-index: 9999;
+    z-index: 99999;
+    /* top, left, width satts dynamiskt via JS */
   }
 
   .predictive-search-dropdown[hidden] {
@@ -167,6 +166,7 @@ the underlying logic of the menu.
     letter-spacing: 0.06em;
     opacity: 0.55;
     padding: 6px 20px 8px;
+    color: #111;
   }
 
   .predictive-search__list {
@@ -267,19 +267,8 @@ the underlying logic of the menu.
     color: #777;
   }
 
-  /* Mobile: dropdown ar i row 2 (full bredd), justera skugga och radie */
-  @media screen and (max-width: 749px) {
-    .predictive-search-dropdown {
-      border-radius: 0 0 16px 16px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
-      max-height: calc(100vh - 180px);
-    }
-  }
-
   /* ─────────────────────────────────────────────────────────────────
      DESKTOP NAVIGATION ROW — visas enbart pa desktop (>=750px)
-     En andra rad under header-wrappern med utvalda sidor som
-     horisontella textlankar. Ingen avdelare, bara lankar direkt.
      ───────────────────────────────────────────────────────────────── */
   .header__desktop-nav {
     display: none;
@@ -290,6 +279,8 @@ the underlying logic of the menu.
       display: block;
       background-color: rgb(var(--color-background, 255 255 255));
       overflow: hidden;
+      position: relative;
+      z-index: 1;
     }
 
     .header__desktop-nav-list {
@@ -300,7 +291,6 @@ the underlying logic of the menu.
       background: rgb(var(--background) / var(--header-background-opacity));
       margin: 0;
       padding: 0 0 var(--spacing-3, 12px) 130px;
-             z-index: 1;
     }
 
     .header__desktop-nav-link {
@@ -314,7 +304,6 @@ the underlying logic of the menu.
       transition: opacity 0.15s ease;
       white-space: nowrap;
       position: relative;
-       z-index: 1;
     }
 
     .header__desktop-nav-link::after {
@@ -341,15 +330,6 @@ the underlying logic of the menu.
 
   /* ─────────────────────────────────────────────────────────────────
      MOBILE LAYOUT (749px): 2-rad header
-     Rad 1: hamburger (vanster) | logga (AKTA MITTEN) | kundvagn (hoger)
-     Rad 2: sokfalt (full bredd, visuellt avgransat)
-
-     TEKNIK: display: contents pa .header__logo-with-hamburger gor att
-     hamburgaren och loggan behandlas som direkta grid-barn i wrappern.
-     grid-template-columns: 1fr auto 1fr placerar loggan i en auto-kolumn
-     flankerad av lika stora 1fr-kolumner - matematisk skarmcentrering
-     oavsett bredd pa hamburger eller kundvagn. DOM, aria och JS paverkas
-     inte av display: contents eftersom elementet finns kvar i tradet.
      ───────────────────────────────────────────────────────────────── */
   @media screen and (max-width: 749px) {
 
@@ -396,6 +376,11 @@ the underlying logic of the menu.
     #shopify-section-{{ section.id }} .header__search-center .header__search-center-form {
       max-width: 100%;
     }
+
+    .predictive-search-dropdown {
+      border-radius: 16px;
+      max-height: calc(100vh - 180px);
+    }
   }
 </style>
 
@@ -438,7 +423,7 @@ the underlying logic of the menu.
 
       {%- comment -%}
       SEARCH — center grid area (desktop) / full-width row 2 (mobile)
-      Inkluderar nu predictive-search dropdown som visas vid input.
+      Dropdown skapas av JS och appenderas till <body> — INTE har.
       {%- endcomment -%}
 
       <div class="header__search-center">
@@ -456,17 +441,9 @@ the underlying logic of the menu.
             aria-label="{{ 'general.search.search' | t }}"
             aria-autocomplete="list"
             aria-controls="predictive-search-dropdown-{{ section.id }}"
+            aria-expanded="false"
             autocomplete="off"
           >
-
-          {%- comment -%} Predictive search dropdown — fylls dynamiskt av JS {%- endcomment -%}
-          <div
-            id="predictive-search-dropdown-{{ section.id }}"
-            class="predictive-search-dropdown"
-            role="listbox"
-            aria-label="Sökförslag"
-            hidden
-          ></div>
         </form>
       </div>
 
@@ -529,7 +506,6 @@ the underlying logic of the menu.
 
     {%- comment -%}
     DESKTOP NAVIGATION ROW — syns endast pa desktop (>= 750px)
-    Renderar utvalda sidor som horisontella textlankar under huvudraden.
     {%- endcomment -%}
 
     {%- if section.settings.desktop_nav_menu != blank and section.settings.desktop_nav_menu.links.size > 0 -%}
@@ -597,9 +573,8 @@ the underlying logic of the menu.
 
 {%- comment -%}
   PREDICTIVE SEARCH SCRIPT
-  Lyssnar pa input i sokfaltet, anropar Shopify /search/suggest.json
-  och renderar produkter, kategorier och bloggartiklar i dropdown.
-  Debouncad 200ms, AbortController for att avbryta gamla requests.
+  Dropdown skapas i JS och appenderas till <body> for att eliminera
+  ALLA stacking-context-konflikter med temats ovriga CSS.
 {%- endcomment -%}
 <script>
   (function () {
@@ -608,19 +583,28 @@ the underlying logic of the menu.
 
     var form = section.querySelector('.header__search-center-form');
     var input = section.querySelector('.header__search-center-input');
-    var dropdown = section.querySelector('.predictive-search-dropdown');
-    if (!form || !input || !dropdown) return;
+    if (!form || !input) return;
 
     var MIN_CHARS = 2;
     var DEBOUNCE_MS = 200;
     var debounceTimer = null;
     var currentController = null;
 
-    // Valuta- och lokalformatering hamtas fran Shopify-objektet via Liquid
     var currencyCode = '{{ cart.currency.iso_code | default: shop.currency }}';
     var localeCode = '{{ request.locale.iso_code | default: "sv-SE" | replace: "_", "-" }}';
     var searchUrl = '{{ routes.search_url }}';
     var predictiveUrl = '{{ routes.predictive_search_url }}';
+    var dropdownId = 'predictive-search-dropdown-{{ section.id }}';
+
+    // Skapa dropdown och appendera direkt till <body>
+    // Detta loser ALLA stacking-context-problem fran temats CSS
+    var dropdown = document.createElement('div');
+    dropdown.id = dropdownId;
+    dropdown.className = 'predictive-search-dropdown';
+    dropdown.setAttribute('role', 'listbox');
+    dropdown.setAttribute('aria-label', 'Sökförslag');
+    dropdown.hidden = true;
+    document.body.appendChild(dropdown);
 
     var currencyFormatter;
     try {
@@ -650,7 +634,15 @@ the underlying logic of the menu.
         .replace(/'/g, '&#39;');
     }
 
+    function positionDropdown() {
+      var rect = form.getBoundingClientRect();
+      dropdown.style.top = (rect.bottom + 8) + 'px';
+      dropdown.style.left = rect.left + 'px';
+      dropdown.style.width = rect.width + 'px';
+    }
+
     function openDropdown() {
+      positionDropdown();
       dropdown.hidden = false;
       input.setAttribute('aria-expanded', 'true');
     }
@@ -700,7 +692,6 @@ the underlying logic of the menu.
           if (typeof product.price === 'number') {
             price = formatPrice(product.price);
           } else if (typeof product.price === 'string' && product.price.length) {
-            // Shopify kan ibland returnera strang — visa direkt
             price = product.price;
           }
 
@@ -804,19 +795,25 @@ the underlying logic of the menu.
       }
     });
 
-    // Klick utanfor sokomradet — stang dropdown
     document.addEventListener('click', function (e) {
-      if (!form.contains(e.target)) {
+      if (!form.contains(e.target) && !dropdown.contains(e.target)) {
         closeDropdown();
       }
     });
 
-    // Escape — stang dropdown och blurra input
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !dropdown.hidden) {
         closeDropdown();
         input.blur();
       }
+    });
+
+    window.addEventListener('scroll', function () {
+      if (!dropdown.hidden) positionDropdown();
+    }, { passive: true });
+
+    window.addEventListener('resize', function () {
+      if (!dropdown.hidden) positionDropdown();
     });
   })();
 </script>
