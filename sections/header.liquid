@@ -290,6 +290,8 @@ the underlying logic of the menu.
       display: block;
       background-color: rgb(var(--color-background, 255 255 255));
       overflow: hidden;
+       position: relative; /* NY RAD */
+    z-index: 1;         /* NY RAD - explicit lagre an formens z-index: 5 */
     }
 
     .header__desktop-nav-list {
