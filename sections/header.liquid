@@ -99,7 +99,7 @@ the underlying logic of the menu.
     max-width: 600px;
     margin: 0 auto;
     position: relative; /* ankrar predictive-search-dropdown */
-      z-index: 1; /* NY RAD — lyfter formen + dropdown over desktop-nav-raden */
+      z-index: 5; /* NY RAD — lyfter formen + dropdown over desktop-nav-raden */
   }
 
   .header__search-center-form svg {
@@ -282,9 +282,11 @@ the underlying logic of the menu.
      En andra rad under header-wrappern med utvalda sidor som
      horisontella textlankar. Ingen avdelare, bara lankar direkt.
      ───────────────────────────────────────────────────────────────── */
-  .header__desktop-nav {
-    display: none;
-  }
+ .header__desktop-nav {
+  display: none;
+  position: relative; /* NY */
+  z-index: 1;         /* NY */
+}
 
   @media screen and (min-width: 750px) {
     .header__desktop-nav {
