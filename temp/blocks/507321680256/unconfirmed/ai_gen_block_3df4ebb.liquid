@@ -1,6 +1,533 @@
+{% doc %}
+  @prompt
+    Skapa en modern och stilren “Store Information”-sektion för vår Shopify-butik i samma minimalistiska stil som exemplet.
+    
+    Layout på desktop:
+    
+    Två kolumner bredvid varandra
+    Vänster sida: interaktiv Google Maps-karta där vi enkelt kan lägga in adress
+    Höger sida: textinnehåll om butiken
+    Kartan ska vara ungefär 45% bredd och texten 55%
+    Sektionen ska ha mycket luft, premium-känsla och minimalistisk design
+    Maxbredd cirka 1200px och centrerad på sidan
+    
+    Layout på mobil:
+    
+    Kartan visas högst upp
+    Texten visas under kartan
+    Bra spacing mellan elementen
+    Responsiv design
+    
+    Design:
+    
+    Vit eller väldigt ljus bakgrund
+    Mörkblå text (#0B2341 ungefär)
+    Rundade hörn på kartan
+    Modern typography med stora rubriker
+    Stilrent och exklusivt, inspirerat av skandinavisk design
+    Samma känsla som premium food/candy brands
+    
+    Innehåll:
+    Rubrik: “Gamla Stan Stockholm”
+    
+    Liten rad under:
+    📍 Vi serverar glass
+    
+    Adress:
+    Kåkbrinken 11A Stockholm
+    
+    Brödtext:
+    “Mitt i hjärtat av Gamla Stan hittar du Finsk Lakrits – en modern godisbutik fylld med finsk lakrits, nordiska favoriter och handplockade sötsaker från Finland och Norden. Här möts turister och stockholmare i en unik smakupplevelse där kvalitet, nostalgi och riktigt bra godis står i fokus.
+    
+    I butiken hittar du allt från klassisk salt lakrits och söta favoriter till fudge, marmelad, choklad och finskt godis som annars är svårt att hitta i Sverige. Vi hjälper dig gärna att hitta nya favoriter eller den perfekta presenten att ta med hem.
+    
+    Under säsong serverar vi även glass i butik – perfekt att njuta av medan du strosar genom Gamla Stans kullerstensgator.”
+    
+    Lägg även till:
+    
+    Öppettider längst ner
+    Möjlighet att ändra adress och öppettider i Shopify customizer
+    Google Maps embed-fält i customizer
+    Smooth hover-effekter
+    Responsiv spacing
+    Anpassad för Shopify Online Store 2.0 sections
+    
+    Kartan ska visas till vänster på desktop och högst upp på mobil.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-store-info-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: 60px 20px;
+  }
+
+  .ai-store-info-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-store-info-{{ ai_gen_id }} {
+      padding: 80px 40px;
+    }
+
+    .ai-store-info-container-{{ ai_gen_id }} {
+      grid-template-columns: {{ block.settings.map_width }}% {{ 100 | minus: block.settings.map_width }}%;
+      gap: 60px;
+    }
+  }
+
+  .ai-store-info-map-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.map_height_mobile }}px;
+    border-radius: {{ block.settings.map_border_radius }}px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .ai-store-info-map-wrapper-{{ ai_gen_id }}:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-store-info-map-wrapper-{{ ai_gen_id }} {
+      height: {{ block.settings.map_height_desktop }}px;
+    }
+  }
+
+  .ai-store-info-map-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .ai-store-info-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ai-store-info-header-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-store-info-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size_mobile }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-store-info-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size_desktop }}px;
+    }
+  }
+
+  .ai-store-info-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ai-store-info-address-{{ ai_gen_id }} {
+    font-size: {{ block.settings.address_size }}px;
+    color: {{ block.settings.text_color }};
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ai-store-info-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.8;
+    opacity: 0.9;
+  }
+
+  .ai-store-info-description-{{ ai_gen_id }} p {
+    margin: 0 0 16px 0;
+  }
+
+  .ai-store-info-description-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-store-info-hours-{{ ai_gen_id }} {
+    padding-top: 24px;
+    border-top: 1px solid rgba(11, 35, 65, 0.1);
+  }
+
+  .ai-store-info-hours-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hours_title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 12px 0;
+  }
+
+  .ai-store-info-hours-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hours_text_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .ai-store-info-hours-text-{{ ai_gen_id }} p {
+    margin: 0 0 4px 0;
+  }
+
+  .ai-store-info-hours-text-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-store-info-map-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    padding: 40px;
+    text-align: center;
+  }
+
+  .ai-store-info-map-placeholder-icon-{{ ai_gen_id }} {
+    width: 48px;
+    height: 48px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.3;
+  }
+
+  .ai-store-info-map-placeholder-text-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.5;
+  }
+{% endstyle %}
+
+<store-info-{{ ai_gen_id }} class="ai-store-info-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-store-info-container-{{ ai_gen_id }}">
+    <div class="ai-store-info-map-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.google_maps_embed != blank %}
+        <iframe
+          class="ai-store-info-map-{{ ai_gen_id }}"
+          src="{{ block.settings.google_maps_embed }}"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+          aria-label="Google Maps location"
+        ></iframe>
+      {% else %}
+        <div class="ai-store-info-map-placeholder-{{ ai_gen_id }}">
+          <svg class="ai-store-info-map-placeholder-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <p class="ai-store-info-map-placeholder-text-{{ ai_gen_id }}">Lägg till Google Maps-länk i inställningarna</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-store-info-content-{{ ai_gen_id }}">
+      <div class="ai-store-info-header-{{ ai_gen_id }}">
+        {% if block.settings.title != blank %}
+          <h2 class="ai-store-info-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+        {% endif %}
+
+        {% if block.settings.subtitle != blank %}
+          <p class="ai-store-info-subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+
+      {% if block.settings.address != blank %}
+        <div class="ai-store-info-address-{{ ai_gen_id }}">
+          {{ block.settings.address }}
+        </div>
+      {% endif %}
+
+      {% if block.settings.description != blank %}
+        <div class="ai-store-info-description-{{ ai_gen_id }}">
+          {{ block.settings.description }}
+        </div>
+      {% endif %}
+
+      {% if block.settings.opening_hours != blank %}
+        <div class="ai-store-info-hours-{{ ai_gen_id }}">
+          <h3 class="ai-store-info-hours-title-{{ ai_gen_id }}">{{ block.settings.opening_hours_title }}</h3>
+          <div class="ai-store-info-hours-text-{{ ai_gen_id }}">
+            {{ block.settings.opening_hours }}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</store-info-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class StoreInfo{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.initMap();
+      }
+
+      initMap() {
+        const iframe = this.querySelector('.ai-store-info-map-{{ ai_gen_id }}');
+        if (iframe) {
+          iframe.addEventListener('load', () => {
+            iframe.style.opacity = '1';
+          });
+        }
+      }
+    }
+
+    customElements.define('store-info-{{ ai_gen_id }}', StoreInfo{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Store information",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "map_width",
+      "label": "Map width on desktop",
+      "min": 30,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Google Maps"
+    },
+    {
+      "type": "text",
+      "id": "google_maps_embed",
+      "label": "Google Maps embed URL",
+      "info": "Gå till Google Maps, sök din adress, klicka på Dela > Bädda in karta, och kopiera src-länken från iframe-koden"
+    },
+    {
+      "type": "range",
+      "id": "map_height_mobile",
+      "label": "Map height on mobile",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "map_height_desktop",
+      "label": "Map height on desktop",
+      "min": 300,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "map_border_radius",
+      "label": "Map border radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Store details"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Gamla Stan Stockholm"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "📍 Vi serverar glass"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "Kåkbrinken 11A\nStockholm"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Mitt i hjärtat av Gamla Stan hittar du Finsk Lakrits – en modern godisbutik fylld med finsk lakrits, nordiska favoriter och handplockade sötsaker från Finland och Norden. Här möts turister och stockholmare i en unik smakupplevelse där kvalitet, nostalgi och riktigt bra godis står i fokus.</p><p>I butiken hittar du allt från klassisk salt lakrits och söta favoriter till fudge, marmelad, choklad och finskt godis som annars är svårt att hitta i Sverige. Vi hjälper dig gärna att hitta nya favoriter eller den perfekta presenten att ta med hem.</p><p>Under säsong serverar vi även glass i butik – perfekt att njuta av medan du strosar genom Gamla Stans kullerstensgator.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Opening hours"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "opening_hours_title",
+      "label": "Opening hours title",
+      "default": "Öppettider"
+    },
+    {
+      "type": "richtext",
+      "id": "opening_hours",
+      "label": "Opening hours",
+      "default": "<p>Måndag–Fredag: 11:00–18:00</p><p>Lördag–Söndag: 11:00–17:00</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#0B2341"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "default": "#0B2341"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title size on mobile",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "label": "Title size on desktop",
+      "min": 32,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "address_size",
+      "label": "Address size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "hours_title_size",
+      "label": "Opening hours title size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "hours_text_size",
+      "label": "Opening hours text size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store information"
+    }
+  ]
+}
 {% endschema %}
