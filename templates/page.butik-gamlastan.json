@@ -16,46 +16,81 @@
         "content_width": "80ch"
       }
     },
-    "rich_text_LQi8DK": {
-      "type": "rich-text",
+    "blocks_qfzEe3": {
+      "type": "_blocks",
       "blocks": {
-        "heading_CDE8Kg": {
-          "type": "heading",
+        "ai_gen_block_d1bccb9_ypKr8f": {
+          "type": "ai_gen_block_d1bccb9",
           "settings": {
-            "text": "Reklamation & Garanti",
-            "heading_tag": "h1",
-            "text_color": "",
-            "gradient": ""
-          }
-        },
-        "richtext_iRXjri": {
-          "type": "richtext",
-          "settings": {
-            "content": "<h3>Skadat gods vid leverans</h3><p>Vi vill att din upplevelse med Finsk Lakrits ska vara lika god som vår lakrits – från beställning till sista tuggan. Om ditt paket skulle skadas under frakt hanterar vi det snabbt och smidigt:<br/><br/>Anmäl detta direkt på utlämningsstället. Be gärna ombudet upprätta en skadeanmälan innan du tar emot paketet.<br/><br/>Kontakta oss direkt på info@finsklakrits.se</p><h3>Reklamation</h3><p>Om något inte stämmer med din beställning – fel vara, kvalitetsproblem eller något annat som inte känns rätt – så är det viktigt för oss att få veta det.</p><p>Skicka ett mejl till <a title=\"mailto:info@finsklakrits.se\">info@finsklakrits.se</a> med följande uppgifter:</p><p>Vi återkommer så fort vi kan. Vid behov skickar vi ny vara eller återbetalar dig – beroende på vad som är lämpligast i just ditt fall.<br/><br/>Vid eventuell tvist följer vi alltid rekommendation från <strong>Allmänna Reklamationsnämnden (ARN)</strong> – <a href=\"https://www.arn.se\">www.arn.se</a></p><h3>Garanti</h3><p>Eftersom våra produkter är livsmedel omfattas de inte av traditionell garanti. Däremot står vi alltid bakom kvaliteten på våra varor och behandlar reklamationer med fullt ansvar.</p><h3>Ångerrätt</h3><p>Enligt distansavtalslagen gäller <strong>ingen ångerrätt för livsmedel</strong>. Detta för att vi inte kan garantera produktsäkerheten efter leverans. Vi hoppas på din förståelse – och att du älskar din lakrits så mycket att du inte vill skicka tillbaka den ändå.</p>"
-          }
+            "heading": "",
+            "text": "",
+            "background_image": "shopify://shop_images/FinskLakritsStore.jpg",
+            "image_position": "right center",
+            "overlay_color": "#005dc6",
+            "overlay_opacity": 0.3,
+            "text_color": "#ffffff",
+            "heading_size": 56,
+            "text_size": 18,
+            "heading_spacing": 20,
+            "content_max_width": 600,
+            "min_height": 500,
+            "border_radius": 16,
+            "container_margin": 24,
+            "padding_vertical": 60,
+            "padding_horizontal": 60,
+            "desktop_width_percent": 95
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "heading_CDE8Kg",
-        "richtext_iRXjri"
+        "ai_gen_block_d1bccb9_ypKr8f"
       ],
-      "custom_css": [
-        ".h1 {font-family: balloon; font-weight: 100;}",
-        ".section-full {padding-bottom: 5px;}"
+      "name": "Hero header",
+      "settings": {}
+    },
+    "17790943486c8d6bff": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_3df4ebb_k4xChi": {
+          "type": "ai_gen_block_3df4ebb",
+          "settings": {
+            "max_width": 1200,
+            "map_width": 45,
+            "desktop_width_percent": 100,
+            "google_maps_embed": "https://share.google/pfO9qtqv17d6VcJaN",
+            "map_height_mobile": 300,
+            "map_height_desktop": 500,
+            "map_border_radius": 16,
+            "title": "Gamla Stan Stockholm",
+            "subtitle": "📍 Vi serverar glass",
+            "address": "Kåkbrinken 11A\nStockholm",
+            "description": "<p>Mitt i hjärtat av Gamla Stan hittar du Finsk Lakrits – en modern godisbutik fylld med finsk lakrits, nordiska favoriter och handplockade sötsaker från Finland och Norden. Här möts turister och stockholmare i en unik smakupplevelse där kvalitet, nostalgi och riktigt bra godis står i fokus.</p><p>I butiken hittar du allt från klassisk salt lakrits och söta favoriter till fudge, marmelad, choklad och finskt godis som annars är svårt att hitta i Sverige. Vi hjälper dig gärna att hitta nya favoriter eller den perfekta presenten att ta med hem.</p><p>Under säsong serverar vi även glass i butik – perfekt att njuta av medan du strosar genom Gamla Stans kullerstensgator.</p>",
+            "opening_hours_title": "Öppettider",
+            "opening_hours": "<p>Fredag-Söndag: 11:00–18:00</p>",
+            "background_color": "#ffffff",
+            "text_color": "#0B2341",
+            "subtitle_color": "#0B2341",
+            "title_size_mobile": 32,
+            "title_size_desktop": 48,
+            "subtitle_size": 16,
+            "address_size": 18,
+            "description_size": 16,
+            "hours_title_size": 18,
+            "hours_text_size": 15
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_3df4ebb_k4xChi"
       ],
-      "name": "Rich text",
-      "settings": {
-        "full_width": true,
-        "content_width": "small",
-        "text_position": "start",
-        "background": "",
-        "background_gradient": "",
-        "text_color": ""
-      }
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "rich_text_LQi8DK"
+    "blocks_qfzEe3",
+    "17790943486c8d6bff"
   ]
 }
