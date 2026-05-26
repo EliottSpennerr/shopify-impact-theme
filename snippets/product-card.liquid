@@ -404,33 +404,23 @@ Typography CSS variables (set by calling section):
       {%- render 'price-list', product: product, text_alignment: 'left' -%}
 
       {%- if product.available -%}
-        {%- if product.variants.size == 1 and product.selling_plan_groups.size == 0 -%}
-          {%- form 'product', product, is: 'product-form' -%}
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-            <button type="submit" class="product-card__buy-btn" aria-label="Köp {{ product.title | escape }}">
-              <span class="btn-label">Köp</span>
-              <svg class="btn-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.25)" stroke-width="2.5"/>
-                <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-              </svg>
-              <svg class="btn-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M4 12l5 5 11-10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          {%- endform -%}
-        {%- else -%}
-          {%- capture qb_id -%}quick-buy-{{ section.id }}-{{ product.id }}{%- endcapture -%}
-          <button type="button" class="product-card__buy-btn" aria-controls="{{ qb_id }}" aria-label="Köp {{ product.title | escape }}">
-            <span class="btn-label">Köp</span>
-            <svg class="btn-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.25)" stroke-width="2.5"/>
-              <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-            <svg class="btn-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M4 12l5 5 11-10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        {%- endif -%}
+        {%- assign add_variant_id = product.selected_or_first_available_variant.id -%}
+        <button
+          type="button"
+          class="product-card__buy-btn"
+          data-quick-add
+          data-variant-id="{{ add_variant_id }}"
+          data-product-handle="{{ product.handle }}"
+          aria-label="Köp {{ product.title | escape }}">
+          <span class="btn-label">Köp</span>
+          <svg class="btn-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.25)" stroke-width="2.5"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <svg class="btn-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 12l5 5 11-10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       {%- else -%}
         <span class="product-card__buy-btn product-card__buy-btn--disabled">Slutsåld</span>
       {%- endif -%}
@@ -476,35 +466,89 @@ Typography CSS variables (set by calling section):
 </product-card>
 
 {%- comment -%}
-  ── KÖP-KNAPP ANIMATION ──────────────────────────────────────────────
-  Körs en gång per snippet-render. Använder ett guard-attribut på
-  document.documentElement så att lyssnaren bara registreras en gång
-  även om snippet renderas flera gånger på samma sida (t.ex. i ett
-  kollektionsgrid med många kort).
+  ── KÖP-KNAPP: QUICK ADD VIA AJAX ────────────────────────────────────
+  Lägger till produkten direkt i varukorgen via /cart/add.js utan att
+  öppna drawer eller gå till produktsidan. Använder data-variant-id
+  som sätts från Liquid (product.selected_or_first_available_variant).
+  Spinner under add → checkmark vid success → återgår till "Köp".
+  Triggar både Shopify PubSub och generiska cart:updated/cart:refresh
+  events så att tema-komponenter (cart-drawer, cart-count) uppdaterar
+  sig automatiskt. Guard-attribut förhindrar dubbla lyssnare när
+  snippet renderas flera gånger på samma sida.
 {%- endcomment -%}
 <script>
   (function () {
     if (document.documentElement.hasAttribute('data-pc-buy-init')) return;
     document.documentElement.setAttribute('data-pc-buy-init', '');
 
-    var SPINNER_MS = 900;   // hur länge spinnern visas
-    var SUCCESS_MS = 1800;  // hur länge checkmarken visas
+    var SUCCESS_MS = 1800; // hur länge checkmarken visas efter lyckad add
 
     document.addEventListener('click', function (e) {
-      var btn = e.target.closest('.product-card__buy-btn');
-      if (!btn || btn.classList.contains('product-card__buy-btn--disabled')) return;
+      var btn = e.target.closest('.product-card__buy-btn[data-quick-add]');
+      if (!btn) return;
+      if (btn.classList.contains('product-card__buy-btn--disabled')) return;
       if (btn.classList.contains('is-loading') || btn.classList.contains('is-success')) return;
+
+      e.preventDefault();
+
+      var variantId = btn.getAttribute('data-variant-id');
+      if (!variantId) return;
 
       btn.classList.add('is-loading');
 
-      setTimeout(function () {
-        btn.classList.remove('is-loading');
-        btn.classList.add('is-success');
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          items: [{ id: parseInt(variantId, 10), quantity: 1 }]
+        })
+      })
+        .then(function (res) {
+          if (!res.ok) {
+            return res.json().then(function (err) { throw err; });
+          }
+          return res.json();
+        })
+        .then(function () {
+          return fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
+            .then(function (r) { return r.json(); });
+        })
+        .then(function (cart) {
+          btn.classList.remove('is-loading');
+          btn.classList.add('is-success');
 
-        setTimeout(function () {
-          btn.classList.remove('is-success');
-        }, SUCCESS_MS);
-      }, SPINNER_MS);
+          if (window.Shopify && window.Shopify.PubSub && typeof window.Shopify.PubSub.publish === 'function') {
+            window.Shopify.PubSub.publish('cart:refresh', { source: 'product-card-quick-add' });
+          }
+
+          document.dispatchEvent(new CustomEvent('cart:updated', {
+            bubbles: true,
+            detail: { cart: cart, source: 'product-card-quick-add' }
+          }));
+          document.dispatchEvent(new CustomEvent('cart:refresh', {
+            bubbles: true,
+            detail: { cart: cart, source: 'product-card-quick-add' }
+          }));
+
+          setTimeout(function () {
+            btn.classList.remove('is-success');
+          }, SUCCESS_MS);
+        })
+        .catch(function (err) {
+          btn.classList.remove('is-loading');
+          console.warn('[product-card] quick add failed:', err);
+
+          var label = btn.querySelector('.btn-label');
+          if (label) {
+            var original = label.textContent;
+            label.textContent = 'Fel';
+            setTimeout(function () { label.textContent = original; }, 1600);
+          }
+        });
     });
   })();
 </script>
