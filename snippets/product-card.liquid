@@ -523,10 +523,12 @@ Typography CSS variables (set by calling section):
     }
 
   function updateThemeCartBubble(cart) {
-  // Använd temats egen <cart-count>-struktur. Bubblan finns redan
-  // i DOM (dolde med aria-hidden) — vi sätter siffran och togglar.
   var cartCount = cart.item_count;
-  var cartCountElements = document.querySelectorAll('cart-count, .count-bubble, .header__cart-count cart-count');
+
+  // STEG 1: Försök hitta och uppdatera befintliga cart-count-element
+  var cartCountElements = document.querySelectorAll(
+    'cart-count, .count-bubble, .header__cart-count cart-count, [data-cart-count]'
+  );
 
   cartCountElements.forEach(function (el) {
     el.textContent = cartCount;
@@ -536,32 +538,51 @@ Typography CSS variables (set by calling section):
     } else {
       el.setAttribute('aria-hidden', 'true');
     }
-    // Förhindra att bubblan stjäl klick från cart-länken under
     el.style.pointerEvents = 'none';
   });
 
-  // Säkerhetsnät: skapa elementet om det saknas helt (kan hända om
-  // sidan laddades med tom varukorg och temat conditional-renderar).
-  if (cartCount > 0 && cartCountElements.length === 0) {
-    var cartLink = document.querySelector('a[href="/cart"]');
-    if (cartLink) {
-      var wrapper = cartLink.querySelector('.header__cart-count');
-      if (!wrapper) {
-        wrapper = document.createElement('div');
-        wrapper.className = 'header__cart-count';
-        wrapper.style.pointerEvents = 'none';
-        cartLink.appendChild(wrapper);
+  // STEG 2: Om bubblan inte syns trots att vi har artiklar — leta och skapa
+  if (cartCount > 0) {
+    var visibleBubble = document.querySelector(
+      'cart-count[aria-hidden="false"], .count-bubble[aria-hidden="false"]'
+    );
+
+    if (!visibleBubble) {
+      // Bred sökning efter cart-länken — testa flera mönster
+      var cartLink =
+        document.querySelector('a[href="/cart"]') ||
+        document.querySelector('a[href*="/cart"]:not([href*="/cart/"])') ||
+        document.querySelector('[aria-controls="cart-drawer"]') ||
+        document.querySelector('a[data-cart-link]') ||
+        document.querySelector('.header__icon--cart') ||
+        document.querySelector('a[href$="/cart"]');
+
+      if (cartLink) {
+        // Använd befintlig wrapper om den finns, annars skapa en
+        var wrapper = cartLink.querySelector('.header__cart-count');
+        if (!wrapper) {
+          wrapper = document.createElement('div');
+          wrapper.className = 'header__cart-count';
+          wrapper.style.pointerEvents = 'none';
+          cartLink.appendChild(wrapper);
+        }
+
+        // Återanvänd befintlig cart-count eller skapa ny
+        var countEl = wrapper.querySelector('cart-count, .count-bubble');
+        if (!countEl) {
+          countEl = document.createElement('cart-count');
+          countEl.className = 'count-bubble';
+          wrapper.appendChild(countEl);
+        }
+
+        countEl.textContent = cartCount;
+        countEl.setAttribute('aria-hidden', 'false');
+        countEl.removeAttribute('hidden');
+        countEl.style.pointerEvents = 'none';
       }
-      var newCount = document.createElement('cart-count');
-      newCount.className = 'count-bubble';
-      newCount.setAttribute('aria-hidden', 'false');
-      newCount.textContent = cartCount;
-      newCount.style.pointerEvents = 'none';
-      wrapper.appendChild(newCount);
     }
   }
 }
-
     function dispatchCartEvents(cart) {
       try {
         if (window.Shopify && window.Shopify.PubSub && typeof window.Shopify.PubSub.publish === 'function') {
