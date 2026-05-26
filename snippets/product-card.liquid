@@ -675,27 +675,7 @@ if (cartCount > 0) {
     var bubble = document.createElement('div');
     bubble.className = 'cart-count-bubble';
     bubble.setAttribute('data-cart-count-bubble', '');
-    bubble.style.cssText = [
-      'position:absolute',
-      'top:-2px',
-      'right:-6px',
-      'background:#025dc6',
-      'color:#fff',
-      'border-radius:999px',
-      'min-width:16px',
-      'height:16px',
-      'display:flex',
-      'align-items:center',
-      'justify-content:center',
-      'font-size:10px',
-      'font-weight:500',
-      'line-height:1',
-      'padding:0 4px',
-      'letter-spacing:0',
-      'font-family:inherit',
-      'box-sizing:border-box',
-      'pointer-events:none'
-    ].join(';');
+    bubble.style.cssText = 'position:absolute;top:-4px;right:-4px;background:#025dc6;color:#fff;border-radius:999px;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;padding:0 6px;';
     bubble.textContent = cartCount;
     if (getComputedStyle(cartLink).position === 'static') {
       cartLink.style.position = 'relative';
