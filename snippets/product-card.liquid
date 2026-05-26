@@ -522,41 +522,45 @@ Typography CSS variables (set by calling section):
         .catch(function () {});
     }
 
-    function updateThemeCartBubble(cart) {
-      // Använd temats egen <cart-count>-struktur. Bubblan finns redan
-      // i DOM (dolde med aria-hidden) — vi sätter siffran och togglar.
-      var cartCount = cart.item_count;
-      var cartCountElements = document.querySelectorAll('cart-count, .count-bubble, .header__cart-count cart-count');
+  function updateThemeCartBubble(cart) {
+  // Använd temats egen <cart-count>-struktur. Bubblan finns redan
+  // i DOM (dolde med aria-hidden) — vi sätter siffran och togglar.
+  var cartCount = cart.item_count;
+  var cartCountElements = document.querySelectorAll('cart-count, .count-bubble, .header__cart-count cart-count');
 
-      cartCountElements.forEach(function (el) {
-        el.textContent = cartCount;
-        if (cartCount > 0) {
-          el.setAttribute('aria-hidden', 'false');
-          el.removeAttribute('hidden');
-        } else {
-          el.setAttribute('aria-hidden', 'true');
-        }
-      });
-
-      // Säkerhetsnät: skapa elementet om det saknas helt (kan hända om
-      // sidan laddades med tom varukorg och temat conditional-renderar).
-      if (cartCount > 0 && cartCountElements.length === 0) {
-        var cartLink = document.querySelector('a[href="/cart"]');
-        if (cartLink) {
-          var wrapper = cartLink.querySelector('.header__cart-count');
-          if (!wrapper) {
-            wrapper = document.createElement('div');
-            wrapper.className = 'header__cart-count';
-            cartLink.appendChild(wrapper);
-          }
-          var newCount = document.createElement('cart-count');
-          newCount.className = 'count-bubble';
-          newCount.setAttribute('aria-hidden', 'false');
-          newCount.textContent = cartCount;
-          wrapper.appendChild(newCount);
-        }
-      }
+  cartCountElements.forEach(function (el) {
+    el.textContent = cartCount;
+    if (cartCount > 0) {
+      el.setAttribute('aria-hidden', 'false');
+      el.removeAttribute('hidden');
+    } else {
+      el.setAttribute('aria-hidden', 'true');
     }
+    // Förhindra att bubblan stjäl klick från cart-länken under
+    el.style.pointerEvents = 'none';
+  });
+
+  // Säkerhetsnät: skapa elementet om det saknas helt (kan hända om
+  // sidan laddades med tom varukorg och temat conditional-renderar).
+  if (cartCount > 0 && cartCountElements.length === 0) {
+    var cartLink = document.querySelector('a[href="/cart"]');
+    if (cartLink) {
+      var wrapper = cartLink.querySelector('.header__cart-count');
+      if (!wrapper) {
+        wrapper = document.createElement('div');
+        wrapper.className = 'header__cart-count';
+        wrapper.style.pointerEvents = 'none';
+        cartLink.appendChild(wrapper);
+      }
+      var newCount = document.createElement('cart-count');
+      newCount.className = 'count-bubble';
+      newCount.setAttribute('aria-hidden', 'false');
+      newCount.textContent = cartCount;
+      newCount.style.pointerEvents = 'none';
+      wrapper.appendChild(newCount);
+    }
+  }
+}
 
     function dispatchCartEvents(cart) {
       try {
