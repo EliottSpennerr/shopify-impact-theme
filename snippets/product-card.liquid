@@ -467,11 +467,12 @@ Typography CSS variables (set by calling section):
 
 {%- comment -%}
   ── KÖP-KNAPP: QUICK ADD VIA AJAX ────────────────────────────────────
-  Lägger till produkten direkt i varukorgen via /cart/add.js och
-  uppdaterar sedan temats egen cart-bubble (<cart-count> med klassen
-  count-bubble) genom att skriva in nytt antal och toggla aria-hidden.
-  Detta ger pixel-perfekt match mot originalbubblan eftersom temats
-  egen CSS sköter all styling.
+  Använder samma cart-refresh-mönster som den fungerande Bundle Mix &
+  Match-sektionen: hittar dynamiskt alla shopify-section-element vars
+  ID innehåller "cart" eller "header" och ersätter dem med färsk HTML
+  från Section Rendering API. Ingen DOM-manipulation på enskilda
+  bubble-element behövs — hela header-sektionen ersätts och Impact-
+  temats <cart-count> får automatiskt rätt siffra från servern.
 {%- endcomment -%}
 <script>
   (function () {
@@ -480,142 +481,48 @@ Typography CSS variables (set by calling section):
 
     var SUCCESS_MS = 1800;
 
-    var SECTIONS_TO_REFRESH = [
-      'cart-drawer',
-      'cart-icon-bubble',
-      'cart-live-region-text',
-      'mini-cart',
-      'header',
-      'cart-notification',
-      'cart-notification-product'
-    ];
+    /* ── Cart refresh — exakt samma mönster som Bundle Mix & Match ── */
+    function refreshCart() {
+      var ids = [];
 
-    function replaceSectionHTML(sectionId, newHTML) {
-      var target = document.getElementById('shopify-section-' + sectionId);
-      if (target) {
-        target.innerHTML = new DOMParser()
-          .parseFromString(newHTML, 'text/html')
-          .querySelector('#shopify-section-' + sectionId).innerHTML;
-        return true;
-      }
-      var alt = document.querySelector('[data-section-id="' + sectionId + '"]')
-             || document.querySelector('cart-drawer')
-             || document.querySelector('#cart-icon-bubble');
-      if (alt && sectionId === 'cart-icon-bubble') {
-        alt.innerHTML = newHTML;
-        return true;
-      }
-      return false;
-    }
+      // Steg 1: hitta alla sektioner vars ID innehåller "cart" eller "header"
+      document.querySelectorAll('[id^="shopify-section-"]').forEach(function (el) {
+        var id = el.id.replace('shopify-section-', '');
+        if (id.toLowerCase().indexOf('cart') > -1 || id.toLowerCase().indexOf('header') > -1) {
+          ids.push(id);
+        }
+      });
 
-    function refreshCartSections() {
-      var sectionsParam = SECTIONS_TO_REFRESH.join(',');
-      return fetch('/?sections=' + encodeURIComponent(sectionsParam), {
-        headers: { 'Accept': 'application/json' }
+      // Steg 2: hitta sektioner via cart-relaterade element och lägg till deras parents
+      document.querySelectorAll(
+        '[data-cart-count],.cart-count-bubble,.cart-count,.count-bubble,#cart-icon-bubble,cart-count,.header__cart-count'
+      ).forEach(function (el) {
+        var sec = el.closest('[id^="shopify-section-"]');
+        if (sec) {
+          var id = sec.id.replace('shopify-section-', '');
+          if (ids.indexOf(id) === -1) ids.push(id);
+        }
+      });
+
+      if (!ids.length) return Promise.resolve();
+
+      // Steg 3: hämta uppdaterade sektioner och byt ut dem helt
+      return fetch(window.location.pathname + '?sections=' + ids.join(','), {
+        credentials: 'same-origin'
       })
-        .then(function (r) { return r.ok ? r.json() : {}; })
-        .then(function (sections) {
-          Object.keys(sections || {}).forEach(function (key) {
-            if (sections[key]) replaceSectionHTML(key, sections[key]);
-          });
+        .then(function (r) { return r.json(); })
+        .then(function (secs) {
+          for (var name in secs) {
+            var target = document.getElementById('shopify-section-' + name);
+            if (target && secs[name]) {
+              target.outerHTML = secs[name];
+            }
+          }
         })
         .catch(function () {});
     }
 
-  function updateThemeCartBubble(cart) {
-  var cartCount = cart.item_count;
-
-  // STEG 1: Försök hitta och uppdatera befintliga cart-count-element
-  var cartCountElements = document.querySelectorAll(
-    'cart-count, .count-bubble, .header__cart-count cart-count, [data-cart-count]'
-  );
-
-  cartCountElements.forEach(function (el) {
-    el.textContent = cartCount;
-    if (cartCount > 0) {
-      el.setAttribute('aria-hidden', 'false');
-      el.removeAttribute('hidden');
-    } else {
-      el.setAttribute('aria-hidden', 'true');
-    }
-    el.style.pointerEvents = 'none';
-  });
-
-  // STEG 2: Om bubblan inte syns trots att vi har artiklar — leta och skapa
-  if (cartCount > 0) {
-    var visibleBubble = document.querySelector(
-      'cart-count[aria-hidden="false"], .count-bubble[aria-hidden="false"]'
-    );
-
-    if (!visibleBubble) {
-      // Bred sökning efter cart-länken — testa flera mönster
-      var cartLink =
-        document.querySelector('a[href="/cart"]') ||
-        document.querySelector('a[href*="/cart"]:not([href*="/cart/"])') ||
-        document.querySelector('[aria-controls="cart-drawer"]') ||
-        document.querySelector('a[data-cart-link]') ||
-        document.querySelector('.header__icon--cart') ||
-        document.querySelector('a[href$="/cart"]');
-
-      if (cartLink) {
-        // Använd befintlig wrapper om den finns, annars skapa en
-        var wrapper = cartLink.querySelector('.header__cart-count');
-        if (!wrapper) {
-          wrapper = document.createElement('div');
-          wrapper.className = 'header__cart-count';
-          wrapper.style.pointerEvents = 'none';
-          cartLink.appendChild(wrapper);
-        }
-
-        // Återanvänd befintlig cart-count eller skapa ny
-        var countEl = wrapper.querySelector('cart-count, .count-bubble');
-        if (!countEl) {
-          countEl = document.createElement('cart-count');
-          countEl.className = 'count-bubble';
-          wrapper.appendChild(countEl);
-        }
-
-        countEl.textContent = cartCount;
-        countEl.setAttribute('aria-hidden', 'false');
-        countEl.removeAttribute('hidden');
-        countEl.style.pointerEvents = 'none';
-      }
-    }
-  }
-}
-    function dispatchCartEvents(cart) {
-      try {
-        if (window.Shopify && window.Shopify.PubSub && typeof window.Shopify.PubSub.publish === 'function') {
-          window.Shopify.PubSub.publish('cart:refresh', { source: 'product-card-quick-add' });
-        }
-      } catch (e) {}
-
-      var eventNames = [
-        'cart:updated',
-        'cart:refresh',
-        'cart:added',
-        'cart:build',
-        'cart:change',
-        'ajaxCart.afterCartLoad',
-        'product:added-to-cart'
-      ];
-      eventNames.forEach(function (name) {
-        document.dispatchEvent(new CustomEvent(name, {
-          bubbles: true,
-          detail: { cart: cart, source: 'product-card-quick-add' }
-        }));
-        document.body.dispatchEvent(new CustomEvent(name, {
-          bubbles: true,
-          detail: { cart: cart, source: 'product-card-quick-add' }
-        }));
-      });
-
-      if (window.jQuery) {
-        try { window.jQuery(document).trigger('cart.requestComplete', cart); } catch (e) {}
-        try { window.jQuery(document.body).trigger('added.ajaxProduct'); } catch (e) {}
-      }
-    }
-
+    /* ── Klick-handler ── */
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.product-card__buy-btn[data-quick-add]');
       if (!btn) return;
@@ -631,36 +538,25 @@ Typography CSS variables (set by calling section):
 
       fetch('/cart/add.js', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        },
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({
-          items: [{ id: parseInt(variantId, 10), quantity: 1 }]
+          items: [{ id: Number(variantId), quantity: 1 }]
         })
       })
-        .then(function (res) {
-          if (!res.ok) return res.json().then(function (err) { throw err; });
-          return res.json();
+        .then(function (r) {
+          if (!r.ok) throw new Error(r.status);
+          return r.json();
         })
         .then(function () {
-          return fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
-            .then(function (r) { return r.json(); });
-        })
-        .then(function (cart) {
-          return refreshCartSections().then(function () {
-            updateThemeCartBubble(cart);
-            dispatchCartEvents(cart);
-            return cart;
-          });
+          return refreshCart();
         })
         .then(function () {
           btn.classList.remove('is-loading');
           btn.classList.add('is-success');
           setTimeout(function () { btn.classList.remove('is-success'); }, SUCCESS_MS);
         })
-        .catch(function (err) {
+        .then(null, function (err) {
           btn.classList.remove('is-loading');
           console.warn('[product-card] quick add failed:', err);
           var label = btn.querySelector('.btn-label');
