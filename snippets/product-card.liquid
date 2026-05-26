@@ -467,12 +467,11 @@ Typography CSS variables (set by calling section):
 
 {%- comment -%}
   ── KÖP-KNAPP: QUICK ADD VIA AJAX ────────────────────────────────────
-  Använder samma cart-refresh-mönster som den fungerande Bundle Mix &
-  Match-sektionen: hittar dynamiskt alla shopify-section-element vars
-  ID innehåller "cart" eller "header" och ersätter dem med färsk HTML
-  från Section Rendering API. Ingen DOM-manipulation på enskilda
-  bubble-element behövs — hela header-sektionen ersätts och Impact-
-  temats <cart-count> får automatiskt rätt siffra från servern.
+  Lägger till produkten direkt i varukorgen via /cart/add.js och
+  uppdaterar sedan temats egen cart-bubble (<cart-count> med klassen
+  count-bubble) genom att skriva in nytt antal och toggla aria-hidden.
+  Detta ger pixel-perfekt match mot originalbubblan eftersom temats
+  egen CSS sköter all styling.
 {%- endcomment -%}
 <script>
   (function () {
@@ -481,75 +480,142 @@ Typography CSS variables (set by calling section):
 
     var SUCCESS_MS = 1800;
 
-    /* ── Cachad lista över sektioner som ska refreshas ───────────────
-       Räknas ut EN gång när scriptet laddas. Sektionerna ändras inte
-       under sidans livstid, så vi slipper scanna DOM vid varje klick. */
-    var cachedSectionIds = null;
+    var SECTIONS_TO_REFRESH = [
+      'cart-drawer',
+      'cart-icon-bubble',
+      'cart-live-region-text',
+      'mini-cart',
+      'header',
+      'cart-notification',
+      'cart-notification-product'
+    ];
 
-    function getCartSectionIds() {
-      if (cachedSectionIds !== null) return cachedSectionIds;
-
-      var ids = [];
-      var seen = {};
-
-      // Sektioner vars ID innehåller "cart" eller "header"
-      var sections = document.querySelectorAll('[id^="shopify-section-"]');
-      for (var i = 0; i < sections.length; i++) {
-        var id = sections[i].id.replace('shopify-section-', '');
-        var lower = id.toLowerCase();
-        if ((lower.indexOf('cart') > -1 || lower.indexOf('header') > -1) && !seen[id]) {
-          seen[id] = true;
-          ids.push(id);
-        }
+    function replaceSectionHTML(sectionId, newHTML) {
+      var target = document.getElementById('shopify-section-' + sectionId);
+      if (target) {
+        target.innerHTML = new DOMParser()
+          .parseFromString(newHTML, 'text/html')
+          .querySelector('#shopify-section-' + sectionId).innerHTML;
+        return true;
       }
-
-      // Sektioner via cart-element (för säkerhets skull, om någon
-      // sektion inte har "cart" eller "header" i sitt namn)
-      var cartEls = document.querySelectorAll(
-        '[data-cart-count],.cart-count-bubble,.cart-count,.count-bubble,#cart-icon-bubble,cart-count,.header__cart-count'
-      );
-      for (var j = 0; j < cartEls.length; j++) {
-        var sec = cartEls[j].closest('[id^="shopify-section-"]');
-        if (sec) {
-          var sid = sec.id.replace('shopify-section-', '');
-          if (!seen[sid]) {
-            seen[sid] = true;
-            ids.push(sid);
-          }
-        }
+      var alt = document.querySelector('[data-section-id="' + sectionId + '"]')
+             || document.querySelector('cart-drawer')
+             || document.querySelector('#cart-icon-bubble');
+      if (alt && sectionId === 'cart-icon-bubble') {
+        alt.innerHTML = newHTML;
+        return true;
       }
-
-      cachedSectionIds = ids;
-      return ids;
+      return false;
     }
 
-    /* ── Cart refresh — körs i bakgrunden, blockerar inte UI ─────── */
-    function refreshCart() {
-      var ids = getCartSectionIds();
-      if (!ids.length) return;
-
-      // "/" istället för window.location.pathname → servern slipper
-      // processa hela kollektionssidan. Mycket snabbare.
-      fetch('/?sections=' + ids.join(','), {
-        credentials: 'same-origin',
+    function refreshCartSections() {
+      var sectionsParam = SECTIONS_TO_REFRESH.join(',');
+      return fetch('/?sections=' + encodeURIComponent(sectionsParam), {
         headers: { 'Accept': 'application/json' }
       })
-        .then(function (r) { return r.json(); })
-        .then(function (secs) {
-          // Invalidera cachen om sektionerna byts ut, så vi hittar dem
-          // korrekt nästa gång (deras parent-element finns kvar men
-          // inre innehåll kan ha ändrats).
-          for (var name in secs) {
-            var target = document.getElementById('shopify-section-' + name);
-            if (target && secs[name]) {
-              target.outerHTML = secs[name];
-            }
-          }
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (sections) {
+          Object.keys(sections || {}).forEach(function (key) {
+            if (sections[key]) replaceSectionHTML(key, sections[key]);
+          });
         })
         .catch(function () {});
     }
 
-    /* ── Klick-handler ── */
+  function updateThemeCartBubble(cart) {
+  var cartCount = cart.item_count;
+
+  // STEG 1: Försök hitta och uppdatera befintliga cart-count-element
+  var cartCountElements = document.querySelectorAll(
+    'cart-count, .count-bubble, .header__cart-count cart-count, [data-cart-count]'
+  );
+
+  cartCountElements.forEach(function (el) {
+    el.textContent = cartCount;
+    if (cartCount > 0) {
+      el.setAttribute('aria-hidden', 'false');
+      el.removeAttribute('hidden');
+    } else {
+      el.setAttribute('aria-hidden', 'true');
+    }
+    el.style.pointerEvents = 'none';
+  });
+
+  // STEG 2: Om bubblan inte syns trots att vi har artiklar — leta och skapa
+  if (cartCount > 0) {
+    var visibleBubble = document.querySelector(
+      'cart-count[aria-hidden="false"], .count-bubble[aria-hidden="false"]'
+    );
+
+    if (!visibleBubble) {
+      // Bred sökning efter cart-länken — testa flera mönster
+      var cartLink =
+        document.querySelector('a[href="/cart"]') ||
+        document.querySelector('a[href*="/cart"]:not([href*="/cart/"])') ||
+        document.querySelector('[aria-controls="cart-drawer"]') ||
+        document.querySelector('a[data-cart-link]') ||
+        document.querySelector('.header__icon--cart') ||
+        document.querySelector('a[href$="/cart"]');
+
+      if (cartLink) {
+        // Använd befintlig wrapper om den finns, annars skapa en
+        var wrapper = cartLink.querySelector('.header__cart-count');
+        if (!wrapper) {
+          wrapper = document.createElement('div');
+          wrapper.className = 'header__cart-count';
+          wrapper.style.pointerEvents = 'none';
+          cartLink.appendChild(wrapper);
+        }
+
+        // Återanvänd befintlig cart-count eller skapa ny
+        var countEl = wrapper.querySelector('cart-count, .count-bubble');
+        if (!countEl) {
+          countEl = document.createElement('cart-count');
+          countEl.className = 'count-bubble';
+          wrapper.appendChild(countEl);
+        }
+
+        countEl.textContent = cartCount;
+        countEl.setAttribute('aria-hidden', 'false');
+        countEl.removeAttribute('hidden');
+        countEl.style.pointerEvents = 'none';
+      }
+    }
+  }
+}
+    function dispatchCartEvents(cart) {
+      try {
+        if (window.Shopify && window.Shopify.PubSub && typeof window.Shopify.PubSub.publish === 'function') {
+          window.Shopify.PubSub.publish('cart:refresh', { source: 'product-card-quick-add' });
+        }
+      } catch (e) {}
+
+      var eventNames = [
+        'cart:updated',
+        'cart:refresh',
+        'cart:added',
+        'cart:build',
+        'cart:change',
+        'ajaxCart.afterCartLoad',
+        'product:added-to-cart'
+      ];
+      eventNames.forEach(function (name) {
+        document.dispatchEvent(new CustomEvent(name, {
+          bubbles: true,
+          detail: { cart: cart, source: 'product-card-quick-add' }
+        }));
+        document.body.dispatchEvent(new CustomEvent(name, {
+          bubbles: true,
+          detail: { cart: cart, source: 'product-card-quick-add' }
+        }));
+      });
+
+      if (window.jQuery) {
+        try { window.jQuery(document).trigger('cart.requestComplete', cart); } catch (e) {}
+        try { window.jQuery(document.body).trigger('added.ajaxProduct'); } catch (e) {}
+      }
+    }
+
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.product-card__buy-btn[data-quick-add]');
       if (!btn) return;
@@ -565,24 +631,34 @@ Typography CSS variables (set by calling section):
 
       fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
         body: JSON.stringify({
-          items: [{ id: Number(variantId), quantity: 1 }]
+          items: [{ id: parseInt(variantId, 10), quantity: 1 }]
         })
       })
-        .then(function (r) {
-          if (!r.ok) throw new Error(r.status);
-          return r.json();
+        .then(function (res) {
+          if (!res.ok) return res.json().then(function (err) { throw err; });
+          return res.json();
         })
         .then(function () {
-          // Visa success DIREKT när add lyckats — vänta inte på refresh
+          return fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
+            .then(function (r) { return r.json(); });
+        })
+        .then(function (cart) {
+          return refreshCartSections().then(function () {
+            updateThemeCartBubble(cart);
+            dispatchCartEvents(cart);
+            return cart;
+          });
+        })
+        .then(function () {
           btn.classList.remove('is-loading');
           btn.classList.add('is-success');
           setTimeout(function () { btn.classList.remove('is-success'); }, SUCCESS_MS);
-
-          // Refresh cart i bakgrunden — UI är redan klar
-          refreshCart();
         })
         .catch(function (err) {
           btn.classList.remove('is-loading');
@@ -594,16 +670,6 @@ Typography CSS variables (set by calling section):
             setTimeout(function () { label.textContent = original; }, 1600);
           }
         });
-    }, { passive: false });
-
-    /* ── Förbered cachen så fort DOM är redo ─────────────────────────
-       Om DOM redan är klar när scriptet körs så cachar vi direkt.
-       Annars väntar vi på DOMContentLoaded. Detta gör att första
-       klicket inte behöver vänta på att vi scannar DOM. */
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', getCartSectionIds, { once: true });
-    } else {
-      getCartSectionIds();
-    }
+    });
   })();
 </script>
