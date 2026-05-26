@@ -481,11 +481,9 @@ Typography CSS variables (set by calling section):
 
     var SUCCESS_MS = 1800;
 
-    /* ── Cart refresh — exakt samma mönster som Bundle Mix & Match ── */
     function refreshCart() {
       var ids = [];
 
-      // Steg 1: hitta alla sektioner vars ID innehåller "cart" eller "header"
       document.querySelectorAll('[id^="shopify-section-"]').forEach(function (el) {
         var id = el.id.replace('shopify-section-', '');
         if (id.toLowerCase().indexOf('cart') > -1 || id.toLowerCase().indexOf('header') > -1) {
@@ -493,7 +491,6 @@ Typography CSS variables (set by calling section):
         }
       });
 
-      // Steg 2: hitta sektioner via cart-relaterade element och lägg till deras parents
       document.querySelectorAll(
         '[data-cart-count],.cart-count-bubble,.cart-count,.count-bubble,#cart-icon-bubble,cart-count,.header__cart-count'
       ).forEach(function (el) {
@@ -504,10 +501,9 @@ Typography CSS variables (set by calling section):
         }
       });
 
-      if (!ids.length) return Promise.resolve();
+      if (!ids.length) return;
 
-      // Steg 3: hämta uppdaterade sektioner och byt ut dem helt
-      return fetch(window.location.pathname + '?sections=' + ids.join(','), {
+      fetch(window.location.pathname + '?sections=' + ids.join(','), {
         credentials: 'same-origin'
       })
         .then(function (r) { return r.json(); })
@@ -522,7 +518,6 @@ Typography CSS variables (set by calling section):
         .catch(function () {});
     }
 
-    /* ── Klick-handler ── */
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.product-card__buy-btn[data-quick-add]');
       if (!btn) return;
@@ -549,12 +544,12 @@ Typography CSS variables (set by calling section):
           return r.json();
         })
         .then(function () {
-          return refreshCart();
-        })
-        .then(function () {
+          // UI klar direkt — refresh sker i bakgrunden
           btn.classList.remove('is-loading');
           btn.classList.add('is-success');
           setTimeout(function () { btn.classList.remove('is-success'); }, SUCCESS_MS);
+
+          refreshCart();
         })
         .then(null, function (err) {
           btn.classList.remove('is-loading');
