@@ -382,6 +382,12 @@ the underlying logic of the menu.
       max-height: calc(100vh - 180px);
     }
   }
+
+  .header__icon-list .popover,
+.header__icon-list [data-popover],
+.header__icon-list [role="dialog"] {
+  z-index: 20;
+}
 </style>
 
 <height-observer variable="header">
