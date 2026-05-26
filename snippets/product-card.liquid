@@ -481,37 +481,64 @@ Typography CSS variables (set by calling section):
 
     var SUCCESS_MS = 1800;
 
-    /* ── Cart refresh — exakt samma mönster som Bundle Mix & Match ── */
-    function refreshCart() {
-      var ids = [];
+    /* ── Cachad lista över sektioner som ska refreshas ───────────────
+       Räknas ut EN gång när scriptet laddas. Sektionerna ändras inte
+       under sidans livstid, så vi slipper scanna DOM vid varje klick. */
+    var cachedSectionIds = null;
 
-      // Steg 1: hitta alla sektioner vars ID innehåller "cart" eller "header"
-      document.querySelectorAll('[id^="shopify-section-"]').forEach(function (el) {
-        var id = el.id.replace('shopify-section-', '');
-        if (id.toLowerCase().indexOf('cart') > -1 || id.toLowerCase().indexOf('header') > -1) {
+    function getCartSectionIds() {
+      if (cachedSectionIds !== null) return cachedSectionIds;
+
+      var ids = [];
+      var seen = {};
+
+      // Sektioner vars ID innehåller "cart" eller "header"
+      var sections = document.querySelectorAll('[id^="shopify-section-"]');
+      for (var i = 0; i < sections.length; i++) {
+        var id = sections[i].id.replace('shopify-section-', '');
+        var lower = id.toLowerCase();
+        if ((lower.indexOf('cart') > -1 || lower.indexOf('header') > -1) && !seen[id]) {
+          seen[id] = true;
           ids.push(id);
         }
-      });
+      }
 
-      // Steg 2: hitta sektioner via cart-relaterade element och lägg till deras parents
-      document.querySelectorAll(
+      // Sektioner via cart-element (för säkerhets skull, om någon
+      // sektion inte har "cart" eller "header" i sitt namn)
+      var cartEls = document.querySelectorAll(
         '[data-cart-count],.cart-count-bubble,.cart-count,.count-bubble,#cart-icon-bubble,cart-count,.header__cart-count'
-      ).forEach(function (el) {
-        var sec = el.closest('[id^="shopify-section-"]');
+      );
+      for (var j = 0; j < cartEls.length; j++) {
+        var sec = cartEls[j].closest('[id^="shopify-section-"]');
         if (sec) {
-          var id = sec.id.replace('shopify-section-', '');
-          if (ids.indexOf(id) === -1) ids.push(id);
+          var sid = sec.id.replace('shopify-section-', '');
+          if (!seen[sid]) {
+            seen[sid] = true;
+            ids.push(sid);
+          }
         }
-      });
+      }
 
-      if (!ids.length) return Promise.resolve();
+      cachedSectionIds = ids;
+      return ids;
+    }
 
-      // Steg 3: hämta uppdaterade sektioner och byt ut dem helt
-      return fetch(window.location.pathname + '?sections=' + ids.join(','), {
-        credentials: 'same-origin'
+    /* ── Cart refresh — körs i bakgrunden, blockerar inte UI ─────── */
+    function refreshCart() {
+      var ids = getCartSectionIds();
+      if (!ids.length) return;
+
+      // "/" istället för window.location.pathname → servern slipper
+      // processa hela kollektionssidan. Mycket snabbare.
+      fetch('/?sections=' + ids.join(','), {
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json' }
       })
         .then(function (r) { return r.json(); })
         .then(function (secs) {
+          // Invalidera cachen om sektionerna byts ut, så vi hittar dem
+          // korrekt nästa gång (deras parent-element finns kvar men
+          // inre innehåll kan ha ändrats).
           for (var name in secs) {
             var target = document.getElementById('shopify-section-' + name);
             if (target && secs[name]) {
@@ -549,14 +576,15 @@ Typography CSS variables (set by calling section):
           return r.json();
         })
         .then(function () {
-          return refreshCart();
-        })
-        .then(function () {
+          // Visa success DIREKT när add lyckats — vänta inte på refresh
           btn.classList.remove('is-loading');
           btn.classList.add('is-success');
           setTimeout(function () { btn.classList.remove('is-success'); }, SUCCESS_MS);
+
+          // Refresh cart i bakgrunden — UI är redan klar
+          refreshCart();
         })
-        .then(null, function (err) {
+        .catch(function (err) {
           btn.classList.remove('is-loading');
           console.warn('[product-card] quick add failed:', err);
           var label = btn.querySelector('.btn-label');
@@ -566,6 +594,16 @@ Typography CSS variables (set by calling section):
             setTimeout(function () { label.textContent = original; }, 1600);
           }
         });
-    });
+    }, { passive: false });
+
+    /* ── Förbered cachen så fort DOM är redo ─────────────────────────
+       Om DOM redan är klar när scriptet körs så cachar vi direkt.
+       Annars väntar vi på DOMContentLoaded. Detta gör att första
+       klicket inte behöver vänta på att vi scannar DOM. */
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', getCartSectionIds, { once: true });
+    } else {
+      getCartSectionIds();
+    }
   })();
 </script>
