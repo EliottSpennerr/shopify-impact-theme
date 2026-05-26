@@ -275,13 +275,13 @@ the underlying logic of the menu.
   }
 
   @media screen and (min-width: 750px) {
-.header__desktop-nav {
-  display: block;
-  background-color: rgb(var(--color-background, 255 255 255));
-  overflow: visible;
-  position: relative;
-  z-index: 0;
-}
+    .header__desktop-nav {
+      display: block;
+      background-color: rgb(var(--color-background, 255 255 255));
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
 
     .header__desktop-nav-list {
       display: flex;
@@ -383,10 +383,28 @@ the underlying logic of the menu.
     }
   }
 
-  .header__icon-list .popover,
+  /* Tvinga ut localization-popupen ur alla stacking contexts */
+.header__icon-list {
+  position: relative;
+  z-index: 50;
+}
+
+.header__icon-list .popover,
+.header__icon-list [popover],
 .header__icon-list [data-popover],
-.header__icon-list [role="dialog"] {
-  z-index: 20;
+.header__icon-list [role="dialog"],
+.header__icon-list details[open] > *:not(summary) {
+  z-index: 9999 !important;
+  position: absolute;
+}
+
+/* Säkerställ att nav-raden inte konkurrerar */
+@media screen and (min-width: 750px) {
+  .header__desktop-nav {
+    z-index: auto !important;
+    overflow: visible !important;
+    position: static !important;
+  }
 }
 </style>
 
