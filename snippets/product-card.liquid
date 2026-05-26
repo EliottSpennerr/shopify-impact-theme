@@ -466,20 +466,12 @@ Typography CSS variables (set by calling section):
 </product-card>
 
 {%- comment -%}
-  ── KÖP-KNAPP: QUICK ADD VIA AJAX (Impact theme) ─────────────────────
+  ── KÖP-KNAPP: QUICK ADD VIA AJAX ────────────────────────────────────
   Lägger till produkten direkt i varukorgen via /cart/add.js och
-  uppdaterar Impact-temats cart-bubble-struktur:
-
-    <a href="/cart">
-      <div class="header__cart-count">      ← wrapper finns alltid
-        <cart-count class="count-bubble">N  ← skapas/uppdateras här
-      </div>
-    </a>
-
-  Vi hittar wrappern (.header__cart-count som alltid finns i DOM),
-  och säkerställer att en <cart-count class="count-bubble"> finns
-  inuti med rätt siffra och aria-hidden. pointer-events: none gör
-  att klick går rakt igenom till <a href="/cart">-länken.
+  uppdaterar sedan temats egen cart-bubble (<cart-count> med klassen
+  count-bubble) genom att skriva in nytt antal och toggla aria-hidden.
+  Detta ger pixel-perfekt match mot originalbubblan eftersom temats
+  egen CSS sköter all styling.
 {%- endcomment -%}
 <script>
   (function () {
@@ -488,42 +480,109 @@ Typography CSS variables (set by calling section):
 
     var SUCCESS_MS = 1800;
 
-    function updateThemeCartBubble(cart) {
-      var cartCount = cart.item_count;
+    var SECTIONS_TO_REFRESH = [
+      'cart-drawer',
+      'cart-icon-bubble',
+      'cart-live-region-text',
+      'mini-cart',
+      'header',
+      'cart-notification',
+      'cart-notification-product'
+    ];
 
-      // Impact-temats struktur: wrappern .header__cart-count finns
-      // alltid i DOM, även när varukorgen är tom. Vi hittar alla
-      // wrappers (kan finnas flera om temat har både desktop/mobile).
-      var wrappers = document.querySelectorAll('.header__cart-count');
-
-      wrappers.forEach(function (wrapper) {
-        var countEl = wrapper.querySelector('cart-count, .count-bubble');
-
-        if (cartCount > 0) {
-          // Skapa <cart-count> om den saknas (händer när sidan
-          // laddades med tom varukorg).
-          if (!countEl) {
-            countEl = document.createElement('cart-count');
-            countEl.className = 'count-bubble';
-            wrapper.appendChild(countEl);
-          }
-          countEl.textContent = cartCount;
-          countEl.setAttribute('aria-hidden', 'false');
-          countEl.removeAttribute('hidden');
-          countEl.style.pointerEvents = 'none';
-        } else if (countEl) {
-          countEl.textContent = cartCount;
-          countEl.setAttribute('aria-hidden', 'true');
-          countEl.style.pointerEvents = 'none';
-        }
-      });
-
-      // Wrappern själv ska heller inte fånga klick
-      wrappers.forEach(function (w) {
-        w.style.pointerEvents = 'none';
-      });
+    function replaceSectionHTML(sectionId, newHTML) {
+      var target = document.getElementById('shopify-section-' + sectionId);
+      if (target) {
+        target.innerHTML = new DOMParser()
+          .parseFromString(newHTML, 'text/html')
+          .querySelector('#shopify-section-' + sectionId).innerHTML;
+        return true;
+      }
+      var alt = document.querySelector('[data-section-id="' + sectionId + '"]')
+             || document.querySelector('cart-drawer')
+             || document.querySelector('#cart-icon-bubble');
+      if (alt && sectionId === 'cart-icon-bubble') {
+        alt.innerHTML = newHTML;
+        return true;
+      }
+      return false;
     }
 
+    function refreshCartSections() {
+      var sectionsParam = SECTIONS_TO_REFRESH.join(',');
+      return fetch('/?sections=' + encodeURIComponent(sectionsParam), {
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (sections) {
+          Object.keys(sections || {}).forEach(function (key) {
+            if (sections[key]) replaceSectionHTML(key, sections[key]);
+          });
+        })
+        .catch(function () {});
+    }
+
+  function updateThemeCartBubble(cart) {
+  var cartCount = cart.item_count;
+
+  // STEG 1: Försök hitta och uppdatera befintliga cart-count-element
+  var cartCountElements = document.querySelectorAll(
+    'cart-count, .count-bubble, .header__cart-count cart-count, [data-cart-count]'
+  );
+
+  cartCountElements.forEach(function (el) {
+    el.textContent = cartCount;
+    if (cartCount > 0) {
+      el.setAttribute('aria-hidden', 'false');
+      el.removeAttribute('hidden');
+    } else {
+      el.setAttribute('aria-hidden', 'true');
+    }
+    el.style.pointerEvents = 'none';
+  });
+
+  // STEG 2: Om bubblan inte syns trots att vi har artiklar — leta och skapa
+  if (cartCount > 0) {
+    var visibleBubble = document.querySelector(
+      'cart-count[aria-hidden="false"], .count-bubble[aria-hidden="false"]'
+    );
+
+    if (!visibleBubble) {
+      // Bred sökning efter cart-länken — testa flera mönster
+      var cartLink =
+        document.querySelector('a[href="/cart"]') ||
+        document.querySelector('a[href*="/cart"]:not([href*="/cart/"])') ||
+        document.querySelector('[aria-controls="cart-drawer"]') ||
+        document.querySelector('a[data-cart-link]') ||
+        document.querySelector('.header__icon--cart') ||
+        document.querySelector('a[href$="/cart"]');
+
+      if (cartLink) {
+        // Använd befintlig wrapper om den finns, annars skapa en
+        var wrapper = cartLink.querySelector('.header__cart-count');
+        if (!wrapper) {
+          wrapper = document.createElement('div');
+          wrapper.className = 'header__cart-count';
+          wrapper.style.pointerEvents = 'none';
+          cartLink.appendChild(wrapper);
+        }
+
+        // Återanvänd befintlig cart-count eller skapa ny
+        var countEl = wrapper.querySelector('cart-count, .count-bubble');
+        if (!countEl) {
+          countEl = document.createElement('cart-count');
+          countEl.className = 'count-bubble';
+          wrapper.appendChild(countEl);
+        }
+
+        countEl.textContent = cartCount;
+        countEl.setAttribute('aria-hidden', 'false');
+        countEl.removeAttribute('hidden');
+        countEl.style.pointerEvents = 'none';
+      }
+    }
+  }
+}
     function dispatchCartEvents(cart) {
       try {
         if (window.Shopify && window.Shopify.PubSub && typeof window.Shopify.PubSub.publish === 'function') {
@@ -590,8 +649,13 @@ Typography CSS variables (set by calling section):
             .then(function (r) { return r.json(); });
         })
         .then(function (cart) {
-          updateThemeCartBubble(cart);
-          dispatchCartEvents(cart);
+          return refreshCartSections().then(function () {
+            updateThemeCartBubble(cart);
+            dispatchCartEvents(cart);
+            return cart;
+          });
+        })
+        .then(function () {
           btn.classList.remove('is-loading');
           btn.classList.add('is-success');
           setTimeout(function () { btn.classList.remove('is-success'); }, SUCCESS_MS);
