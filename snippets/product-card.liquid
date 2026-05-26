@@ -476,12 +476,139 @@ Typography CSS variables (set by calling section):
   sig automatiskt. Guard-attribut förhindrar dubbla lyssnare när
   snippet renderas flera gånger på samma sida.
 {%- endcomment -%}
+{%- comment -%}
+  ── KÖP-KNAPP: QUICK ADD VIA AJAX ────────────────────────────────────
+  Lägger till produkten direkt i varukorgen via /cart/add.js och
+  uppdaterar sedan alla cart-relaterade UI-element via section
+  rendering API + ett brett spektrum av events så att olika teman
+  uppdaterar header-räknare och drawer korrekt utan reload.
+{%- endcomment -%}
 <script>
   (function () {
     if (document.documentElement.hasAttribute('data-pc-buy-init')) return;
     document.documentElement.setAttribute('data-pc-buy-init', '');
 
-    var SUCCESS_MS = 1800; // hur länge checkmarken visas efter lyckad add
+    var SUCCESS_MS = 1800;
+
+    // Sektioner som ska refreshas efter add. Vi gissar de vanligaste
+    // namnen — Shopify ignorerar tysta de som inte finns i temat.
+    var SECTIONS_TO_REFRESH = [
+      'cart-drawer',
+      'cart-icon-bubble',
+      'cart-live-region-text',
+      'mini-cart',
+      'header',
+      'cart-notification',
+      'cart-notification-product'
+    ];
+
+    function updateCartCountFallback(cart) {
+      // Generisk fallback: leta upp vanliga räknar-element och uppdatera
+      // dem manuellt om sections-API:et inte gav oss något.
+      var count = cart && typeof cart.item_count === 'number' ? cart.item_count : null;
+      if (count === null) return;
+
+      var selectors = [
+        '[data-cart-count]',
+        '.cart-count',
+        '.cart-count-bubble',
+        '.cart-link__bubble-num',
+        '.site-header__cart-count span',
+        '.header__cart-count',
+        '#CartCount',
+        '#cart-icon-bubble span'
+      ];
+
+      selectors.forEach(function (sel) {
+        document.querySelectorAll(sel).forEach(function (el) {
+          el.textContent = count;
+          el.classList.toggle('hidden', count === 0);
+          el.classList.toggle('cart-count-bubble--visible', count > 0);
+        });
+      });
+    }
+
+    function replaceSectionHTML(sectionId, newHTML) {
+      // Hitta elementet på sidan som matchar sektion-id och ersätt dess
+      // innerHTML med den nya. Shopify section rendering API returnerar
+      // hela sektionens HTML — vi extraherar innehållet ur shopify-section
+      // wrappern innan vi byter.
+      var target = document.getElementById('shopify-section-' + sectionId);
+      if (target) {
+        target.innerHTML = new DOMParser()
+          .parseFromString(newHTML, 'text/html')
+          .querySelector('#shopify-section-' + sectionId).innerHTML;
+        return true;
+      }
+
+      // Vissa teman renderar utan shopify-section wrapper. Prova generiskt.
+      var alt = document.querySelector('[data-section-id="' + sectionId + '"]')
+             || document.querySelector('cart-drawer')
+             || document.querySelector('#cart-icon-bubble');
+      if (alt && sectionId === 'cart-icon-bubble') {
+        alt.innerHTML = newHTML;
+        return true;
+      }
+      return false;
+    }
+
+    function refreshCartSections(cart) {
+      // Hämta uppdaterade sektioner och uppdatera dem i DOM.
+      var sectionsParam = SECTIONS_TO_REFRESH.join(',');
+      return fetch('/?sections=' + encodeURIComponent(sectionsParam), {
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (sections) {
+          var anyReplaced = false;
+          Object.keys(sections || {}).forEach(function (key) {
+            if (sections[key]) {
+              if (replaceSectionHTML(key, sections[key])) anyReplaced = true;
+            }
+          });
+          // Fallback om inget byttes — uppdatera räknare manuellt.
+          if (!anyReplaced) updateCartCountFallback(cart);
+        })
+        .catch(function () {
+          updateCartCountFallback(cart);
+        });
+    }
+
+    function dispatchCartEvents(cart) {
+      // Shopify Pub/Sub (Dawn och nyare teman).
+      try {
+        if (window.Shopify && window.Shopify.PubSub && typeof window.Shopify.PubSub.publish === 'function') {
+          window.Shopify.PubSub.publish('cart:refresh', { source: 'product-card-quick-add' });
+        }
+      } catch (e) {}
+
+      // Generiska events som många teman lyssnar pa.
+      var eventNames = [
+        'cart:updated',
+        'cart:refresh',
+        'cart:added',
+        'cart:build',
+        'cart:change',
+        'ajaxCart.afterCartLoad',
+        'product:added-to-cart'
+      ];
+      eventNames.forEach(function (name) {
+        document.dispatchEvent(new CustomEvent(name, {
+          bubbles: true,
+          detail: { cart: cart, source: 'product-card-quick-add' }
+        }));
+        document.body.dispatchEvent(new CustomEvent(name, {
+          bubbles: true,
+          detail: { cart: cart, source: 'product-card-quick-add' }
+        }));
+      });
+
+      // jQuery-event för äldre teman.
+      if (window.jQuery) {
+        try { window.jQuery(document).trigger('cart.requestComplete', cart); } catch (e) {}
+        try { window.jQuery(document.body).trigger('added.ajaxProduct'); } catch (e) {}
+      }
+    }
 
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.product-card__buy-btn[data-quick-add]');
@@ -508,9 +635,7 @@ Typography CSS variables (set by calling section):
         })
       })
         .then(function (res) {
-          if (!res.ok) {
-            return res.json().then(function (err) { throw err; });
-          }
+          if (!res.ok) return res.json().then(function (err) { throw err; });
           return res.json();
         })
         .then(function () {
@@ -518,30 +643,20 @@ Typography CSS variables (set by calling section):
             .then(function (r) { return r.json(); });
         })
         .then(function (cart) {
+          // Uppdatera DOM via sections + skicka events.
+          return refreshCartSections(cart).then(function () {
+            dispatchCartEvents(cart);
+            return cart;
+          });
+        })
+        .then(function () {
           btn.classList.remove('is-loading');
           btn.classList.add('is-success');
-
-          if (window.Shopify && window.Shopify.PubSub && typeof window.Shopify.PubSub.publish === 'function') {
-            window.Shopify.PubSub.publish('cart:refresh', { source: 'product-card-quick-add' });
-          }
-
-          document.dispatchEvent(new CustomEvent('cart:updated', {
-            bubbles: true,
-            detail: { cart: cart, source: 'product-card-quick-add' }
-          }));
-          document.dispatchEvent(new CustomEvent('cart:refresh', {
-            bubbles: true,
-            detail: { cart: cart, source: 'product-card-quick-add' }
-          }));
-
-          setTimeout(function () {
-            btn.classList.remove('is-success');
-          }, SUCCESS_MS);
+          setTimeout(function () { btn.classList.remove('is-success'); }, SUCCESS_MS);
         })
         .catch(function (err) {
           btn.classList.remove('is-loading');
           console.warn('[product-card] quick add failed:', err);
-
           var label = btn.querySelector('.btn-label');
           if (label) {
             var original = label.textContent;
