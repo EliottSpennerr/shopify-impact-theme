@@ -40,7 +40,7 @@
         "logged_in_heading": "Du är inloggad",
         "logged_in_text": "Vi skickar dig till grossistkatalogen …",
         "logged_in_button": "Gå till grossistkatalogen",
-        "auto_approve": false,
+        "auto_approve": true,
         "application_tag": "B2B-ansökan",
         "approved_tag": "Återförsäljare",
         "success_heading": "Tack för din ansökan!",
