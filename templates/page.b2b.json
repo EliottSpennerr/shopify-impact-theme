@@ -16,46 +16,52 @@
         "content_width": "80ch"
       }
     },
-    "rich_text_LQi8DK": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_CDE8Kg": {
-          "type": "heading",
-          "settings": {
-            "text": "Reklamation & Garanti",
-            "heading_tag": "h1",
-            "text_color": "",
-            "gradient": ""
-          }
-        },
-        "richtext_iRXjri": {
-          "type": "richtext",
-          "settings": {
-            "content": "<h3>Skadat gods vid leverans</h3><p>Vi vill att din upplevelse med Finsk Lakrits ska vara lika god som vår lakrits – från beställning till sista tuggan. Om ditt paket skulle skadas under frakt hanterar vi det snabbt och smidigt:<br/><br/>Anmäl detta direkt på utlämningsstället. Be gärna ombudet upprätta en skadeanmälan innan du tar emot paketet.<br/><br/>Kontakta oss direkt på info@finsklakrits.se</p><h3>Reklamation</h3><p>Om något inte stämmer med din beställning – fel vara, kvalitetsproblem eller något annat som inte känns rätt – så är det viktigt för oss att få veta det.</p><p>Skicka ett mejl till <a title=\"mailto:info@finsklakrits.se\">info@finsklakrits.se</a> med följande uppgifter:</p><p>Vi återkommer så fort vi kan. Vid behov skickar vi ny vara eller återbetalar dig – beroende på vad som är lämpligast i just ditt fall.<br/><br/>Vid eventuell tvist följer vi alltid rekommendation från <strong>Allmänna Reklamationsnämnden (ARN)</strong> – <a href=\"https://www.arn.se\">www.arn.se</a></p><h3>Garanti</h3><p>Eftersom våra produkter är livsmedel omfattas de inte av traditionell garanti. Däremot står vi alltid bakom kvaliteten på våra varor och behandlar reklamationer med fullt ansvar.</p><h3>Ångerrätt</h3><p>Enligt distansavtalslagen gäller <strong>ingen ångerrätt för livsmedel</strong>. Detta för att vi inte kan garantera produktsäkerheten efter leverans. Vi hoppas på din förståelse – och att du älskar din lakrits så mycket att du inte vill skicka tillbaka den ändå.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading_CDE8Kg",
-        "richtext_iRXjri"
-      ],
-      "custom_css": [
-        ".h1 {font-family: balloon; font-weight: 100;}",
-        ".section-full {padding-bottom: 5px;}"
-      ],
-      "name": "Rich text",
+    "aterforsaljare_ansokan_WGdL3r": {
+      "type": "aterforsaljare-ansokan",
+      "name": "Återförsäljarportal",
       "settings": {
-        "full_width": true,
-        "content_width": "small",
-        "text_position": "start",
-        "background": "",
-        "background_gradient": "",
-        "text_color": ""
+        "side_image": "shopify://shop_images/HeadermobileFl.jpg",
+        "eyebrow": "Återförsäljare",
+        "media_heading": "Finsk premiumlakrits för din butik",
+        "media_text": "Logga in för att se grossistpriser och beställa direkt.",
+        "login_step": "Återförsäljare",
+        "login_heading": "Logga in",
+        "login_subtext": "Logga in på ditt återförsäljarkonto för att se grossistpriser och lägga order.",
+        "login_button_label": "Logga in",
+        "to_register_label": "Registrera dig",
+        "register_step": "Bli återförsäljare",
+        "register_heading": "Skapa återförsäljarkonto",
+        "register_subtext": "Fyll i dina uppgifter så kommer du igång.",
+        "register_button_label": "Skapa konto",
+        "to_login_label": "Logga in",
+        "show_marketing": true,
+        "use_hosted_login": false,
+        "catalog_url": "",
+        "logged_in_heading": "Du är inloggad",
+        "logged_in_text": "Vi skickar dig till grossistkatalogen …",
+        "logged_in_button": "Gå till grossistkatalogen",
+        "auto_approve": false,
+        "application_tag": "B2B-ansökan",
+        "approved_tag": "Återförsäljare",
+        "success_heading": "Tack för din ansökan!",
+        "success_text": "Vi granskar dina uppgifter och hör av oss så snart ditt återförsäljarkonto är godkänt. Då kan du logga in och se grossistpriserna.",
+        "success_text_direct": "Ditt återförsäljarkonto är skapat! Logga in så ser du grossistpriserna och kan börja beställa.",
+        "bg_color": "#f0f0f0",
+        "card_color": "#ffffff",
+        "text_color": "#00234a",
+        "accent_color": "#005dc6",
+        "button_text_color": "#ffffff",
+        "media_bg_color": "#00234a",
+        "card_radius": 24,
+        "input_radius": 8,
+        "button_radius": 60,
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     }
   },
   "order": [
     "main",
-    "rich_text_LQi8DK"
+    "aterforsaljare_ansokan_WGdL3r"
   ]
 }
