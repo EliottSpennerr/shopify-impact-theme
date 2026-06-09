@@ -36,7 +36,7 @@
         "to_login_label": "Logga in",
         "show_marketing": true,
         "use_hosted_login": false,
-        "catalog_url": "",
+        "catalog_url": "shopify://collections/wholesale",
         "logged_in_heading": "Du är inloggad",
         "logged_in_text": "Vi skickar dig till grossistkatalogen …",
         "logged_in_button": "Gå till grossistkatalogen",
