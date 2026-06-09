@@ -1,44 +1,37 @@
 {%- comment -%}
   ============================================================
-  Section: Återförsäljaransökan (B2B)
-  Fil: sections/aterforsaljare-ansokan.liquid
+  Section: Återförsäljarportal (B2B login + registrering)
+  Fil: sections/aterforsaljare-portal.liquid
   ------------------------------------------------------------
-  Skapar ett kundkonto via Shopifys create_customer-formulär,
-  lägger företagsuppgifter + leveransadress i kundnoteringen,
-  och taggar ansökan (default: "B2B-ansökan") så den hamnar i
-  en kundsegment för godkännande.
+  Layout: bild till vänster, kort till höger (staplas på mobil).
+  Flöde:
+    - Inloggad kund  -> skickas direkt till grossistkatalogen.
+    - Utloggad       -> Logga in (default). "Inte kund? Registrera
+                        dig" fäller fram registreringsformuläret.
+  Färger: default hämtade från ert Impact-tema (marinblå #00234a,
+  blå knapp #005dc6, ljusgrå #f0f0f0). Allt går att ändra i editorn.
 
-  EFTER GODKÄNNANDE (manuellt eller via Flow): koppla kunden
-  till ett Company och tilldela B2B-katalogen så att personen
-  ser grossistpriserna. Den här sektionen är dörren in –
-  prissättningen styrs av B2B-katalogen, inte av sektionen.
+  KONTOSYSTEM:
+    - Klassiska kundkonton (lösenord): låt "Använd Shopifys
+      inloggningssida" vara AV -> login/registrering körs i kortet.
+    - Nya kundkonton (inloggning via e-postkod): slå PÅ "Använd
+      Shopifys inloggningssida" -> kortet visar knappar till
+      Shopifys egna sidor istället (det inbäddade lösenords-
+      formuläret fungerar inte med nya konton).
 
-  TOGGLE "Släpp in alla direkt" (inställning auto_approve):
-  - AV  = alla får ansöknings-taggen (default "B2B-ansökan"),
-          du godkänner manuellt.
-  - PÅ  = alla får direkt-taggen (default "Återförsäljare")
-          med en gång, ingen granskning.
-  VIKTIGT: taggen ger INTE grossistpriser i sig. För att "direkt
-  in" ska ge verklig prisåtkomst måste taggen trigga en Flow-regel
-  eller app som lägger kunden i B2B-katalogen / som Company.
-
-  OBS om kontosystem:
-  - Fungerar med KLASSISKA kundkonton (lösenord).
-  - Kör ni NYA kundkonton (inloggning via e-postkod) skapas
-    konton vid första inloggning och lösenordsfälten gäller ej.
-    Säg till så ger jag en variant byggd på ett kontaktformulär
-    (ansökan via mejl) istället.
+  Registrering taggar kontot (default "B2B-ansökan"). Toggle
+  "Släpp in alla direkt" byter till direkt-taggen. OBS: taggen ger
+  inte grossistpriser i sig - koppla den till Flow/app + B2B-katalog.
   ============================================================
 {%- endcomment -%}
 
 {%- liquid
   assign s = section.settings
   assign uid = section.id
-
-  comment
-    Välj tagg + bekräftelsetext beroende på om "Släpp in alla direkt" är på.
-    OBS: taggen ger inte grossistpriser i sig – se kommentaren överst.
-  endcomment
+  assign catalog = s.catalog_url
+  if catalog == blank
+    assign catalog = routes.account_url
+  endif
   assign apply_tag = s.application_tag
   assign success_msg = s.success_text
   if s.auto_approve
@@ -49,242 +42,299 @@
 
 <style>
   #flb2b-{{ uid }} {
-    --flb2b-bg: {{ s.bg_color }};
-    --flb2b-panel: {{ s.panel_color }};
-    --flb2b-ink: {{ s.text_color }};
-    --flb2b-accent: {{ s.accent_color }};
-    --flb2b-line: rgba(0,0,0,.12);
-    --flb2b-radius: {{ s.corner_radius }}px;
+    --c-bg: {{ s.bg_color }};
+    --c-card: {{ s.card_color }};
+    --c-ink: {{ s.text_color }};
+    --c-accent: {{ s.accent_color }};
+    --c-btn-text: {{ s.button_text_color }};
+    --c-media: {{ s.media_bg_color }};
+    --c-line: color-mix(in srgb, {{ s.text_color }} 16%, transparent);
+    --c-soft: color-mix(in srgb, {{ s.accent_color }} 8%, transparent);
+    --r-card: {{ s.card_radius }}px;
+    --r-input: {{ s.input_radius }}px;
+    --r-btn: {{ s.button_radius }}px;
   }
-  #flb2b-{{ uid }} {
-    background: var(--flb2b-bg);
-    color: var(--flb2b-ink);
-    padding: {{ s.padding_top }}px 20px {{ s.padding_bottom }}px;
-  }
+  #flb2b-{{ uid }} { background: var(--c-bg); color: var(--c-ink); padding: {{ s.padding_top }}px 20px {{ s.padding_bottom }}px; }
   #flb2b-{{ uid }} * { box-sizing: border-box; }
   #flb2b-{{ uid }} .flb2b__wrap {
-    max-width: 1120px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start;
+    max-width: 1120px; margin: 0 auto; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;
   }
-  #flb2b-{{ uid }} .flb2b__eyebrow {
-    font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
-    opacity: .65; margin: 0 0 16px;
-  }
-  #flb2b-{{ uid }} .flb2b__title {
-    font-size: clamp(28px, 4vw, 44px); line-height: 1.05; font-weight: 600;
-    margin: 0 0 18px; letter-spacing: -.01em;
-  }
-  #flb2b-{{ uid }} .flb2b__intro { font-size: 17px; line-height: 1.6; opacity: .85; margin: 0 0 28px; max-width: 46ch; }
-  #flb2b-{{ uid }} .flb2b__benefits { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
-  #flb2b-{{ uid }} .flb2b__benefit { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.45; }
-  #flb2b-{{ uid }} .flb2b__benefit svg { flex: 0 0 auto; margin-top: 2px; }
-  #flb2b-{{ uid }} .flb2b__benefit b { font-weight: 600; }
 
-  #flb2b-{{ uid }} .flb2b__panel {
-    background: var(--flb2b-panel); border: 1px solid var(--flb2b-line);
-    border-radius: var(--flb2b-radius); padding: 32px;
+  /* Vänster: bild */
+  #flb2b-{{ uid }} .flb2b__media {
+    position: relative; border-radius: var(--r-card); overflow: hidden;
+    background: var(--c-media); min-height: 460px; display: flex; align-items: flex-end;
   }
-  #flb2b-{{ uid }} .flb2b__panel-title { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
-  #flb2b-{{ uid }} .flb2b__panel-note { font-size: 13px; opacity: .6; margin: 0 0 22px; }
+  #flb2b-{{ uid }} .flb2b__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  #flb2b-{{ uid }} .flb2b__media-cap {
+    position: relative; z-index: 1; padding: 32px;
+    color: #fff; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+    width: 100%;
+  }
+  #flb2b-{{ uid }} .flb2b__media-eyebrow { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; opacity: .85; margin: 0 0 10px; }
+  #flb2b-{{ uid }} .flb2b__media-cap h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.1; margin: 0 0 8px; font-weight: 600; letter-spacing: -.01em; }
+  #flb2b-{{ uid }} .flb2b__media-cap p { font-size: 15px; line-height: 1.5; margin: 0; opacity: .9; }
+
+  /* Höger: kort */
+  #flb2b-{{ uid }} .flb2b__card {
+    background: var(--c-card); border-radius: var(--r-card); padding: 36px;
+    box-shadow: 0 18px 40px color-mix(in srgb, var(--c-ink) 10%, transparent);
+    display: flex; flex-direction: column;
+  }
+  #flb2b-{{ uid }} .flb2b__bar { height: 4px; border-radius: 4px; background: var(--c-line); margin-bottom: 28px; overflow: hidden; }
+  #flb2b-{{ uid }} .flb2b__bar span { display: block; height: 100%; width: 50%; background: var(--c-accent); border-radius: 4px; }
+  #flb2b-{{ uid }} .flb2b__step { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; opacity: .55; margin: 0 0 12px; }
+  #flb2b-{{ uid }} .flb2b__h { font-size: clamp(24px, 3vw, 32px); font-weight: 600; letter-spacing: -.02em; margin: 0 0 8px; }
+  #flb2b-{{ uid }} .flb2b__sub { font-size: 15px; line-height: 1.55; opacity: .7; margin: 0 0 24px; }
 
   #flb2b-{{ uid }} .flb2b__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   #flb2b-{{ uid }} .flb2b__field { display: flex; flex-direction: column; gap: 6px; }
   #flb2b-{{ uid }} .flb2b__field--full { grid-column: 1 / -1; }
-  #flb2b-{{ uid }} .flb2b__field label { font-size: 13px; font-weight: 500; }
-  #flb2b-{{ uid }} .flb2b__field .req { color: var(--flb2b-accent); }
+  #flb2b-{{ uid }} .flb2b__field label { font-size: 13px; font-weight: 600; }
+  #flb2b-{{ uid }} .flb2b__field .req { color: var(--c-accent); }
   #flb2b-{{ uid }} .flb2b__field input,
-  #flb2b-{{ uid }} .flb2b__field select,
   #flb2b-{{ uid }} .flb2b__field textarea {
-    width: 100%; font: inherit; font-size: 15px; color: var(--flb2b-ink);
-    padding: 11px 13px; background: #fff;
-    border: 1px solid var(--flb2b-line); border-radius: calc(var(--flb2b-radius) * .55);
+    width: 100%; font: inherit; font-size: 15px; color: var(--c-ink); padding: 12px 14px;
+    background: var(--c-bg); border: 1px solid var(--c-line); border-radius: var(--r-input);
     transition: border-color .15s ease, box-shadow .15s ease;
   }
   #flb2b-{{ uid }} .flb2b__field input:focus,
-  #flb2b-{{ uid }} .flb2b__field select:focus,
   #flb2b-{{ uid }} .flb2b__field textarea:focus {
-    outline: none; border-color: var(--flb2b-accent);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--flb2b-accent) 18%, transparent);
+    outline: none; border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 20%, transparent);
   }
-  #flb2b-{{ uid }} .flb2b__field textarea { resize: vertical; min-height: 84px; }
+  #flb2b-{{ uid }} .flb2b__field textarea { resize: vertical; min-height: 80px; }
+  #flb2b-{{ uid }} .flb2b__hint { font-size: 12px; opacity: .55; }
+
+  /* Pills (verksamhetstyp) */
+  #flb2b-{{ uid }} .flb2b__pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  #flb2b-{{ uid }} .flb2b__pill { position: relative; cursor: pointer; }
+  #flb2b-{{ uid }} .flb2b__pill input { position: absolute; opacity: 0; width: 0; height: 0; }
+  #flb2b-{{ uid }} .flb2b__pill span {
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px;
+    border: 1px solid var(--c-line); border-radius: var(--r-btn); font-size: 14px;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  #flb2b-{{ uid }} .flb2b__pill input:checked + span { border-color: var(--c-accent); background: var(--c-soft); font-weight: 600; }
+  #flb2b-{{ uid }} .flb2b__pill input:focus-visible + span { box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 20%, transparent); }
+
   #flb2b-{{ uid }} .flb2b__check { grid-column: 1 / -1; display: flex; gap: 10px; align-items: flex-start; font-size: 13px; opacity: .85; }
   #flb2b-{{ uid }} .flb2b__check input { width: 16px; height: 16px; margin-top: 1px; }
-  #flb2b-{{ uid }} .flb2b__hint { font-size: 12px; opacity: .55; }
-  #flb2b-{{ uid }} .flb2b__error-js { color: #b00020; font-size: 13px; display: none; grid-column: 1 / -1; }
 
   #flb2b-{{ uid }} .flb2b__btn {
-    grid-column: 1 / -1; margin-top: 6px;
-    font: inherit; font-size: 15px; font-weight: 600; cursor: pointer;
-    background: var(--flb2b-accent); color: {{ s.button_text_color }};
-    border: none; border-radius: calc(var(--flb2b-radius) * .55);
-    padding: 14px 22px; transition: opacity .15s ease, transform .05s ease;
+    display: inline-flex; align-items: center; justify-content: center; width: 100%;
+    font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none;
+    background: var(--c-accent); color: var(--c-btn-text); border: none;
+    border-radius: var(--r-btn); padding: 15px 24px; margin-top: 6px;
+    transition: opacity .15s ease, transform .05s ease;
   }
   #flb2b-{{ uid }} .flb2b__btn:hover { opacity: .9; }
   #flb2b-{{ uid }} .flb2b__btn:active { transform: translateY(1px); }
-
+  #flb2b-{{ uid }} .flb2b__switch { font-size: 14px; opacity: .85; margin: 18px 0 0; text-align: center; }
+  #flb2b-{{ uid }} .flb2b__link {
+    font: inherit; font-size: 14px; font-weight: 600; color: var(--c-accent);
+    background: none; border: none; padding: 0; cursor: pointer; text-decoration: underline;
+  }
   #flb2b-{{ uid }} .flb2b__errors {
-    grid-column: 1 / -1; background: #fdecef; border: 1px solid #f3b9c4;
-    color: #8a1c2b; border-radius: calc(var(--flb2b-radius) * .55);
-    padding: 12px 14px; font-size: 14px; margin-bottom: 4px;
+    grid-column: 1 / -1; background: color-mix(in srgb, #c0392b 8%, transparent);
+    border: 1px solid color-mix(in srgb, #c0392b 35%, transparent); color: #8a1c2b;
+    border-radius: var(--r-input); padding: 12px 14px; font-size: 14px; margin-bottom: 4px;
   }
   #flb2b-{{ uid }} .flb2b__errors ul { margin: 6px 0 0; padding-left: 18px; }
+  #flb2b-{{ uid }} .flb2b__error-js { color: #b00020; font-size: 13px; display: none; grid-column: 1 / -1; }
 
-  #flb2b-{{ uid }} .flb2b__success { text-align: left; }
-  #flb2b-{{ uid }} .flb2b__success svg { margin-bottom: 14px; }
-  #flb2b-{{ uid }} .flb2b__success h3 { font-size: 22px; font-weight: 600; margin: 0 0 10px; }
-  #flb2b-{{ uid }} .flb2b__success p { font-size: 15px; line-height: 1.6; opacity: .85; margin: 0; }
+  #flb2b-{{ uid }} .flb2b__success { text-align: left; padding: 8px 0; }
+  #flb2b-{{ uid }} .flb2b__success h3 { font-size: 22px; font-weight: 600; margin: 14px 0 10px; }
+  #flb2b-{{ uid }} .flb2b__success p { font-size: 15px; line-height: 1.6; opacity: .8; margin: 0; }
 
-  @media (max-width: 820px) {
-    #flb2b-{{ uid }} .flb2b__wrap { grid-template-columns: 1fr; gap: 36px; }
-    #flb2b-{{ uid }} .flb2b__panel { padding: 24px; }
+  @media (max-width: 860px) {
+    #flb2b-{{ uid }} .flb2b__wrap { grid-template-columns: 1fr; }
+    #flb2b-{{ uid }} .flb2b__media { min-height: 220px; }
+    #flb2b-{{ uid }} .flb2b__card { padding: 26px; }
     #flb2b-{{ uid }} .flb2b__grid { grid-template-columns: 1fr; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    #flb2b-{{ uid }} * { transition: none !important; }
-  }
+  @media (prefers-reduced-motion: reduce) { #flb2b-{{ uid }} * { transition: none !important; } }
 </style>
 
 <section id="flb2b-{{ uid }}" class="flb2b">
   <div class="flb2b__wrap">
 
-    <div class="flb2b__intro-col">
-      {%- if s.eyebrow != blank -%}<p class="flb2b__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
-      {%- if s.heading != blank -%}<h2 class="flb2b__title">{{ s.heading }}</h2>{%- endif -%}
-      {%- if s.intro != blank -%}<div class="flb2b__intro">{{ s.intro }}</div>{%- endif -%}
-
-      {%- if section.blocks.size > 0 -%}
-        <ul class="flb2b__benefits">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'benefit' -%}
-              <li class="flb2b__benefit" {{ block.shopify_attributes }}>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path d="M16.7 5.3 8 14l-4.7-4.6" stroke="{{ s.accent_color }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>{%- if block.settings.title != blank -%}<b>{{ block.settings.title }}</b> {% endif %}{{ block.settings.text }}</span>
-              </li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
+    <div class="flb2b__media">
+      {%- if s.side_image != blank -%}
+        <img src="{{ s.side_image | image_url: width: 1200 }}" alt="" loading="lazy" width="{{ s.side_image.width }}" height="{{ s.side_image.height }}">
+      {%- endif -%}
+      {%- if s.media_heading != blank or s.media_text != blank -%}
+        <div class="flb2b__media-cap">
+          {%- if s.eyebrow != blank -%}<p class="flb2b__media-eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+          {%- if s.media_heading != blank -%}<h2>{{ s.media_heading }}</h2>{%- endif -%}
+          {%- if s.media_text != blank -%}<p>{{ s.media_text }}</p>{%- endif -%}
+        </div>
       {%- endif -%}
     </div>
 
-    <div class="flb2b__panel">
-      {%- form 'create_customer' -%}
+    <div class="flb2b__card">
+      <div class="flb2b__bar"><span></span></div>
 
-        {%- if form.posted_successfully? -%}
-          <div class="flb2b__success">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <circle cx="20" cy="20" r="19" stroke="{{ s.accent_color }}" stroke-width="2"/>
-              <path d="M13 20.5l4.5 4.5L27 15" stroke="{{ s.accent_color }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <h3>{{ s.success_heading }}</h3>
-            <p>{{ success_msg }}</p>
-          </div>
-        {%- else -%}
+      {%- if customer -%}
+        {%- comment -%} Inloggad: skicka direkt till katalogen {%- endcomment -%}
+        <div class="flb2b__success" data-flb2b-redirect="{{ catalog }}">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="19" stroke="{{ s.accent_color }}" stroke-width="2"/>
+            <path d="M13 20.5l4.5 4.5L27 15" stroke="{{ s.accent_color }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>{{ s.logged_in_heading }}</h3>
+          <p>{{ s.logged_in_text }}</p>
+          <a class="flb2b__btn" href="{{ catalog }}">{{ s.logged_in_button }}</a>
+        </div>
 
-          <h3 class="flb2b__panel-title">{{ s.form_heading }}</h3>
-          <p class="flb2b__panel-note">{{ s.form_note }}</p>
+      {%- else -%}
 
-          <div class="flb2b__grid">
+        {%- comment -%} ---------- LOGIN ---------- {%- endcomment -%}
+        <div class="flb2b__view" data-view="login">
+          <p class="flb2b__step">{{ s.login_step }}</p>
+          <h2 class="flb2b__h">{{ s.login_heading }}</h2>
+          {%- if s.login_subtext != blank -%}<p class="flb2b__sub">{{ s.login_subtext }}</p>{%- endif -%}
 
-            {%- if form.errors -%}
-              <div class="flb2b__errors">
-                {{ 'Något blev fel. Kontrollera fälten nedan:' }}
-                {{ form.errors | default_errors }}
+          {%- if s.use_hosted_login -%}
+            <a class="flb2b__btn" href="{{ routes.account_login_url }}">{{ s.login_button_label }}</a>
+            <p class="flb2b__switch">Inte kund än? <a class="flb2b__link" href="{{ routes.account_register_url }}">{{ s.to_register_label }}</a></p>
+          {%- else -%}
+            {%- form 'customer_login', class: 'flb2b__form flb2b__form--login' -%}
+              <div class="flb2b__grid">
+                {%- if form.errors -%}
+                  <div class="flb2b__errors">{{ form.errors | default_errors }}</div>
+                  <span data-flb2b-open="login" hidden></span>
+                {%- endif -%}
+                <input type="hidden" name="return_url" value="{{ catalog }}">
+                <div class="flb2b__field flb2b__field--full">
+                  <label for="flb2b-le-{{ uid }}">E-post <span class="req">*</span></label>
+                  <input type="email" id="flb2b-le-{{ uid }}" name="customer[email]" autocomplete="email" required>
+                </div>
+                <div class="flb2b__field flb2b__field--full">
+                  <label for="flb2b-lp-{{ uid }}">Lösenord <span class="req">*</span></label>
+                  <input type="password" id="flb2b-lp-{{ uid }}" name="customer[password]" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="flb2b__btn">{{ s.login_button_label }}</button>
               </div>
-            {%- endif -%}
+            {%- endform -%}
+            <p class="flb2b__switch">Inte kund än? <button type="button" class="flb2b__link" data-flb2b-to="register">{{ s.to_register_label }}</button></p>
+          {%- endif -%}
+        </div>
 
-            <div class="flb2b__field flb2b__field--full">
-              <label for="flb2b-company-{{ uid }}">Företagsnamn <span class="req">*</span></label>
-              <input type="text" id="flb2b-company-{{ uid }}" data-note="Företag" required>
-            </div>
+        {%- comment -%} ---------- REGISTRERING ---------- {%- endcomment -%}
+        {%- unless s.use_hosted_login -%}
+          <div class="flb2b__view" data-view="register" hidden>
+            <p class="flb2b__step">{{ s.register_step }}</p>
+            <h2 class="flb2b__h">{{ s.register_heading }}</h2>
+            {%- if s.register_subtext != blank -%}<p class="flb2b__sub">{{ s.register_subtext }}</p>{%- endif -%}
 
-            <div class="flb2b__field">
-              <label for="flb2b-vat-{{ uid }}">Organisations-/momsnummer <span class="req">*</span></label>
-              <input type="text" id="flb2b-vat-{{ uid }}" data-note="Org/Momsnr" required>
-            </div>
+            {%- form 'create_customer', class: 'flb2b__form flb2b__form--register' -%}
+              {%- if form.posted_successfully? -%}
+                <div class="flb2b__success">
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                    <circle cx="20" cy="20" r="19" stroke="{{ s.accent_color }}" stroke-width="2"/>
+                    <path d="M13 20.5l4.5 4.5L27 15" stroke="{{ s.accent_color }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <h3>{{ s.success_heading }}</h3>
+                  <p>{{ success_msg }}</p>
+                </div>
+              {%- else -%}
+                <div class="flb2b__grid">
+                  {%- if form.errors -%}
+                    <div class="flb2b__errors">{{ form.errors | default_errors }}</div>
+                    <span data-flb2b-open="register" hidden></span>
+                  {%- endif -%}
 
-            <div class="flb2b__field">
-              <label for="flb2b-type-{{ uid }}">Typ av verksamhet</label>
-              <select id="flb2b-type-{{ uid }}" data-note="Verksamhet">
-                <option value="">Välj …</option>
-                <option>Livsmedelsbutik</option>
-                <option>Delikatess / specialbutik</option>
-                <option>Café / restaurang</option>
-                <option>Återförsäljare online</option>
-                <option>Annat</option>
-              </select>
-            </div>
+                  <div class="flb2b__field flb2b__field--full">
+                    <label for="flb2b-co-{{ uid }}">Företagsnamn <span class="req">*</span></label>
+                    <input type="text" id="flb2b-co-{{ uid }}" data-note="Företag" required>
+                  </div>
+                  <div class="flb2b__field">
+                    <label for="flb2b-vat-{{ uid }}">Org-/momsnummer <span class="req">*</span></label>
+                    <input type="text" id="flb2b-vat-{{ uid }}" data-note="Org/Momsnr" required>
+                  </div>
+                  <div class="flb2b__field">
+                    <label for="flb2b-ph-{{ uid }}">Telefon <span class="req">*</span></label>
+                    <input type="tel" id="flb2b-ph-{{ uid }}" data-note="Telefon" autocomplete="tel" required>
+                  </div>
 
-            <div class="flb2b__field">
-              <label for="flb2b-fn-{{ uid }}">Förnamn <span class="req">*</span></label>
-              <input type="text" id="flb2b-fn-{{ uid }}" name="customer[first_name]" required>
-            </div>
+                  <div class="flb2b__field flb2b__field--full">
+                    <label>Typ av verksamhet</label>
+                    <div class="flb2b__pills">
+                      {%- assign types = "Livsmedelsbutik, Delikatess / specialbutik, Café / restaurang, Återförsäljare online, Annat" | split: ", " -%}
+                      {%- for t in types -%}
+                        <label class="flb2b__pill">
+                          <input type="radio" name="flb2b_type" value="{{ t }}">
+                          <span>{{ t }}</span>
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </div>
 
-            <div class="flb2b__field">
-              <label for="flb2b-ln-{{ uid }}">Efternamn <span class="req">*</span></label>
-              <input type="text" id="flb2b-ln-{{ uid }}" name="customer[last_name]" required>
-            </div>
+                  <div class="flb2b__field">
+                    <label for="flb2b-fn-{{ uid }}">Förnamn <span class="req">*</span></label>
+                    <input type="text" id="flb2b-fn-{{ uid }}" name="customer[first_name]" autocomplete="given-name" required>
+                  </div>
+                  <div class="flb2b__field">
+                    <label for="flb2b-ln-{{ uid }}">Efternamn <span class="req">*</span></label>
+                    <input type="text" id="flb2b-ln-{{ uid }}" name="customer[last_name]" autocomplete="family-name" required>
+                  </div>
 
-            <div class="flb2b__field">
-              <label for="flb2b-email-{{ uid }}">E-post <span class="req">*</span></label>
-              <input type="email" id="flb2b-email-{{ uid }}" name="customer[email]" autocomplete="email" required>
-            </div>
+                  <div class="flb2b__field flb2b__field--full">
+                    <label for="flb2b-re-{{ uid }}">E-post <span class="req">*</span></label>
+                    <input type="email" id="flb2b-re-{{ uid }}" name="customer[email]" autocomplete="email" required>
+                  </div>
 
-            <div class="flb2b__field">
-              <label for="flb2b-phone-{{ uid }}">Telefon <span class="req">*</span></label>
-              <input type="tel" id="flb2b-phone-{{ uid }}" data-note="Telefon" autocomplete="tel" required>
-            </div>
+                  <div class="flb2b__field flb2b__field--full">
+                    <label for="flb2b-ad-{{ uid }}">Leveransadress <span class="req">*</span></label>
+                    <input type="text" id="flb2b-ad-{{ uid }}" data-note="Gatuadress" placeholder="Gata och nummer" required>
+                  </div>
+                  <div class="flb2b__field">
+                    <label for="flb2b-zi-{{ uid }}">Postnummer <span class="req">*</span></label>
+                    <input type="text" id="flb2b-zi-{{ uid }}" data-note="Postnummer" required>
+                  </div>
+                  <div class="flb2b__field">
+                    <label for="flb2b-ci-{{ uid }}">Ort <span class="req">*</span></label>
+                    <input type="text" id="flb2b-ci-{{ uid }}" data-note="Ort" required>
+                  </div>
 
-            <div class="flb2b__field flb2b__field--full">
-              <label for="flb2b-addr-{{ uid }}">Leveransadress <span class="req">*</span></label>
-              <input type="text" id="flb2b-addr-{{ uid }}" data-note="Gatuadress" placeholder="Gata och nummer" required>
-            </div>
+                  <div class="flb2b__field flb2b__field--full">
+                    <label for="flb2b-ms-{{ uid }}">Meddelande (valfritt)</label>
+                    <textarea id="flb2b-ms-{{ uid }}" data-note="Meddelande"></textarea>
+                  </div>
 
-            <div class="flb2b__field">
-              <label for="flb2b-zip-{{ uid }}">Postnummer <span class="req">*</span></label>
-              <input type="text" id="flb2b-zip-{{ uid }}" data-note="Postnummer" required>
-            </div>
+                  <div class="flb2b__field">
+                    <label for="flb2b-pw-{{ uid }}">Lösenord <span class="req">*</span></label>
+                    <input type="password" id="flb2b-pw-{{ uid }}" name="customer[password]" autocomplete="new-password" minlength="5" required>
+                    <span class="flb2b__hint">Minst 5 tecken.</span>
+                  </div>
+                  <div class="flb2b__field">
+                    <label for="flb2b-pw2-{{ uid }}">Bekräfta lösenord <span class="req">*</span></label>
+                    <input type="password" id="flb2b-pw2-{{ uid }}" autocomplete="new-password" minlength="5" required>
+                  </div>
 
-            <div class="flb2b__field">
-              <label for="flb2b-city-{{ uid }}">Ort <span class="req">*</span></label>
-              <input type="text" id="flb2b-city-{{ uid }}" data-note="Ort" required>
-            </div>
+                  {%- if s.show_marketing -%}
+                    <label class="flb2b__check">
+                      <input type="checkbox" name="customer[accepts_marketing]" value="true">
+                      <span>Ja, jag vill få nyheter och erbjudanden från Finsk Lakrits.</span>
+                    </label>
+                  {%- endif -%}
 
-            <div class="flb2b__field flb2b__field--full">
-              <label for="flb2b-msg-{{ uid }}">Meddelande (valfritt)</label>
-              <textarea id="flb2b-msg-{{ uid }}" data-note="Meddelande"></textarea>
-            </div>
+                  <p class="flb2b__error-js" data-flb2b-error>Lösenorden matchar inte.</p>
 
-            <div class="flb2b__field">
-              <label for="flb2b-pw-{{ uid }}">Lösenord <span class="req">*</span></label>
-              <input type="password" id="flb2b-pw-{{ uid }}" name="customer[password]" autocomplete="new-password" minlength="5" required>
-              <span class="flb2b__hint">Minst 5 tecken.</span>
-            </div>
+                  <input type="hidden" name="customer[tags]" value="{{ apply_tag }}">
+                  <textarea name="customer[note]" data-flb2b-note hidden></textarea>
 
-            <div class="flb2b__field">
-              <label for="flb2b-pw2-{{ uid }}">Bekräfta lösenord <span class="req">*</span></label>
-              <input type="password" id="flb2b-pw2-{{ uid }}" autocomplete="new-password" minlength="5" required>
-            </div>
-
-            {%- if s.show_marketing -%}
-              <label class="flb2b__check">
-                <input type="checkbox" name="customer[accepts_marketing]" value="true">
-                <span>Ja, jag vill få nyheter och erbjudanden från Finsk Lakrits.</span>
-              </label>
-            {%- endif -%}
-
-            <p class="flb2b__error-js" data-flb2b-error>Lösenorden matchar inte.</p>
-
-            {%- comment -%} Dolda fält som faktiskt sparas av Shopify {%- endcomment -%}
-            <input type="hidden" name="customer[tags]" value="{{ apply_tag }}">
-            <textarea name="customer[note]" data-flb2b-note hidden></textarea>
-
-            <button type="submit" class="flb2b__btn">{{ s.button_label }}</button>
+                  <button type="submit" class="flb2b__btn">{{ s.register_button_label }}</button>
+                </div>
+              {%- endif -%}
+            {%- endform -%}
+            <p class="flb2b__switch">Har du redan ett konto? <button type="button" class="flb2b__link" data-flb2b-to="login">{{ s.to_login_label }}</button></p>
           </div>
+        {%- endunless -%}
 
-        {%- endif -%}
-      {%- endform -%}
+      {%- endif -%}
     </div>
 
   </div>
@@ -293,85 +343,121 @@
     (function () {
       var root = document.getElementById('flb2b-{{ uid }}');
       if (!root) return;
-      var form = root.querySelector('form');
-      if (!form) return;
-      var note = form.querySelector('[data-flb2b-note]');
-      var errEl = form.querySelector('[data-flb2b-error]');
-      var pw = document.getElementById('flb2b-pw-{{ uid }}');
-      var pw2 = document.getElementById('flb2b-pw2-{{ uid }}');
 
-      form.addEventListener('submit', function (e) {
-        if (pw && pw2 && pw.value !== pw2.value) {
-          e.preventDefault();
-          if (errEl) errEl.style.display = 'block';
-          pw2.focus();
-          return;
-        }
-        if (errEl) errEl.style.display = 'none';
+      // Inloggad -> skicka till katalogen
+      var rd = root.querySelector('[data-flb2b-redirect]');
+      if (rd && rd.getAttribute('data-flb2b-redirect')) {
+        window.location.replace(rd.getAttribute('data-flb2b-redirect'));
+        return;
+      }
 
-        var lines = ['ÅTERFÖRSÄLJARANSÖKAN'];
-        form.querySelectorAll('[data-note]').forEach(function (el) {
-          var val = (el.value || '').trim();
-          if (val) lines.push(el.getAttribute('data-note') + ': ' + val);
+      // Växla login/registrering
+      function setView(v) {
+        root.querySelectorAll('.flb2b__view').forEach(function (el) {
+          el.hidden = el.getAttribute('data-view') !== v;
         });
-        if (note) note.value = lines.join('\n');
+      }
+      root.querySelectorAll('[data-flb2b-to]').forEach(function (btn) {
+        btn.addEventListener('click', function () { setView(btn.getAttribute('data-flb2b-to')); });
       });
+
+      // Öppna rätt vy vid fel/hash
+      if (root.querySelector('[data-flb2b-open="register"]') || location.hash === '#registrera') {
+        setView('register');
+      } else {
+        setView('login');
+      }
+
+      // Registreringsformulär: validera + bygg kundnotering
+      var reg = root.querySelector('.flb2b__form--register');
+      if (reg) {
+        var note = reg.querySelector('[data-flb2b-note]');
+        var errEl = reg.querySelector('[data-flb2b-error]');
+        var pw = document.getElementById('flb2b-pw-{{ uid }}');
+        var pw2 = document.getElementById('flb2b-pw2-{{ uid }}');
+        reg.addEventListener('submit', function (e) {
+          if (pw && pw2 && pw.value !== pw2.value) {
+            e.preventDefault();
+            if (errEl) errEl.style.display = 'block';
+            pw2.focus();
+            return;
+          }
+          if (errEl) errEl.style.display = 'none';
+          var lines = ['ÅTERFÖRSÄLJARANSÖKAN'];
+          reg.querySelectorAll('[data-note]').forEach(function (el) {
+            var val = (el.value || '').trim();
+            if (val) lines.push(el.getAttribute('data-note') + ': ' + val);
+          });
+          var t = reg.querySelector('input[name="flb2b_type"]:checked');
+          if (t) lines.push('Verksamhet: ' + t.value);
+          if (note) note.value = lines.join('\n');
+        });
+      }
     })();
   </script>
 </section>
 
 {% schema %}
 {
-  "name": "Återförsäljaransökan",
+  "name": "Återförsäljarportal",
   "tag": "section",
   "class": "section-flb2b",
   "settings": [
-    { "type": "header", "content": "Innehåll" },
-    { "type": "text", "id": "eyebrow", "label": "Etikett ovanför rubrik", "default": "Återförsäljare" },
-    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Bli återförsäljare av Finsk Lakrits" },
-    { "type": "richtext", "id": "intro", "label": "Ingress", "default": "<p>Sälj finsk premiumlakrits i din butik. Ansök om ett återförsäljarkonto så får du tillgång till våra grossistpriser och kan beställa direkt – med leverans eller påfyllning via vår egen distribution.</p>" },
-    { "type": "header", "content": "Formulär" },
-    { "type": "text", "id": "form_heading", "label": "Formulärrubrik", "default": "Ansök om återförsäljarkonto" },
-    { "type": "text", "id": "form_note", "label": "Text under formulärrubrik", "default": "Vi granskar din ansökan och hör av oss så snart kontot är godkänt." },
-    { "type": "text", "id": "button_label", "label": "Knapptext", "default": "Skicka ansökan" },
+    { "type": "header", "content": "Bild (vänster)" },
+    { "type": "image_picker", "id": "side_image", "label": "Bild" },
+    { "type": "text", "id": "eyebrow", "label": "Etikett", "default": "Återförsäljare" },
+    { "type": "text", "id": "media_heading", "label": "Rubrik på bild", "default": "Finsk premiumlakrits för din butik" },
+    { "type": "textarea", "id": "media_text", "label": "Text på bild", "default": "Logga in för att se grossistpriser och beställa direkt." },
+
+    { "type": "header", "content": "Logga in" },
+    { "type": "text", "id": "login_step", "label": "Liten etikett", "default": "Återförsäljare" },
+    { "type": "text", "id": "login_heading", "label": "Rubrik", "default": "Logga in" },
+    { "type": "textarea", "id": "login_subtext", "label": "Undertext", "default": "Logga in på ditt återförsäljarkonto för att se grossistpriser och lägga order." },
+    { "type": "text", "id": "login_button_label", "label": "Knapptext", "default": "Logga in" },
+    { "type": "text", "id": "to_register_label", "label": "Länk till registrering", "default": "Registrera dig" },
+
+    { "type": "header", "content": "Registrering" },
+    { "type": "text", "id": "register_step", "label": "Liten etikett", "default": "Bli återförsäljare" },
+    { "type": "text", "id": "register_heading", "label": "Rubrik", "default": "Skapa återförsäljarkonto" },
+    { "type": "textarea", "id": "register_subtext", "label": "Undertext", "default": "Fyll i dina uppgifter så kommer du igång." },
+    { "type": "text", "id": "register_button_label", "label": "Knapptext", "default": "Skapa konto" },
+    { "type": "text", "id": "to_login_label", "label": "Länk tillbaka till login", "default": "Logga in" },
     { "type": "checkbox", "id": "show_marketing", "label": "Visa kryssruta för nyhetsbrev", "default": true },
+
+    { "type": "header", "content": "Inloggning – metod" },
+    { "type": "checkbox", "id": "use_hosted_login", "label": "Använd Shopifys inloggningssida", "info": "Slå PÅ om ni kör NYA kundkonton (inloggning via e-postkod). Då visas knappar till Shopifys egna login-/registreringssidor istället för formulären i kortet. Lämna AV för klassiska kundkonton med lösenord.", "default": false },
+
+    { "type": "header", "content": "Efter inloggning" },
+    { "type": "url", "id": "catalog_url", "label": "Grossistkatalog (URL)", "info": "Dit inloggade skickas, t.ex. /collections/grossist. Lämnas tomt går de till kontosidan." },
+    { "type": "text", "id": "logged_in_heading", "label": "Rubrik", "default": "Du är inloggad" },
+    { "type": "textarea", "id": "logged_in_text", "label": "Text", "default": "Vi skickar dig till grossistkatalogen …" },
+    { "type": "text", "id": "logged_in_button", "label": "Knapptext", "default": "Gå till grossistkatalogen" },
+
     { "type": "header", "content": "Godkännande" },
-    { "type": "checkbox", "id": "auto_approve", "label": "Släpp in alla direkt", "info": "PÅ: alla som ansöker får direkt-taggen och räknas som godkända med en gång (ingen manuell granskning). AV: alla får ansöknings-taggen och du godkänner manuellt. OBS: själva grossistpriserna kräver att taggen kopplas till en Flow-regel eller app som ger B2B-katalogen – enbart taggen räcker inte i native B2B.", "default": false },
-    { "type": "text", "id": "application_tag", "label": "Tagg vid granskning (toggle AV)", "info": "Sätts på kundkontot när direktåtkomst är av. Filtrera på den i Kunder för att godkänna.", "default": "B2B-ansökan" },
-    { "type": "text", "id": "approved_tag", "label": "Tagg vid direktåtkomst (toggle PÅ)", "info": "Sätts på kundkontot när direktåtkomst är på. Använd samma tagg som din Flow-regel eller app lyssnar på för att ge B2B-priser.", "default": "Återförsäljare" },
-    { "type": "header", "content": "Bekräftelse" },
-    { "type": "text", "id": "success_heading", "label": "Bekräftelserubrik", "default": "Tack för din ansökan!" },
-    { "type": "textarea", "id": "success_text", "label": "Bekräftelsetext (vid granskning)", "default": "Vi granskar dina uppgifter och hör av oss så snart ditt återförsäljarkonto är godkänt. Då kan du logga in och se grossistpriserna." },
-    { "type": "textarea", "id": "success_text_direct", "label": "Bekräftelsetext (vid direktåtkomst)", "default": "Ditt återförsäljarkonto är skapat! Logga in så ser du grossistpriserna och kan börja beställa." },
-    { "type": "header", "content": "Utseende" },
-    { "type": "color", "id": "bg_color", "label": "Bakgrund", "default": "#F7F4EF" },
-    { "type": "color", "id": "panel_color", "label": "Formulärruta", "default": "#FFFFFF" },
-    { "type": "color", "id": "text_color", "label": "Text", "default": "#161616" },
-    { "type": "color", "id": "accent_color", "label": "Accent / knapp", "default": "#161616" },
-    { "type": "color", "id": "button_text_color", "label": "Knapptext-färg", "default": "#FFFFFF" },
-    { "type": "range", "id": "corner_radius", "label": "Hörnradie", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
-    { "type": "range", "id": "padding_top", "label": "Luft över", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 },
-    { "type": "range", "id": "padding_bottom", "label": "Luft under", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 }
+    { "type": "checkbox", "id": "auto_approve", "label": "Släpp in alla direkt", "info": "PÅ: alla får direkt-taggen med en gång (ingen granskning). AV: alla får ansöknings-taggen och du godkänner manuellt. OBS: taggen ger inte grossistpriser i sig – den måste trigga en Flow-regel eller app som lägger kunden i B2B-katalogen.", "default": false },
+    { "type": "text", "id": "application_tag", "label": "Tagg vid granskning (toggle AV)", "default": "B2B-ansökan" },
+    { "type": "text", "id": "approved_tag", "label": "Tagg vid direktåtkomst (toggle PÅ)", "default": "Återförsäljare" },
+
+    { "type": "header", "content": "Bekräftelse (registrering)" },
+    { "type": "text", "id": "success_heading", "label": "Rubrik", "default": "Tack för din ansökan!" },
+    { "type": "textarea", "id": "success_text", "label": "Text (vid granskning)", "default": "Vi granskar dina uppgifter och hör av oss så snart ditt återförsäljarkonto är godkänt. Då kan du logga in och se grossistpriserna." },
+    { "type": "textarea", "id": "success_text_direct", "label": "Text (vid direktåtkomst)", "default": "Ditt återförsäljarkonto är skapat! Logga in så ser du grossistpriserna och kan börja beställa." },
+
+    { "type": "header", "content": "Färger" },
+    { "type": "color", "id": "bg_color", "label": "Bakgrund", "default": "#f0f0f0" },
+    { "type": "color", "id": "card_color", "label": "Kort", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#00234a" },
+    { "type": "color", "id": "accent_color", "label": "Accent / knapp", "default": "#005dc6" },
+    { "type": "color", "id": "button_text_color", "label": "Knapptext", "default": "#ffffff" },
+    { "type": "color", "id": "media_bg_color", "label": "Bildens bakgrund (utan bild)", "default": "#00234a" },
+
+    { "type": "header", "content": "Form" },
+    { "type": "range", "id": "card_radius", "label": "Hörnradie kort", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "input_radius", "label": "Hörnradie fält", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 8 },
+    { "type": "range", "id": "button_radius", "label": "Hörnradie knapp", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "padding_top", "label": "Luft över", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Luft under", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 }
   ],
-  "blocks": [
-    {
-      "type": "benefit",
-      "name": "Fördel",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Fet inledning (valfritt)" },
-        { "type": "text", "id": "text", "label": "Text", "default": "Beskriv en fördel med att bli återförsäljare." }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Återförsäljaransökan",
-      "blocks": [
-        { "type": "benefit", "settings": { "title": "Grossistpriser", "text": "på hela sortimentet, egna märken och inköpta." } },
-        { "type": "benefit", "settings": { "title": "Beställ själv", "text": "dygnet runt, direkt i din egen portal." } },
-        { "type": "benefit", "settings": { "title": "Leverans eller påfyllning", "text": "skicka som paket eller låt oss sköta distributionen." } }
-      ]
-    }
-  ]
+  "presets": [{ "name": "Återförsäljarportal" }]
 }
 {% endschema %}
