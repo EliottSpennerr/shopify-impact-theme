@@ -12,6 +12,10 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "portalsphere_complementary_products_block_hQ7GHE": {
+          "type": "shopify://apps/portalsphere/blocks/complementary-products-block/f718d695-5b2e-4a23-b3fa-453b8c5945ba",
+          "settings": {}
+        },
         "vendor_RAVQEt": {
           "type": "vendor",
           "settings": {}
@@ -105,6 +109,7 @@
         }
       },
       "block_order": [
+        "portalsphere_complementary_products_block_hQ7GHE",
         "vendor_RAVQEt",
         "title",
         "rating",
