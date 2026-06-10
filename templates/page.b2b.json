@@ -16,52 +16,39 @@
         "content_width": "80ch"
       }
     },
-    "aterforsaljare_ansokan_WGdL3r": {
-      "type": "aterforsaljare-ansokan",
-      "name": "Återförsäljarportal",
+    "1781075350a48ac18b": {
+      "type": "apps",
+      "blocks": {
+        "helium_customer_fields_app_block_4ajjHD": {
+          "type": "shopify://apps/helium-customer-fields/blocks/app-block/bab58598-3e6a-4377-aaaa-97189b15f131",
+          "settings": {
+            "form_id": "zytR3V",
+            "width": 600,
+            "vertical_spacing": 60,
+            "horizontal_spacing": 0
+          }
+        }
+      },
+      "block_order": [
+        "helium_customer_fields_app_block_4ajjHD"
+      ],
       "settings": {
-        "side_image": "shopify://shop_images/HeadermobileFl.jpg",
-        "eyebrow": "Återförsäljare",
-        "media_heading": "Finsk premiumlakrits för din butik",
-        "media_text": "Logga in för att se grossistpriser och beställa direkt.",
-        "login_step": "Återförsäljare",
-        "login_heading": "Logga in",
-        "login_subtext": "Logga in på ditt återförsäljarkonto för att se grossistpriser och lägga order.",
-        "login_button_label": "Logga in",
-        "to_register_label": "Registrera dig",
-        "register_step": "Bli återförsäljare",
-        "register_heading": "Skapa återförsäljarkonto",
-        "register_subtext": "Fyll i dina uppgifter så kommer du igång.",
-        "register_button_label": "Skapa konto",
-        "to_login_label": "Logga in",
-        "show_marketing": true,
-        "use_hosted_login": false,
-        "catalog_url": "shopify://collections/wholesale",
-        "logged_in_heading": "Du är inloggad",
-        "logged_in_text": "Vi skickar dig till grossistkatalogen …",
-        "logged_in_button": "Gå till grossistkatalogen",
-        "auto_approve": true,
-        "application_tag": "B2B-ansökan",
-        "approved_tag": "Återförsäljare",
-        "success_heading": "Tack för din ansökan!",
-        "success_text": "Vi granskar dina uppgifter och hör av oss så snart ditt återförsäljarkonto är godkänt. Då kan du logga in och se grossistpriserna.",
-        "success_text_direct": "Ditt återförsäljarkonto är skapat! Logga in så ser du grossistpriserna och kan börja beställa.",
-        "bg_color": "#f0f0f0",
-        "card_color": "#ffffff",
-        "text_color": "#00234a",
-        "accent_color": "#005dc6",
-        "button_text_color": "#ffffff",
-        "media_bg_color": "#00234a",
-        "card_radius": 24,
-        "input_radius": 8,
-        "button_radius": 60,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "enable_review_integration": true,
+        "review_header_gradient": "linear-gradient(135deg, #FFC266 0%, #FFA31A 100%)",
+        "review_header_text_color": "#000000",
+        "review_button_background": "#000000",
+        "review_button_text_color": "#ffffff"
       }
     }
   },
   "order": [
     "main",
-    "aterforsaljare_ansokan_WGdL3r"
+    "1781075350a48ac18b"
   ]
 }
