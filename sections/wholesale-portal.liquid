@@ -401,11 +401,9 @@
             country:    'Sweden'
           });
 
-          /* Taggen sätts av er Helium-regel vid submit med formId.
-             Behöver den sättas explicit i stället, avkommentera raden
-             nedan och whitelista taggen i Helium (Advanced settings):
+    /* Taggen sätts explicit på varje konto som skapas via formuläret.
+             Kräver att taggen är whitelistad i Helium. */
           CF.customer.addTag('b2b-pending');
-          */
 
           CF.customer.save({ formId: HELIUM_FORM_ID, login: true })
             .then(function () {
