@@ -85,6 +85,11 @@
           "edit_account_back_link_text": "Back to account",
           "enable_js_api": true
         }
+      },
+      "9204997315196567209": {
+        "type": "shopify://apps/portalsphere/blocks/product-pricing-embed/f718d695-5b2e-4a23-b3fa-453b8c5945ba",
+        "disabled": false,
+        "settings": {}
       }
     }
   },
