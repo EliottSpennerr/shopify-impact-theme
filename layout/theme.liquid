@@ -34,11 +34,17 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
     <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     <link rel="dns-prefetch" href="https://productreviews.shopifycdn.com">
 
-    {%- unless settings.heading_font.system? -%}
+ {%- comment -%} Preloada de typsnitt som faktiskt renderas ovanför vikningen {%- endcomment -%}
+    {%- if settings.heading_custom_font == 'cadiz' or settings.body_custom_font == 'cadiz' -%}
+      <link rel="preload" href="https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Regular.woff2?v=1777874526" as="font" type="font/woff2" crossorigin>
+      <link rel="preload" href="https://cdn.shopify.com/s/files/1/0917/5928/0512/files/Cadiz-Bold.woff2?v=1777874525" as="font" type="font/woff2" crossorigin>
+    {%- endif -%}
+
+    {%- unless settings.heading_font.system? or settings.heading_custom_font == 'cadiz' -%}
       <link rel="preload" href="{{ settings.heading_font | font_url }}" as="font" type="font/woff2" crossorigin>
     {%- endunless -%}
 
-    {%- unless settings.text_font.system? -%}
+    {%- unless settings.text_font.system? or settings.body_custom_font == 'cadiz' -%}
       <link rel="preload" href="{{ settings.text_font | font_url }}" as="font" type="font/woff2" crossorigin>
     {%- endunless -%}
 
