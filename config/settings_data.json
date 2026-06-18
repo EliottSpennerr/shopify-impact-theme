@@ -59,11 +59,6 @@
     "checkout_button_color": "#1a1a1a",
     "content_for_index": [],
     "blocks": {
-      "319724205969189013": {
-        "type": "shopify://apps/hulk-form-builder/blocks/app-embed/b6b8dd14-356b-4725-a4ed-77232212b3c3",
-        "disabled": false,
-        "settings": {}
-      },
       "14060646107696862457": {
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
@@ -71,24 +66,7 @@
       },
       "6615124273980966592": {
         "type": "shopify://apps/chatty/blocks/app-embed/1c0e135d-e8e1-4fe2-86be-1c36def46675",
-        "disabled": false,
-        "settings": {}
-      },
-      "9776720720251544092": {
-        "type": "shopify://apps/helium-customer-fields/blocks/app-embed/bab58598-3e6a-4377-aaaa-97189b15f131",
-        "disabled": false,
-        "settings": {
-          "registration_form_id": "zytR3V",
-          "edit_account_form_id": "",
-          "edit_account_link_text": "Edit account",
-          "edit_account_heading": "Edit account",
-          "edit_account_back_link_text": "Back to account",
-          "enable_js_api": true
-        }
-      },
-      "9204997315196567209": {
-        "type": "shopify://apps/portalsphere/blocks/product-pricing-embed/f718d695-5b2e-4a23-b3fa-453b8c5945ba",
-        "disabled": false,
+        "disabled": true,
         "settings": {}
       }
     }
