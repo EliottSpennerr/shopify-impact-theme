@@ -306,17 +306,7 @@
         {%- endpaginate -%}
       </div>
 
-      {%- comment -%} ── ARTIKLAR (fylls av JS) ─────────────────────── {%- endcomment -%}
-      <div id="search-section-articles" class="search-type-section" role="tabpanel">
-        <p class="search-secondary-loading">{{ 'search.general.loading' | t | default: 'Laddar...' }}</p>
-      </div>
 
-      {%- comment -%} ── SIDOR (fylls av JS) ───────────────────────── {%- endcomment -%}
-      <div id="search-section-pages" class="search-type-section" role="tabpanel">
-        <p class="search-secondary-loading">{{ 'search.general.loading' | t | default: 'Laddar...' }}</p>
-      </div>
-
-    </div>
 
   {%- else -%}
     <div class="empty-state">
