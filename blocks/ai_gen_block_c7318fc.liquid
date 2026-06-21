@@ -148,7 +148,9 @@
   <div class="ai-hero-header__image-wrapper-{{ ai_gen_id }}">
     {% if block.settings.image %}
       <img
-        src="{{ block.settings.image | image_url: width: 2000 }}"
+        src="{{ block.settings.image | image_url: width: 1200 }}"
+        srcset="{{ block.settings.image | image_url: width: 600 }} 600w, {{ block.settings.image | image_url: width: 900 }} 900w, {{ block.settings.image | image_url: width: 1200 }} 1200w, {{ block.settings.image | image_url: width: 1800 }} 1800w, {{ block.settings.image | image_url: width: 2400 }} 2400w"
+        sizes="100vw"
         alt="{{ block.settings.image.alt | escape }}"
         loading="lazy"
         width="{{ block.settings.image.width }}"

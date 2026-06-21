@@ -167,7 +167,9 @@
     <div class="ai-hero-header__background-{{ ai_gen_id }}">
       {% if block.settings.background_image %}
         <img
-          src="{{ block.settings.background_image | image_url: width: 2000 }}"
+          src="{{ block.settings.background_image | image_url: width: 1200 }}"
+          srcset="{{ block.settings.background_image | image_url: width: 600 }} 600w, {{ block.settings.background_image | image_url: width: 900 }} 900w, {{ block.settings.background_image | image_url: width: 1200 }} 1200w, {{ block.settings.background_image | image_url: width: 1800 }} 1800w, {{ block.settings.background_image | image_url: width: 2400 }} 2400w"
+          sizes="100vw"
           alt="{{ block.settings.background_image.alt | escape }}"
           loading="lazy"
           width="{{ block.settings.background_image.width }}"

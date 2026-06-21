@@ -259,9 +259,12 @@
         <div class="ai-hero-carousel__slide-{{ ai_gen_id }}" data-slide="{{ forloop.index }}">
           {% if slide_image %}
             <img
-              src="{{ slide_image | image_url: width: 2000 }}"
+              src="{{ slide_image | image_url: width: 1200 }}"
+              srcset="{{ slide_image | image_url: width: 600 }} 600w, {{ slide_image | image_url: width: 900 }} 900w, {{ slide_image | image_url: width: 1200 }} 1200w, {{ slide_image | image_url: width: 1800 }} 1800w, {{ slide_image | image_url: width: 2400 }} 2400w"
+              sizes="100vw"
               alt="{{ slide_image.alt | escape }}"
               loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              fetchpriority="{% if forloop.first %}high{% else %}low{% endif %}"
               width="{{ slide_image.width }}"
               height="{{ slide_image.height }}"
               class="ai-hero-carousel__slide-image-{{ ai_gen_id }}"
