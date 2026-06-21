@@ -11,27 +11,31 @@ note that this may have impact on different places.
   {%- assign text_font_bold = settings.text_font | font_modify: 'weight', 'bolder' -%}
   {%- assign text_font_bold_italic = text_font_bold | font_modify: 'style', 'italic' -%}
 
-  /* Typography (heading) */
-  {{ settings.heading_font | font_face: font_display: 'fallback' }}
+  {%- unless settings.heading_custom_font == 'cadiz' -%}
+    /* Typography (heading) */
+    {{ settings.heading_font | font_face: font_display: 'swap' }}
 
-  {%- if heading_font_italic -%}
-    {{ heading_font_italic | font_face: font_display: 'fallback' }}
-  {%- endif -%}
+    {%- if heading_font_italic -%}
+      {{ heading_font_italic | font_face: font_display: 'swap' }}
+    {%- endif -%}
+  {%- endunless -%}
 
-  /* Typography (body) */
-  {{ settings.text_font | font_face: font_display: 'fallback' }}
+  {%- unless settings.body_custom_font == 'cadiz' -%}
+    /* Typography (body) */
+    {{ settings.text_font | font_face: font_display: 'swap' }}
 
-  {%- if text_font_italic -%}
-    {{ text_font_italic | font_face: font_display: 'fallback' }}
-  {%- endif -%}
+    {%- if text_font_italic -%}
+      {{ text_font_italic | font_face: font_display: 'swap' }}
+    {%- endif -%}
 
-  {%- if text_font_bold -%}
-    {{ text_font_bold | font_face: font_display: 'fallback' }}
-  {%- endif -%}
+    {%- if text_font_bold -%}
+      {{ text_font_bold | font_face: font_display: 'swap' }}
+    {%- endif -%}
 
-  {%- if text_font_bold_italic -%}
-    {{ text_font_bold_italic | font_face: font_display: 'fallback' }}
-  {%- endif -%}
+    {%- if text_font_bold_italic -%}
+      {{ text_font_bold_italic | font_face: font_display: 'swap' }}
+    {%- endif -%}
+  {%- endunless -%}
 
   :root {
     /**
