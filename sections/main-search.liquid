@@ -293,7 +293,14 @@
                     <product-list class="product-list" role="region" aria-live="polite">
                       {%- assign product_results = search.results | where: 'object_type', 'product' -%}
                       {%- for product in product_results -%}
-                        {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
+                        {%- if product.available -%}
+                          {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- for product in product_results -%}
+                        {%- unless product.available -%}
+                          {%- render 'product-card', product: product, stacked: true, show_badges: true -%}
+                        {%- endunless -%}
                       {%- endfor -%}
                     </product-list>
                   </reveal-items>

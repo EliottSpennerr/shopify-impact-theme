@@ -30,7 +30,7 @@
         },
         "judge_me_reviews_preview_badge_BkceGL": {
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "disabled": true,
+          "disabled": false,
           "settings": {}
         },
         "badges": {
@@ -80,6 +80,12 @@
           "disabled": true,
           "settings": {}
         },
+        "trust_callout": {
+          "type": "liquid",
+          "settings": {
+            "liquid": "<div class=\"trust-callout\">\n  <div class=\"trust-callout__item\">\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg>\n    <span>Färsk lakrits — tillverkad i små satser</span>\n  </div>\n  <div class=\"trust-callout__item\">\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg>\n    <span>Inga onödiga tillsatser — smaken talar</span>\n  </div>\n  <div class=\"trust-callout__item\">\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg>\n    <span>Producerat i Finland — enligt tradition</span>\n  </div>\n</div>\n<style>\n  .trust-callout { display: flex; flex-direction: column; gap: 8px; padding: 16px 0; }\n  .trust-callout__item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #2d7a4f; }\n  .trust-callout__item svg { flex-shrink: 0; color: #2d7a4f; }\n</style>"
+          }
+        },
         "separator": {
           "type": "separator",
           "settings": {}
@@ -116,6 +122,7 @@
         "variant_picker",
         "buy_buttons",
         "payment_terms",
+        "trust_callout",
         "separator",
         "liquid_4eL4eR",
         "description",
