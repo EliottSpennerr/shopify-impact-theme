@@ -18,9 +18,14 @@ Supported variables
   {%- when 'product' -%}
     {%- assign product = item -%}
 
-    <a href="{{ product.url }}" data-instant class="predictive-search-result group">
+    <a href="{{ product.url }}" data-instant class="predictive-search-result group{% unless product.available %} predictive-search-result--sold-out{% endunless %}">
       {%- if product.featured_media -%}
-        {{- product.featured_media | image_url: width: product.featured_media.width | image_tag: sizes: '96px', widths: '96,192' -}}
+        <span class="predictive-search-result__media-wrap">
+          {{- product.featured_media | image_url: width: product.featured_media.width | image_tag: sizes: '96px', widths: '96,192' -}}
+          {%- unless product.available -%}
+            <span class="predictive-search-result__sold-out-badge">{{ 'product.general.sold_out_badge' | t }}</span>
+          {%- endunless -%}
+        </span>
       {%- endif -%}
 
       <div class="v-stack gap-1 sm:gap-1.5">
