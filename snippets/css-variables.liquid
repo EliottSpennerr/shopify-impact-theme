@@ -355,4 +355,16 @@ note that this may have impact on different places.
       }
 
   {%- endcase -%}
+
+  .badge {
+    padding: 0 var(--spacing-2);
+    line-height: 1.8;
+  }
+
+  @media screen and (min-width: 700px) {
+    .badge:not(.badge--lg) {
+      padding: 0 var(--spacing-2);
+      line-height: 2;
+    }
+  }
 </style>
