@@ -255,14 +255,54 @@ Typography CSS variables (set by calling section):
     animation: pc-check-pop 0.3s ease forwards;
   }
 
-  /* ── Produktbild: border-radius alla hörn ──────────────────────────
-     Temats CSS ger vanligtvis border-radius bara på toppen (korten har
-     rak botten mot info-sektionen). Här tvingar vi full border-radius
-     på figuren med overflow:hidden så bilden klipps lika på alla kanter.
+  /* ── Produktbild ──────────────────────────────────────────────────────
+     Figuren äger sin egen höjd via ett ::before med padding-top som
+     motsvarar vald bildproportion (--pc-figure-pad sätts i Liquid).
+     Bilderna ligger absolut inuti. Det gör att höjden inte längre beror
+     på img + aspect-ratio, vilket Safari på iPad räknar fel i temats
+     subgrid (>= 700px) och som gav en ihoptryckt bild.
+     Full border-radius + overflow:hidden så bilden klipps lika runt om.
   ────────────────────────────────────────────────────────────────────── */
   .product-card__figure {
+    display: block;
+    position: relative;
+    width: 100%;
     border-radius: var(--border-radius, 12px);
     overflow: hidden;
+  }
+
+  .product-card__figure::before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-block-start: var(--pc-figure-pad, 100%);
+  }
+
+  .product-card__figure > .product-card__media-link {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-card__figure .product-card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0;
+  }
+
+  .product-card__figure .product-card__image.object-fill-safe,
+  .product-card__figure .product-card__image--secondary {
+    object-fit: cover;
   }
 </style>
 
@@ -279,8 +319,22 @@ Typography CSS variables (set by calling section):
     PRODUKTBILD
   ──────────────────────────────────{%- endcomment -%}
   {%- if product.media.size > 0 -%}
-    <div class="product-card__figure">
-      <a href="{{ product.url }}" data-instant>
+    {%- comment -%}
+      Bildproportion -> padding-top i procent (höjd / bredd * 100).
+      natural = bildens egna proportion, övriga följer temainställningen.
+    {%- endcomment -%}
+    {%- assign pc_ratio_key = settings.product_image_aspect_ratio | split: '_' | first -%}
+    {%- case pc_ratio_key -%}
+      {%- when 'short' -%}{%- assign pc_figure_pad = 75 -%}
+      {%- when 'square' -%}{%- assign pc_figure_pad = 100 -%}
+      {%- when 'tall' -%}{%- assign pc_figure_pad = 150 -%}
+      {%- else -%}
+        {%- assign pc_media_ratio = product.featured_media.aspect_ratio | default: 1.0 -%}
+        {%- assign pc_figure_pad = 100.0 | divided_by: pc_media_ratio | round: 2 -%}
+    {%- endcase -%}
+
+    <div class="product-card__figure" style="--pc-figure-pad: {{ pc_figure_pad }}%;">
+      <a href="{{ product.url }}" class="product-card__media-link" data-instant>
         {%- capture sizes -%}
           {%- if stacked -%}
             (max-width: 699px) calc(100vw / {{ section.settings.products_per_row_mobile }} - 40px), (max-width: 1200px) calc(100vw / {{ 3 | at_most: section.settings.products_per_row_desktop }} - 64px), calc(min(100vw - 96px, {{ settings.page_width }}px) / {{ section.settings.products_per_row_desktop }} - (24px / {{ section.settings.products_per_row_desktop }} * {{ section.settings.products_per_row_desktop | minus: 1 }}))
