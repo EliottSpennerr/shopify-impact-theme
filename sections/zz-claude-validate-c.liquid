@@ -1,4 +1,127 @@
-<div></div>
+{%- comment -%}
+----------------------------------------------------------------------------------------------------------------------
+KOLLEKTIONSHUVUD (som apohem.se)
+----------------------------------------------------------------------------------------------------------------------
+
+Brödsmulor, kollektionens eget namn som rubrik, beskrivningen och "Letar du efter något speciellt?" med knappar
+till andra kategorier (block). Knappen till kollektionen man står på döljs. Stil i assets/collection-page.css.
+{%- endcomment -%}
+
+{%- render 'section-spacing-collapsing' -%}
+{{- 'collection-page.css' | asset_url | stylesheet_tag -}}
+
+{%- liquid
+  assign header_title = collection.title
+  if header_title == blank
+    assign header_title = page_title
+  endif
+
+  assign parent = section.settings.breadcrumb_parent
+  assign show_parent = false
+  if parent != blank and parent.handle != collection.handle
+    assign show_parent = true
+  endif
+-%}
+
+<div {% render 'section-properties' %}>
+  <div class="collection-header">
+    {%- if section.settings.show_breadcrumb -%}
+      <nav class="collection-header__breadcrumb" aria-label="{{ 'custom.breadcrumb.label' | t | escape }}">
+        <ol role="list">
+          <li><a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a></li>
+
+          {%- if show_parent -%}
+            <li><a href="{{ parent.url }}">{{ parent.title }}</a></li>
+          {%- endif -%}
+
+          <li><span aria-current="page">{{ header_title }}</span></li>
+        </ol>
+      </nav>
+    {%- endif -%}
+
+    <h1 class="collection-header__title">{{ header_title }}</h1>
+
+    {%- if section.settings.show_description and collection.description != blank -%}
+      <div class="collection-header__description prose">{{ collection.description }}</div>
+    {%- endif -%}
+
+    {%- capture links -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign link_collection = block.settings.collection
+          assign link_url = block.settings.link | default: link_collection.url
+          assign link_label = block.settings.label | default: link_collection.title
+
+          assign is_current = false
+          if section.settings.hide_current and link_collection != blank and link_collection.handle == collection.handle
+            assign is_current = true
+          endif
+          if section.settings.hide_current and block.settings.link != blank and block.settings.link == collection.url
+            assign is_current = true
+          endif
+        -%}
+
+        {%- if link_url != blank and link_label != blank and is_current == false -%}
+          <li {{ block.shopify_attributes }}><a href="{{ link_url }}" class="collection-header__link">{{ link_label | escape }}</a></li>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- if links != blank -%}
+      <div class="collection-header__links">
+        {%- if section.settings.links_title != blank -%}
+          <p class="collection-header__links-title">{{ section.settings.links_title | escape }}</p>
+        {%- endif -%}
+
+        {%- comment -%}Mobil: en rad att dra i sidled med kanttoning (assets/custom-sections.js), dator: centrerade knappar{%- endcomment -%}
+        <div class="collection-header__links-row" data-edge-fade>
+          <ul class="collection-header__links-list" role="list" data-edge-fade-scroller>
+            {{- links -}}
+          </ul>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
 {% schema %}
-{"name":"Validering C","blocks":[{"type":"description","name":"Description","limit":1,"settings":[{"type":"checkbox","id":"collapse_content","label":"Collapse content","default":false},{"type":"text","id":"title","label":"Rubrik","default":"Beskrivning"},{"type":"checkbox","id":"read_more","label":"Korta långa texter med \"Läs mer\"","default":true}]},{"type":"inventory","name":"Inventory","limit":1,"settings":[{"type":"range","id":"low_inventory_threshold","label":"Low inventory threshold","info":"Use low stock color when quantity is below the threshold. Choose 0 to always show in stock.","min":0,"max":100,"step":1,"default":0},{"type":"text","id":"delivery_text","label":"Text efter \"Finns i lager\"","info":"T.ex. leveranstiden: \"leverans 2–5 vardagar\""}]},{"type":"feature","name":"Ikonrad","settings":[{"type":"select","id":"icon","label":"Ikon","options":[{"value":"truck","label":"Lastbil"},{"value":"check","label":"Bock"},{"value":"clock","label":"Klocka"},{"value":"gift","label":"Present"},{"value":"box","label":"Paket"},{"value":"leaf","label":"Löv"},{"value":"heart","label":"Hjärta"},{"value":"info","label":"Info"}],"default":"truck"},{"type":"inline_richtext","id":"text","label":"Text","default":"Fri frakt över 399 kr"}]},{"type":"quick_facts","name":"Snabba fakta","limit":1,"settings":[{"type":"paragraph","content":"Visar en rad per rad i metafältet custom.quickfact (Quickfact)."},{"type":"text","id":"title","label":"Rubrik","default":"Snabba fakta"},{"type":"textarea","id":"fallback","label":"Reservtext","info":"Visas när produkten saknar Quickfact. En fakta per rad."},{"type":"color","id":"background","label":"Bakgrund","default":"#e8f0fb"}]},{"type":"notice","name":"Informationsruta","settings":[{"type":"richtext","id":"text","label":"Text"},{"type":"checkbox","id":"only_with_ingredients","label":"Visa bara när produkten har Innehåll","info":"Metafältet custom.inneh_ll","default":false}]},{"type":"info_accordion","name":"Leverans & betalning","settings":[{"type":"text","id":"title","label":"Rubrik","default":"Leverans & betalning"},{"type":"richtext","id":"content","label":"Innehåll"},{"type":"checkbox","id":"show_payment_icons","label":"Visa betalikoner","default":true}]},{"type":"product_details","name":"Innehåll & näringsvärde","limit":1,"settings":[{"type":"paragraph","content":"Läser metafältet custom.inneh_ll: ingredienser, \"Näringsvärde(n) … per 100 g\" med en rad per värde och \"Vikt: …\"."},{"type":"checkbox","id":"show_ingredients","label":"Visa innehåll","default":true},{"type":"text","id":"ingredients_title","label":"Rubrik innehåll","default":"Innehåll"},{"type":"checkbox","id":"show_nutrition","label":"Visa näringsvärde","default":true},{"type":"text","id":"nutrition_title","label":"Rubrik näringsvärde","default":"Näringsvärde"},{"type":"checkbox","id":"show_facts","label":"Visa fakta","default":true},{"type":"text","id":"facts_title","label":"Rubrik fakta","default":"Fakta"},{"type":"text","id":"vendor_label","label":"Etikett varumärke","default":"Varumärke"},{"type":"text","id":"weight_label","label":"Etikett vikt","default":"Vikt"},{"type":"text","id":"diet_label","label":"Etikett kost","default":"Kost"},{"type":"text","id":"sku_label","label":"Etikett artikelnummer","default":"Artikelnummer"}]},{"type":"reviews","name":"Recensioner (dragspel)","limit":1,"settings":[{"type":"paragraph","content":"Flyttar in Judge.me-widgeten från sidan i ett dragspel. Utan widget visas inget."},{"type":"text","id":"title","label":"Rubrik","default":"Recensioner"}]}],"settings":[{"type":"collection","id":"breadcrumb_parent","label":"Brödsmulor: överordnad kollektion","info":"Visas före produktens kategori när produkten ligger i den, t.ex. Alla produkter."},{"type":"text","id":"breadcrumb_hidden","label":"Brödsmulor: dölj kollektioner","info":"Handles, kommaseparerade. Hoppas över när kategorin väljs.","default":"mixnmatch"},{"type":"color","id":"media_background","label":"Bakgrund bakom bilderna","info":"Samma ton som produktbildernas bakgrund. På mobil ligger infopanelen med rundade hörn ovanpå.","default":"#e9e7e4"}]}
+{
+  "name": "Kollektionshuvud",
+  "class": "shopify-section--collection-header",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "max_blocks": 12,
+  "settings": [
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Visa brödsmulor", "default": true },
+    {
+      "type": "collection",
+      "id": "breadcrumb_parent",
+      "label": "Brödsmulor: överordnad kollektion",
+      "info": "Visas mellan Hem och kollektionen, t.ex. Alla produkter."
+    },
+    { "type": "checkbox", "id": "show_description", "label": "Visa beskrivning", "default": true },
+    { "type": "text", "id": "links_title", "label": "Rubrik över knapparna", "default": "Letar du efter något speciellt?" },
+    { "type": "checkbox", "id": "hide_current", "label": "Dölj knappen till kollektionen man står på", "default": true },
+    { "type": "color", "id": "background", "label": "Bakgrund" },
+    { "type": "color", "id": "text_color", "label": "Text" }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Knapp",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Kollektion" },
+        { "type": "text", "id": "label", "label": "Text", "info": "Tomt: kollektionens namn" },
+        { "type": "url", "id": "link", "label": "Egen länk", "info": "Används i stället för kollektionen" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kollektionshuvud"
+    }
+  ]
+}
 {% endschema %}
