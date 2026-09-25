@@ -1,308 +1,53 @@
-{% comment %}
-{% endcomment %}
-{%- capture bundle_sold_out_default -%}{{ 'custom.card.sold_out' | t }}{%- endcapture -%}
-{%- style -%}
-  #shopify-section-{{ section.id }} {
-    --bundle-bg: {{ section.settings.color_background }};
-    --bundle-card-bg: {{ section.settings.color_card_bg }};
-    --bundle-text: {{ section.settings.color_text }};
-    --bundle-text-muted: {{ section.settings.color_text_muted }};
-    --bundle-accent: {{ section.settings.color_button }};
-    --bundle-accent-hover: {{ section.settings.color_button_hover }};
-    --bundle-success: {{ section.settings.color_success }};
-    --bundle-border: {{ section.settings.color_border }};
-    --bundle-progress-bg: {{ section.settings.color_border }};
-    --bundle-progress-fill: {{ section.settings.color_button }};
-    --bundle-progress-fill-active: {{ section.settings.color_success }};
-    --bundle-sticky-bg: {{ section.settings.color_card_bg }};
-    --bundle-badge-bg: {{ section.settings.color_badge_bg }};
-    --bundle-badge-text: {{ section.settings.color_badge_text }};
-  #shopify-section-{{ section.id }} .bundle-collection {
-    --background: {{ section.settings.color_background.red }} {{ section.settings.color_background.green }} {{ section.settings.color_background.blue }};
-{%- endstyle -%}
-{%- assign heading_tag = section.settings.heading_tag | default: 'h2' -%}
-{%- capture choose_variant_label -%}{{ 'custom.bundle.choose_variant' | t }}{%- endcapture -%}
-{%- comment -%}
-{%- endcomment -%}
-{%- assign bundle_collection = section.settings.collection -%}
-{%- if bundle_collection == blank -%}
-  {%- assign bundle_collection = collections['all'] -%}
-{%- endif -%}
-{%- if section.settings.soldout_behavior == 'hide' -%}
-  {%- assign bundle_products = bundle_collection.products | where: 'available', true -%}
-{%- else -%}
-  {%- assign bundle_products = bundle_collection.products -%}
-{%- endif -%}
-{%- assign bundle_count = bundle_products.size | at_most: section.settings.max_products -%}
-{%- assign use_sidebar = false -%}
-{%- if section.settings.filter_layout == 'sidebar' -%}
-  {%- assign use_sidebar = true -%}
-{%- endif -%}
-{%- comment -%}Rutnätet visas antingen under flikarna eller bredvid sidopanelen (Filterlayout){%- endcomment -%}
-{%- capture bundle_grid -%}
-      {%- for product in bundle_products limit: section.settings.max_products -%}
-        {%- assign first_variant = product.selected_or_first_available_variant -%}
-        {%- assign is_soldout = false -%}
-        {%- if product.available == false or first_variant.available == false -%}{%- assign is_soldout = true -%}{%- endif -%}
-        {%- assign has_variants = false -%}
-        {%- if product.variants.size > 1 or product.selling_plan_groups.size > 0 -%}{%- assign has_variants = true -%}{%- endif -%}
-        {%- comment -%} Stjärnbetyg: halvstjärneenheter (x2) {%- endcomment -%}
-        {%- assign bc_rv = product.metafields.reviews.rating.value.rating | plus: 0.0 -%}
-        {%- assign bc_rc = product.metafields.reviews.rating_count.value | plus: 0 -%}
-        {%- assign bc_x2 = bc_rv | times: 2 | round -%}
-        <div class="bundle-card{% if is_soldout %} is-soldout{% endif %}"
-             data-variant-id="{{ first_variant.id }}"
-             data-price="{{ first_variant.price }}"
-             data-title="{{ product.title | escape }}"
-             data-vendor="{{ product.vendor | escape }}"
-             data-created="{{ product.created_at | date: '%s' }}"
-             data-collections="{% for col in product.collections %}{{ col.handle }}{% unless forloop.last %},{% endunless %}{% endfor %}"
-             {% if is_soldout %}data-soldout="true"{% endif %}
-             {% if has_variants %}data-multi-variant="true"{% endif %}>
-          {%- comment -%} PRODUKTBILD {%- endcomment -%}
-            {%- if product.featured_image -%}
-              <img class="bundle-card__img" src="{{ product.featured_image | image_url: width: 480 }}" alt="{{ product.title | escape }}" loading="lazy" width="480" height="480">
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__img' }}
-            {%- endif -%}
-            {%- if is_soldout -%}
-              <div class="bundle-card__soldout-label">{{ section.settings.text_soldout | default: bundle_sold_out_default }}</div>
-            {%- elsif has_variants -%}
-              <a href="{{ product.url }}" class="bundle-card__img-btn" aria-label="{{ choose_variant_label | escape }} – {{ product.title | escape }}"></a>
-            {%- else -%}
-              <button type="button" class="bundle-card__img-btn" data-add-btn aria-label="{{ section.settings.text_quick_add | escape }} – {{ product.title | escape }}"></button>
-            {%- endif -%}
-          {%- comment -%}
-          {%- endcomment -%}
-            {%- comment -%} LEVERANTÖR {%- endcomment -%}
-            {%- if product.vendor != blank -%}
-              <span class="product-card__vendor-label">{{ product.vendor }}</span>
-            {%- endif -%}
-            {%- comment -%} TITEL {%- endcomment -%}
-            <a href="{{ product.url }}" class="product-card__title-link">{{ product.title }}</a>
-            {%- comment -%} LAGERSTATUS {%- endcomment -%}
-              {%- if is_soldout -%}
-                <span class="product-card__stock-text">{{ section.settings.text_soldout | default: bundle_sold_out_default }}</span>
-              {%- else -%}
-                <span class="product-card__stock-text">{{ 'custom.card.in_stock' | t }}</span>
-              {%- endif -%}
-            {%- comment -%} STJÄRNBETYG (samma som standardkortet) {%- endcomment -%}
-            {%- if bc_x2 > 0 -%}
-            {%- assign bc_rv_rounded = bc_rv | round: 1 -%}
-            <div class="product-card__stars" role="img" aria-label="{{ 'general.rating.info' | t: rating_value: bc_rv_rounded, rating_max: 5 | escape }}">
-              {%- for i in (1..5) -%}
-                {%- assign i_x2 = i | times: 2 -%}
-                {%- assign i_x2h = i_x2 | minus: 1 -%}
-                {%- if bc_x2 >= i_x2 -%}
-                {%- elsif bc_x2 == i_x2h -%}
-                {%- else -%}
-                {%- endif -%}
-              {%- endfor -%}
-                {{- bc_rv | round: 1 -}}/5
-                {%- if bc_rc > 0 %} ({{ bc_rc }}){%- endif -%}
-            {%- endif -%}
-            {%- comment -%} PRIS + PILL-STEPPER {%- endcomment -%}
-            {%- unless is_soldout -%}
-                {%- render 'price-list', product: product -%}
-                {%- if has_variants -%}
-                  <a href="{{ product.url }}" class="bundle-card__variants-link">{{ choose_variant_label }}</a>
-                {%- else -%}
-                    <button type="button" class="bundle-card__btn" data-minus-btn aria-label="{{ section.settings.text_decrease | escape }} – {{ product.title | escape }}">−</button>
-                    <div class="bundle-card__qty" data-qty-display aria-label="{{ 'custom.bundle.in_cart' | t | escape }}">0</div>
-                    <button type="button" class="bundle-card__btn" data-plus-btn aria-label="{{ section.settings.text_increase | escape }} – {{ product.title | escape }}">+</button>
-                {%- endif -%}
-            {%- endunless -%}
-      {%- endfor -%}
-      <div class="bundle-filters__no-results" id="bundle-no-results">{{ section.settings.text_no_results }}</div>
-{%- endcapture -%}
-{%- if use_sidebar -%}
-  {%- comment -%}
-  {%- endcomment -%}
-  {%- assign default_sort = bundle_collection.default_sort_by | default: 'best-selling' -%}
-  {%- assign computable_sorts = 'title-ascending,title-descending,price-ascending,price-descending,created-ascending,created-descending' | split: ',' -%}
-  {%- assign bundle_vendors = bundle_products | map: 'vendor' | uniq | sort_natural -%}
-  {%- assign sort_by_label = 'collection.faceting.sort_by' | t -%}
-  {%- assign facet_contexts = 'sidebar,drawer' | split: ',' -%}
-  {%- for facet_context in facet_contexts -%}
-    {%- capture facets_html -%}
-      <form class="facets-vertical" data-bundle-facets="{{ facet_context }}" data-default-sort="{{ default_sort }}">
-        {%- if section.settings.show_sort_by -%}
-          {%- capture accordion_content -%}
-              {%- for option in bundle_collection.sort_options -%}
-                {%- if option.name == blank -%}{%- continue -%}{%- endif -%}
-                {%- if option.value == default_sort or computable_sorts contains option.value -%}
-                  {%- assign checked = false -%}
-                  {%- if option.value == default_sort -%}{%- assign checked = true -%}{%- endif -%}
-                  {%- render 'checkbox', type: 'radio', label: option.name, name: 'sort_by', value: option.value, checked: checked, context: facet_context -%}
-                {%- endif -%}
-              {%- endfor -%}
-          {%- endcapture -%}
-          {%- assign open_sort = false -%}
-          {%- if facet_context == 'sidebar' -%}{%- assign open_sort = true -%}{%- endif -%}
-          {%- assign accordion_id = 'bundle-sort-by-' | append: facet_context -%}
-          {%- render 'accordion', title: sort_by_label, content: accordion_content, open: open_sort, id: accordion_id -%}
-        {%- endif -%}
-        {%- capture accordion_content -%}
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'category' and block.settings.collection != blank -%}
-                {%- capture label -%}{{ block.settings.label | default: block.settings.collection.title | escape }} <span data-facet-count></span>{%- endcapture -%}
-                {%- render 'checkbox', label: label, name: 'category', value: block.settings.collection.handle, context: facet_context -%}
-              {%- endif -%}
-            {%- endfor -%}
-        {%- endcapture -%}
-        {%- if accordion_content contains 'checkbox-container' -%}
-          {%- assign accordion_id = 'bundle-category-' | append: facet_context -%}
-          {%- render 'accordion', title: section.settings.text_filter_category, content: accordion_content, open: true, id: accordion_id -%}
-        {%- endif -%}
-        {%- if section.settings.show_vendor_filter and bundle_vendors.size > 1 -%}
-          {%- capture accordion_content -%}
-              {%- for vendor in bundle_vendors -%}
-                {%- if vendor == blank -%}{%- continue -%}{%- endif -%}
-                {%- capture label -%}{{ vendor | escape }} <span data-facet-count></span>{%- endcapture -%}
-                {%- assign vendor_value = vendor | escape -%}
-                {%- render 'checkbox', label: label, name: 'vendor', value: vendor_value, context: facet_context -%}
-              {%- endfor -%}
-          {%- endcapture -%}
-          {%- assign accordion_id = 'bundle-vendor-' | append: facet_context -%}
-          {%- render 'accordion', title: section.settings.text_filter_vendor, content: accordion_content, id: accordion_id -%}
-        {%- endif -%}
-        {%- if facet_context == 'drawer' -%}
-            {%- assign apply_label = 'collection.faceting.apply_filters' | t -%}
-            {%- render 'button', type: 'button', content: apply_label, size: 'xl', stretch: true -%}
-        {%- endif -%}
-    {%- endcapture -%}
-    {%- if facet_context == 'sidebar' -%}
-      {%- assign facets_sidebar = facets_html -%}
-    {%- else -%}
-      {%- assign facets_drawer = facets_html -%}
-    {%- endif -%}
+{%- if section.blocks.size > 0 -%}
+  {%- liquid
+    # Judge.me sparar värdena som äldre textmetafält: nås direkt eller via .value beroende på typ
+    assign jm_rating_raw = shop.metafields.judgeme.all_reviews_rating.value | default: shop.metafields.judgeme.all_reviews_rating
+    assign jm_count_raw = shop.metafields.judgeme.all_reviews_count.value | default: shop.metafields.judgeme.all_reviews_count
+    assign jm_rating = jm_rating_raw | default: 0 | plus: 0 | round: 1
+    assign jm_count = jm_count_raw | default: 0 | plus: 0
+    if jm_count >= 1000
+      assign jm_thousands = jm_count | divided_by: 1000
+      assign jm_rest = jm_count | modulo: 1000 | prepend: '00' | slice: -3, 3
+      assign jm_count_text = jm_thousands | append: ' ' | append: jm_rest
+    else
+      assign jm_count_text = jm_count | append: ''
+    endif
+  -%}
+  <div {% render 'surface', class: 'announcement-bar', background_gradient: section.settings.background_gradient, background: section.settings.background, text_color: section.settings.text_color %}>
+  {%- for block in section.blocks -%}
+    {%- if jm_count == 0 and block.settings.text contains '[recensioner]' -%}{%- continue -%}{%- endif -%}
+    <p class="bold {{ section.settings.text_size }} {% unless forloop.first %}reveal-invisible{% endunless %}" {{ block.shopify_attributes }}>
+      {%- if block.settings.url != blank -%}
+        <a href="{{ block.settings.url }}">{{ block.settings.text | replace: '[betyg]', jm_rating | replace: '[recensioner]', jm_count_text | escape }}</a>
+      {%- else -%}
+        {{ block.settings.text | replace: '[betyg]', jm_rating | replace: '[recensioner]', jm_count_text | escape }}
+      {%- endif -%}
+    </p>
   {%- endfor -%}
-  {{- 'collection-page.css' | asset_url | stylesheet_tag -}}
+  </div>
 {%- endif -%}
-<section class="bundle-section" id="bundle-mix-match" data-section-id="{{ section.id }}" data-bundle-section>
-      <div class="bundle-header__badge">{{ section.settings.badge_text }}</div>
-      <{{ heading_tag }} class="bundle-header__title">{{ section.settings.heading }}</{{ heading_tag }}>
-      <p class="bundle-header__subtitle">{{ section.settings.subheading }}</p>
-        {%- assign ph_remaining = '{remaining}' -%}
-        {%- assign ph_discount = '{discount}' -%}
-        {{ section.settings.text_progress_remaining | replace: ph_remaining, section.settings.min_items | replace: ph_discount, section.settings.discount_percent }}
-      <div class="bundle-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{ section.settings.min_items }}" aria-valuenow="0" id="bundle-progress">
-    {%- if section.blocks.size > 0 and use_sidebar == false -%}
-        <div class="bundle-filters__tabs" role="group" aria-label="{{ section.settings.text_filter_all | escape }}">
-          <button type="button" class="bundle-filters__tab is-active" data-cat="all" aria-pressed="true">{{ section.settings.text_filter_all }}</button>
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'category' and block.settings.collection != blank -%}
-              <button type="button" class="bundle-filters__tab" data-cat="{{ block.settings.collection.handle }}" aria-pressed="false" {{ block.shopify_attributes }}>
-                {{ block.settings.label }}
-            {%- endif -%}
-          {%- endfor -%}
-    {%- endif -%}
-    {%- unless use_sidebar -%}
-      {{- bundle_grid -}}
-    {%- endunless -%}
-  {%- if use_sidebar -%}
-        {%- comment -%}Mobil: "Filtrera & sortera" öppnar lådan (temats lådor öppnas via aria-controls){%- endcomment -%}
-        <x-drawer id="bundle-facets-drawer-{{ section.id }}" class="facets-drawer drawer" open-from="left" header-bordered data-bundle-drawer>
-          <p class="h5" slot="header">{{ 'collection.faceting.filters' | t }}</p>
-          {{- facets_drawer -}}
-          <button type="button" class="collection-toolbar__filter md:hidden" aria-controls="bundle-facets-drawer-{{ section.id }}" aria-expanded="false">
-            {%- render 'icon' with 'filter' -%}
-            <span>{{ 'collection.faceting.filter_and_sort' | t }}</span>
-          <p class="collection-toolbar__count" data-bundle-count data-zero="{{ 'collection.products_count' | t: count: 0 | escape }}" data-one="{{ 'collection.products_count' | t: count: 1 | escape }}" data-other="{{ 'collection.products_count' | t: count: 7777 | escape }}">
-            {{- 'collection.products_count' | t: count: bundle_count -}}
-            {{- facets_sidebar -}}
-          {{- bundle_grid -}}
-    <template data-bundle-icon-delete>{%- render 'icon' with 'delete' -%}</template>
-  {%- endif -%}
-      <span id="bundle-total-count">0</span><span class="bundle-sticky__of"> / {{ section.settings.min_items }}</span> {{ section.settings.text_selected }}
-    <a href="{{ routes.cart_url }}" class="bundle-sticky__cta is-disabled" id="bundle-cta" aria-disabled="true">
-      {%- assign ph_min = '{min}' -%}
-      <span id="bundle-cta-text">{{ section.settings.text_cta_before | replace: ph_min, section.settings.min_items }}</span>
-  var root = document.getElementById('shopify-section-{{ section.id }}');
-  var MIN_ITEMS    = {{ section.settings.min_items | default: 8 }};
-  var DISCOUNT_PCT = {{ section.settings.discount_percent | default: 10 }};
-  var MONEY_FORMAT = {{ shop.money_format | json }};
-    progressRemaining:  {{ section.settings.text_progress_remaining | json }},
-    progressComplete:   {{ section.settings.text_progress_complete | json }},
-    progressNoDiscount: {{ section.settings.text_progress_complete_no_discount | json }},
-    ctaBefore:          {{ section.settings.text_cta_before | json }},
-    ctaRemaining:       {{ section.settings.text_cta_remaining | json }},
-    ctaCheckout:        {{ section.settings.text_cta_go_to_cart | json }},
-    youSave:            {{ section.settings.text_you_save | json }},
-    error:              {{ 'custom.bundle.error' | t | json }},
-    qtyStatus:          {{ 'custom.bundle.qty_status' | t: title: '__TITLE__', count: '__COUNT__' | json }}.replace('__TITLE__', '{title}').replace('__COUNT__', '{count}')
-    clearAll: {{ 'collection.faceting.clear_filters' | t | json }},
-    remove:   {{ 'collection.faceting.remove_filter' | t: name: '__NAME__', namn: '__NAME__' | json }}
+
 {% schema %}
 {
-  "name": "Bundle Mix & Match",
-  "tag": "section",
-  "class": "bundle-mix-match-section",
-  "settings": [
-    { "type": "header", "content": "Bundle-regler" },
-    { "type": "collection", "id": "collection", "label": "Huvudkollektion (lämna tom för alla)" },
-    { "type": "range", "id": "min_items", "label": "Minsta antal för rabatt", "min": 2, "max": 20, "step": 1, "default": 8 },
-    { "type": "range", "id": "discount_percent", "label": "Rabattprocent", "min": 5, "max": 50, "step": 5, "default": 10 },
-    { "type": "range", "id": "max_products", "label": "Max produkter att visa", "min": 8, "max": 48, "step": 4, "default": 48, "info": "Shopify ger max 50 produkter per kollektion här." },
-    { "type": "select", "id": "heading_tag", "label": "Rubriknivå", "options": [{ "value": "h1", "label": "H1 (sidans huvudrubrik)" }, { "value": "h2", "label": "H2" }], "default": "h2", "info": "Välj H1 när sidans vanliga rubrik (main-page) är avstängd." },
-    { "type": "header", "content": "Texter" },
-    { "type": "text", "id": "badge_text", "label": "Badge", "default": "Spara 10%" },
-    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Bygg din egen mix" },
-    { "type": "text", "id": "subheading", "label": "Underrubrik", "default": "Välj minst 8 favoriter och få 10% rabatt på hela ordern" },
-    { "type": "text", "id": "text_quick_add", "label": "Aria: snabblägg", "default": "Tryck för att lägga till" },
-    { "type": "text", "id": "text_progress_remaining", "label": "Progress (före)", "default": "{remaining} till för {discount}% rabatt", "info": "{remaining} = antal kvar, {discount} = rabattprocent" },
-    { "type": "text", "id": "text_progress_complete", "label": "Progress (klar, rabatt dragen)", "default": "✓ {discount}% rabatt aktiverad — {count} produkter valda", "info": "Visas bara när varukorgen faktiskt har en rabatt. {discount} = rabattprocent, {count} = antal" },
-    { "type": "text", "id": "text_progress_complete_no_discount", "label": "Progress (klar, ingen rabatt hittad)", "default": "{count} produkter valda", "info": "Visas när antalet är uppnått men Shopify inte dragit någon rabatt (t.ex. pausad automatisk rabatt). {count} = antal" },
-    { "type": "text", "id": "text_selected", "label": "\"valda\"", "default": "valda" },
-    { "type": "text", "id": "text_you_save", "label": "Besparingstext", "default": "Du sparar {amount}", "info": "{amount} = belopp" },
-    { "type": "text", "id": "text_cta_before", "label": "CTA (0 valda)", "default": "Välj minst {min} st", "info": "{min} = minsta antal" },
-    { "type": "text", "id": "text_cta_remaining", "label": "CTA (pågående)", "default": "Välj {remaining} till", "info": "{remaining} = antal kvar" },
-    { "type": "text", "id": "text_cta_go_to_cart", "label": "CTA (klar)", "default": "Köp nu — {price}", "info": "Går direkt till kassan. {price} = totalsumma efter rabatt, med ordinarie pris överstruket när rabatten dras" },
-    { "type": "text", "id": "text_decrease", "label": "Aria: minska", "default": "Minska antal" },
-    { "type": "text", "id": "text_increase", "label": "Aria: öka", "default": "Öka antal" },
-    { "type": "header", "content": "Filter" },
-    {
-      "type": "select",
-      "id": "filter_layout",
-      "label": "Filterlayout",
-      "options": [
-        { "value": "sidebar", "label": "Som kollektionssidan" },
-        { "value": "tabs", "label": "Flikar" }
-      ],
-      "default": "sidebar",
-      "info": "Som kollektionssidan: sortering och filter i sidopanel på dator, \"Filtrera & sortera\" på mobil."
-    },
-    { "type": "checkbox", "id": "show_sort_by", "label": "Visa sortering", "default": true },
-    { "type": "text", "id": "text_filter_category", "label": "Rubrik: kategorier", "default": "Kategori" },
-    { "type": "checkbox", "id": "show_vendor_filter", "label": "Visa varumärkesfilter", "default": true },
-    { "type": "text", "id": "text_filter_vendor", "label": "Rubrik: varumärken", "default": "Varumärke" },
-    { "type": "text", "id": "text_filter_all", "label": "Alla-knapp (flikar)", "default": "Alla" },
-    { "type": "text", "id": "text_no_results", "label": "Inga resultat", "default": "Inga produkter matchar ditt filter." },
-    { "type": "header", "content": "Slutsålda produkter" },
-    { "type": "select", "id": "soldout_behavior", "label": "Hantering", "options": [{ "value": "hide", "label": "Dölj helt" }, { "value": "show", "label": "Visa (gråad)" }], "default": "hide" },
-    { "type": "text", "id": "text_soldout", "label": "Slutsåld-text", "default": "Slutsåld" },
-    { "type": "header", "content": "Färger" },
-    { "type": "color", "id": "color_background", "label": "Bakgrund (sektion)", "default": "#faf8f5" },
-    { "type": "color", "id": "color_card_bg", "label": "Bakgrund (kort)", "default": "#ffffff" },
-    { "type": "color", "id": "color_text", "label": "Text", "default": "#1a1a1a" },
-    { "type": "color", "id": "color_text_muted", "label": "Text (sekundär)", "default": "#6b6b6b" },
-    { "type": "color", "id": "color_button", "label": "Knappar & CTA", "default": "#1a2e44" },
-    { "type": "color", "id": "color_button_hover", "label": "Knappar hover", "default": "#2a3e54" },
-    { "type": "color", "id": "color_success", "label": "Rabatt & framgång", "default": "#2d7a4f" },
-    { "type": "color", "id": "color_border", "label": "Kanter", "default": "#e5e2dd" },
-    { "type": "color", "id": "color_badge_bg", "label": "Badge bakgrund", "default": "#2d7a4f" },
-    { "type": "color", "id": "color_badge_text", "label": "Badge text", "default": "#ffffff" }
-  ],
+  "name": "Announcement bar",
+  "tag": "aside",
+  "max_blocks": 5,
   "blocks": [
     {
-      "type": "category",
-      "name": "Kategori",
+      "type": "message",
+      "name": "Message",
       "settings": [
-        { "type": "text", "id": "label", "label": "Knapptext", "default": "Saltlakrits" },
-        { "type": "collection", "id": "collection", "label": "Kollektion" }
+        { "type": "text", "id": "text", "label": "Text", "default": "Announce something here", "info": "[betyg] and [recensioner] are replaced with the current Judge.me rating and review count." },
+        { "type": "url", "id": "url", "label": "Link" }
       ]
     }
   ],
-  "presets": [{ "name": "Bundle Mix & Match" }]
+  "settings": [
+    { "type": "checkbox", "id": "enable_sticky", "label": "Enable sticky bar", "default": false },
+    { "type": "select", "id": "text_size", "label": "Text size", "options": [{ "value": "text-xs", "label": "Small" }, { "value": "text-base", "label": "Medium" }], "default": "text-xs" },
+    { "type": "color", "id": "background", "label": "Background" },
+    { "type": "color_background", "id": "background_gradient", "label": "Background gradient" },
+    { "type": "color", "id": "text_color", "label": "Text" }
+  ]
 }
 {% endschema %}
