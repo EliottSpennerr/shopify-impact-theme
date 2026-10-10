@@ -1,63 +1,32 @@
 <div>{{ section.id }}</div>
 {% schema %}
 {
-  "name": "Bli återförsäljare",
-  "class": "shopify-section--b2b-landing",
+  "name": "Grossist: inledning",
+  "class": "shopify-section--b2b-collection-intro",
   "tag": "section",
-  "max_blocks": 8,
+  "enabled_on": {
+    "templates": ["collection", "product"]
+  },
   "settings": [
     {
       "type": "paragraph",
-      "content": "Besökare ser presentationen och ansökningsformuläret. Inloggade återförsäljare ser i stället en välkomsttext med genvägar till grossistsortimentet."
+      "content": "Inloggade återförsäljare ser rubriken och villkoren (på produktsidor bara en länk tillbaka). Andra besökare ser en ruta med Logga in och Bli återförsäljare i stället för produkterna."
+    },
+    { "type": "text", "id": "title", "label": "Rubrik", "default": "Grossistsortiment", "info": "Tomt: kollektionens namn." },
+    { "type": "text", "id": "point_1", "label": "Villkor 1", "default": "Priser per kartong" },
+    { "type": "text", "id": "point_2", "label": "Villkor 2", "default": "Faktura enligt era villkor" },
+    { "type": "text", "id": "point_3", "label": "Villkor 3", "default": "Inköpspris och cirkapris i varje produkt" },
+    {
+      "type": "url",
+      "id": "assortment_link",
+      "label": "Länk till grossistsortimentet",
+      "info": "Används på produktsidor. Tomt: /collections/wholesale."
     },
     {
-      "type": "collection",
-      "id": "collection",
-      "label": "Grossistsortiment",
-      "info": "Dit återförsäljare kommer efter inloggning."
-    },
-    {
-      "type": "header",
-      "content": "Presentation"
-    },
-    { "type": "text", "id": "eyebrow", "label": "Liten rubrik", "default": "För butiker, kaféer och företag" },
-    { "type": "text", "id": "title", "label": "Rubrik", "default": "Bli återförsäljare av färsk finsk lakrits" },
-    {
-      "type": "richtext",
-      "id": "text",
-      "label": "Text",
-      "default": "<p>Sälj färsk finsk lakrits i din butik. Beställ hela kartonger direkt från oss och betala mot faktura.</p>"
-    },
-    { "type": "image_picker", "id": "image", "label": "Bild" },
-    { "type": "text", "id": "apply_label", "label": "Knapptext", "default": "Ansök om konto" },
-    { "type": "text", "id": "steps_title", "label": "Rubrik för stegen", "default": "Så blir du återförsäljare" },
-    {
-      "type": "header",
-      "content": "Ansökan"
-    },
-    { "type": "text", "id": "form_title", "label": "Rubrik", "default": "Ansök om återförsäljarkonto" },
-    {
-      "type": "richtext",
-      "id": "form_text",
-      "label": "Text",
-      "default": "<p>Fyll i uppgifterna om ditt företag, så hör vi av oss.</p>"
-    },
-    {
-      "type": "text",
-      "id": "business_types",
-      "label": "Typer av verksamhet",
-      "info": "Kommaseparerade val i formuläret. Tomt: fältet döljs.",
-      "default": "Livsmedelsbutik, Kiosk eller servicebutik, Kafé eller restaurang, Presentbutik, Företag eller kontor, Annat"
-    },
-    {
-      "type": "header",
-      "content": "Inloggad återförsäljare"
-    },
-    {
-      "type": "text",
-      "id": "welcome_text",
-      "label": "Välkomsttext",
-      "default": "Här beställer du till din butik. Priserna gäller per kartong och betalas enligt era villkor."
+      "type": "url",
+      "id": "apply_link",
+      "label": "Länk för Bli återförsäljare",
+      "info": "Tomt: /pages/aterforsaljare."
     },
     {
       "type": "checkbox",
@@ -67,35 +36,9 @@
       "default": false
     }
   ],
-  "blocks": [
-    {
-      "type": "benefit",
-      "name": "Förmån",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Rubrik", "default": "Betala mot faktura" },
-        { "type": "textarea", "id": "text", "label": "Text" }
-      ]
-    },
-    {
-      "type": "step",
-      "name": "Steg",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Rubrik", "default": "Ansök" },
-        { "type": "textarea", "id": "text", "label": "Text" }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "Bli återförsäljare",
-      "blocks": [
-        { "type": "benefit", "settings": { "title": "Betala mot faktura", "text": "Beställ här i webbshopen och betala mot faktura enligt de villkor vi kommer överens om." } },
-        { "type": "benefit", "settings": { "title": "Grossistpriser per kartong", "text": "Priser per kartong och rekommenderat cirkapris för varje produkt." } },
-        { "type": "benefit", "settings": { "title": "Färskt hela vägen", "text": "Egna lager och chaufförer, så lakritsen är färsk när den når din hylla." } },
-        { "type": "step", "settings": { "title": "Ansök", "text": "Fyll i formuläret med uppgifter om ditt företag." } },
-        { "type": "step", "settings": { "title": "Vi godkänner", "text": "Vi går igenom ansökan och lägger upp ditt konto." } },
-        { "type": "step", "settings": { "title": "Beställ", "text": "Logga in med din e-post och beställ i grossistsortimentet." } }
-      ]
+      "name": "Grossist: inledning"
     }
   ]
 }
