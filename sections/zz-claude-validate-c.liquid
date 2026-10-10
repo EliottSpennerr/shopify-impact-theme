@@ -1,45 +1,4 @@
-<div>{{ section.id }}</div>
+<div>{% render 'zz-claude-missing-snippet', x: 1 %}</div>
 {% schema %}
-{
-  "name": "Grossist: inledning",
-  "class": "shopify-section--b2b-collection-intro",
-  "tag": "section",
-  "enabled_on": {
-    "templates": ["collection", "product"]
-  },
-  "settings": [
-    {
-      "type": "paragraph",
-      "content": "Inloggade återförsäljare ser rubriken och villkoren (på produktsidor bara en länk tillbaka). Andra besökare ser en ruta med Logga in och Bli återförsäljare i stället för produkterna."
-    },
-    { "type": "text", "id": "title", "label": "Rubrik", "default": "Grossistsortiment", "info": "Tomt: kollektionens namn." },
-    { "type": "text", "id": "point_1", "label": "Villkor 1", "default": "Priser per kartong" },
-    { "type": "text", "id": "point_2", "label": "Villkor 2", "default": "Faktura enligt era villkor" },
-    { "type": "text", "id": "point_3", "label": "Villkor 3", "default": "Inköpspris och cirkapris i varje produkt" },
-    {
-      "type": "url",
-      "id": "assortment_link",
-      "label": "Länk till grossistsortimentet",
-      "info": "Används på produktsidor. Tomt: /collections/wholesale."
-    },
-    {
-      "type": "url",
-      "id": "apply_link",
-      "label": "Länk för Bli återförsäljare",
-      "info": "Tomt: /pages/aterforsaljare."
-    },
-    {
-      "type": "checkbox",
-      "id": "preview_b2b",
-      "label": "Förhandsvisa som återförsäljare",
-      "info": "Bara i temaeditorn.",
-      "default": false
-    }
-  ],
-  "presets": [
-    {
-      "name": "Grossist: inledning"
-    }
-  ]
-}
+{"name": "ZZ test", "settings": []}
 {% endschema %}
