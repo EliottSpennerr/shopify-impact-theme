@@ -1,124 +1,102 @@
-{%- liquid
-  assign grid = shop.metafields.judgeme.reviews_grid.value
-  assign pool = grid.all_reviews
-  if section.settings.source == 'store'
-    assign pool = grid.store_reviews
-  elsif section.settings.source == 'product'
-    assign pool = grid.product_reviews
-  endif
-  assign min_rating = section.settings.min_rating
-  assign max_reviews = section.settings.max_reviews
-  assign average = grid.average_rating | default: shop.metafields.judgeme.all_reviews_rating | plus: 0
-  assign review_count = grid.number_of_reviews | default: shop.metafields.judgeme.all_reviews_count | plus: 0
-  if review_count >= 1000
-    assign count_thousands = review_count | divided_by: 1000
-    assign count_rest = review_count | modulo: 1000 | prepend: '00' | slice: -3, 3
-    assign count_text = count_thousands | append: ' ' | append: count_rest
-  else
-    assign count_text = review_count | append: ''
-  endif
-  assign average_x2 = average | times: 2 | round
-  assign average_text = average | round: 1
--%}
-{%- capture star_path -%}M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9L12 2.6Z{%- endcapture -%}
-{%- capture cards -%}
-  {%- assign shown = 0 -%}
-  {%- assign sources = 'media,text' | split: ',' -%}
-  {%- for source in sources -%}
-    {%- if source == 'media' -%}
-      {%- assign list = pool.media_only.reviews -%}
-    {%- elsif section.settings.content == 'photos' -%}
-      {%- continue -%}
-    {%- else -%}
-      {%- assign list = pool.reviews -%}
-    {%- endif -%}
-    {%- for review in list -%}
-      {%- if shown >= max_reviews -%}{%- break -%}{%- endif -%}
-      {%- if review.rating < min_rating -%}{%- continue -%}{%- endif -%}
-      {%- if source == 'text' and review.pictures_urls.size > 0 -%}{%- continue -%}{%- endif -%}
-      {%- if source == 'text' and review.body == blank -%}{%- continue -%}{%- endif -%}
-      {%- liquid
-        assign shown = shown | plus: 1
-        assign picture = review.pictures_urls | first
-        assign image_url = picture.huge | default: picture.original
-        assign product_link = blank
-        if review.product_url contains '/products/'
-          assign product_link = review.product_url
-        endif
-        assign quote = review.body | strip_newlines | truncatewords: section.settings.excerpt_words, '…'
-      -%}
-      {%- capture card_inner -%}
-        {%- if image_url != blank -%}
-          <img class="jm-reviews__image" src="{{ image_url | replace: 'width=1024', 'width=640' }}" srcset="{{ image_url | replace: 'width=1024', 'width=360' }} 360w, {{ image_url | replace: 'width=1024', 'width=640' }} 640w, {{ image_url }} 1024w" sizes="(max-width: 699px) 72vw, 300px" alt="{{ 'custom.reviews.photo_alt' | t: name: review.reviewer_name | escape }}" loading="lazy" width="640" height="800">
-        {%- else -%}
-          <span class="jm-reviews__quote-mark" aria-hidden="true">”</span>
-        {%- endif -%}
-        <div class="jm-reviews__card-body">
-          <div class="jm-reviews__stars" role="img" aria-label="{{ 'general.rating.info' | t: rating_value: review.rating, rating_max: 5 | escape }}">
-            {%- for i in (1..5) -%}
-              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" class="{% if i > review.rating %}is-empty{% endif %}"><path d="{{ star_path }}"/></svg>
-            {%- endfor -%}
-          </div>
-          {%- if section.settings.show_text and quote != blank -%}
-            <p class="jm-reviews__text">{{ quote | escape }}</p>
-          {%- endif -%}
-          <p class="jm-reviews__author"><span>{{ review.reviewer_name | escape }}</span>{%- if review.verified_buyer -%}<svg class="jm-reviews__verified" aria-label="{{ 'custom.reviews.verified' | t | escape }}" role="img"></svg>{%- endif -%}</p>
-          {%- if section.settings.show_product and product_link != blank and review.product_title != blank -%}
-            <p class="jm-reviews__product">{{ review.product_title | escape }}</p>
-          {%- endif -%}
-        </div>
-      {%- endcapture -%}
-      <li class="jm-reviews__item">
-        {%- if product_link != blank -%}
-          <a href="{{ product_link }}" class="jm-reviews__card">{{ card_inner }}</a>
-        {%- else -%}
-          <div class="jm-reviews__card">{{ card_inner }}</div>
-        {%- endif -%}
-      </li>
-    {%- endfor -%}
-  {%- endfor -%}
-{%- endcapture -%}
-{%- if cards contains 'jm-reviews__item' or request.design_mode -%}
-  {{- 'judgeme-reviews.css' | asset_url | stylesheet_tag -}}
-  <div {% render 'section-properties' %}>
-    <div class="jm-reviews" data-jm-reviews>
-      {%- if section.settings.title != blank -%}<h2 class="jm-reviews__title h2">{{ section.settings.title | escape }}</h2>{%- endif -%}
-      {%- if section.settings.show_summary and review_count > 0 -%}
-        <span role="img" aria-label="{{ 'general.rating.info' | t: rating_value: average_text, rating_max: 5 | escape }}">
-          {%- for i in (1..5) -%}
-            {%- assign i_x2 = i | times: 2 -%}
-            {%- assign i_half = i_x2 | minus: 1 -%}
-            <svg class="{% if average_x2 < i_half %}is-empty{% elsif average_x2 == i_half %}is-half{% endif %}"><path d="{{ star_path }}" {% if average_x2 == i_half %}fill="url(#jm-half-{{ section.id }})"{% endif %}/></svg>
-          {%- endfor -%}
-        </span>
-        <span>{{ average_text }}</span> <span>({{ count_text }})</span> {{- 'custom.reviews.verified' | t -}}
-      {%- endif -%}
-      {%- if cards contains 'jm-reviews__item' -%}
-        <ul class="jm-reviews__track" role="list" data-jm-track>{{- cards -}}</ul>
-        <button type="button" data-jm-prev aria-label="{{ 'general.accessibility.previous' | t | escape }}"></button>
-      {%- else -%}
-        <p class="jm-reviews__empty">{{ 'custom.reviews.empty_editor' | t }}</p>
-      {%- endif -%}
-    </div>
-  </div>
-{%- endif -%}
+<div>{{ section.id }}</div>
 {% schema %}
 {
-  "name": "Kundrecensioner",
-  "class": "shopify-section--judgeme-reviews",
+  "name": "Bli återförsäljare",
+  "class": "shopify-section--b2b-landing",
   "tag": "section",
+  "max_blocks": 8,
   "settings": [
-    { "type": "paragraph", "content": "Hämtar betyg och de senaste recensionerna från Judge.me automatiskt. Judge.me sparar de senaste ca 25 recensionerna (och ca 25 med bild) här, inte alla." },
-    { "type": "text", "id": "title", "label": "Rubrik", "default": "Älskad av tusentals kunder" },
-    { "type": "checkbox", "id": "show_summary", "label": "Visa betyg och antal recensioner", "default": true },
-    { "type": "select", "id": "source", "label": "Recensioner", "options": [{ "value": "all", "label": "Alla (produkter och butiken)" }, { "value": "product", "label": "Bara produktrecensioner" }, { "value": "store", "label": "Bara butiksrecensioner" }], "default": "all" },
-    { "type": "select", "id": "content", "label": "Kort", "options": [{ "value": "photos", "label": "Bara recensioner med kundbild" }, { "value": "all", "label": "Bilder först, sedan textrecensioner" }], "default": "all" },
-    { "type": "range", "id": "min_rating", "label": "Lägsta betyg", "min": 1, "max": 5, "step": 1, "default": 5 },
-    { "type": "range", "id": "max_reviews", "label": "Antal kort", "min": 4, "max": 24, "step": 1, "default": 12 },
-    { "type": "checkbox", "id": "show_text", "label": "Visa citat", "default": true },
-    { "type": "range", "id": "excerpt_words", "label": "Citatets längd (ord)", "min": 6, "max": 40, "step": 1, "default": 16 },
-    { "type": "checkbox", "id": "show_product", "label": "Visa produkt (kortet länkar dit)", "default": true }
+    {
+      "type": "paragraph",
+      "content": "Besökare ser presentationen och ansökningsformuläret. Inloggade återförsäljare ser i stället en välkomsttext med genvägar till grossistsortimentet."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Grossistsortiment",
+      "info": "Dit återförsäljare kommer efter inloggning."
+    },
+    {
+      "type": "header",
+      "content": "Presentation"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Liten rubrik", "default": "För butiker, kaféer och företag" },
+    { "type": "text", "id": "title", "label": "Rubrik", "default": "Bli återförsäljare av färsk finsk lakrits" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Sälj färsk finsk lakrits i din butik. Beställ hela kartonger direkt från oss och betala mot faktura.</p>"
+    },
+    { "type": "image_picker", "id": "image", "label": "Bild" },
+    { "type": "text", "id": "apply_label", "label": "Knapptext", "default": "Ansök om konto" },
+    { "type": "text", "id": "steps_title", "label": "Rubrik för stegen", "default": "Så blir du återförsäljare" },
+    {
+      "type": "header",
+      "content": "Ansökan"
+    },
+    { "type": "text", "id": "form_title", "label": "Rubrik", "default": "Ansök om återförsäljarkonto" },
+    {
+      "type": "richtext",
+      "id": "form_text",
+      "label": "Text",
+      "default": "<p>Fyll i uppgifterna om ditt företag, så hör vi av oss.</p>"
+    },
+    {
+      "type": "text",
+      "id": "business_types",
+      "label": "Typer av verksamhet",
+      "info": "Kommaseparerade val i formuläret. Tomt: fältet döljs.",
+      "default": "Livsmedelsbutik, Kiosk eller servicebutik, Kafé eller restaurang, Presentbutik, Företag eller kontor, Annat"
+    },
+    {
+      "type": "header",
+      "content": "Inloggad återförsäljare"
+    },
+    {
+      "type": "text",
+      "id": "welcome_text",
+      "label": "Välkomsttext",
+      "default": "Här beställer du till din butik. Priserna gäller per kartong och betalas enligt era villkor."
+    },
+    {
+      "type": "checkbox",
+      "id": "preview_b2b",
+      "label": "Förhandsvisa som återförsäljare",
+      "info": "Bara i temaeditorn.",
+      "default": false
+    }
   ],
-  "presets": [{ "name": "Kundrecensioner" }]
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Förmån",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Rubrik", "default": "Betala mot faktura" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Steg",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Rubrik", "default": "Ansök" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bli återförsäljare",
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "Betala mot faktura", "text": "Beställ här i webbshopen och betala mot faktura enligt de villkor vi kommer överens om." } },
+        { "type": "benefit", "settings": { "title": "Grossistpriser per kartong", "text": "Priser per kartong och rekommenderat cirkapris för varje produkt." } },
+        { "type": "benefit", "settings": { "title": "Färskt hela vägen", "text": "Egna lager och chaufförer, så lakritsen är färsk när den når din hylla." } },
+        { "type": "step", "settings": { "title": "Ansök", "text": "Fyll i formuläret med uppgifter om ditt företag." } },
+        { "type": "step", "settings": { "title": "Vi godkänner", "text": "Vi går igenom ansökan och lägger upp ditt konto." } },
+        { "type": "step", "settings": { "title": "Beställ", "text": "Logga in med din e-post och beställ i grossistsortimentet." } }
+      ]
+    }
+  ]
 }
 {% endschema %}
